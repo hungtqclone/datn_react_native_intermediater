@@ -6,24 +6,24 @@ const DetailProduct = () => {
     <View style={styles.body}>
       <ScrollView>
         <View style={styles.header}>
-          <Image source={require('../assets/images/imgProduct.png')} style={styles.image} />
+          <Image source={require('../assets/images/imgProduct.png')} style={styles.product} />
           <View style={styles.imgBack}>
             <Image source={require('../assets/images/icons/back.png')} style={styles.image} />
           </View>
           <View style={styles.imgShare}>
-            <Image source={require('../assets/images/icons/iconShare.png')} style={styles.image} />
+            <Image source={require('../assets/images/icons/iconShare.png')} style={styles.share} />
           </View>
           <View style={styles.imgHeart}>
             <Image source={require('../assets/images/icons/heart.png')} style={styles.image} />
           </View>
         </View>
         <View style={styles.nameProduct}>
-          <Text style={styles.txtNameProduct} >SAMSUNG GALAXY S6 EDGE </Text>
+          <Text style={styles.txtNameProduct}>SAMSUNG GALAXY S6 EDGE </Text>
         </View>
         <View style={styles.price}>
           <Text style={styles.textprice}> 5.190.000 đ </Text>
           <View style={styles.containerPrice}>
-            <Image style={styles.iconPrice} source={require('../assets/images/icons/iconLike.png')} />
+            <Image style={styles.iconLike} source={require('../assets/images/icons/iconLike.png')}  />
             <Text style={styles.txtLuutin}>Lưu tin</Text>
           </View>
         </View>
@@ -55,12 +55,12 @@ const DetailProduct = () => {
           </View>
         </View>
         <View style={styles.infoNguoiban}>
-          <Image source={require('../assets/images/avatarDetail.png')} />
-          <View>
-            <View>
-              <View style={styles.name}>
 
-                <View>
+          <View style={styles.center}>
+            <View style={styles.info}>
+              <View style={styles.name}>
+                <View style={styles.infoAv}>
+                  <Image source={require('../assets/images/avatarDetail.png')} style={styles.avt} />
                   <Text style={styles.nameNguoiban}>Tuấn</Text>
                   <View style={styles.dotOnl}>
                     <View style={styles.dot} />
@@ -73,7 +73,9 @@ const DetailProduct = () => {
                   </Text>
                 </View>
               </View>
-              <View style={styles.botDetailNGuoiban}>
+              
+            </View>
+            <View style={styles.botDetailNGuoiban}>
                 <View style={styles.contBanchuyen}>
                   <Text>
                     Bán chuyên
@@ -91,7 +93,6 @@ const DetailProduct = () => {
                   <Text>Thỉnh thoảng</Text>
                 </View>
               </View>
-            </View>
           </View>
         </View>
         <View style={styles.decriptionPr}>
@@ -160,6 +161,12 @@ const DetailProduct = () => {
 export default DetailProduct
 
 const styles = StyleSheet.create({
+  body: {
+    flex: 1,
+    backgroundColor: '#fff',
+    // padding: 10,
+    color: '#000',
+  },
 
   container: {
     flex: 1,
@@ -210,7 +217,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 50,
-
   },
   nameProduct: {
     backgroundColor: '#F1F2F6',
@@ -293,7 +299,6 @@ const styles = StyleSheet.create({
   },
   timeIn: {
     fontSize: 8,
-    fontWeight: 'nomal',
     color: 'black',
     marginLeft: 10,
   },
@@ -400,9 +405,10 @@ const styles = StyleSheet.create({
     color: 'orange'
   },
   botDetailNGuoiban: {
+    width: '100%',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',    
   },
   contBanchuyen: {
     flexDirection: 'column',
@@ -486,6 +492,32 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
   },
-
+  info: {
+    justifyContent: 'space-between',
+    width: '100%',
+    height: "auto"
+  },
+  infoAv: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  avt: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    margin: 10,
+  },
+  product: {
+    width: "100%",
+    height: 300,
+  },
+  center: {
+    width: '100%',
+    alignItems: 'center',
+  },
+  iconLike: {
+    marginHorizontal: 5,
+  },
 
 })
