@@ -1,8 +1,14 @@
-import { Button, StyleSheet, Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image, Dimensions } from 'react-native';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import React from 'react';
-
+import React, { useState } from 'react'
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
 const DetailResultFind = () => {
+    const [value, setValue] = useState({ values: [0, 30000000], })
+    const multiSliderValuesChange = (values) => {
+        setValue({
+            values,
+        });
+    }
     return (
         <View style={styles.body}>
             <View style={styles.header}>
@@ -12,8 +18,31 @@ const DetailResultFind = () => {
             <View style={styles.danhmuc}>
                 <Text style={styles.textDanhMuc}>Danh mục</Text>
                 <TextInput placeholder='Nhập danh mục' style={styles.input} placeholderTextColor='orange' />
-                <Text style={styles.textGia}>Giá từ 0đ đến 30.000.000+ đ</Text>
-                <TextInput placeholder='Nhập giá' style={styles.input} />
+                <Text style={styles.textDanhMuc}>
+                    Giá từ {value.values[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đến {value.values[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ
+                </Text>
+                <MultiSlider
+                    values={[value.values[0], value.values[1]]}
+                    sliderLength={200}
+                    selectedStyle={{ backgroundColor: '#CD5808', }}
+                    containerStyle={{ alignSelf: 'center', marginTop: -10 }}
+                    onValuesChange={multiSliderValuesChange}
+                    markerStyle={{
+                        ...Platform.select({
+                            android: {
+                                height: 13,
+                                width: 13,
+                                borderRadius: 50,
+                                backgroundColor: '#CD5808'
+                            }
+                        })
+                    }}
+                    min={0}
+                    max={30000000}
+                    step={100000}
+                />
+
+
             </View>
             <View style={styles.sortBy}>
                 <Text style={styles.textDanhMuc}>Sắp xếp theo</Text>
@@ -35,7 +64,7 @@ const DetailResultFind = () => {
                     <View style={styles.containerDangboi}>
                         <View style={styles.textBanchuyen}>
                             <Image source={require('../assets/images/icons/IconPeople.png')} style={styles.iconSort} />
-                            <Text>Bán chuyên</Text>
+                            <Text style={styles.textDanhMuc}>Bán chuyên</Text>
                         </View>
                         <View>
                             <BouncyCheckbox onPress={(isChecked: boolean) => { }} />
@@ -44,7 +73,7 @@ const DetailResultFind = () => {
                     <View style={styles.containerCanhan}>
                         <View style={styles.textBanchuyen}>
                             <Image source={require('../assets/images/icons/iconCaNhan.png')} style={styles.iconSort} />
-                            <Text>Cá nhân</Text>
+                            <Text style={styles.textDanhMuc}>Cá nhân</Text>
                         </View>
 
                         <BouncyCheckbox onPress={(isChecked: boolean) => { }} />
@@ -58,14 +87,14 @@ const DetailResultFind = () => {
                     <View style={styles.contMua}>
                         <View style={styles.textBanchuyen}>
                             <Image source={require('../assets/images/icons/iconPurchuse.png')} style={styles.iconSort} />
-                            <Text>Mua</Text>
+                            <Text style={styles.textDanhMuc}>Mua</Text>
                         </View>
                         <BouncyCheckbox onPress={(isChecked: boolean) => { }} />
                     </View>
                     <View style={styles.contBan}>
                         <View style={styles.textBanchuyen}>
                             <Image source={require('../assets/images/icons/iconSale.png')} style={styles.iconSort} />
-                            <Text>Bán</Text>
+                            <Text style={styles.textDanhMuc}>Bán</Text>
                         </View>
                         <BouncyCheckbox onPress={(isChecked: boolean) => { }} />
                     </View>
@@ -74,11 +103,11 @@ const DetailResultFind = () => {
             <View style={styles.displayOptions}>
                 <Text style={styles.textDanhMuc}>Hiển thị hình dạng</Text>
                 <View style={styles.displayButtons}>
-                    <TouchableOpacity style={styles.buton}>
-                        <Text style={styles.textButon}>Hình & chữ</Text>
+                    <TouchableOpacity style={styles.butonhinh}>
+                        <Text style={styles.textButonhinh}>Hình & chữ</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.buton}>
-                        <Text style={styles.textButon}>Lưới</Text>
+                    <TouchableOpacity style={styles.butonhinh}>
+                        <Text style={styles.textButonhinh}>Lưới</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -104,7 +133,7 @@ const styles = StyleSheet.create({
     },
     headerText: {
         fontSize: 15,
-        fontWeight: 'bold',
+        color: 'black',
         alignItems: 'center',
         marginLeft: 100,
     },
@@ -120,6 +149,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         fontSize: 14,
         fontFamily: 'Roboto-Bold',
+        color: 'black',
     },
     input: {
         height: 40,
@@ -215,6 +245,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 10,
+        color: 'black',
     },
     containerDangboi: {
         flexDirection: 'row',
@@ -239,6 +270,30 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: 10,
+    },
+    headerText: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        alignItems: 'center',
+        marginLeft: 100,
+    },
+    butonhinh: {
+        width: 150,
+        padding: 10,
+        backgroundColor: '#FFBF17',
+        color: 'black',
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        borderRadius: 10,
+        flexDirection: 'row',
+        elevation: 5,
+    },
+    textButonhinh: {
+        color: 'black',
+        fontSize: 12,
+        textAlign: 'center',
+        width: '100%'
     },
 
 });
