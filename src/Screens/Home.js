@@ -1,11 +1,16 @@
-import { View, Text, SafeAreaView, Image } from 'react-native'
-import React from 'react'
-import AppSearch from '../components/AppSearch'
+import { View, Text, SafeAreaView, Image, TextInput } from 'react-native'
+import React, { useState } from 'react'
 import { homeStyles } from '../styleSheets/HomeStyles'
+
 const Home = () => {
+
     return (
         <SafeAreaView>
-            <AppSearch />
+
+            <View style={homeStyles.viewSearch}>
+                <TextInput style={homeStyles.textInputSearch} placeholder='Tìm kiếm trên chợ tốt' />
+                <Image style={homeStyles.imgSearch} source={require('../../image/search.png')} />
+            </View>
             <View style={[homeStyles.Sinhvien]}>
                 <Image style={homeStyles.imageSinhvien} source={require('../../image/Sinhvien.png')}></Image>
             </View>

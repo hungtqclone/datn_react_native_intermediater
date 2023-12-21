@@ -1,5 +1,6 @@
 import { View, Text, Image, FlatList, TextInput, ScrollView } from 'react-native'
 import React, { useState } from 'react'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { DescriptionProductStyles } from '../styleSheets/DescriptionProduct'
 
 const DescriptionProduct = () => {
@@ -12,7 +13,8 @@ const DescriptionProduct = () => {
 
             <Text style={DescriptionProductStyles.title}>Mô tả sản phẩm</Text>
             <Image style={DescriptionProductStyles.back} source={require('../assets/images/icons/back.png')} />
-            <ScrollView style={{ flexGrow: 1 }}>
+
+            <ScrollView style={{ flexGrow: 1 }} >
                 <View style={{ flex: 2 }}>
                     <Text style={DescriptionProductStyles.titleItem}>Bảo hành</Text>
                     <TextInput style={DescriptionProductStyles.inputText}

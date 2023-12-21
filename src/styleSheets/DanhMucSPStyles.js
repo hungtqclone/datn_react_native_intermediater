@@ -3,10 +3,10 @@ import { StyleSheet } from 'react-native'
 
 export const DanhMucSPStyles = StyleSheet.create({
     Search3: {
-        width: "100%", height: 70, flexShrink: 0, backgroundColor: "#FFBF17",
+        width: "100%", height: 70, backgroundColor: "#FFBF17",
     },
     Search4: {
-        width: "70%", height: 40, flexShrink: 0, backgroundColor: "#FDFDFD", borderRadius: 5, left: "12%", top: "-10%"
+        width: "70%", height: 40, backgroundColor: "#FDFDFD", borderRadius: 5, left: "12%", top: "-10%"
     },
     Text2: {
         color: "#888", fontSize: 16, fontFamily: "Roboto", fontWeight: 400, marginTop: "3%", left: "6%"

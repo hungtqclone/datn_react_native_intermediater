@@ -1,12 +1,11 @@
 import { View, Text, Image, ScrollView, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import ItemProduct from '../Item/ItemProduct'
 import AppSearch2 from '../components/AppSearch2'
 import { DanhMucSPStyles } from '../styleSheets/DanhMucSPStyles'
 import { SelectCountry } from 'react-native-element-dropdown';
 import { ItemProductStyles } from '../styleSheets/ItemProductStyles'
-
+import ItemProduct from '../Item/ItemProduct'
 const DanhMucSP = () => {
     const [country, setCountry] = useState(null)
     const [type, setType] = useState(null)

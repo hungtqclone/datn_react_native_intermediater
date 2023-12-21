@@ -2,6 +2,29 @@ import { StyleSheet } from 'react-native'
 
 
 export const DanhMucSPStyless = StyleSheet.create({
+    viewSearch: {
+        paddingVertical: 20, backgroundColor: "#FFBF17", paddingHorizontal: 45
+    },
+    textInputSearch: {
+        backgroundColor: "white", borderRadius: 5, paddingHorizontal: 10, fontSize: 16, height: 40
+    },
+    imgSearch: {
+        position: "absolute",
+        top: 30,
+        right: 55
+
+    },
+    imgBack: {
+        position: "absolute",
+        top: 26,
+        left: 7
+
+    },
+    imgRightInputSearch: {
+        position: "absolute",
+        top: 23,
+        right: 7
+    },
     Search3: {
         width: "100%", height: 70, flexShrink: 0, backgroundColor: "#FFBF17",
     },

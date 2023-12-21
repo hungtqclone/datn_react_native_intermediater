@@ -2,7 +2,16 @@ import { StyleSheet } from 'react-native'
 
 
 export const homeStyles = StyleSheet.create({
+    viewSearch: {
+        padding: 20, backgroundColor: "#FFBF17"
+    },
+    textInputSearch: {
+        backgroundColor: "white", borderRadius: 5, paddingHorizontal: 10, fontSize: 16, height: 40
+    },
+    imgSearch: {
+        position: "absolute", top: 30, right: 30
 
+    },
     Sinhvien: {
         width: "100%", height: 122, backgroundColor: "#FFBF17", paddingHorizontal: 20
     },
@@ -43,13 +52,13 @@ export const homeStyles = StyleSheet.create({
         width: "100%", minHeight: 300, paddingVertical: 20, flexDirection: 'row'
     },
     ViewCon: {
-        flex: 1, justifyContent: 'center', alignItems: "center"
+        flex: 1, justifyContent: 'center', alignItems: "center", marginRight: 20
     },
     DoDienTu: {
-        width: "85%"
+        width: "100%"
     },
     ThuCung: {
-        marginTop: 10, width: "85%"
+        marginTop: 10, width: "100%"
     },
     textDodientu: {
         position: "absolute", top: "10%", left: "5%", fontSize: 13, color: "#FFF", fontWeight: "500"
@@ -67,10 +76,10 @@ export const homeStyles = StyleSheet.create({
         position: "absolute", top: "60%", left: "55%", fontSize: 13, color: "#FFF", fontWeight: "500"
     },
     Search: {
-        width: "100%", height: 70, flexShrink: 0, backgroundColor: "#FFBF17"
+        width: "100%", height: 70, flexShrink: 0, backgroundColor: "#FFBF17", paddingHorizontal: 20
     },
     Search1: {
-        width: 350, height: 40, flexShrink: 0, backgroundColor: "#FDFDFD", borderRadius: 5, marginTop: "4%", left: "7%"
+        width: "100%", height: 40, flexShrink: 0, backgroundColor: "#FDFDFD", borderRadius: 5, marginTop: "4%"
     },
     Text: {
         color: "#888", fontSize: 16, fontFamily: "Roboto", fontWeight: 400, marginTop: "3%", left: "6%"
