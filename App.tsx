@@ -22,6 +22,8 @@ import AppNavigation from './src/components/navigation/AppNavigation';
 import DetailResultFind from './src/Screens/DetailResultFind';
 import Register from './src/Screens/Register';
 import DetailProduct from './src/Screens/DetailProduct';
+import DanhMucSP from './src/Screens/DanhMucSP';
+import DanhMucSPP from './src/Screens/DanhMucSPP';
 
 
 
@@ -34,7 +36,8 @@ function App() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <UserProvider>
-        <AppNavigation />
+        {/* <AppNavigation /> */}
+        <DanhMucSP/>
       </UserProvider>
       {/* <Login /> */}
       {/* <DetailResultFind /> */}

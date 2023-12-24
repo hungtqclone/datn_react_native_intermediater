@@ -49,7 +49,7 @@ export const ItemProductStylesSP = StyleSheet.create({
     fontSize: 12, lineHeight: 20, fontWeight: "500"
   },
   Container1: {
-    width: "50%", backgroundColor: "#FFF", paddingLeft: 3, paddingTop: 3
+    width: "50%", backgroundColor: "#fff", paddingLeft: 3, paddingTop: 3
   },
   View6: {
     width: "99%", padding: 15,
