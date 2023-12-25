@@ -3,14 +3,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AxiosInstance = (contentType = 'application/json') => {
     const axiosInstance = axios.create({
-        baseURL: 'https://localhost:3000/api/'
+        baseURL: 'http://10.0.2.2:3001'
     });
-
     axiosInstance.interceptors.request.use(
-        async (config) => {
+        async config => {
             const token = await AsyncStorage.getItem('token');
             config.headers = {
-                'Authorization': `Bearer ${token}`,
+                'Authorizaztion': `Bearer ${token}`,
                 'Accept': 'application/json',
                 'Content-Type': contentType
             }
@@ -18,12 +17,11 @@ const AxiosInstance = (contentType = 'application/json') => {
         },
         err => Promise.reject(err)
     );
-
     axiosInstance.interceptors.response.use(
         res => res.data,
         err => Promise.reject(err)
-    );
+    ); // callback
     return axiosInstance;
-};
+}
 
 export default AxiosInstance;

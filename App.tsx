@@ -24,6 +24,7 @@ import Register from './src/Screens/Register';
 import DetailProduct from './src/Screens/DetailProduct';
 import DanhMucSP from './src/Screens/DanhMucSP';
 import DanhMucSPP from './src/Screens/DanhMucSPP';
+import TestHelper from './src/Screens/TestHelper';
 
 
 
@@ -35,12 +36,13 @@ function App() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <UserProvider>
-        {/* <AppNavigation /> */}
-        <DanhMucSP/>
-      </UserProvider>
+      {/* <UserProvider> */}
+      {/* <AppNavigation /> */}
+      {/* <DanhMucSP/>
+      </UserProvider> */}
       {/* <Login /> */}
       {/* <DetailResultFind /> */}
+      <TestHelper />
     </SafeAreaView>
   );
 }
