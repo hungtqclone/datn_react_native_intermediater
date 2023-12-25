@@ -41,8 +41,6 @@ const DetailResultFind = () => {
                     max={30000000}
                     step={100000}
                 />
-
-
             </View>
             <View style={styles.sortBy}>
                 <Text style={styles.textDanhMuc}>Sắp xếp theo</Text>
