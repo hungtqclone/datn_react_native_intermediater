@@ -3,7 +3,8 @@ import React from 'react'
 import { AppStyle } from '../constants/AppStyle'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-const Login = () => {
+const Login = (props) => {
+    const { navigation } = props
     return (
         <View style={[AppStyle.container]}>
             <KeyboardAwareScrollView
@@ -14,7 +15,9 @@ const Login = () => {
                 scrollEnabled={false}
             >
                 <View style={[AppStyle.main, { position: 'relative' }]}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Home")} >
                     <Text style={[AppStyle.titleBig, { textAlign: 'right', color: '#525357' }]}>Bỏ qua</Text>
+                    </TouchableOpacity>
                     <View style={[AppStyle, { marginTop: 20, alignItems: 'center' }]}>
                         <Image style={[{ resizeMode: 'cover' }]} source={require('../assets/images/regLogin.png')} />
                         <View style={styles.overlay}>

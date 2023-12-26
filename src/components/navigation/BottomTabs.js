@@ -5,6 +5,8 @@ const Tab = createBottomTabNavigator();
 import ProductNavigation from './ProductNavigation';
 import Home from '../../Screens/Home';
 import { Image } from '@rneui/base';
+import DanhMucSP from '../../Screens/DanhMucSP';
+// import ViceCityScreen from '../../Screens/ViceCityScreen';
 
 const options = ({ route }) => ({
 
@@ -37,12 +39,20 @@ const options = ({ route }) => ({
     tabBarHideOnKeyboard: true,
 })
 
+// const HomeStack = () => {
+//     return (
+//         <Stack.Navigator screenOptions={{ headerShown: false }}>
+//             <Stack.Screen name="Home" component={Home} />
+//             <Stack.Screen name="ViceCityScreen" component={ViceCityScreen} />
+//         </Stack.Navigator>
+//     )
+// }
+
 const BottomTabs = () => {
     return (
-
         <Tab.Navigator screenOptions={options}>
             <Tab.Screen name="Home" component={Home} />
-            <Tab.Screen name="Chat" component={Home} />
+            <Tab.Screen name="Chat" component={DanhMucSP} />
             <Tab.Screen name="Notification" component={Home} />
             <Tab.Screen name="ISell" component={Home} />
             <Tab.Screen name="More" component={Home} />
