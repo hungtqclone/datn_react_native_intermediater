@@ -25,6 +25,7 @@ import DetailProduct from './src/Screens/DetailProduct';
 import DanhMucSP from './src/Screens/DanhMucSP';
 import DanhMucSPP from './src/Screens/DanhMucSPP';
 import TestHelper from './src/Screens/TestHelper';
+import ChatNavigation from './src/components/navigation/ChatNavigation';
 
 
 
@@ -38,11 +39,10 @@ function App() {
     <SafeAreaView style={{ flex: 1 }}>
       {/* <UserProvider> */}
       {/* <AppNavigation /> */}
-      {/* <DanhMucSP/>
-      </UserProvider> */}
+      {/* </UserProvider> */}
       {/* <Login /> */}
       {/* <DetailResultFind /> */}
-      <TestHelper />
+      <ChatNavigation />
     </SafeAreaView>
   );
 }
