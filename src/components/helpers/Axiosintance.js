@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AxiosInstance = (contentType = 'application/json') => {
     const axiosInstance = axios.create({
-        baseURL: 'https://datn-nodejs.onrender.com/api'
+        baseURL: 'https://datnapi.vercel.app/api'
     });
     axiosInstance.interceptors.request.use(
         async config => {
