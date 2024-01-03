@@ -6,6 +6,7 @@ import ProductNavigation from './ProductNavigation';
 import Home from '../../Screens/Home';
 import { Image } from '@rneui/base';
 import DanhMucSP from '../../Screens/DanhMucSP';
+import DetailProduct from '../../Screens/DetailProduct';
 // import ViceCityScreen from '../../Screens/ViceCityScreen';
 
 const options = ({ route }) => ({
@@ -53,7 +54,7 @@ const BottomTabs = () => {
         <Tab.Navigator screenOptions={options}>
             <Tab.Screen name="Home" component={Home} />
             <Tab.Screen name="Chat" component={DanhMucSP} />
-            <Tab.Screen name="Notification" component={Home} />
+            <Tab.Screen name="Notification" component={DetailProduct} />
             <Tab.Screen name="ISell" component={Home} />
             <Tab.Screen name="More" component={Home} />
             {/* <Tab.Screen name="Product" component={ProductNavigation} /> */}

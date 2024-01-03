@@ -1,21 +1,46 @@
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
 import React from 'react'
-
-const DetailProduct = () => {
+import { Appbar, FAB, MD3Colors, Icon } from 'react-native-paper';
+import { Ionicons } from '@expo/vector-icons';
+const DetailProduct = (props) => {
+  //navigation
+  const { navigation } = props
   return (
     <View style={styles.body}>
       <ScrollView>
+        <Appbar.Header style={styles.appbar}>
+          <Appbar.BackAction
+            icon={() => (
+              <Image
+                source={require('../assets/images/icons/back.png')}
+                style={styles.customIcon}
+                onError={(error) => console.error('Image load error:', error)}
+              />
+            )}
+            onPress={() => navigation.goBack()}
+          />
+          <Appbar.Content title="" />
+          <Appbar.Action
+            icon={() => (
+              <Image
+                source={require('../assets/images/icons/heart.png')}
+                style={styles.customIcon}
+              />
+            )}
+            onPress={() => console.log('Add to favorites')}
+          />
+          <Appbar.Action
+            icon={() => (
+              <Image
+                source={require('../assets/images/icons/iconShare.png')}
+                style={styles.customIcon}
+              />
+            )}
+            onPress={() => console.log('Share')}
+          />
+        </Appbar.Header>
         <View style={styles.header}>
           <Image source={require('../assets/images/imgProduct.png')} style={styles.product} />
-          <View style={styles.imgBack}>
-            <Image source={require('../assets/images/icons/back.png')} style={styles.image} />
-          </View>
-          <View style={styles.imgShare}>
-            <Image source={require('../assets/images/icons/iconShare.png')} style={styles.share} />
-          </View>
-          <View style={styles.imgHeart}>
-            <Image source={require('../assets/images/icons/heart.png')} style={styles.image} />
-          </View>
         </View>
         <View style={styles.nameProduct}>
           <Text style={styles.txtNameProduct}>SAMSUNG GALAXY S6 EDGE </Text>
@@ -23,7 +48,7 @@ const DetailProduct = () => {
         <View style={styles.price}>
           <Text style={styles.textprice}> 5.190.000 đ </Text>
           <View style={styles.containerPrice}>
-            <Image style={styles.iconLike} source={require('../assets/images/icons/iconLike.png')}  />
+            <Image style={styles.iconLike} source={require('../assets/images/icons/iconLike.png')} />
             <Text style={styles.txtLuutin}>Lưu tin</Text>
           </View>
         </View>
@@ -73,26 +98,26 @@ const DetailProduct = () => {
                   </Text>
                 </View>
               </View>
-              
+
             </View>
             <View style={styles.botDetailNGuoiban}>
-                <View style={styles.contBanchuyen}>
-                  <Text>
-                    Bán chuyên
-                  </Text>
-                  <Image source={require('../assets/images/icons/iconBalo.png')} />
-                </View>
-                <View style={styles.gachDung} />
-                <View style={styles.contDanhgia}>
-                  <Text>Đánh giá</Text>
-                  <Text>- - -</Text>
-                </View>
-                <View style={styles.gachDung} />
-                <View style={styles.contPhanhoi}>
-                  <Text>Phản hồi</Text>
-                  <Text>Thỉnh thoảng</Text>
-                </View>
+              <View style={styles.contBanchuyen}>
+                <Text>
+                  Bán chuyên
+                </Text>
+                <Image source={require('../assets/images/icons/iconBalo.png')} />
               </View>
+              <View style={styles.gachDung} />
+              <View style={styles.contDanhgia}>
+                <Text>Đánh giá</Text>
+                <Text>- - -</Text>
+              </View>
+              <View style={styles.gachDung} />
+              <View style={styles.contPhanhoi}>
+                <Text>Phản hồi</Text>
+                <Text>Thỉnh thoảng</Text>
+              </View>
+            </View>
           </View>
         </View>
         <View style={styles.decriptionPr}>
@@ -180,7 +205,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10,
-
   },
   imgBack: {
     top: 20,
@@ -408,7 +432,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',    
+    alignItems: 'center',
   },
   contBanchuyen: {
     flexDirection: 'column',
@@ -518,6 +542,10 @@ const styles = StyleSheet.create({
   },
   iconLike: {
     marginHorizontal: 5,
+  },
+  appbar: {
+    backgroundColor: 'yellow',
+    width: '100%',
   },
 
 })
