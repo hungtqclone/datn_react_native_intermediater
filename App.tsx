@@ -1,12 +1,5 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type { PropsWithChildren } from 'react';
+// import type { PropsWithChildren } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -19,30 +12,20 @@ import {
 import Login from './src/Screens/Login';
 import { UserProvider } from './src/components/users/UserContext';
 import AppNavigation from './src/components/navigation/AppNavigation';
-import DetailResultFind from './src/Screens/DetailResultFind';
 import Register from './src/Screens/Register';
-import DetailProduct from './src/Screens/DetailProduct';
-import DanhMucSP from './src/Screens/DanhMucSP';
-import DanhMucSPP from './src/Screens/DanhMucSPP';
-import TestHelper from './src/Screens/TestHelper';
-import ChatNavigation from './src/components/navigation/ChatNavigation';
-
-
+import City from './src/Screens/City';
+import ProductCategory from './src/Screens/ProductCategory';
 
 function App() {
 
-  // return(
-  //   <Register/>
-  // )
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {/* <UserProvider> */}
-      {/* <AppNavigation /> */}
-      {/* </UserProvider> */}
-      {/* <Login /> */}
-      {/* <DetailResultFind /> */}
-      <ChatNavigation />
+      {/* <UserProvider>
+        <AppNavigation />
+      </UserProvider> */}
+      <ProductCategory/>
     </SafeAreaView>
   );
 }

@@ -1,70 +1,162 @@
-import {View, Text, SafeAreaView, Image, TextInput} from 'react-native';
-import React, {useState} from 'react';
-import {homeStyles} from '../styleSheets/HomeStyles';
+import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { homeStyles } from '../styleSheets/HomeStyles'
+import { getCategory, getProduct } from './ScreenService'
+
+const datatile = [
+  { id: 1, title: 'Thu mua điện thoại', image: require('../../image/icon_banngay.jpg') },
+  { id: 2, title: 'Nạp đồng tốt', image: require('../../image/icon_dongxu.jpg') },
+  { id: 3, title: 'Chợ tốt ưu đãi', image: require('../../image/icon_uudai.jpg') },
+  { id: 4, title: 'Thu mua ô tô', image: require('../../image/icon_car.jpg') },
+  { id: 5, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
+  { id: 6, title: 'Tin đã lưu', image: require('../../image/icon_hearth.jpg') },
+  { id: 7, title: 'Đăng tin cho tặng', image: require('../../image/icon_qua.jpg') },
+  { id: 8, title: 'Tiềm kiếm đã lưu', image: require('../../image/icon_savenew.jpg') },
+  { id: 9, title: 'Tiềm kiếm đã lưu', image: require('../../image/icon_savenew.jpg') },
+  { id: 10, title: 'Tiềm kiếm đã lưu', image: require('../../image/icon_savenew.jpg') },
+  { id: 11, title: 'Tiềm kiếm đã lưu', image: require('../../image/icon_savenew.jpg') },
+]
 
 const Home = () => {
+  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
+  const widthCasual = Dimensions.get("window").width;
+  const numColumns = Math.ceil(datatile.length / 2);
+  const data = [
+    { id: 1, image: require('../../image/Sinhvien.png') },
+    { id: 2, image: require('../../image/bannerchotot.png') }
+  ];
+
+  // Banner slider
+  const renderItem = ({ item, index }) => {
+    return (
+      <View style={homeStyles.contaiBanner}>
+        <Image style={{ width: widthCasual }} source={item.image}></Image>
+      </View>
+    );
+  }
+  //Danh mục Dưới banner slider
+  const renderItemTitle = ({ item, index }) => {
+    return (
+      <View style={homeStyles.contaiTitle}>
+        <Image style={homeStyles.imgTitle} source={item.image}></Image>
+        <Text style={homeStyles.txtTitle}>{item.title}</Text>
+      </View>
+    );
+  }
+  // Category
+  const renderItemCategory = (value) => {
+    const { item } = value;
+    return (
+      <View style={homeStyles.categoryBody}>
+        <Image style={homeStyles.imgcategoy} source={{ uri: `${item.img}` }} />
+        <Text style={homeStyles.txtCategoty} numberOfLines={2}>{item.name}</Text>
+      </View>
+    );
+  }
+  const ongetCategory = async () => {
+    const categories = await getCategory();
+    setCategories(categories);
+    console.log("Danh muc :58 >" + JSON.stringify(categories));
+  }
+  // Product
+  const renderItemProduct = ({ item }) => {
+
+    return (
+      <TouchableOpacity style={homeStyles.productBody}>
+        <Image style={homeStyles.imgproduct} source={{ uri: `${item.files}` }} />
+        <Text style={homeStyles.txtnameproduct} >{item.nameProduct}</Text>
+        <Text style={homeStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
+        <Text style={homeStyles.txtprice} >{item.price}</Text>
+
+        <View style={homeStyles.contaiicontimeaddress}>
+          <Image style={homeStyles.imgiconprofile} source={require('../../image/Phone.png')} />
+          <Text style={homeStyles.txtTime} > - {item.created_AT} - </Text>
+          <Text style={homeStyles.txtAdress} >{item.location}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+  const ongetProducts = async () => {
+    const products = await getProduct();
+    setProducts(products);
+    console.log("Sản Phẩm :83 >" + JSON.stringify(products));
+  }
+  useEffect(() => {
+    ongetProducts(), ongetCategory();
+  }, []);
   return (
-    <SafeAreaView style={{}}>
-      <View style={homeStyles.viewSearch}>
-        <TextInput
-          style={homeStyles.textInputSearch}
-          placeholder="Tìm kiếm trên chợ tốt"
-        />
-        <Image
-          style={homeStyles.imgSearch}
-          source={require('../../image/search.png')}
-        />
+    <View style={homeStyles.body}>
+      <View style={homeStyles.containerse}>
+        <View style={homeStyles.viewSearch}>
+          <TextInput style={homeStyles.txpSearch} placeholder='Tìm kiếm trên chợ tốt' />
+          <Image style={homeStyles.imgSearch} source={require('../../image/search.png')} />
+        </View>
+        <Image style={homeStyles.icon} source={require('../../image/notificaiton.png')} />
+        <Image style={homeStyles.icon} source={require('../../image/chatting.png')} />
       </View>
-      <View style={[homeStyles.Sinhvien]}>
-        <Image
-          style={homeStyles.imageSinhvien}
-          source={require('../../image/Sinhvien.png')}></Image>
-      </View>
-      <View style={[homeStyles.Khampha]}>
-        <View style={homeStyles.KhamphaDanhMuc}>
-          <Text style={homeStyles.textKhampha}>Khám Phá Các Danh Mục</Text>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
+        <View >
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            horizontal
+            pagingEnabled={true}
+            keyExtractor={item => item.id}
+            showsHorizontalScrollIndicator={false}
+          />
         </View>
         <View>
-          <Image
-            style={homeStyles.imageBatdongsan}
-            source={require('../../image/Batdongsan.png')}></Image>
-          <Text style={homeStyles.textBatdongsan}>Bất động sản</Text>
-          <View>
-          <Image
-            style={homeStyles.imageXehoi}
-            source={require('../../image/Xehoi.png')}></Image>
-          <Text style={homeStyles.textXeco}>Xe cộ</Text>
+          <FlatList
+            data={datatile}
+            renderItem={renderItemTitle}
+            horizontal={true}
+            keyExtractor={item => item.id.toString()}
+            pagingEnabled={true}
+            showsHorizontalScrollIndicator={false}
+          />
         </View>
-        </View>
-        <View style={homeStyles.ChuyenCanh}>
-          <View style={homeStyles.ViewCon}>
-            <Image
-              source={require('../../image/Dodientu.png')}
-              style={homeStyles.DoDienTu}
-            />
-            <Image
-              source={require('../../image/ThuCung.png')}
-              style={homeStyles.ThuCung}
-            />
-          </View>
-          <Text style={homeStyles.textDodientu}>Đồ điện tử</Text>
-          <View style={homeStyles.ViewCon1}>
-            <Image
-              source={require('../../image/ViecLam.png')}
-              style={homeStyles.DoDienTu}
-            />
-            <Image
-              source={require('../../image/NoiThat.png')}
-              style={homeStyles.ThuCung}
-            />
-          </View>
-          <Text style={homeStyles.textThuCung}>Thú Cưng</Text>
-          <Text style={homeStyles.textVieLam}>Việc Làm</Text>
-          <Text style={homeStyles.textNoiThat}>Nội ngoại thất,đồ gia</Text>
-        </View>
-      </View>
-    </SafeAreaView>
-  );
-};
 
-export default Home;
+        <View style={homeStyles.contaiCategory}>
+          <Text style={homeStyles.txtTitleCategory}>
+            Khám phá danh mục
+          </Text>
+          <ScrollView
+            horizontal={true}
+            scrollEnabled={true}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingVertical: 20 }}>
+            <FlatList
+              contentContainerStyle={{
+                alignSelf: 'flex-start',
+              }}
+              numColumns={numColumns}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+              data={categories}
+              renderItem={renderItemCategory}
+              scrollEnabled={false}
+            />
+          </ScrollView>
+        </View>
+        <View style={homeStyles.contaiProduct}>
+          <Text style={homeStyles.txtTitleProduct}>Tin Đăng dành cho bạn</Text>
+          <FlatList
+            data={products}
+            renderItem={renderItemProduct}
+            numColumns={2}
+            keyExtractor={item => item._id}
+            scrollEnabled={false}
+          />
+        </View>
+
+      </ScrollView>
+    </View>
+  )
+}
+
+export default Home

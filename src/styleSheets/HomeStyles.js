@@ -1,174 +1,177 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native'
+
 
 export const homeStyles = StyleSheet.create({
-  viewSearch: {
-    padding: 15,
-    backgroundColor: '#FFBF17',
-  },
-  textInputSearch: {
-    backgroundColor: 'white',
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    fontSize: 16,
-    height: 40,
-  },
-  imgSearch: {
-    position: 'absolute',
-    top: 27,
-    right: 30,
-  },
-  Sinhvien: {
-    width: '100%',
-    height: 122,
-    backgroundColor: '#FFBF17',
-    paddingHorizontal: 8,
-  },
-  Khampha: {
-    width: '100%',
-    height: 40,
-    backgroundColor: '#FFBF17',
-    marginTop: '3%',
-    paddingHorizontal: 8,
-  },
-  KhamphaDanhMuc: {
-    width: '100%',
-    borderRadius: 5,
-    backgroundColor: '#FFF',
-    marginTop: '4%',
-    height: 37,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 5,
+    body: {
+        width: '100%',
+        height: '100%',
+        backgroundColor:'#E8E8E8'
     },
-    shadowOpacity: 0.9,
-    shadowRadius: 5.14,
+    containerse: {
+        width: '100%',
+        height: '10%',
+        backgroundColor: "#FFBF17",
+        flexDirection: 'row',
+        alignItems: 'center',
+        alignContent: 'space-around',
+        padding: 10,
+    },
+    viewSearch: {
+        position: 'relative',
+        alignItems: 'center',
+        width: '80%',
+        height: '100%',
+        flexDirection: 'row',
+       
+    },
+    txpSearch: {
+        backgroundColor: "white",
+        width: '100%',
+        borderRadius: 5,
+        paddingLeft: 50,
+        position: 'absolute'
+    },
+    imgSearch: {
+        position: 'absolute',
+        margin:10,
+    },
+    icon:{
+        marginHorizontal:5,
+    },
+    contaiBanner:{
+        width:'100%',
+        height:100,
+        backgroundColor:'#FFBF17'
+    },
+    contaiCarousel:{
+        width:'100%',
+        height:150,
+        backgroundColor:'red',
+    },
 
-    elevation: 3,
-  },
-  imageSinhvien: {
-    width: '100%',
-    height: 111,
-    borderRadius: 5,
-  },
-  textKhampha: {
-    color: '#242A37',
-    fontSize: 15,
-    textAlign: 'center',
-    padding: 7,
-    fontWeight: '600',
-  },
-  imageBatdongsan: {
-    width: '100%',
-    height: 95,
-    marginTop: '3%',
-  },
-  textBatdongsan: {
-    color: '#FFF',
-    fontSize: 15,
-    marginTop: '-23%',
-    left: 23,
-    fontWeight: 'bold',
-  },
-  imageXehoi: {
-    width: '100%',
-    height: 95,
-    marginTop: '20%',
-  },
-  textXeco: {
-    color: '#FFF',
-    fontSize: 15,
-    left: 25,
-    fontWeight: 'bold',
-    position: 'absolute',
-    top: '45%',
-  },
-  ChuyenCanh: {
-    width: '100%',
-    minHeight: 300,
-    paddingVertical: 20,
-    flexDirection: 'row',
-    marginVertical: -15,
-  },
-  ViewCon: {
-    flex: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  DoDienTu: {
-    width: '100%',
-  },
-  ThuCung: {
-    marginTop: 10,
-    width: '100%',
-  },
-  textDodientu: {
-    position: 'absolute',
-    top: '10%',
-    left: '5%',
-    fontSize: 13,
-    color: '#FFF',
-    fontWeight: '500',
-  },
-  ViewCon1: {
-    
-    flex: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  textThuCung: {
-    position: 'absolute',
-    flex: 1,
-    top: '60%',
-    left: '5%',
-    fontSize: 13,
-    color: '#FFF',
-    fontWeight: '500',
-  },
-  textVieLam: {
-    position: 'absolute',
-    top: '10%',
-    left: '55%',
-    fontSize: 13,
-    color: '#FFF',
-    fontWeight: '500',
-  },
-  textNoiThat: {
-    position: 'absolute',
-    top: '60%',
-    left: '55%',
-    fontSize: 13,
-    color: '#FFF',
-    fontWeight: '500',
-  },
-  Search: {
-    width: '100%',
-    height: 70,
-    flexShrink: 0,
-    backgroundColor: '#FFBF17',
-    paddingHorizontal: 20,
-  },
-  Search1: {
-    width: '100%',
-    height: 40,
-    flexShrink: 0,
-    backgroundColor: '#FDFDFD',
-    borderRadius: 5,
-    marginTop: '4%',
-  },
-  Text: {
-    color: '#888',
-    fontSize: 16,
-    fontFamily: 'Roboto',
-    fontWeight: 400,
-    marginTop: '3%',
-    left: '6%',
-  },
-  Search2: {
-    width: 20,
-    height: 20,
-    marginTop: '-6%',
-    left: '90%',
-  },
-});
+    // title dưới slide:
+    contaiTitle:{
+        padding:10,
+        width:90,
+        flexDirection:'column',
+        alignItems:'center',
+        backgroundColor:'white'
+    },
+    imgTitle:{
+        width:40,
+        height:40
+    },
+    txtTitle:{
+        textAlign:'center',
+        color:'black'
+
+    },
+    // Category
+    contaiCategory:{
+        width:'100%',
+        backgroundColor:'white',
+        marginTop:8,
+        height:300,
+    },
+
+    categoryBody:{
+        padding:10,
+        width:90,
+        flexDirection:'column',
+        alignItems:'center',
+        backgroundColor:'white'
+    },
+    imgcategoy:{
+        width: 60,
+        height:60
+    },
+    txtTitleCategory:{
+        fontSize:18,
+        fontWeight: 'bold',
+        paddingTop:10,
+        paddingLeft:10,
+        color:'black'
+    },
+    txtCategoty:{
+        textAlign:'center',
+        color:'black',
+        
+    },
+    // product
+    contaiProduct:{
+        width:'100%',
+        backgroundColor:'white',
+        marginTop:8,
+        alignItems:'center',
+    },
+
+    productBody:{
+        padding:10,
+        width:'50%',
+        flexDirection:'column',
+        alignItems:'center',
+        backgroundColor:'white',
+        borderWidth:0.2,
+        borderColor:'#DCDCDC'
+    },
+    imgproduct:{
+        width:'100%',
+        height:175,
+        padding:2
+    },
+    txtTitleProduct:{
+        fontSize:18,
+        fontWeight: 'bold',
+        paddingVertical:10,
+        paddingLeft:10,
+        color:'black',
+        alignSelf:'flex-start'
+        
+    },
+    txtnameproduct:{
+        textAlign:'left',
+        color:'black',
+        alignSelf:'flex-start',
+        marginTop:5,
+        fontSize:18
+
+    },
+    txtdetail:{
+        textAlign:'left',
+        color:'black',
+        alignSelf:'flex-start',
+        fontSize:18
+
+    },
+    txtprice:{
+        textAlign:'left',
+        color:'red',
+        fontWeight:'bold',
+        fontSize:16,
+        alignSelf:'flex-start',
+        marginTop:5,
+    },
+    contaiicontimeaddress:{
+        flexDirection:'row',
+        alignSelf:'flex-start',
+        marginTop:20,
+
+    },
+    imgiconprofile:{
+        width:15,
+        height:15,
+    },
+    txtTime:{
+        fontSize:12,
+        color:'grey'
+    },
+    txtAdress:{
+        fontSize:12,
+        color:'grey'
+    },
+
+
+
+
+})
+

@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 import ProductNavigation from './ProductNavigation';
 import Home from '../../Screens/Home';
+import ManagementNews from '../../Screens/ManagementNews';
 import { Image } from '@rneui/base';
 
 const options = ({ route }) => ({
@@ -11,7 +12,11 @@ const options = ({ route }) => ({
     tabBarLabel: ({ focused, color }) => {
         if (route.name === 'Home') {
             return focused ? <Text style={{ color: 'blue' }}>Home</Text> : <Text >Home</Text>
-        } else if (route.name === 'Chat') {
+        }
+        else if (route.name === 'ManagementNews') {
+            return focused ? <Text style={{ color: 'blue' }}>Quản lý tin</Text> : <Text >Quản lý tin</Text>
+        }        
+        else if (route.name === 'Chat') {
             return focused ? <Text style={{ color: 'blue' }}>Chat</Text> : <Text >Chat</Text>
         }
         else if (route.name === 'Notification') {
@@ -42,6 +47,7 @@ const BottomTabs = () => {
 
         <Tab.Navigator screenOptions={options}>
             <Tab.Screen name="Home" component={Home} />
+            <Tab.Screen name="ManagementNews" component={ManagementNews} />
             <Tab.Screen name="Chat" component={Home} />
             <Tab.Screen name="Notification" component={Home} />
             <Tab.Screen name="ISell" component={Home} />
