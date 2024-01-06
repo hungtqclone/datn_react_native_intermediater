@@ -97,11 +97,13 @@ const DetailProduct = (props) => {
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.followButton}>
                 {/* <Ionicons name="add" size={20} color="white" /> */}
+                <Image source={require('../assets/images/icons/icon_add.png')} style={styles.icons} />
                 <Text style={styles.folowtext}>Theo dõi</Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.viewStoreButton}>
                 {/* <FontAwesome name="shopping-bag" size={20} color="white" /> */}
+                <Image source={require('../assets/images/icons/icon_store.png')} style={styles.icons} />
                 <Text style={styles.viewtext}>Xem cửa</Text>
               </TouchableOpacity>
             </View>
@@ -216,7 +218,7 @@ const DetailProduct = (props) => {
           </View>
 
         </View>
-        <View style={styles.newdiff}>
+        <View style={styles.newdiff1}>
           <Text style={styles.diferrence}>Tin rao khác của Hiếu Android Shop</Text>
           <TouchableOpacity style={styles.btnviewall}>
             <Text style={styles.textviewall}>Xem tất cả</Text>
@@ -271,14 +273,17 @@ const DetailProduct = (props) => {
       </ScrollView>
       <View style={styles.containerbottomtab}>
         <TouchableOpacity style={styles.bottomtab} onPress={() => console.log('Call pressed')}>
+          <Image source={require('../assets/images/icons/icon_call.png')} style={styles.iconc} />
           <Text style={styles.textcall}>Gọi điện</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.bottomtab} onPress={() => console.log('Text pressed')}>
+          <Image source={require('../assets/images/icons/icon_sms.jpg')} style={styles.iconc} />
           <Text style={styles.textcall}>Nhắn tin</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.bottomtab} onPress={() => console.log('Check pressed')}>
+          <Image source={require('../assets/images/icons/icon_chat.png')} style={styles.iconc} />
           <Text style={styles.textcall}>Chat</Text>
         </TouchableOpacity>
 
@@ -297,7 +302,6 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     backgroundColor: '#fff',
-    // padding: 10,
     color: '#000',
   },
 
@@ -339,14 +343,14 @@ const styles = StyleSheet.create({
   },
   imgShare: {
     position: "absolute",
-    right: 110,
+    right: 120,
     top: 20,
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
   },
   nameProduct: {
-    padding: 10,
+   paddingHorizontal: 10,
     borderRadius: 10,
   },
   txtNameProduct: {
@@ -363,6 +367,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     flex: 1,
+    borderColor: 'red',
+    borderWidth: 1,
   },
   saveContainer: {
     flexDirection: 'row',
@@ -376,9 +382,7 @@ const styles = StyleSheet.create({
   saveText: {
     fontSize: 14,
   },
-  timeIn: {
-    marginBottom: 10,
-  },
+
   catelory: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -395,11 +399,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 10,
     padding: 10,
+    
   },
   textprice: {
     fontSize: 12,
     fontWeight: 'bold',
     color: 'red',
+ 
   },
   containerPrice: {
     flexDirection: 'row',
@@ -426,7 +432,6 @@ const styles = StyleSheet.create({
   timeIn: {
     fontSize: 8,
     color: 'black',
-    marginLeft: 10,
   },
   dungluong: {
     padding: 5,
@@ -623,10 +628,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: "auto",
     padding: 20,
-    borderTopWidth: 1, // Set the border width
+    borderTopWidth: 0.5, // Set the border width
     borderTopColor: '#ccc',
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 5,
+    marginRight: 5,
   },
   infoAv: {
     flexDirection: 'row',
@@ -672,17 +677,16 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginVertical: 20,
   },
   followButton: {
     marginHorizontal: 10,
     width: '40%',
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 10,
+    padding: 5,
     borderRadius: 5,
     borderColor: 'black',
-    borderWidth: 1,
+    borderWidth: 0.5,
     alignContent: 'center',
     justifyContent: 'center',
   },
@@ -690,10 +694,10 @@ const styles = StyleSheet.create({
     width: '40%',
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 10,
+    padding: 5,
     borderRadius: 5,
     borderColor: 'black',
-    borderWidth: 1,
+    borderWidth: 0.5,
     alignContent: 'center',
     justifyContent: 'center',
   },
@@ -745,7 +749,6 @@ const styles = StyleSheet.create({
   textcall: {
     color: 'black',
     fontSize: 12,
-    fontWeight: 'bold',
   },
   textmuangay: {
     color: 'white',
@@ -840,13 +843,22 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
     borderBottomColor: 'gray',
     borderBottomWidth: 0.5,
+    padding: 10,
+  },
+  newdiff1: {
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+   
+    borderTopColor: '#C0C0C0',
+    borderTopWidth: 20,
   },
   newdiff: {
     marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    margin: 10,
   },
   diferrence: {
     width: '60%',
@@ -871,8 +883,8 @@ const styles = StyleSheet.create({
   horizontalItem: {
     flexDirection: 'column',
     padding: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: 'gray',
+    borderBottomWidth: 20,
+    borderBottomColor: '#C0C0C0',
   },
   horizontalImage: {
     width: "100%",
@@ -918,6 +930,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
     width: 50,
+  },
+  iconc: {
+    width: 30,
+    height: 30,
+  },
+  icons: {
+    width: 20,
+    height: 20,
+    margin: 5
+  },
+  nameNguoiban: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: 'black',
   },
 
 })
