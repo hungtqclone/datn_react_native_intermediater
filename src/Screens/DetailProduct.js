@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity,FlatList } from 'react-native'
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, FlatList } from 'react-native'
 import React from 'react'
 import { Appbar, FAB, MD3Colors, Icon, IconButton } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,6 +14,14 @@ const DetailProduct = (props) => {
     { id: '4', question: 'Sản phẩm đã qua sửa chữa chưa?' },
     { id: '5', question: 'Có phụ kiện đi kèm theo sản phẩm?' },
   ];
+  const horizontalData = [
+    { id: '1', name: 'Product 1', price: '1,000,000 đ', time: '1 hour ago', image: require('../assets/images/imgProduct.png') },
+    { id: '2', name: 'Product 2', price: '2,500,000 đ', time: '2 hours ago', image: require('../assets/images/imgProduct.png') },
+    { id: '3', name: 'Product 1', price: '1,000,000 đ', time: '1 hour ago', image: require('../assets/images/imgProduct.png') },
+    { id: '4', name: 'Product 2', price: '2,500,000 đ', time: '2 hours ago', image: require('../assets/images/imgProduct.png') },
+   
+  ];
+
   const renderItem = ({ item }) => (
     <View style={styles.item}>
       <Text>{item.question}</Text>
@@ -30,6 +38,9 @@ const DetailProduct = (props) => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.imgHeart} onPress={() => console.log("heart")}>
           <Image source={require('../assets/images/icons/heart.png')} style={styles.icon} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.bacham} onPress={() => console.log("bacham")}>
+          <Image source={require('../assets/images/icons/icon_bacham.jpg')} style={styles.icon} />
         </TouchableOpacity>
       </View>
       <ScrollView>
@@ -168,15 +179,15 @@ const DetailProduct = (props) => {
           <Text style={styles.adress}>Phường Ngã Tư Xã, Quận Đống Đa, Hà Nội</Text>
         </View>
         <View style={styles.rp}>
-        <TouchableOpacity style={styles.rpbutton}>
-                {/* <Ionicons name="add" size={20} color="white" /> */}
-                <Text style={styles.rptext}>Báo tin đã bán</Text>
-              </TouchableOpacity>
+          <TouchableOpacity style={styles.rpbutton}>
+            {/* <Ionicons name="add" size={20} color="white" /> */}
+            <Text style={styles.rptext}>Báo tin đã bán</Text>
+          </TouchableOpacity>
 
-              <TouchableOpacity style={styles.rpbutton}>
-                {/* <FontAwesome name="shopping-bag" size={20} color="white" /> */}
-                <Text style={styles.rptext}>Báo tin không hợp lệ</Text>
-              </TouchableOpacity>
+          <TouchableOpacity style={styles.rpbutton}>
+            {/* <FontAwesome name="shopping-bag" size={20} color="white" /> */}
+            <Text style={styles.rptext}>Báo tin không hợp lệ</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.pushbt}>
           <Text style={styles.pushtext}>Đăng nhanh - Bán gọn</Text>
@@ -205,11 +216,57 @@ const DetailProduct = (props) => {
           </View>
 
         </View>
-        <View>
+        <View style={styles.newdiff}>
           <Text style={styles.diferrence}>Tin rao khác của Hiếu Android Shop</Text>
-          <TouchableOpacity>
-            <Text>Xem tất cả </Text>
+          <TouchableOpacity style={styles.btnviewall}>
+            <Text style={styles.textviewall}>Xem tất cả</Text>
           </TouchableOpacity>
+        </View>
+        <View>
+          <FlatList
+            data={horizontalData}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.horizontalItem}>
+                <Image source={item.image} style={styles.horizontalImage} />
+                <Image source={require('../assets/images/icons/like.png')} style={styles.icontim} />
+                <Text style={styles.tagpro}>Thanh toán đảm bảo</Text>
+                <View style={styles.horizontalTextContainer}>
+                  <Text style={styles.horizontalname}>{item.name}</Text>
+                  <Text style={styles.horizontalrice}>{item.price}</Text>
+                  <Text style={styles.horizontaltime}>{item.time}</Text>
+                </View>
+              </View>
+            )}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+        <View style={styles.newdiff}>
+          <Text style={styles.diferrence}>Tin đăng tương tự</Text>
+          <TouchableOpacity style={styles.btnviewall}>
+            <Text style={styles.textviewall}>Xem tất cả</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <FlatList
+            data={horizontalData}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.horizontalItem}>
+                <Image source={item.image} style={styles.horizontalImage} />
+                <Image source={require('../assets/images/icons/like.png')} style={styles.icontim} />
+                <Text style={styles.tagpro}>Thanh toán đảm bảo</Text>
+                <View style={styles.horizontalTextContainer}>
+                  <Text style={styles.horizontalname}>{item.name}</Text>
+                  <Text style={styles.horizontalrice}>{item.price}</Text>
+                  <Text style={styles.horizontaltime}>{item.time}</Text>
+                </View>
+              </View>
+            )}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
         </View>
       </ScrollView>
       <View style={styles.containerbottomtab}>
@@ -247,7 +304,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 10,
     color: '#000',
   },
   header: {
@@ -255,7 +311,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
   },
   imgBack: {
     top: 20,
@@ -267,30 +322,32 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   imgHeart: {
-    flexDirection: 'row',
     position: "absolute",
-    right: 10,
+    right: 70,
     top: 20,
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 50,
-
+  },
+  bacham: {
+    flexDirection: 'row',
+    position: "absolute",
+    right: 20,
+    top: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   imgShare: {
     position: "absolute",
-    marginHorizontal: 5,
-    right: 60,
+    right: 110,
     top: 20,
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 50,
   },
   nameProduct: {
     padding: 10,
     borderRadius: 10,
-
   },
   txtNameProduct: {
     fontSize: 15,
@@ -597,10 +654,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFCC00',
     width: '100%',
     height: 60,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+
   },
   icon: {
     backgroundColor: '#FFCC00',
-   
+    width: 28,
+    height: 26,
   },
   reviewContainer: {
     flexDirection: 'row',
@@ -719,7 +782,7 @@ const styles = StyleSheet.create({
     margin: 10,
     color: 'black',
   },
-  rp:{
+  rp: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -728,7 +791,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
     padding: 10,
   },
-  rpbutton:{
+  rpbutton: {
     padding: 10,
     borderRadius: 5,
     flex: 1,
@@ -738,13 +801,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderColor: 'grey',
     borderWidth: 1,
-  } ,
-  rptext:{
+  },
+  rptext: {
     color: 'red',
     fontSize: 12,
     fontWeight: 'bold',
   },
-  pushbt:{
+  pushbt: {
     backgroundColor: '#FFCC00',
     alignItems: 'center',
     height: 50,
@@ -752,26 +815,109 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 5,
   },
-  pushtext:{
+  pushtext: {
     color: 'white',
     fontSize: 12,
     fontWeight: 'bold',
   },
-  sharetext:{
+  sharetext: {
     fontSize: 15,
     fontWeight: 'bold',
     margin: 10,
     color: 'gray',
   },
-  iconImage:{
+  iconImage: {
     width: 50,
     height: 50,
     borderRadius: 50,
-  },  
-  listIcons:{
+  },
+  listIcons: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     margin: 10,
+    borderTopColor: 'gray',
+    borderTopWidth: 0.5,
+    borderBottomColor: 'gray',
+    borderBottomWidth: 0.5,
   },
+  newdiff: {
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: 10,
+  },
+  diferrence: {
+    width: '60%',
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  btnviewall: {
+    width: '40%',
+    alignItems: 'center',
+    height: 30,
+    justifyContent: 'center',
+    borderRadius: 5,
+    paddingHorizontal: 10,
+  },
+  textviewall: {
+    color: 'red',
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: 'blue'
+  },
+  horizontalItem: {
+    flexDirection: 'column',
+    padding: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: 'gray',
+  },
+  horizontalImage: {
+    width: "100%",
+    height: 100,
+    borderRadius: 5,
+    marginRight: 10,
+    padding: 10,
+    position: 'relative',
+  },
+  horizontalTextContainer: {
+    flex: 1,
+  },
+  horizontalname: {
+    fontSize: 12,
+    marginBottom: 5,
+    color: 'black',
+  },
+  horizontalrice: {
+    fontSize: 12,
+    marginBottom: 5,
+    color: 'red',
+  },
+  horizontaltime: {
+    fontSize: 8,
+    marginBottom: 5,
+    color: 'gray',
+  },
+  icontim: {
+    width: 10,
+    height: 10,
+    position: 'absolute',
+    bottom: 90,
+    right: 15,
+  },
+  tagpro: {
+    position: 'absolute',
+    bottom: 85,
+    left: 10,
+    padding: 5,
+    backgroundColor: 'green',
+    borderRadius: 1,
+    fontSize: 5,
+    fontWeight: 'bold',
+    color: 'white',
+    width: 50,
+  },
+
 })
