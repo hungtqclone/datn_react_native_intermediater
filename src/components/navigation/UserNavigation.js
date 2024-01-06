@@ -6,6 +6,7 @@ import Login from '../../Screens/Login';
 import Register from '../../Screens/Register';
 import Home from '../../Screens/Home';
 import BottomTabs from './BottomTabs';
+import ViewPropTypes from 'deprecated-react-native-prop-types';
 
 const Stack = createNativeStackNavigator();
 
