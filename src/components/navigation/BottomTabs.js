@@ -8,6 +8,7 @@ import { Image } from '@rneui/base';
 import DanhMucSP from '../../Screens/DanhMucSP';
 import DetailProduct from '../../Screens/DetailProduct';
 // import ViceCityScreen from '../../Screens/ViceCityScreen';
+import StrollScreen from '../../Screens/stroll_market_screen';
 
 const options = ({ route }) => ({
 
@@ -55,7 +56,7 @@ const BottomTabs = () => {
             <Tab.Screen name="Home" component={Home} />
             <Tab.Screen name="Chat" component={DanhMucSP} />
             <Tab.Screen name="Notification" component={DetailProduct} />
-            <Tab.Screen name="ISell" component={Home} />
+            <Tab.Screen name="ISell" component={StrollScreen} />
             <Tab.Screen name="More" component={Home} />
             {/* <Tab.Screen name="Product" component={ProductNavigation} /> */}
         </Tab.Navigator>

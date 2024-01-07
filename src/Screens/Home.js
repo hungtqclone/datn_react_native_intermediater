@@ -2,7 +2,7 @@ import {View, Text, SafeAreaView, Image, TextInput} from 'react-native';
 import React, {useState} from 'react';
 import {homeStyles} from '../styleSheets/HomeStyles';
 
-const Home = () => {
+const Home = (props) => {
   return (
     <SafeAreaView style={{}}>
       <View style={homeStyles.viewSearch}>

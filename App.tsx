@@ -24,7 +24,7 @@ import Register from './src/Screens/Register';
 import DetailProduct from './src/Screens/DetailProduct';
 import DanhMucSP from './src/Screens/DanhMucSP';
 import DanhMucSPP from './src/Screens/DanhMucSPP';
-
+import StrollScreen from './src/Screens/stroll_market_screen';
 
 
 function App() {
@@ -37,10 +37,9 @@ function App() {
     <SafeAreaView style={{ flex: 1 }}>
       <UserProvider>
         <AppNavigation />
-        {/* <DanhMucSP/> */}
+        {/* <StrollScreen/> */}
+
       </UserProvider>
-      {/* <Login /> */}
-      {/* <DetailResultFind /> */}
     </SafeAreaView>
   );
 }
