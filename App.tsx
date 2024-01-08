@@ -4,7 +4,7 @@
  *
  * @format
  */
-
+// @ts-expect-error
 import React from 'react';
 import type { PropsWithChildren } from 'react';
 import {
@@ -15,6 +15,7 @@ import {
   Text,
   useColorScheme,
   View,
+  
 } from 'react-native';
 import Login from './src/Screens/Login';
 import { UserProvider } from './src/components/users/UserContext';
@@ -25,8 +26,6 @@ import DetailProduct from './src/Screens/DetailProduct';
 import DanhMucSP from './src/Screens/DanhMucSP';
 import DanhMucSPP from './src/Screens/DanhMucSPP';
 import StrollScreen from './src/Screens/stroll_market_screen';
-
-
 function App() {
 
   // return(
@@ -45,3 +44,4 @@ function App() {
 }
 
 export default App;
+// @ts-check

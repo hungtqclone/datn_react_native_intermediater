@@ -9,6 +9,7 @@ import DanhMucSP from '../../Screens/DanhMucSP';
 import DetailProduct from '../../Screens/DetailProduct';
 // import ViceCityScreen from '../../Screens/ViceCityScreen';
 import StrollScreen from '../../Screens/stroll_market_screen';
+import Profile_screen from '../../Screens/Profile/profile_screen';
 
 const options = ({ route }) => ({
 
@@ -24,8 +25,8 @@ const options = ({ route }) => ({
         else if (route.name === 'ISell') {
             return focused ? <Text style={{ color: 'blue' }}>Tôi bán</Text> : <Text >Tôi Bán</Text>
         }
-        else if (route.name === 'More') {
-            return focused ? <Text style={{ color: 'blue' }}>Thêm</Text> : <Text >Thêm</Text>
+        else if (route.name === 'Profile') {
+            return focused ? <Text style={{ color: 'blue' }}>Tài khoản</Text> : <Text >Tài khoản</Text>
         }
 
     },
@@ -57,7 +58,7 @@ const BottomTabs = () => {
             <Tab.Screen name="Chat" component={DanhMucSP} />
             <Tab.Screen name="Notification" component={DetailProduct} />
             <Tab.Screen name="ISell" component={StrollScreen} />
-            <Tab.Screen name="More" component={Home} />
+            <Tab.Screen name="Profile" component={Profile_screen} />
             {/* <Tab.Screen name="Product" component={ProductNavigation} /> */}
         </Tab.Navigator>
     );

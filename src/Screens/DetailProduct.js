@@ -1,7 +1,5 @@
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, FlatList } from 'react-native'
 import React from 'react'
-import { Appbar, FAB, MD3Colors, Icon, IconButton } from 'react-native-paper';
-import { Ionicons } from '@expo/vector-icons';
 import StarRating from 'react-native-star-rating';
 const DetailProduct = (props) => {
   //navigation
@@ -19,7 +17,7 @@ const DetailProduct = (props) => {
     { id: '2', name: 'Product 2', price: '2,500,000 đ', time: '2 hours ago', image: require('../assets/images/imgProduct.png') },
     { id: '3', name: 'Product 1', price: '1,000,000 đ', time: '1 hour ago', image: require('../assets/images/imgProduct.png') },
     { id: '4', name: 'Product 2', price: '2,500,000 đ', time: '2 hours ago', image: require('../assets/images/imgProduct.png') },
-   
+
   ];
 
   const renderItem = ({ item }) => (
@@ -69,16 +67,13 @@ const DetailProduct = (props) => {
                   <View>
                     <Text style={styles.nameNguoiban}>Hiếu Android Shop</Text>
                     <View style={styles.reviewContainer}>
-                      <StarRating
-                        disabled={true}
-                        maxStars={5}
-                        rating={rating}
-                        starSize={20}
-                        fullStarColor={'orange'}
-                        emptyStarColor={'gray'}
-                      />
+                      <Image source={require('../assets/images/icons/icon_stars.png')} style={styles.iconStart} />
+                      <Image source={require('../assets/images/icons/icon_stars.png')} style={styles.iconStart} />
+                      <Image source={require('../assets/images/icons/icon_stars.png')} style={styles.iconStart} />
+                      <Image source={require('../assets/images/icons/icon_stars.png')} style={styles.iconStart} />
+                      <Image source={require('../assets/images/icons/icon_stars.png')} style={styles.iconStart} />
                       <Text >4.9</Text>
-                      <Text style={styles.reviewText}>{`(${totalReviews})`}</Text>
+                      {/* <Text style={styles.reviewText}>{`(${totalReviews})`}</Text> */}
                     </View>
                     <View style={styles.dotOnl}>
                       <View style={styles.dot} />
@@ -231,7 +226,6 @@ const DetailProduct = (props) => {
             renderItem={({ item }) => (
               <View style={styles.horizontalItem}>
                 <Image source={item.image} style={styles.horizontalImage} />
-                <Image source={require('../assets/images/icons/like.png')} style={styles.icontim} />
                 <Text style={styles.tagpro}>Thanh toán đảm bảo</Text>
                 <View style={styles.horizontalTextContainer}>
                   <Text style={styles.horizontalname}>{item.name}</Text>
@@ -350,7 +344,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   nameProduct: {
-   paddingHorizontal: 10,
+    paddingHorizontal: 10,
     borderRadius: 10,
   },
   txtNameProduct: {
@@ -399,13 +393,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 10,
     padding: 10,
-    
+
   },
   textprice: {
     fontSize: 12,
     fontWeight: 'bold',
     color: 'red',
- 
+
   },
   containerPrice: {
     flexDirection: 'row',
@@ -674,6 +668,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  iconStart: {
+    width: 20,
+    height: 20,
+    marginRight: 5,
+    // backgroundColor: '#FFCC00',
+  },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -850,7 +850,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-   
+
     borderTopColor: '#C0C0C0',
     borderTopWidth: 20,
   },
