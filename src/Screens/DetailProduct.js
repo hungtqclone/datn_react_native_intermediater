@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, FlatList } from 'react-native'
 import React from 'react'
 import StarRating from 'react-native-star-rating';
@@ -29,7 +30,7 @@ const DetailProduct = (props) => {
     <View style={styles.body}>
       <View style={styles.appbar}>
         <TouchableOpacity style={styles.imgBack} onPress={() => navigation.goBack()}>
-          <Image source={require('../assets/images/icons/back.png')} style={styles.icon} />
+          <Image source={require('../assets/images/icons/icon_back.png')} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.imgShare} onPress={() => console.log("share")}>
           <Image source={require('../assets/images/icons/iconShare.png')} style={styles.icon} />
@@ -38,7 +39,7 @@ const DetailProduct = (props) => {
           <Image source={require('../assets/images/icons/heart.png')} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.bacham} onPress={() => console.log("bacham")}>
-          <Image source={require('../assets/images/icons/icon_bacham.jpg')} style={styles.icon} />
+          <Image source={require('../assets/images/icons/icon_3dot.png')} style={styles.icon} />
         </TouchableOpacity>
       </View>
       <ScrollView>
@@ -219,7 +220,8 @@ const DetailProduct = (props) => {
             <Text style={styles.textviewall}>Xem tất cả</Text>
           </TouchableOpacity>
         </View>
-        <View>
+
+        <View style={styles.contpro}>
           <FlatList
             data={horizontalData}
             keyExtractor={(item) => item.id}
@@ -244,7 +246,7 @@ const DetailProduct = (props) => {
             <Text style={styles.textviewall}>Xem tất cả</Text>
           </TouchableOpacity>
         </View>
-        <View>
+        <View style={styles.contpro}>
           <FlatList
             data={horizontalData}
             keyExtractor={(item) => item.id}
@@ -661,8 +663,8 @@ const styles = StyleSheet.create({
   },
   icon: {
     backgroundColor: '#FFCC00',
-    width: 28,
-    height: 26,
+    width: 25,
+    height: 25,
   },
   reviewContainer: {
     flexDirection: 'row',
@@ -734,11 +736,12 @@ const styles = StyleSheet.create({
   },
   containerbottomtab: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: 'space-between',
+    paddingVertical: 15, // Điều chỉnh giá trị padding theo nhu cầu của bạn
+    backgroundColor: '#FFF', // Màu nền của container
   },
   bottomtabmua: {
+    flex: 2,
     backgroundColor: 'green',
     alignItems: 'center',
     width: 150,
@@ -749,6 +752,7 @@ const styles = StyleSheet.create({
   textcall: {
     color: 'black',
     fontSize: 12,
+    paddingBottom: 7,
   },
   textmuangay: {
     color: 'white',
@@ -850,7 +854,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-
     borderTopColor: '#C0C0C0',
     borderTopWidth: 20,
   },
@@ -866,8 +869,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
   },
+  contpro: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottomColor: '#C0C0C0',
+    borderBottomWidth: 20,
+  },
   btnviewall: {
-    width: '40%',
+    // width: '40%',
     alignItems: 'center',
     height: 30,
     justifyContent: 'center',
@@ -883,8 +893,7 @@ const styles = StyleSheet.create({
   horizontalItem: {
     flexDirection: 'column',
     padding: 5,
-    borderBottomWidth: 20,
-    borderBottomColor: '#C0C0C0',
+
   },
   horizontalImage: {
     width: "100%",
@@ -934,6 +943,7 @@ const styles = StyleSheet.create({
   iconc: {
     width: 30,
     height: 30,
+    marginTop: 10,
   },
   icons: {
     width: 20,

@@ -1,5 +1,6 @@
+/* eslint-disable prettier/prettier */
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { Image } from '@rneui/base'
 import ImagePicker from 'react-native-image-crop-picker';
 
@@ -8,18 +9,18 @@ const Profile_screen = () => {
 
     const pickImage = async () => {
         try {
-          const image = await ImagePicker.openPicker({
-            // options
-          });
-      
-          // Update the avatarSource with the selected image
-          setAvatarSource({ uri: image.path });
+            const image = await ImagePicker.openPicker({
+                // options
+            });
+
+            // Update the avatarSource with the selected image
+            setAvatarSource({ uri: image.path });
         } catch (error) {
-          console.log('ImagePicker Error: ', error);
+            console.log('ImagePicker Error: ', error);
         }
-      };
-      
-      
+    };
+
+
     return (
         <View style={styles.body}>
             <View style={styles.appbar}>
@@ -34,11 +35,11 @@ const Profile_screen = () => {
             </View>
             <View style={styles.contbody}>
                 <View style={styles.infoAv}>
-                <TouchableOpacity onPress={pickImage}>
+                    <TouchableOpacity onPress={pickImage}>
                         <Image source={avatarSource} style={styles.avt} />
                     </TouchableOpacity>
                     <Image source={require('../../assets/images/icons/icon_edit.png')} style={styles.iconedit} />
-                   <View>
+                    <View>
                         <Text style={styles.nameNguoiban}>Hiếu Android Shop</Text>
                         <View style={styles.reviewContainer}>
                             <Text style={styles.countReview}>4.9</Text>
@@ -58,10 +59,29 @@ const Profile_screen = () => {
                             <Text style={styles.txtOn0}>0</Text>
                             <Text style={styles.txtOnl}> Đang theo dõi</Text>
                         </View>
+
+
                     </View>
                 </View>
-            </View>
+                <View style={styles.contPoint}>
+                    <TouchableOpacity style={styles.pointGood}>
+                        <Text style={styles.txtPoint}>Điểm Tốt</Text>
+                        <View style={styles.contIcon}>
+                            <Text style={styles.txtPointCount}>0</Text>
+                            <Image source={require('../../assets/images/icons/icon_star_green.png')} style={styles.iconPointGood} />
+                        </View>
+                    </TouchableOpacity>
 
+                    <TouchableOpacity style={styles.cuGood}>
+                        <Text style={styles.txtPoint}>Đồng Tốt</Text>
+                        <View style={styles.contIcon}>
+                            <Text style={styles.txtPointCount}>0</Text>
+                            <Image source={require('../../assets/images/icons/icon_coin.png')} style={styles.iconCuGood} />
+                        </View>
+                    </TouchableOpacity>
+                </View>
+
+            </View>
         </View>
     )
 }
@@ -188,5 +208,47 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 5,  // Adjusted top position
         left: 5, // Adjusted left position
-      },
+    },
+    contPoint: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+    },
+    pointGood: {
+        padding: 10,
+        width: '45%',
+        marginRight: 10,
+        borderColor: '#ddd',
+        borderWidth: 1,
+        borderRadius: 5,
+    },
+    cuGood: {
+        padding: 10,
+        width: '45%',
+        borderColor: '#ddd',
+        borderWidth: 1,
+        borderRadius: 5,
+
+    },
+    txtPoint: {
+        fontSize: 12,
+        color: '#666',
+    },
+    iconPointGood: {
+        width: 20,
+        height: 20,
+    },
+    iconCuGood: {
+        width: 20,
+        height: 20,
+    },
+    contIcon: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    txtPointCount: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        marginRight: 5,
+    },
 })
