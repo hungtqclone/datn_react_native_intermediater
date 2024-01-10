@@ -5,7 +5,7 @@ import React, { useContext } from 'react'
 import ProductNavigation from './ProductNavigation';
 import BottomTabs from './BottomTabs';
 import UserNavigation from './UserNavigation';
-
+import ViewPropTypes from 'deprecated-react-native-prop-types';
 const AppNavigation = () => {
     const { user } = useContext(UserContext);
     return (
