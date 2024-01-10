@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { Image } from '@rneui/base'
 import ImagePicker from 'react-native-image-crop-picker';
-
-const Profile_screen = () => {
+const Profile_screen = (props) => {
+    const { navigation } = props;
     const [avatarSource, setAvatarSource] = useState(require('../../assets/images/avatarDetail.png'));
 
     const pickImage = async () => {
@@ -22,7 +22,7 @@ const Profile_screen = () => {
 
 
     return (
-        <View style={styles.body}>
+        <ScrollView style={styles.body}>
             <View style={styles.appbar}>
                 <View style={styles.appbarLeft}>
                     <Text style={styles.appbarLeftText}>Thêm</Text>
@@ -34,7 +34,8 @@ const Profile_screen = () => {
                 </View>
             </View>
             <View style={styles.contbody}>
-                <View style={styles.infoAv}>
+               <View style={styles.bodyhearder}>
+               <View style={styles.infoAv}>
                     <TouchableOpacity onPress={pickImage}>
                         <Image source={avatarSource} style={styles.avt} />
                     </TouchableOpacity>
@@ -80,9 +81,73 @@ const Profile_screen = () => {
                         </View>
                     </TouchableOpacity>
                 </View>
+               </View>
+                
+                <View style={styles.contMagOrder}>
+                    <Text style={styles.txtMagOrder}>Quản lý đơn hàng</Text>
+                    <View style={styles.contMagOrderItem}>
+                        <TouchableOpacity onPress={() => navigation.navigate('PurchaseOrdersScreen')} style={styles.contMagOrderItemLeft}>
+                            <Image source={require('../../assets/images/icons/icon_bag2.png')} style={styles.iconMagOrder} />
+                            <Text style={styles.txtMagOrderItem}>Đơn mua</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                            <Image source={require('../../assets/images/icons/icon_order.png')} style={styles.iconMagOrder1} />
+                            <Text style={styles.txtMagOrderItem}>Đơn bán</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                            <Image source={require('../../assets/images/icons/icon_wallet.png')} style={styles.iconMagOrder1} />
+                            <Text style={styles.txtMagOrderItem}>Ví bán hàng</Text>
+                        </TouchableOpacity>
+                        </View>
+                </View>
+                <View style={styles.contMagOrder}>
+                    <Text style={styles.txtMagOrder}>Tiện ích</Text>
+                    <View style={styles.contMagOrderItem}>
+                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                            <Image source={require('../../assets/images/icons/icon_heart_save.png')} style={styles.iconMagOrder} />
+                            <Text style={styles.txtMagOrderItem}>Tin đăng đã lưu</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                            <Image source={require('../../assets/images/icons/icon_tag.png')} style={styles.iconMagOrder1} />
+                            <Text style={styles.txtMagOrderItem}>Tìm kiếm đã lưu</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                            <Image source={require('../../assets/images/icons/icon_wallet.png')} style={styles.iconMagOrder1} />
+                            <Text style={styles.txtMagOrderItem}>Đánh giá từ tôi</Text>
+                        </TouchableOpacity>
+                        </View>
+
+                </View>
+                <View style={styles.contMagOrder}>
+                    <Text style={styles.txtMagOrder}>Khác</Text>
+                    <View style={styles.contMagOrderItem}>
+                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                            <Image source={require('../../assets/images/icons/icon_setting.png')} style={styles.iconMagOrder} />
+                            <Text style={styles.txtMagOrderItem}>Cài đặt tài khoản</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                            <Image source={require('../../assets/images/icons/icon_phone.png')} style={styles.iconMagOrder1} />
+                            <Text style={styles.txtMagOrderItem}>Định giá điện thoại</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                            <Image source={require('../../assets/images/icons/icon_help.png')} style={styles.iconMagOrder1} />
+                            <Text style={styles.txtMagOrderItem}>Trợ giúp</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                            <Image source={require('../../assets/images/icons/icoin_note.png')} style={styles.iconMagOrder1} />
+                            <Text style={styles.txtMagOrderItem}>Đóng góp ý kiến</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                            <Image source={require('../../assets/images/icons/icon_logout.png')} style={styles.iconMagOrder1} />
+                            <Text style={styles.txtMagOrderItem}>Đăng xuất</Text>
+                        </TouchableOpacity>
+                        </View>
+
+                </View>
+
 
             </View>
-        </View>
+        </ScrollView>
     )
 }
 
@@ -91,7 +156,7 @@ export default Profile_screen
 const styles = StyleSheet.create({
     body: {
         flex: 1,
-        backgroundColor: '#fff',
+        margin: 0,
     },
     appbar: {
         flexDirection: 'row',
@@ -122,12 +187,17 @@ const styles = StyleSheet.create({
     },
     contbody: {
         flex: 1,
-        padding: 10,
+    },
+    bodyhearder: {
+        backgroundColor: '#fff',
+        paddingHorizontal: 10,
+        borderBottomColor: '#ddd',
     },
     infoAv: {
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
+        backgroundColor: '#fff',
     },
     avt: {
         width: 60,
@@ -202,17 +272,11 @@ const styles = StyleSheet.create({
         color: '#666',
         fontWeight: 'bold',
     },
-    iconedit: {
-        width: 20,
-        height: 20,
-        position: 'absolute',
-        top: 5,  // Adjusted top position
-        left: 5, // Adjusted left position
-    },
     contPoint: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
+        backgroundColor: '#fff',
     },
     pointGood: {
         padding: 10,
@@ -251,4 +315,40 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginRight: 5,
     },
+    //danh sách các option
+    contMagOrder: {
+        marginTop: 10,
+    },
+    txtMagOrder: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        paddingHorizontal: 10,
+    },
+    contMagOrderItem: {
+        flexDirection: 'column',
+    },
+    contMagOrderItemLeft: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        borderRadius: 5,
+        padding: 20,
+        borderColor: '#ddd',
+        borderWidth: 0.5,
+        backgroundColor: '#fff',
+    },
+    iconMagOrder: {
+        width: 35,
+        height: 35,
+    },
+    iconMagOrder1: {
+        width: 35,
+        height: 35,
+    },
+    txtMagOrderItem: {
+        fontSize: 12,
+        color: '#666',
+        paddingHorizontal: 10,
+    },
+
 })

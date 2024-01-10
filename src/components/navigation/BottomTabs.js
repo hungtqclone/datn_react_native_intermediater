@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { View, Text, ScrollView, StyleSheet } from 'react-native'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
