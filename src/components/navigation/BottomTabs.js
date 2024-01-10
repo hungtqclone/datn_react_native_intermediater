@@ -4,19 +4,17 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 import ProductNavigation from './ProductNavigation';
 import Home from '../../Screens/Home';
-import ManagementNews from '../../Screens/ManagementNews';
 import { Image } from '@rneui/base';
+import DanhMucSP from '../../Screens/DanhMucSP';
+import DetailProduct from '../../Screens/DetailProduct';
+// import ViceCityScreen from '../../Screens/ViceCityScreen';
 
 const options = ({ route }) => ({
 
     tabBarLabel: ({ focused, color }) => {
         if (route.name === 'Home') {
             return focused ? <Text style={{ color: 'blue' }}>Home</Text> : <Text >Home</Text>
-        }
-        else if (route.name === 'ManagementNews') {
-            return focused ? <Text style={{ color: 'blue' }}>Quản lý tin</Text> : <Text >Quản lý tin</Text>
-        }        
-        else if (route.name === 'Chat') {
+        } else if (route.name === 'Chat') {
             return focused ? <Text style={{ color: 'blue' }}>Chat</Text> : <Text >Chat</Text>
         }
         else if (route.name === 'Notification') {
@@ -42,14 +40,21 @@ const options = ({ route }) => ({
     tabBarHideOnKeyboard: true,
 })
 
+// const HomeStack = () => {
+//     return (
+//         <Stack.Navigator screenOptions={{ headerShown: false }}>
+//             <Stack.Screen name="Home" component={Home} />
+//             <Stack.Screen name="ViceCityScreen" component={ViceCityScreen} />
+//         </Stack.Navigator>
+//     )
+// }
+
 const BottomTabs = () => {
     return (
-
         <Tab.Navigator screenOptions={options}>
             <Tab.Screen name="Home" component={Home} />
-            <Tab.Screen name="ManagementNews" component={ManagementNews} />
-            <Tab.Screen name="Chat" component={Home} />
-            <Tab.Screen name="Notification" component={Home} />
+            <Tab.Screen name="Chat" component={DanhMucSP} />
+            <Tab.Screen name="Notification" component={DetailProduct} />
             <Tab.Screen name="ISell" component={Home} />
             <Tab.Screen name="More" component={Home} />
             {/* <Tab.Screen name="Product" component={ProductNavigation} /> */}
