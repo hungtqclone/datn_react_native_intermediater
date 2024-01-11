@@ -2,6 +2,7 @@ import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, Scrol
 import React, { useState, useEffect } from 'react'
 import { homeStyles } from '../styleSheets/HomeStyles'
 import { getCategory, getProduct } from './ScreenService'
+import CategoriesDetail from './CategoriesDetail'
 
 const datatile = [
   { id: 1, title: 'Thu mua điện thoại', image: require('../../image/icon_banngay.jpg') },
@@ -17,7 +18,8 @@ const datatile = [
   { id: 11, title: 'Tiềm kiếm đã lưu', image: require('../../image/icon_savenew.jpg') },
 ]
 
-const Home = () => {
+const Home = (props) => {
+  const { navigation } = props;
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const widthCasual = Dimensions.get("window").width;
@@ -27,8 +29,9 @@ const Home = () => {
     { id: 2, image: require('../../image/bannerchotot.png') }
   ];
 
-  const handlog = () =>{
-    console.log('click nè');
+  const handToCategoriesDetail = (_id) => {
+    console.log('click nè',_id);
+    navigation.navigate('CategoriesDetail',{_id})
   }
 
   // Banner slider
@@ -52,7 +55,7 @@ const Home = () => {
   const renderItemCategory = (value) => {
     const { item } = value;
     return (
-      <Pressable style={homeStyles.categoryBody} onPress={()=> handlog()}>
+      <Pressable style={homeStyles.categoryBody} onPress={()=> handToCategoriesDetail(item._id)}>
         <Image style={homeStyles.imgcategoy} source={{ uri: `${item.img}` }} />
         <Text style={homeStyles.txtCategoty} numberOfLines={2}>{item.name}</Text>
       </Pressable>

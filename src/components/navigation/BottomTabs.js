@@ -12,7 +12,7 @@ import { Image } from '@rneui/base';
 const options = ({ route }) => ({
 
     tabBarLabel: ({ focused, color }) => {
-        if (route.name === 'Home') {
+        if (route.name === 'ProductNavigation') {
             return focused ? <Text style={{ color: 'blue' }}>Home</Text> : <Text >Home</Text>
         }
         else if (route.name === 'ManagementNews') {
@@ -30,7 +30,7 @@ const options = ({ route }) => ({
 
     },
     tabBarIcon: ({ focused, color, size }) => {
-        if (route.name === 'Home') {
+        if (route.name === 'ProductNavigation') {
             return focused ? <Image style={stylesBottomTab.bottomTabIcon} source={require('../../assets/images/robot-dev.png')} /> : <Image style={stylesBottomTab.bottomTabIcon} source={require('../../assets/images/robot-prod.png')} />
         }
     },
@@ -42,7 +42,7 @@ const BottomTabs = () => {
 
     return (
         <Tab.Navigator screenOptions={options}>
-            <Tab.Screen name="Home" component={Home} />
+            <Tab.Screen name="ProductNavigation" component={ProductNavigation} />
             <Tab.Screen name="ManagementNews" component={ManagementNews} />
             <Tab.Screen name="ProductCategory" component={ProductCategory} />
             <Tab.Screen name="Notification" component={Home} />

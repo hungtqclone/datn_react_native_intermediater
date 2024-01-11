@@ -6,7 +6,7 @@ import { BottomSheet } from '@rneui/base';
 
 const ProductCategory = () => {
     const [categories, setCategories] = useState([]);
-
+   
     const ongetCategory = async () => {
         const categories = await getCategory();
         setCategories(categories);
