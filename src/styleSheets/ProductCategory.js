@@ -9,7 +9,7 @@ export const Product = StyleSheet.create({
         width: '100%',
         height: '10%',
         // padding:30,
-        backgroundColor: '#F1F2F6',
+        backgroundColor: '#FFBF17',
         alignItems: 'center'
     },
     pres: {
@@ -71,10 +71,30 @@ export const Product = StyleSheet.create({
         height: 56,
         alignItems: 'center'
     },
+    img:{
+        width: 30,
+        height: 30,
+    },
     txtCity: {
         fontFamily: 'Roboto',
         color: '#000000',
         fontSize: 18,
         fontWeight: '400',
     },
+
+    // bottom sheet
+    containerbottom: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+	contentContainerbottom: {
+		flex: 1,
+		alignItems: 'center'
+	},
+	containerHeadlinebottom: {
+		fontSize: 24,
+		fontWeight: '600',
+		padding: 20
+	}
 })

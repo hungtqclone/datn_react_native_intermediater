@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity, Pressable } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { homeStyles } from '../styleSheets/HomeStyles'
 import { getCategory, getProduct } from './ScreenService'
@@ -27,6 +27,10 @@ const Home = () => {
     { id: 2, image: require('../../image/bannerchotot.png') }
   ];
 
+  const handlog = () =>{
+    console.log('click nè');
+  }
+
   // Banner slider
   const renderItem = ({ item, index }) => {
     return (
@@ -48,10 +52,10 @@ const Home = () => {
   const renderItemCategory = (value) => {
     const { item } = value;
     return (
-      <View style={homeStyles.categoryBody}>
+      <Pressable style={homeStyles.categoryBody} onPress={()=> handlog()}>
         <Image style={homeStyles.imgcategoy} source={{ uri: `${item.img}` }} />
         <Text style={homeStyles.txtCategoty} numberOfLines={2}>{item.name}</Text>
-      </View>
+      </Pressable>
     );
   }
   const ongetCategory = async () => {
