@@ -30,8 +30,8 @@ const Home = (props) => {
   ];
 
   const handToCategoriesDetail = (_id) => {
-    console.log('click nè',_id);
-    navigation.navigate('CategoriesDetail',{_id})
+    // console.log('click nè',_id);
+    navigation.navigate('CategoriesDetail',{_id});
   }
 
   // Banner slider
@@ -64,8 +64,12 @@ const Home = (props) => {
   const ongetCategory = async () => {
     const categories = await getCategory();
     setCategories(categories);
-    console.log("Danh muc :58 >" + JSON.stringify(categories));
+    // console.log("Danh muc :58 >" + JSON.stringify(categories));
   }
+
+  useEffect(() => {
+    ongetCategory;
+  },[]);
   // Product
   const renderItemProduct = ({ item }) => {
 
@@ -87,7 +91,7 @@ const Home = (props) => {
   const ongetProducts = async () => {
     const products = await getProduct();
     setProducts(products);
-    console.log("Sản Phẩm :83 >" + JSON.stringify(products));
+    // console.log("Sản Phẩm :83 >" + JSON.stringify(products));
   }
   useEffect(() => {
     ongetProducts(), ongetCategory();

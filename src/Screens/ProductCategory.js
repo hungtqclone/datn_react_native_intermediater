@@ -10,7 +10,7 @@ const ProductCategory = () => {
     const ongetCategory = async () => {
         const categories = await getCategory();
         setCategories(categories);
-        console.log("Danh muc :13 >" + JSON.stringify(categories));
+        // console.log("Danh muc :13 >" + JSON.stringify(categories));
     }
     useEffect(() => {
         ongetCategory();
@@ -52,98 +52,7 @@ const ProductCategory = () => {
                 keyExtractor={item => item._id}
                 showsVerticalScrollIndicator={false}
             />
-            {/* <ScrollView>
-                <View style={Product.contaitong}>
-                    <View style={Product.contaiimg}>
-                        <Image style={Product.img} source={require('../../image/icon_all.png')} />
-                    </View>
-                    <View style={Product.contaiCity}>
-                        <Text style={Product.txtCity}>Tất cả danh mục</Text>
-                        <Image source={require('../../image/show-right.png')} />
-                    </View>
-                </View>
-                <View style={Product.contaitong}>
-                    <View style={Product.contaiimg}>
-                        <Image style={Product.img} source={require('../../image/city.png')} />
-                    </View>
-                    <View style={Product.contaiCity}>
-                        <Text style={Product.txtCity}>Bất động sản</Text>
-                        <Image source={require('../../image/show-right.png')} />
-                    </View>
-                </View>
-                <View style={Product.contaitong}>
-                    <View style={Product.contaiimg}>
-                        <Image style={Product.img} source={require('../../image/icon_Electronice.png')} />
-                    </View>
-                    <View style={Product.contaiCity}>
-                        <Text style={Product.txtCity}>Đồ điện tử</Text>
-                        <Image source={require('../../image/show-right.png')} />
-                    </View>
-                </View>
-                <View style={Product.contaitong}>
-                    <View style={Product.contaiimg}>
-                        <Image style={Product.img} source={require('../../image/icon_motorbike.png')} />
-                    </View>
-                    <View style={Product.contaiCity}>
-                        <Text style={Product.txtCity}>Xe cộ</Text>
-                        <Image source={require('../../image/show-right.png')} />
-                    </View>
-                </View>
-                <View style={Product.contaitong}>
-                    <View style={Product.contaiimg}>
-                        <Image style={Product.img} source={require('../../image/icon_job.png')} />
-                    </View>
-                    <View style={Product.contaiCity}>
-                        <Text style={Product.txtCity}>Việc làm</Text>
-                        <Image source={require('../../image/show-right.png')} />
-                    </View>
-                </View>
-                <View style={Product.contaitong}>
-                    <View style={Product.contaiimg}>
-                        <Image style={Product.img} source={require('../../image/icon_microwave.png')} />
-                    </View>
-                    <View style={Product.contaiCity}>
-                        <Text style={Product.txtCity}>Nội ngoại thất, Đồ gia dụng</Text>
-                        <Image source={require('../../image/show-right.png')} />
-                    </View>
-                </View>
-                <View style={Product.contaitong}>
-                    <View style={Product.contaiimg}>
-                        <Image style={Product.img} source={require('../../image/icon_fashion.png')} />
-                    </View>
-                    <View style={Product.contaiCity}>
-                        <Text style={Product.txtCity}>Thời gian, Đồ dùng cá nhân</Text>
-                        <Image source={require('../../image/show-right.png')} />
-                    </View>
-                </View>
-                <View style={Product.contaitong}>
-                    <View style={Product.contaiimg}>
-                        <Image style={Product.img} source={require('../../image/icon_dog.png')} />
-                    </View>
-                    <View style={Product.contaiCity}>
-                        <Text style={Product.txtCity}>Thú Cưng</Text>
-                        <Image source={require('../../image/show-right.png')} />
-                    </View>
-                </View>
-                <View style={Product.contaitong}>
-                    <View style={Product.contaiimg}>
-                        <Image style={Product.img} source={require('../../image/icon_game.png')} />
-                    </View>
-                    <View style={Product.contaiCity}>
-                        <Text style={Product.txtCity}>Giải trí, thể thao</Text>
-                        <Image source={require('../../image/show-right.png')} />
-                    </View>
-                </View>
-                <View style={Product.contaitong}>
-                    <View style={Product.contaiimg}>
-                        <Image style={Product.img} source={require('../../image/icon_momandbaby.png')} />
-                    </View>
-                    <View style={Product.contaiCity}>
-                        <Text style={Product.txtCity}>Mẹ và bé</Text>
-                        <Image source={require('../../image/show-right.png')} />
-                    </View>
-                </View>
-            </ScrollView> */}
+    
 
 
         </View>
