@@ -11,11 +11,6 @@ import DetailProduct from '../../Screens/DetailProduct';
 import ManagementNews from '../../Screens/ManagementNews';
 import StrollScreen from '../../Screens/stroll_market_screen';
 import Profile_screen from '../../Screens/Profile/profile_screen';
-import DeliveredScreen from '../../Screens/Profile/PurchaseOrder/TopTab/DeliveredScreen ';
-import ProcessingScreen from '../../Screens/Profile/PurchaseOrder/TopTab/ProcessingScreen ';
-import RefundCancelledScreen from '../../Screens/Profile/PurchaseOrder/TopTab/RefundCancelledScreen ';
-import ShippingScreen from '../../Screens/Profile/PurchaseOrder/TopTab/ShippingScreen ';
-import WaitConfirmScreen from '../../Screens/Profile/PurchaseOrder/TopTab/WaitConfirmScreen ';
 // import ViceCityScreen from '../../Screens/ViceCityScreen';
 
 import PurchaseOrdersScreen from '../../Screens/Profile/PurchaseOrder/PurchaseOrdersScreen';
@@ -78,46 +73,6 @@ const options = ({route}) => ({
   headerShown: false,
   tabBarHideOnKeyboard: true,
 });
-const WaitConfirmStack = () => (
-  <Stack.Navigator>
-    <Stack.Screen name="Chờ xác nhận" component={WaitConfirmScreen} />
-  </Stack.Navigator>
-);
-
-const ProcessingStack = () => (
-  <Stack.Navigator>
-    <Stack.Screen name="Đang xử lí" component={ProcessingScreen} />
-  </Stack.Navigator>
-);
-
-const ShippingStack = () => (
-  <Stack.Navigator>
-    <Stack.Screen name="Đang giao" component={ShippingScreen} />
-  </Stack.Navigator>
-);
-
-const DeliveredStack = () => (
-  <Stack.Navigator>
-    <Stack.Screen name="Đã giao" component={DeliveredScreen} />
-  </Stack.Navigator>
-);
-
-const RefundCancelledStack = () => (
-  <Stack.Navigator>
-    <Stack.Screen name="Hoàn tiền/Đã hủy" component={RefundCancelledScreen} />
-  </Stack.Navigator>
-);
-const PurchaseOrdersStack = () => {
-  return (
-    <Tab.Navigator>
-      <Tab.Screen name="Chờ xác nhận" component={WaitConfirmStack} />
-      <Tab.Screen name="Đang xử lí" component={ProcessingStack} />
-      <Tab.Screen name="Đang giao" component={ShippingStack} />
-      <Tab.Screen name="Đã giao" component={DeliveredStack} />
-      <Tab.Screen name="Hoàn tiền/Đã hủy" component={RefundCancelledStack} />
-    </Tab.Navigator>
-  );
-};
 const ProflieStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
