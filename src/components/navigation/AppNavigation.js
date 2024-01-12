@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { View, Text } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { UserContext } from '../users/UserContext';

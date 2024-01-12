@@ -4,7 +4,6 @@ import React from 'react'
 import { Image } from '@rneui/base'
 import PurchaseOrdersStack from '../../../components/navigation/PurchaseOrderNavigation';
 
-
 const PurchaseOrdersScreen = (props) => {
   const { navigation } = props;
   return (
@@ -20,6 +19,7 @@ const PurchaseOrdersScreen = (props) => {
         </View>
       </View>
       <PurchaseOrdersStack />
+      <Text style={styles.text}>PurchaseOrdersScreen</Text>
     </ScrollView>
   )
 };
@@ -60,5 +60,10 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     marginLeft: 15,
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

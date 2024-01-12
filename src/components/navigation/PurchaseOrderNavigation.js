@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import React from 'react';
 import DeliveredScreen from '../../Screens/Profile/PurchaseOrder/TopTab/DeliveredScreen ';
@@ -84,7 +85,7 @@ const options = ({route}) => ({
   },
   headerShown: false,
   tabBarHideOnKeyboard: true,
-  swipeEnabled: true
+  swipeEnabled: true,
 });
 const tabBarOptions = {
   scrollEnabled: true,
@@ -136,19 +137,19 @@ const RefundCancelledStack = () => (
 );
 const PurchaseOrdersStack = () => {
   return (
-    <Tab.Navigator
-      
-      screenOptions={options}
-      tabBarOptions={tabBarOptions}>
-      <Tab.Screen name="WaitConfirm" component={WaitConfirmStack} />
-      <Tab.Screen name="Processing" component={ProcessingStack} />
-      <Tab.Screen name="Shipping" component={ShippingStack} />
-      <Tab.Screen name="Delivered" component={DeliveredStack} />
-      <Tab.Screen
-        name="RefundCancelled"
-        component={RefundCancelledStack}
-      />
-    </Tab.Navigator>
+    <View
+      style={{
+        width: '100%',
+        height: '100%',
+      }}>
+      <Tab.Navigator screenOptions={options} tabBarOptions={tabBarOptions}>
+        <Tab.Screen name="WaitConfirm" component={WaitConfirmScreen} />
+        <Tab.Screen name="Processing" component={ProcessingScreen} />
+        <Tab.Screen name="Shipping" component={ShippingScreen} />
+        <Tab.Screen name="Delivered" component={ShippingScreen} />
+        <Tab.Screen name="RefundCancelled" component={ShippingScreen} />
+      </Tab.Navigator>
+    </View>
   );
 };
 
