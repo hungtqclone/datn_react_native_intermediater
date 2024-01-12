@@ -25,7 +25,7 @@ const CategoriesDetail = (props) => {
     const { navigation, route } = props;
     const { params } = route;
     const {_id,set_Id} = useState(params._id);
-
+    
     const widthCasual = Dimensions.get("window").width;
     // Banner slider
     const renderItem = ({ item, index }) => {
