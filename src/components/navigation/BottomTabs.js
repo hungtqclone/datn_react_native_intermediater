@@ -13,62 +13,32 @@ import StrollScreen from '../../Screens/stroll_market_screen';
 import Profile_screen from '../../Screens/Profile/profile_screen';
 // import ViceCityScreen from '../../Screens/ViceCityScreen';
 
-import PurchaseOrdersScreen from '../../Screens/Profile/PurchaseOrder/PurchaseOrdersScreen';
+const options = ({ route }) => ({
 
-// Stack
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+    tabBarLabel: ({ focused, color }) => {
+        if (route.name === 'ProductNavigation') {
+            return focused ? <Text style={{ color: 'blue' }}>Home</Text> : <Text >Home</Text>
+        } else if (route.name === 'NewsManagement') {
+            return focused ? <Text style={{ color: 'blue' }}>Quản lý tin</Text> : <Text >Quản lý tin</Text>
+        }
+        else if (route.name === 'PostNews') {
+            return focused ? <Text style={{ color: 'blue' }}>Đăng tin</Text> : <Text >Đăng tin</Text>
+        }
+        else if (route.name === 'StrollTheMarket') {
+            return focused ? <Text style={{ color: 'blue' }}>Dạo chợ</Text> : <Text >Dạo chợ</Text>
+        }
+        else if (route.name === 'Account') {
+            return focused ? <Text style={{ color: 'blue' }}>Tài khoản</Text> : <Text >Tài khoản</Text>
+        }
 
-const Stack = createNativeStackNavigator();
+    },
+    tabBarIcon: ({ focused, color, size }) => {
+        if (route.name === 'Home') {
+            return focused ? <Image style={stylesBottomTab.bottomTabIcon} source={require('../../assets/images/icons/homeActivateIcon.png')} /> : <Image style={stylesBottomTab.bottomTabIcon} source={require('../../assets/images/icons/homeInactiveIcon.png')} />
+        }
 
-const options = ({route}) => ({
-  tabBarLabel: ({focused, color}) => {
-    if (route.name === 'Home') {
-      return focused ? (
-        <Text style={{color: 'blue'}}>Home</Text>
-      ) : (
-        <Text>Home</Text>
-      );
-    } else if (route.name === 'NewsManagement') {
-      return focused ? (
-        <Text style={{color: 'blue'}}>Quản lý tin</Text>
-      ) : (
-        <Text>Quản lý tin</Text>
-      );
-    } else if (route.name === 'PostNews') {
-      return focused ? (
-        <Text style={{color: 'blue'}}>Đăng tin</Text>
-      ) : (
-        <Text>Đăng tin</Text>
-      );
-    } else if (route.name === 'StrollTheMarket') {
-      return focused ? (
-        <Text style={{color: 'blue'}}>Dạo chợ</Text>
-      ) : (
-        <Text>Dạo chợ</Text>
-      );
-    } else if (route.name === 'Account') {
-      return focused ? (
-        <Text style={{color: 'blue'}}>Tài khoản</Text>
-      ) : (
-        <Text>Tài khoản</Text>
-      );
-    }
-  },
-  tabBarIcon: ({focused, color, size}) => {
-    if (route.name === 'Home') {
-      return focused ? (
-        <Image
-          style={stylesBottomTab.bottomTabIcon}
-          source={require('../../assets/images/icons/homeActivateIcon.png')}
-        />
-      ) : (
-        <Image
-          style={stylesBottomTab.bottomTabIcon}
-          source={require('../../assets/images/icons/homeInactiveIcon.png')}
-        />
-      );
-    }
-  },
+    },
+
 
   headerShown: false,
   tabBarHideOnKeyboard: true,
@@ -86,17 +56,17 @@ const ProflieStack = () => {
 };
 
 const BottomTabs = () => {
-  return (
-    <Tab.Navigator screenOptions={options}>
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="NewsManagement" component={ManagementNews} />
-      <Tab.Screen name="PostNews" component={DetailProduct} />
-      <Tab.Screen name="StrollTheMarket" component={StrollScreen} />
-      <Tab.Screen name="Account" component={ProflieStack} />
-      {/* <Tab.Screen name="Product" component={PurchaseOrdersScreen} /> */}
-    </Tab.Navigator>
-  );
-};
+    return (
+        <Tab.Navigator screenOptions={options}>
+            <Tab.Screen name="ProductNavigation" component={ProductNavigation} />
+            <Tab.Screen name="NewsManagement" component={ManagementNews} />
+            <Tab.Screen name="PostNews" component={DetailProduct} />
+            <Tab.Screen name="StrollTheMarket" component={StrollScreen} />
+            <Tab.Screen name="Account" component={Profile_screen} />
+            {/* <Tab.Screen name="Product" component={ProductNavigation} /> */}
+        </Tab.Navigator>
+    );
+}
 
 const stylesBottomTab = StyleSheet.create({
   bottomTabIcon: {
