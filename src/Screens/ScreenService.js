@@ -28,11 +28,11 @@ export const getProduct = async () => {
 // Categories details
 export const getCategoryDetailId = async () => {
     try {
-        const category = await AxiosInstance().get('categories-detail');
-        console.log("32 Service category : " + JSON.stringify(category.data));
-        return category.data;
+        const categoryDetail = await AxiosInstance().get('categories-detail');
+        console.log("32 Service categoryDetail : " + JSON.stringify(categoryDetail.data));
+        return categoryDetail.data;
     } catch (err) {
-        console.log('Category error:', err);
+        console.log('categoryDetail error:', err);
         return err;
     }
 }
