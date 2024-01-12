@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, FlatList, ScrollView, Linking } from 'react-native';
 import Geolocation from '@react-native-community/geolocation';

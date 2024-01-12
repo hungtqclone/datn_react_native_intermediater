@@ -90,7 +90,7 @@ const Profile_screen = (props) => {
                             <Image source={require('../../assets/images/icons/icon_bag2.png')} style={styles.iconMagOrder} />
                             <Text style={styles.txtMagOrderItem}>Đơn mua</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                        <TouchableOpacity  onPress={() => navigation.navigate('SalesOrderScreen')} style={styles.contMagOrderItemLeft}>
                             <Image source={require('../../assets/images/icons/icon_order.png')} style={styles.iconMagOrder1} />
                             <Text style={styles.txtMagOrderItem}>Đơn bán</Text>
                         </TouchableOpacity>

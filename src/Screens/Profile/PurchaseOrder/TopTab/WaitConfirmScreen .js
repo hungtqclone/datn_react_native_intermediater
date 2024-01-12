@@ -1,11 +1,13 @@
 /* eslint-disable prettier/prettier */
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { Image } from '@rneui/base'
 
 const WaitConfirmScreen  = () => {
   return (
     <View style={styles.body}>
-      <Text style={styles.text}>WaitConfirmScreen </Text>
+      <Image  source={require('../../../../assets/images/icons/icon_order.png')} style={styles.icon} />
+      <Text style={styles.text}>Chưa có đơn hàng nào </Text>
     </View>
   )
 }
@@ -19,8 +21,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#000',
+  },
+  icon: {
+    width: 100,
+    height: 100,
   },
 })

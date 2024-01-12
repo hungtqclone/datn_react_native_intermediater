@@ -1,34 +1,44 @@
 /* eslint-disable prettier/prettier */
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { Image } from '@rneui/base'
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
+import React from 'react';
+import {Image} from '@rneui/base';
 import PurchaseOrdersStack from '../../../components/navigation/PurchaseOrderNavigation';
 
-const PurchaseOrdersScreen = (props) => {
-  const { navigation } = props;
+const PurchaseOrdersScreen = props => {
+  const {navigation} = props;
   return (
     <ScrollView style={styles.body}>
       <View style={styles.appbar}>
         <View style={styles.appbarRight}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image style={styles.appbarRightIcon} source={require('../../../assets/images/icons/icon_back.png')} />
+            <Image
+              style={styles.appbarRightIcon}
+              source={require('../../../assets/images/icons/icon_back.png')}
+            />
           </TouchableOpacity>
         </View>
         <View style={styles.appbarLeft}>
           <Text style={styles.appbarLeftText}>Đơn mua</Text>
         </View>
       </View>
-      <PurchaseOrdersStack />
+      <PurchaseOrdersStack/>
       <Text style={styles.text}>PurchaseOrdersScreen</Text>
     </ScrollView>
-  )
+  );
 };
 
 export default PurchaseOrdersScreen;
 
 const styles = StyleSheet.create({
   body: {
-    flex: 1,
+    width: '100%',
+    height: '100%',
     backgroundColor: '#fff',
   },
   appbar: {
@@ -54,16 +64,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginRight: 15,
-
   },
   appbarRightIcon: {
     width: 20,
     height: 20,
     marginLeft: 15,
   },
-  container: {
+  text: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+    fontSize: 100,
+    fontWeight: 'bold',
+    color: '#000',
   },
 });

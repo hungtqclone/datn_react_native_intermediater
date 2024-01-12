@@ -2,14 +2,14 @@
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import React from 'react';
-import DeliveredScreen from '../../Screens/Profile/PurchaseOrder/TopTab/DeliveredScreen ';
-import ProcessingScreen from '../../Screens/Profile/PurchaseOrder/TopTab/ProcessingScreen ';
-import RefundCancelledScreen from '../../Screens/Profile/PurchaseOrder/TopTab/RefundCancelledScreen ';
-import ShippingScreen from '../../Screens/Profile/PurchaseOrder/TopTab/ShippingScreen ';
-import WaitConfirmScreen from '../../Screens/Profile/PurchaseOrder/TopTab/WaitConfirmScreen ';
 // import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import RefundCancelledScreen1 from '../../Screens/Profile/SalesOrder/TopTab/RefundCancelledScreen ';
+import DeliveredScreen1 from '../../Screens/Profile/SalesOrder/TopTab/DeliveredScreen ';
+import ShippingScreen1 from '../../Screens/Profile/SalesOrder/TopTab/ShippingScreen ';
+import ProcessingScreen1 from '../../Screens/Profile/SalesOrder/TopTab/ProcessingScreen ';
+import WaitConfirmScreen1 from '../../Screens/Profile/SalesOrder/TopTab/WaitConfirmScreen ';
 const Stack = createNativeStackNavigator();
 // const Tab = createBottomTabNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -98,11 +98,11 @@ const options = ({route}) => ({
     padding: 0, // Add padding to ensure full visibility
   },
   tabStyle: {
-    width: 200, // Set the width of each tab
+   // width: 210, // Set the width of each tab
   },
 });
 
-const PurchaseOrdersStack = () => {
+const SalesOrderStack = () => {
   return (
     <View
       style={{
@@ -110,14 +110,14 @@ const PurchaseOrdersStack = () => {
         height: '100%',
       }}>
       <Tab.Navigator screenOptions={options}>
-        <Tab.Screen name="WaitConfirm" component={WaitConfirmScreen} />
-        <Tab.Screen name="Processing" component={ProcessingScreen} />
-        <Tab.Screen name="Shipping" component={ShippingScreen} />
-        <Tab.Screen name="Delivered" component={DeliveredScreen} />
-        <Tab.Screen name="RefundCancelled" component={RefundCancelledScreen} />
+        <Tab.Screen name="WaitConfirm" component={WaitConfirmScreen1} />
+        <Tab.Screen name="Processing" component={ProcessingScreen1} />
+        <Tab.Screen name="Shipping" component={ShippingScreen1} />
+        <Tab.Screen name="Delivered" component={DeliveredScreen1} />
+        <Tab.Screen name="RefundCancelled" component={RefundCancelledScreen1} />
       </Tab.Navigator>
     </View>
   );
 };
 
-export default PurchaseOrdersStack;
+export default SalesOrderStack;

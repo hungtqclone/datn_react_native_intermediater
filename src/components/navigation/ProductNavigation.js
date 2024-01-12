@@ -20,7 +20,6 @@ const ProductNavigation = () => {
       <Stack.Screen name="danhMucSPP" component={DanhMucSPP} />
       <Stack.Screen name="product" component={Product} />
       <Stack.Screen name="descriptionProduct" component={DescriptionProduct} />
-
     </Stack.Navigator>
   );
 };

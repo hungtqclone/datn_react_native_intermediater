@@ -14,6 +14,7 @@ import Profile_screen from '../../Screens/Profile/profile_screen';
 // import ViceCityScreen from '../../Screens/ViceCityScreen';
 
 import PurchaseOrdersScreen from '../../Screens/Profile/PurchaseOrder/PurchaseOrdersScreen';
+import SalesOrderScreen from '../../Screens/Profile/SalesOrder/SalesOrderScreen';
 // Stack
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -67,8 +68,7 @@ const options = ({route}) => ({
         />
       );
     }
-  },
-
+  },  
   headerShown: false,
   tabBarHideOnKeyboard: true,
 });
@@ -79,6 +79,10 @@ const ProflieStack = () => {
       <Stack.Screen
         name="PurchaseOrdersScreen"
         component={PurchaseOrdersScreen}
+      />
+      <Stack.Screen
+        name="SalesOrderScreen"
+        component={SalesOrderScreen}
       />
     </Stack.Navigator>
   );
