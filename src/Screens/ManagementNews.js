@@ -1,6 +1,8 @@
-import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity, Pressable } from 'react-native'
+import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity, Pressable, useWindowDimensions } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { MGNStyles } from '../styleSheets/ManagementNewsStyles'
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 
 const dataPackage = [
     { id: 1, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
@@ -11,7 +13,53 @@ const dataPackage = [
 
 ]
 
+const FirstRoute = () => (
+    <View style={{ flex: 1, backgroundColor: '#ff4081' }} />
+);
+
+const SecondRoute = () => (
+    <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
+);
+
+const renderScene = SceneMap({
+    first: FirstRoute,
+    second: SecondRoute,
+    second2: SecondRoute,
+    second3: SecondRoute,
+    second4: SecondRoute,
+    second5: SecondRoute,
+});
+
 const ManagementNews = () => {
+    const layout = useWindowDimensions();
+    const [index, setIndex] = React.useState(0);
+    const [routes] = useState([
+        { key: 'first', title: 'ĐANG HIỂN THỊ' },
+        { key: 'second', title: 'HẾT HẠN' },
+        { key: 'second2', title: 'BỊ TỪ CHỐI' },
+        { key: 'second3', title: 'CẦN THANH TOÁN' },
+        { key: 'second4', title: 'TIN NHÁP' },
+        { key: 'second5', title: 'CHỜ DUYỆT' },
+    ]);
+    const renderTabBar = props => (
+
+        <TabBar
+            {...props}
+            indicatorStyle={{ backgroundColor: 'yellow' }}
+            style={{ backgroundColor: 'transparent' }}
+            activeColor='black'
+            inactiveColor='gray'
+            renderLabel={({ route, focused, color }) => (
+                <View
+                    style={{
+                        width: '100%',
+                    }}
+                >
+                    <Text style={{ color }}>{route.title}</Text>
+                </View>
+            )}
+        />
+    );
     // Package
     const renderItemPackage = ({ item, index }) => {
         return (
@@ -54,8 +102,21 @@ const ManagementNews = () => {
                         </TouchableOpacity>
                     </View>
                 </View>
+
+                <TabView
+                    navigationState={{ index, routes }}
+                    renderScene={renderScene}
+                    onIndexChange={setIndex}
+                    initialLayout={{ width: layout.width }}
+                    renderTabBar={renderTabBar}
+                >
+                </TabView>
+
             </View>
+
         </View>
+
+
 
     );
 }
