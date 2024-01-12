@@ -16,7 +16,7 @@ import Profile_screen from '../../Screens/Profile/profile_screen';
 const options = ({ route }) => ({
 
     tabBarLabel: ({ focused, color }) => {
-        if (route.name === 'Home') {
+        if (route.name === 'ProductNavigation') {
             return focused ? <Text style={{ color: 'blue' }}>Home</Text> : <Text >Home</Text>
         } else if (route.name === 'NewsManagement') {
             return focused ? <Text style={{ color: 'blue' }}>Quản lý tin</Text> : <Text >Quản lý tin</Text>
@@ -56,7 +56,7 @@ const options = ({ route }) => ({
 const BottomTabs = () => {
     return (
         <Tab.Navigator screenOptions={options}>
-            <Tab.Screen name="Home" component={ProductNavigation} />
+            <Tab.Screen name="ProductNavigation" component={ProductNavigation} />
             <Tab.Screen name="NewsManagement" component={ManagementNews} />
             <Tab.Screen name="PostNews" component={DetailProduct} />
             <Tab.Screen name="StrollTheMarket" component={StrollScreen} />
