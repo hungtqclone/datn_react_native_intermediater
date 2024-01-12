@@ -72,5 +72,35 @@ export const CGDStyles = StyleSheet.create({
         color:'black'
 
     },
+    // Category
+    contaiCategory:{
+        width:'100%',
+        backgroundColor:'white',
+        marginTop:8,
+        height:300,
+    },
+    categoryBody:{
+        padding:10,
+        width:90,
+        flexDirection:'column',
+        alignItems:'center',
+        backgroundColor:'white'
+    },
+    imgcategoy:{
+        width: 60,
+        height:60
+    },
+    txtTitleCategory:{
+        fontSize:18,
+        fontWeight: 'bold',
+        paddingTop:10,
+        paddingLeft:10,
+        color:'black'
+    },
+    txtCategoty:{
+        textAlign:'center',
+        color:'black',
+        
+    },
 
 });

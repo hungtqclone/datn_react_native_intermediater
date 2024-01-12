@@ -1,6 +1,7 @@
 import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity, Pressable } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { CGDStyles } from '../styleSheets/CategoriesDetailstyles';
+import { getCategoryDetailId } from './ScreenService';
 const data = [
     { id: 1, image: require('../../image/Sinhvien.png') },
     { id: 2, image: require('../../image/bannerchotot.png') }
@@ -19,9 +20,12 @@ const datatile = [
     { id: 11, title: 'Tiềm kiếm đã lưu', image: require('../../image/icon_savenew.jpg') },
 ]
 const CategoriesDetail = (props) => {
-    const { navigation,route } = props;
-    const {params} = route;
-    console.log("Id của CategoryDetail",params._id);
+    const [categoriesDetail, setCategoriesDetail] = useState([]);
+    const numColumns = Math.ceil(datatile.length / 2);
+    const { navigation, route } = props;
+    const { params } = route;
+    const {_id,set_Id} = useState(params._id);
+
     const widthCasual = Dimensions.get("window").width;
     // Banner slider
     const renderItem = ({ item, index }) => {
@@ -40,6 +44,26 @@ const CategoriesDetail = (props) => {
             </View>
         );
     }
+    // CategoryDetail
+    const renderItemCategoryDetail = (value) => {
+        const { item } = value;
+        return (
+            <Pressable style={CGDStyles.categoryBody}>
+                <Image style={CGDStyles.imgcategoy} source={{ uri: `${item.img}` }} />
+                <Text style={CGDStyles.txtCategoty} numberOfLines={2}>{item.name}</Text>
+            </Pressable>
+        );
+    }
+    const ongetCategoryDetail = async () => {
+        const categoriesDetail = await getCategoryDetailId();
+        setCategoriesDetail(categoriesDetail);
+        // console.log("Danh muc nổi bật 60: >" + JSON.stringify(categoriesDetail));
+    }
+
+    useEffect(() => {
+        
+        ongetCategoryDetail;
+    }, [_id]);
     return (
         <View style={CGDStyles.body}>
             <View style={CGDStyles.containerse}>
@@ -73,6 +97,30 @@ const CategoriesDetail = (props) => {
                         pagingEnabled={true}
                         showsHorizontalScrollIndicator={false}
                     />
+                </View>
+
+                <View style={CGDStyles.contaiCategory}>
+                    <Text style={CGDStyles.txtTitleCategory}>
+                        Danh mục nổi bật
+                    </Text>
+                    <ScrollView
+                        horizontal={true}
+                        scrollEnabled={true}
+                        showsVerticalScrollIndicator={false}
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={{ paddingVertical: 20 }}>
+                        <FlatList
+                            contentContainerStyle={{
+                                alignSelf: 'flex-start',
+                            }}
+                            numColumns={numColumns}
+                            showsVerticalScrollIndicator={false}
+                            showsHorizontalScrollIndicator={false}
+                            data={categoriesDetail}
+                            renderItem={renderItemCategoryDetail}
+                            scrollEnabled={false}
+                        />
+                    </ScrollView>
                 </View>
             </ScrollView>
         </View>
