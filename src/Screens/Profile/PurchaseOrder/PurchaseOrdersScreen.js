@@ -2,14 +2,7 @@
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Image } from '@rneui/base'
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import PurchaseOrdersStack from '../../../components/navigation/PurchaseOrderNavigation';
-
-
-const Tab = createMaterialTopTabNavigator();
-const Stack = createNativeStackNavigator();
-
 
 
 const PurchaseOrdersScreen = (props) => {

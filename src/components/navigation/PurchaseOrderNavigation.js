@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import React from 'react';
@@ -16,7 +15,7 @@ const Tab = createMaterialTopTabNavigator();
 
 const options = ({route}) => ({
   tabBarLabel: ({focused, color}) => {
-    if (route.name === 'WaitConfirmScreen') {
+    if (route.name === 'WaitConfirm') {
       return focused ? (
         <Text
           style={{
@@ -29,7 +28,7 @@ const options = ({route}) => ({
       ) : (
         <Text>Chờ xác nhận</Text>
       );
-    } else if (route.name === 'ProcessingScreen') {
+    } else if (route.name === 'Processing') {
       return focused ? (
         <Text
           style={{
@@ -42,7 +41,7 @@ const options = ({route}) => ({
       ) : (
         <Text>Đang sử lí</Text>
       );
-    } else if (route.name === 'ShippingScreen') {
+    } else if (route.name === 'Shipping') {
       return focused ? (
         <Text
           style={{
@@ -55,7 +54,7 @@ const options = ({route}) => ({
       ) : (
         <Text>Đang giao</Text>
       );
-    } else if (route.name === 'DeliveredScreen') {
+    } else if (route.name === 'Delivered') {
       return focused ? (
         <Text
           style={{
@@ -68,7 +67,7 @@ const options = ({route}) => ({
       ) : (
         <Text>Đã giao</Text>
       );
-    } else if (route.name === 'RefundCancelledScreen') {
+    } else if (route.name === 'RefundCancelled') {
       return focused ? (
         <Text
           style={{
@@ -85,6 +84,7 @@ const options = ({route}) => ({
   },
   headerShown: false,
   tabBarHideOnKeyboard: true,
+  swipeEnabled: true
 });
 const tabBarOptions = {
   scrollEnabled: true,
@@ -137,15 +137,15 @@ const RefundCancelledStack = () => (
 const PurchaseOrdersStack = () => {
   return (
     <Tab.Navigator
-      swipeEnabled={true}
+      
       screenOptions={options}
       tabBarOptions={tabBarOptions}>
-      <Tab.Screen name="WaitConfirmScreen" component={WaitConfirmStack} />
-      <Tab.Screen name="ProcessingScreen" component={ProcessingStack} />
-      <Tab.Screen name="ShippingScreen" component={ShippingStack} />
-      <Tab.Screen name="DeliveredScreen" component={DeliveredStack} />
+      <Tab.Screen name="WaitConfirm" component={WaitConfirmStack} />
+      <Tab.Screen name="Processing" component={ProcessingStack} />
+      <Tab.Screen name="Shipping" component={ShippingStack} />
+      <Tab.Screen name="Delivered" component={DeliveredStack} />
       <Tab.Screen
-        name="RefundCancelledScreen"
+        name="RefundCancelled"
         component={RefundCancelledStack}
       />
     </Tab.Navigator>
