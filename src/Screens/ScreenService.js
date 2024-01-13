@@ -12,7 +12,6 @@ export const getCategory = async () => {
     }
 }
 
-
 //Tin đăng dành cho bạn
 export const getProduct = async () => {
     try {
@@ -25,14 +24,16 @@ export const getProduct = async () => {
     }
 }
 
-// Categories details
-export const getCategoryDetailId = async () => {
+
+//Tin đăng dành cho bạn
+export const getDetailCategory = async (id) => {
     try {
-        const categoryDetail = await AxiosInstance().get('categories-detail');
-        console.log("32 Service categoryDetail : " + JSON.stringify(categoryDetail.data));
-        return categoryDetail.data;
+        const detail = await AxiosInstance().get(`categories-detail/${id}`);
+        console.log("32 Service Products : " + JSON.stringify(detail.data));
+        return detail.data;
     } catch (err) {
-        console.log('categoryDetail error:', err);
+        console.log('Products error:', err);
         return err;
     }
 }
+

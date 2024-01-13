@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity, Pressable } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { CGDStyles } from '../styleSheets/CategoriesDetailstyles';
-import { getCategoryDetailId } from './ScreenService';
+import { getDetailCategory } from './ScreenService';
 const data = [
     { id: 1, image: require('../../image/Sinhvien.png') },
     { id: 2, image: require('../../image/bannerchotot.png') }
@@ -24,8 +24,7 @@ const CategoriesDetail = (props) => {
     const numColumns = Math.ceil(datatile.length / 2);
     const { navigation, route } = props;
     const { params } = route;
-    const {_id,set_Id} = useState(params._id);
-    
+    console.log("id",params._id);
     const widthCasual = Dimensions.get("window").width;
     // Banner slider
     const renderItem = ({ item, index }) => {
@@ -55,15 +54,14 @@ const CategoriesDetail = (props) => {
         );
     }
     const ongetCategoryDetail = async () => {
-        const categoriesDetail = await getCategoryDetailId();
-        setCategoriesDetail(categoriesDetail);
-        // console.log("Danh muc nổi bật 60: >" + JSON.stringify(categoriesDetail));
+        const detailCate = await getDetailCategory(params._id);
+        setCategoriesDetail(detailCate);
+        // console.log("Danh muc nổi bật 60: >" + JSON.stringify(detailCate));
     }
 
     useEffect(() => {
-        
-        ongetCategoryDetail;
-    }, [_id]);
+        ongetCategoryDetail();
+    }, [params._id]);
     return (
         <View style={CGDStyles.body}>
             <View style={CGDStyles.containerse}>
