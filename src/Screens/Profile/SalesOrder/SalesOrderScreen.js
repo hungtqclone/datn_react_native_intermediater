@@ -23,10 +23,10 @@ const SalesOrderScreen = props => {
           </TouchableOpacity>
         </View>
         <View style={styles.appbarLeft}>
-          <Text style={styles.appbarLeftText}>Đơn mua</Text>
+          <Text style={styles.appbarLeftText}>Đơn bán</Text>
         </View>
       </View>
-      <View style={styles.money}>
+      <TouchableOpacity style={styles.money}>
         <View style={styles.moneyleft}>
           <Image
             style={styles.moneyIcon}
@@ -45,7 +45,7 @@ const SalesOrderScreen = props => {
             source={require('../../../assets/images/icons/icon_arrow_right.png')}
           />
         </View>
-      </View>
+      </TouchableOpacity>
       <SalesOrderStack />
       <Text style={styles.text}>SalesOrderScreen</Text>
     </View>

@@ -14,7 +14,6 @@ const UserNavigation = () => {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Register" component={Register} />
-            <Stack.Screen name="Home" component={BottomTabs} />
         </Stack.Navigator>
     )
 }

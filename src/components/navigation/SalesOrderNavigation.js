@@ -75,11 +75,23 @@ const options = ({route}) => ({
             color: focused ? 'black' : 'black',
             fontWeight: focused ? 'bold' : 'normal',
             fontSize: focused ? 12 : 12,
+            width: 170,
+            alignContent: 'center',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}>
           Hoàn tiền/ Đã hủy
         </Text>
       ) : (
-        <Text>Hoàn tiền/ Đã hủy</Text>
+        <Text 
+        style={{
+          fontSize: focused ? 12 : 12,
+          width: 170,
+          alignContent: 'center',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        >Hoàn tiền/ Đã hủy</Text>
       );
     }
   },
@@ -94,11 +106,11 @@ const options = ({route}) => ({
   allowFontScaling: false,
   showLabel: true,
   labelStyle: {
-    fontSize: 14, // Adjus    t the font size as needed
+    fontSize: 12, // Adjus    t the font size as needed
     padding: 0, // Add padding to ensure full visibility
   },
   tabStyle: {
-   // width: 210, // Set the width of each tab
+  //  width: 120, // Set the width of each tab
   },
 });
 

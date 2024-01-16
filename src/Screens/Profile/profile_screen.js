@@ -94,7 +94,7 @@ const Profile_screen = (props) => {
                             <Image source={require('../../assets/images/icons/icon_order.png')} style={styles.iconMagOrder1} />
                             <Text style={styles.txtMagOrderItem}>Đơn bán</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                        <TouchableOpacity  onPress={() => navigation.navigate('SalesWalletScreen')}  style={styles.contMagOrderItemLeft}>
                             <Image source={require('../../assets/images/icons/icon_wallet.png')} style={styles.iconMagOrder1} />
                             <Text style={styles.txtMagOrderItem}>Ví bán hàng</Text>
                         </TouchableOpacity>

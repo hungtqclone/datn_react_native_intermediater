@@ -32,13 +32,14 @@ const Home = (props) => {
   const handToCategoriesDetail = (_id) => {
     // console.log('click nè',_id);
     navigation.navigate('CategoriesDetail',{_id});
+
   }
 
   // Banner slider
   const renderItem = ({ item, index }) => {
     return (
       <View style={homeStyles.contaiBanner}>
-        <Image style={{ width: widthCasual }} source={item.image}></Image>
+        <Image style={{ width: widthCasual,height:'100%' }} source={item.image}></Image>
       </View>
     );
   }
@@ -63,13 +64,9 @@ const Home = (props) => {
   }
   const ongetCategory = async () => {
     const categories = await getCategory();
-    setCategories(categories);
+      setCategories(categories);
     // console.log("Danh muc :58 >" + JSON.stringify(categories));
   }
-
-  useEffect(() => {
-    ongetCategory;
-  },[]);
   // Product
   const renderItemProduct = ({ item }) => {
 
@@ -110,7 +107,7 @@ const Home = (props) => {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        <View >
+        <View>
           <FlatList
             data={data}
             renderItem={renderItem}

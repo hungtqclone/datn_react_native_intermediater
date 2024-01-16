@@ -79,7 +79,15 @@ const options = ({route}) => ({
           Hoàn tiền/ Đã hủy
         </Text>
       ) : (
-        <Text>Hoàn tiền/ Đã hủy</Text>
+        <Text 
+        style={{
+          fontSize: focused ? 12 : 12,
+          width: 170,
+          alignContent: 'center',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        >Hoàn tiền/ Đã hủy</Text>
       );
     }
   },
@@ -98,7 +106,7 @@ const options = ({route}) => ({
     padding: 0, // Add padding to ensure full visibility
   },
   tabStyle: {
-    width: 200, // Set the width of each tab
+    // width: 200, // Set the width of each tab
   },
 });
 

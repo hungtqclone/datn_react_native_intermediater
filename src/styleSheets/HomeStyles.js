@@ -39,9 +39,8 @@ export const homeStyles = StyleSheet.create({
         marginHorizontal:5,
     },
     contaiBanner:{
-        width:'100%',
-        height:100,
-        backgroundColor:'#FFBF17'
+        height:120,
+        backgroundColor:'#FFBF17',
     },
     contaiCarousel:{
         width:'100%',

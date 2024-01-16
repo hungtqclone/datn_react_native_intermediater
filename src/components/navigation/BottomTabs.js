@@ -11,6 +11,7 @@ import DetailProduct from '../../Screens/DetailProduct';
 import ManagementNews from '../../Screens/ManagementNews';
 import StrollScreen from '../../Screens/stroll_market_screen';
 import Profile_screen from '../../Screens/Profile/profile_screen';
+import SalesWalletScreen from '../../Screens/Profile/SalesWallet/SalesWalletScreen';
 // import ViceCityScreen from '../../Screens/ViceCityScreen';
 
 import PurchaseOrdersScreen from '../../Screens/Profile/PurchaseOrder/PurchaseOrdersScreen';
@@ -83,6 +84,10 @@ const ProflieStack = () => {
       <Stack.Screen
         name="SalesOrderScreen"
         component={SalesOrderScreen}
+      />
+        <Stack.Screen
+        name="SalesWalletScreen"
+        component={SalesWalletScreen}
       />
     </Stack.Navigator>
   );
