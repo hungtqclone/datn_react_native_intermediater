@@ -8,6 +8,7 @@ import Home from '../../Screens/Home';
 import DanhMucSP from '../../Screens/DanhMucSP';
 import DanhMucSPP from '../../Screens/DanhMucSPP';
 import CategoriesDetail from '../../Screens/CategoriesDetail';
+import Realestate from '../../Screens/DetailCategories/Realestate';
 
 
 const Stack = createNativeStackNavigator();
@@ -20,6 +21,7 @@ const ProductNavigation = () => {
       <Stack.Screen name="danhMucSPP" component={DanhMucSPP} />
       <Stack.Screen name="product" component={Product} />
       <Stack.Screen name="descriptionProduct" component={DescriptionProduct} />
+      <Stack.Screen name="realestate" component={Realestate} />
 
     </Stack.Navigator>
   );

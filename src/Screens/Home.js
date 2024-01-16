@@ -39,7 +39,7 @@ const Home = (props) => {
   const renderItem = ({ item, index }) => {
     return (
       <View style={homeStyles.contaiBanner}>
-        <Image style={{ width: widthCasual }} source={item.image}></Image>
+        <Image style={{ width: widthCasual,height:'100%' }} source={item.image}></Image>
       </View>
     );
   }
@@ -107,7 +107,7 @@ const Home = (props) => {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        <View >
+        <View>
           <FlatList
             data={data}
             renderItem={renderItem}
