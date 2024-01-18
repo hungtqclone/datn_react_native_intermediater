@@ -101,5 +101,4 @@
       borderBottomWidth: 0, // Đặt độ rộng border là 0
       fontSize: 15,
     },
-
   });
