@@ -103,15 +103,15 @@ const Profile_screen = (props) => {
                 <View style={styles.contMagOrder}>
                     <Text style={styles.txtMagOrder}>Tiện ích</Text>
                     <View style={styles.contMagOrderItem}>
-                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                        <TouchableOpacity onPress={() => navigation.navigate('PostSaved')} style={styles.contMagOrderItemLeft}>
                             <Image source={require('../../assets/images/icons/icon_heart_save.png')} style={styles.iconMagOrder} />
                             <Text style={styles.txtMagOrderItem}>Tin đăng đã lưu</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                        <TouchableOpacity  onPress={() => navigation.navigate('SavedSearchScreen')} style={styles.contMagOrderItemLeft}>
                             <Image source={require('../../assets/images/icons/icon_tag.png')} style={styles.iconMagOrder1} />
                             <Text style={styles.txtMagOrderItem}>Tìm kiếm đã lưu</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                        <TouchableOpacity  onPress={() => navigation.navigate('ReviewStack')} style={styles.contMagOrderItemLeft}>
                             <Image source={require('../../assets/images/icons/icon_wallet.png')} style={styles.iconMagOrder1} />
                             <Text style={styles.txtMagOrderItem}>Đánh giá từ tôi</Text>
                         </TouchableOpacity>

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {View, Text} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
@@ -10,7 +11,6 @@ import DanhMucSPP from '../../Screens/DanhMucSPP';
 import CategoriesDetail from '../../Screens/CategoriesDetail';
 import Realestate from '../../Screens/DetailCategories/Realestate';
 
-
 const Stack = createNativeStackNavigator();
 
 const ProductNavigation = () => {
@@ -22,7 +22,6 @@ const ProductNavigation = () => {
       <Stack.Screen name="product" component={Product} />
       <Stack.Screen name="descriptionProduct" component={DescriptionProduct} />
       <Stack.Screen name="realestate" component={Realestate} />
-
     </Stack.Navigator>
   );
 };
