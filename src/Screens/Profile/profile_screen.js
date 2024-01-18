@@ -121,11 +121,11 @@ const Profile_screen = (props) => {
                 <View style={styles.contMagOrder}>
                     <Text style={styles.txtMagOrder}>Khác</Text>
                     <View style={styles.contMagOrderItem}>
-                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                        <TouchableOpacity onPress={() => navigation.navigate('AccountSettingsScreen')}  style={styles.contMagOrderItemLeft}>
                             <Image source={require('../../assets/images/icons/icon_setting.png')} style={styles.iconMagOrder} />
                             <Text style={styles.txtMagOrderItem}>Cài đặt tài khoản</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                        <TouchableOpacity onPress={() => navigation.navigate('PhonePricing')}  style={styles.contMagOrderItemLeft}>
                             <Image source={require('../../assets/images/icons/icon_phone.png')} style={styles.iconMagOrder1} />
                             <Text style={styles.txtMagOrderItem}>Định giá điện thoại</Text>
                         </TouchableOpacity>

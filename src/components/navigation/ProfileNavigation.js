@@ -10,6 +10,8 @@ import PurchaseOrdersScreen from '../../Screens/Profile/PurchaseOrder/PurchaseOr
 import SalesOrderScreen from '../../Screens/Profile/SalesOrder/SalesOrderScreen';
 import ReviewedFMeScreen from '../../Screens/Profile/ReviewFMe/ReviewedFMeScreen';
 import ReviewFMeScreen from '../../Screens/Profile/ReviewFMe/ReviewFMeScreen';
+import AccountSettingsScreen from '../../Screens/Profile/AccountSettings/AccountSettingsScreen';
+import PhonePricing from '../../Screens/Profile/PhonePricing/PhonePricing';
 // Stack
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -37,6 +39,11 @@ const ProflieStack = () => {
       <Stack.Screen name="PostSaved" component={PostSaved} />
       <Stack.Screen name="SavedSearchScreen" component={SavedSearchScreen} />
       <Stack.Screen name="ReviewStack" component={ReviewStack} />
+      <Stack.Screen name="PhonePricing" component={PhonePricing} />
+      <Stack.Screen
+        name="AccountSettingsScreen"
+        component={AccountSettingsScreen}
+      />
     </Stack.Navigator>
   );
 };
