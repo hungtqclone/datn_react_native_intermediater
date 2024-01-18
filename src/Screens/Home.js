@@ -68,8 +68,8 @@ const Home = (props) => {
 
     // console.log("Danh muc :58 >" + JSON.stringify(categories));
   }
-  // Product
-  const renderItemProduct = ({ item }) => {
+  // Postnews
+  const renderItemPostnew = ({ item }) => {
 
     return (
       <TouchableOpacity style={homeStyles.productBody}>
@@ -156,7 +156,7 @@ const Home = (props) => {
           <Text style={homeStyles.txtTitleProduct}>Tin Đăng dành cho bạn</Text>
           <FlatList
             data={products}
-            renderItem={renderItemProduct}
+            renderItem={renderItemPostnew}
             numColumns={2}
             keyExtractor={item => item._id}
             scrollEnabled={false}
