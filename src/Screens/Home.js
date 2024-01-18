@@ -65,6 +65,7 @@ const Home = (props) => {
   const ongetCategory = async () => {
     const categories = await getCategory();
       setCategories(categories);
+
     // console.log("Danh muc :58 >" + JSON.stringify(categories));
   }
   // Product
