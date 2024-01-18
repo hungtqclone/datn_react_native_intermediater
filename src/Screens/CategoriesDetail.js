@@ -64,7 +64,7 @@ const CategoriesDetail = (props) => {
         return (
             <TouchableOpacity style={CGDStyles.productBody}>
                 <Image style={CGDStyles.imgproduct} source={{ uri: `${item.files}` }} />
-                <Text style={CGDStyles.txtnameproduct} >{item.nameProduct}</Text>
+                <Text style={CGDStyles.txtnameproduct} >{item.title}</Text>
                 <Text style={CGDStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
                 <Text style={CGDStyles.txtprice} >{item.price}</Text>
 

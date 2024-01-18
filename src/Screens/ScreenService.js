@@ -15,7 +15,7 @@ export const getCategory = async () => {
 //Tin đăng dành cho bạn
 export const getProduct = async () => {
     try {
-        const product = await AxiosInstance().get('products');
+        const product = await AxiosInstance().get('postnews');
         // console.log("19 Service Products : " + JSON.stringify(product.data));
         return product.data;
     } catch (err) {
@@ -28,7 +28,7 @@ export const getProduct = async () => {
 //Tin đăng dành cho bạn
 export const getDetailCategory = async (id) => {
     try {
-        const detail = await AxiosInstance().get(`categories-detail/${id}`);
+        const detail = await AxiosInstance().get(`types/${id}`);
         console.log("32 Service Products : " + JSON.stringify(detail.data));
         return detail.data;
     } catch (err) {
