@@ -117,4 +117,15 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0, // Đặt độ rộng border là 0
     fontSize: 15,
   },
+  contAddress: {
+    padding: 5,
+    marginBottom: 20,
+    borderColor: '#ebebeb',
+    borderWidth: 1,
+    borderRadius: 5,
+  },
+  btnAddress: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
