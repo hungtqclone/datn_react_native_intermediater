@@ -65,6 +65,7 @@ const Home = (props) => {
   const ongetCategory = async () => {
     const categories = await getCategory();
       setCategories(categories);
+
     // console.log("Danh muc :58 >" + JSON.stringify(categories));
   }
   // Product
@@ -73,7 +74,7 @@ const Home = (props) => {
     return (
       <TouchableOpacity style={homeStyles.productBody}>
         <Image style={homeStyles.imgproduct} source={{ uri: `${item.files}` }} />
-        <Text style={homeStyles.txtnameproduct} >{item.nameProduct}</Text>
+        <Text style={homeStyles.txtnameproduct} >{item.title}</Text>
         <Text style={homeStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
         <Text style={homeStyles.txtprice} >{item.price}</Text>
 
