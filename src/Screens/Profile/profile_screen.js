@@ -129,11 +129,11 @@ const Profile_screen = (props) => {
                             <Image source={require('../../assets/images/icons/icon_phone.png')} style={styles.iconMagOrder1} />
                             <Text style={styles.txtMagOrderItem}>Định giá điện thoại</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                        <TouchableOpacity onPress={() => navigation.navigate('HelpScreen')} style={styles.contMagOrderItemLeft}>
                             <Image source={require('../../assets/images/icons/icon_help.png')} style={styles.iconMagOrder1} />
                             <Text style={styles.txtMagOrderItem}>Trợ giúp</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.contMagOrderItemLeft}>
+                        <TouchableOpacity  onPress={() => navigation.navigate('CommentsScreen')} style={styles.contMagOrderItemLeft}>
                             <Image source={require('../../assets/images/icons/icoin_note.png')} style={styles.iconMagOrder1} />
                             <Text style={styles.txtMagOrderItem}>Đóng góp ý kiến</Text>
                         </TouchableOpacity>

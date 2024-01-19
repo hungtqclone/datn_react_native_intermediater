@@ -86,7 +86,7 @@ const stylesBottomTab = StyleSheet.create({
   bottomTabIcon: {
     width: 25,
     height: 25,
-    marginTop: 8,
+    //marginTop: 8,
   },
 });
 export default BottomTabs;

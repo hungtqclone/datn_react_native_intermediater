@@ -8,13 +8,78 @@ import {
   Switch,
   ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {Image} from '@rneui/base';
+import Modal from 'react-native-modal';
 
 const AccountSettingsScreen = props => {
   const {navigation} = props;
   const [isEnabled, setIsEnabled] = React.useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
+  const [ward, setWard] = useState('');
+  const toggleBottomSheet = () => {
+    setBottomSheetVisible(!isBottomSheetVisible);
+  };
+
+  const renderBottomSheetContent = () => (
+    <View style={styles.bottomSheetContainer}>
+      <View style={styles.contDialog}>
+        <View style={styles.start}>
+          <TouchableOpacity style={styles.btnClosee}>
+            <Image
+              style={styles.iconClose}
+              source={require('../../../assets/images/icons/icon_close.png')}
+            />
+          </TouchableOpacity>
+          <Text style={styles.txtStart}>Địa chỉ</Text>
+        </View>
+        <TouchableOpacity style={styles.contCity}>
+          <View style={styles.txt}>
+            <Text style={styles.txtCity}>Tỉnh/Thành phố</Text>
+            <Text style={styles.txtZ}>*</Text>
+          </View>
+          <Image
+            style={styles.icondown}
+            source={require('../../../assets/images/icons/icon_down-arrow.png')}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.contdistrict}>
+          <View style={styles.txt}>
+            <Text style={styles.txtCity}>Quận, huyện, thị xã</Text>
+            <Text style={styles.txtZ}>*</Text>
+          </View>
+          <Image
+            style={styles.icondown}
+            source={require('../../../assets/images/icons/icon_down-arrow.png')}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.contward}>
+          <View style={styles.txt}>
+            <Text style={styles.txtCity}>Phường, xã, thị trấn</Text>
+            <Text style={styles.txtZ}>*</Text>
+          </View>
+          <Image
+            style={styles.icondown}
+            source={require('../../../assets/images/icons/icon_down-arrow.png')}
+          />
+        </TouchableOpacity>
+        <View style={styles.contAddres}>
+          <TextInput
+            style={styles.inputWard}
+            placeholder="Địa chỉ cụ thể"
+            value={ward}
+            onChangeText={text => setWard(text)}
+          />
+        </View>
+      </View>
+      <TouchableOpacity
+        onPress={toggleBottomSheet}
+        style={styles.bottomSheetCloseButton}>
+        <Text style={styles.bottomSheetCloseButtonText}>Xong</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
     <View style={styles.body}>
@@ -46,7 +111,9 @@ const AccountSettingsScreen = props => {
             />
           </View>
           <View style={styles.contAddress}>
-            <TouchableOpacity style={styles.btnAddress}>
+            <TouchableOpacity
+              onPress={toggleBottomSheet}
+              style={styles.btnAddress}>
               <Text style={styles.txtAddress}>Địa chỉ của bạn</Text>
               <Image
                 style={styles.iconAddress}
@@ -223,6 +290,12 @@ const AccountSettingsScreen = props => {
       <TouchableOpacity style={styles.save}>
         <Text style={styles.txtSave}>LƯU</Text>
       </TouchableOpacity>
+      <Modal
+        isVisible={isBottomSheetVisible}
+        onBackdropPress={toggleBottomSheet}
+        style={styles.bottomSheet}>
+        {renderBottomSheetContent()}
+      </Modal>
     </View>
   );
 };
@@ -442,5 +515,118 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     color: '#fff',
+  },
+  bottomSheet: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
+  bottomSheetContainer: {
+    backgroundColor: '#fff',
+    padding: 16,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  bottomSheetCloseButton: {
+    marginTop: 10,
+    alignItems: 'center',
+    backgroundColor: 'silver',
+    padding: 10,
+    borderRadius: 5,
+  },
+  bottomSheetCloseButtonText: {
+    fontSize: 18,
+    color: '#fff',
+  },
+  start: {
+    flexDirection: 'row',
+    // justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  txtStart: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginLeft: 10,
+    width: '70%',
+    padding: 5,
+    textAlign: 'center',
+  },
+  iconClose: {
+    width: 20,
+    height: 20,
+  },
+  btnClosee: {
+    padding: 5,
+    width: '10%',
+  },
+  contDialog: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  contCity: {
+    flexDirection: 'row',
+    height: 50,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    padding: 5,
+    borderColor: '#ebebeb',
+    borderWidth: 1,
+    borderRadius: 5,
+  },
+  txtCity: {
+    fontSize: 15,
+    marginLeft: 10,
+  },
+  icondown: {
+    width: 20,
+    height: 20,
+  },
+  txt: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  contdistrict: {
+    flexDirection: 'row',
+    height: 50,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    padding: 5,
+    borderColor: '#ebebeb',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  contward: {
+    flexDirection: 'row',
+    height: 50,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    padding: 5,
+    borderColor: '#ebebeb',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  inputWard: {
+    borderWidth: 0,
+    borderBottomColor: 'transparent', // Đặt màu border thành trong suốt
+    borderBottomWidth: 0, // Đặt độ rộng border là 0
+    fontSize: 15,
+    // width: '90%',
+  },
+  contAddres: {
+    width: '100%',
+    height: 60,
+    padding: 5,
+    marginBottom: 20,
+    borderColor: '#ebebeb',
+    borderWidth: 1,
+    borderRadius: 5,
+    justifyContent: 'center',
+    marginTop: 20,
   },
 });

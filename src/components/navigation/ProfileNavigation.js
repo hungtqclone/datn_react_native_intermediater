@@ -12,6 +12,8 @@ import ReviewedFMeScreen from '../../Screens/Profile/ReviewFMe/ReviewedFMeScreen
 import ReviewFMeScreen from '../../Screens/Profile/ReviewFMe/ReviewFMeScreen';
 import AccountSettingsScreen from '../../Screens/Profile/AccountSettings/AccountSettingsScreen';
 import PhonePricing from '../../Screens/Profile/PhonePricing/PhonePricing';
+import HelpScreen from '../../Screens/Profile/Help/HelpScreen';
+import CommentsScreen from '../../Screens/Profile/Comments/CommentsScreen';
 // Stack
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -44,6 +46,8 @@ const ProflieStack = () => {
         name="AccountSettingsScreen"
         component={AccountSettingsScreen}
       />
+      <Stack.Screen name="HelpScreen" component={HelpScreen} />
+      <Stack.Screen name="CommentsScreen" component={CommentsScreen} />
     </Stack.Navigator>
   );
 };
