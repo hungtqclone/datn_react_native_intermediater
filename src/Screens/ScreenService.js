@@ -5,7 +5,7 @@ export const getCategory = async () => {
     try {
         const category = await AxiosInstance().get('categories');
         const fileterData = category.data.filter(item => item.parentId === null);
-        console.log("6 Service category : " + JSON.stringify(fileterData));
+        // console.log("6 Service category : " + JSON.stringify(fileterData));
         return fileterData;
     } catch (err) {
         console.log('Category error:', err);

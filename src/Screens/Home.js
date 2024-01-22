@@ -36,9 +36,10 @@ const Home = (props) => {
     }
     if(_id === '65ae8089d30801351cc0dea9' ) {
       return navigation.navigate('vehicles',{_id});
+    }if(_id === '658fbb7db41f1dd5128fa9da' ) {
+      return navigation.navigate('jobber',{_id});
     }
     navigation.navigate('CategoriesDetail',{_id});
-
   }
 
   // Banner slider
