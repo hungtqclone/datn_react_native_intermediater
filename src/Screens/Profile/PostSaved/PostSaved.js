@@ -40,8 +40,7 @@ const horizontalData = [
     image: require('../../../assets/images/imgProduct.png'),
   },
 ];
-
-const PostSaved = (props) => {
+const PostSaved = props => {
   const {navigation} = props;
   return (
     <ScrollView style={styles.body}>
