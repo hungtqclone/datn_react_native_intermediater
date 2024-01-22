@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 
 
-export const RLSTtyles = StyleSheet.create({
+export const VehicleStyle = StyleSheet.create({
     body: {
         width: '100%',
         height: '100%',
@@ -52,7 +52,9 @@ export const RLSTtyles = StyleSheet.create({
     },
     // title dưới slide:
     contaiBannertong: {
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        marginVertical:10,
+        paddingTop:10,
 
     },
     txttitleKP: {
@@ -62,56 +64,20 @@ export const RLSTtyles = StyleSheet.create({
         paddingLeft: 10,
     },
     contaiTitle: {
-        padding: 10,
+        padding: 1,
         width: 100,
         flexDirection: 'column',
         alignItems: 'center',
         backgroundColor: 'white'
     },
     imgTitle: {
-        width: 40,
-        height: 40
+        width: 60,
+        height: 60
     },
     txtTitle: {
         textAlign: 'center',
         color: 'black'
 
-    },
-    // PacketVIP
-    contaiBannertongPK: {
-        backgroundColor: 'white',
-        paddingVertical: 10,
-        marginVertical: 10,
-
-    },
-    txttitlePK: {
-        color: 'black',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    titlePacket: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 10,
-        backgroundColor: 'white'
-    },
-    pressables: {
-        flexDirection: 'row',
-    },
-    contaiTitleVIP: {
-        alignItems: 'center',
-        backgroundColor: 'white',
-        padding: 5,
-
-    },
-    imgTitleVIP: {
-        width: 120,
-        height: 60,
-        borderRadius: 10,
-    },
-    txtAll: {
-        color: '#306BD9'
     },
     // product
     contaiProduct: {
@@ -192,4 +158,103 @@ export const RLSTtyles = StyleSheet.create({
         paddingVertical:20,
     },
 
+
+    // Row có gì hot
+    containerHotV: {
+        width: '100%',
+        height:450,
+        backgroundColor:'#0B234F',
+        borderRadius:8,
+      },
+      
+      // product
+    contaiProductV:{
+        width: '100%',
+        height:'100%',
+        alignItems:'center',
+        padding:10,
+    },
+
+    productBodyV:{
+        borderRadius:8,
+        height:'100%',
+        marginRight:10,
+        padding:10,
+        width:220,
+        flexDirection:'column',
+        alignItems:'center',
+        backgroundColor:'white',
+    },
+    imgproductV:{
+        width:'100%',
+        height:'60%',
+        padding:2
+    },
+    txtTitleProductV:{
+        fontSize:20,
+        fontWeight: '900',
+        paddingTop:10,
+        color:'white',
+        alignSelf:'flex-start'
+        
+    },
+    txtnameproductV:{
+        textAlign:'center',
+        color:'grey',
+        fontSize:14,
+        paddingVertical:5,
+    },
+    txtdetailV:{
+        textAlign:'center',
+        color:'black',
+        fontSize:18,
+        fontWeight:'bold',
+        paddingTop:8,
+    },
+    
+    txtTimeV:{
+        fontSize:12,
+        color:'grey'
+    },
+    presableAllV:{
+        width:'100%',
+        height:50,
+        borderRadius:5,
+        marginVertical:15,
+        backgroundColor:'white',
+        justifyContent:'center',
+        padding:5,
+    },
+    txtPreessV:{
+        alignSelf:'center',
+        alignItems:'center',
+        color:'black',
+        fontWeight:'bold',
+        fontSize:16,
+        
+    },
+    contaiiPriceV:{
+        borderRadius:5,
+        marginTop:10,
+        flexDirection:'column',
+        alignItems:'flex-start',
+        width:'100%',
+        height:50,
+        backgroundColor:'#F4F4F4',
+        padding:5,
+
+
+    },
+    txtpriceV:{
+        textAlign:'left',
+        color:'black',
+        fontWeight:'bold',
+        fontSize:18,
+        alignSelf:'flex-start',
+    },
+    txtnamePriceV:{
+        textAlign:'center',
+        color:'grey',
+        fontSize:12,
+    },
 });
