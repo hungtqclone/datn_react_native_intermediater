@@ -30,7 +30,13 @@ const Home = (props) => {
   ];
 
   const handToCategoriesDetail = (_id) => {
-    // console.log('click nè',_id);
+
+    if(_id === '658fbcbdb41f1dd5128fa9e4' ) {
+      return navigation.navigate('realestate',{_id});
+    }
+    if(_id === '65ae8089d30801351cc0dea9' ) {
+      return navigation.navigate('vehicles',{_id});
+    }
     navigation.navigate('CategoriesDetail',{_id});
 
   }
@@ -68,8 +74,8 @@ const Home = (props) => {
 
     // console.log("Danh muc :58 >" + JSON.stringify(categories));
   }
-  // Product
-  const renderItemProduct = ({ item }) => {
+  // Postnews
+  const renderItemPostnew = ({ item }) => {
 
     return (
       <TouchableOpacity style={homeStyles.productBody}>
@@ -156,7 +162,7 @@ const Home = (props) => {
           <Text style={homeStyles.txtTitleProduct}>Tin Đăng dành cho bạn</Text>
           <FlatList
             data={products}
-            renderItem={renderItemProduct}
+            renderItem={renderItemPostnew}
             numColumns={2}
             keyExtractor={item => item._id}
             scrollEnabled={false}

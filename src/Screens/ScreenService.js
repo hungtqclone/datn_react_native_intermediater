@@ -4,8 +4,9 @@ import AxiosInstance from "../components/helpers/Axiosintance";
 export const getCategory = async () => {
     try {
         const category = await AxiosInstance().get('categories');
-        // console.log("6 Service category : " + JSON.stringify(category.data));
-        return category.data;
+        const fileterData = category.data.filter(item => item.parentId === null);
+        console.log("6 Service category : " + JSON.stringify(fileterData));
+        return fileterData;
     } catch (err) {
         console.log('Category error:', err);
         return err;
@@ -25,11 +26,11 @@ export const getProduct = async () => {
 }
 
 
-//Tin đăng dành cho bạn
+//Danh mục con
 export const getDetailCategory = async (id) => {
     try {
-        const detail = await AxiosInstance().get(`types/${id}`);
-        console.log("32 Service Products : " + JSON.stringify(detail.data));
+        const detail = await AxiosInstance().get(`categories/${id}`);
+        // console.log("32 Service Products : " + JSON.stringify(detail.data));
         return detail.data;
     } catch (err) {
         console.log('Products error:', err);

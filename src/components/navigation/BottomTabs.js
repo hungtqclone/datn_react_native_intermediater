@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
-import {View, Text, ScrollView, StyleSheet} from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 import ProductNavigation from './ProductNavigation';
 import Home from '../../Screens/Home';
-import {Image} from '@rneui/base';
+import { Image } from '@rneui/base';
 import DanhMucSP from '../../Screens/DanhMucSP';
 import DetailProduct from '../../Screens/DetailProduct';
 import ManagementNews from '../../Screens/ManagementNews';
@@ -13,58 +13,103 @@ import StrollScreen from '../../Screens/stroll_market_screen';
 import ProflieStack from './ProfileNavigation';
 // import ViceCityScreen from '../../Screens/ViceCityScreen';
 // Stack
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
-const options = ({route}) => ({
-  tabBarLabel: ({focused, color}) => {
+const options = ({ route }) => ({
+  tabBarLabel: ({ focused, color }) => {
     if (route.name === 'ProductNavigation') {
       return focused ? (
-        <Text style={{color: 'blue'}}>Home</Text>
+        <Text style={{ color: '#FFBA00' }}>Home</Text>
       ) : (
         <Text>Home</Text>
       );
     } else if (route.name === 'NewsManagement') {
       return focused ? (
-        <Text style={{color: 'blue'}}>Quản lý tin</Text>
+        <Text style={{ color: '#FFBA00' }}>Quản lý tin</Text>
       ) : (
         <Text>Quản lý tin</Text>
       );
     } else if (route.name === 'PostNews') {
       return focused ? (
-        <Text style={{color: 'blue'}}>Đăng tin</Text>
+        <Text style={{ color: '#FFBA00' }}>Đăng tin</Text>
       ) : (
         <Text>Đăng tin</Text>
       );
     } else if (route.name === 'StrollTheMarket') {
       return focused ? (
-        <Text style={{color: 'blue'}}>Dạo chợ</Text>
+        <Text style={{ color: '#FFBA00' }}>Dạo chợ</Text>
       ) : (
         <Text>Dạo chợ</Text>
       );
     } else if (route.name === 'Account') {
       return focused ? (
-        <Text style={{color: 'blue'}}>Tài khoản</Text>
+        <Text style={{ color: '#FFBA00' }}>Tài khoản</Text>
       ) : (
         <Text>Tài khoản</Text>
       );
     }
   },
-  tabBarIcon: ({focused, color, size}) => {
-    if (route.name === 'Home') {
+  tabBarIcon: ({ focused, color, size }) => {
+    if (route.name === 'ProductNavigation') {
       return focused ? (
         <Image
           style={stylesBottomTab.bottomTabIcon}
-          source={require('../../assets/images/icons/homeActivateIcon.png')}
+          source={require('../../../image/icon_homeye.png')}
         />
       ) : (
         <Image
           style={stylesBottomTab.bottomTabIcon}
-          source={require('../../assets/images/icons/homeInactiveIcon.png')}
+          source={require('../../../image/icon_homegrey.png')}
+        />
+      );
+    } if (route.name === 'NewsManagement') {
+      return focused ? (
+        <Image
+          style={stylesBottomTab.bottomTabIcon}
+          source={require('../../../image/icon_noteye.png')}
+        />
+      ) : (
+        <Image
+          style={stylesBottomTab.bottomTabIcon}
+          source={require('../../../image/icon_notegrey.png')}
+        />
+      );
+    } if (route.name === 'PostNews') {
+      return (
+        <Image
+          style={stylesBottomTab.bottomTabIcon}
+          source={require('../../../image/icon_editblack.png')}
+        />
+      );
+    }if (route.name === 'StrollTheMarket') {
+      return focused ? (
+        <Image
+          style={stylesBottomTab.bottomTabIcon}
+          source={require('../../../image/icon_bagye.png')}
+        />
+      ) : (
+        <Image
+          style={stylesBottomTab.bottomTabIcon}
+          source={require('../../../image/icon_baggrey.png')}
+        />
+      );
+    }if (route.name === 'Account') {
+      return focused ? (
+        <Image
+          style={stylesBottomTab.bottomTabIcon}
+          source={require('../../../image/icon_userye.png')}
+        />
+      ) : (
+        <Image
+          style={stylesBottomTab.bottomTabIcon}
+          source={require('../../../image/icon_usergrey.png')}
         />
       );
     }
+    
+    
   },
   headerShown: false,
   tabBarHideOnKeyboard: true,
