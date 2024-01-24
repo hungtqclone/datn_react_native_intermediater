@@ -7,26 +7,90 @@ import {
   TextInput,
   Switch,
   ScrollView,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Image} from '@rneui/base';
 import Modal from 'react-native-modal';
-
+import {Picker} from '@react-native-picker/picker';
+import {Dropdown} from 'react-native-element-dropdown';
 const AccountSettingsScreen = props => {
   const {navigation} = props;
   const [isEnabled, setIsEnabled] = React.useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
+
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [cities, setCities] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [isDistrictDropdownVisible, setDistrictDropdownVisible] =
+    useState(false);
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
+
+  const [wards, setWards] = useState([]);
   const [ward, setWard] = useState('');
+  const [selectedWard, setSelectedWard] = useState(null);
+  const [isWardSelected, setIsWardSelected] = useState(false);
+
+  //hiện thông báo nếu chưa chọn địa chỉ
+  const showAddressNotification = () => {
+    if (!selectedCity || !selectedDistrict || !selectedWard) {
+      Alert.alert(
+        'Thông báo',
+        'Vui lòng chọn tỉnh/thành, quận/huyện và phường/xã trước khi nhập địa chỉ cụ thể.',
+      );
+    }
+  };
+
+  //hiện và ẩn bottom sheet
   const toggleBottomSheet = () => {
+    if (selectedCity) {
+    }
     setBottomSheetVisible(!isBottomSheetVisible);
   };
 
+  const fetchCities = async () => {
+    try {
+      const response = await fetch('https://provinces.open-api.vn/api/');
+      const data = await response.json();
+      setCities(data);
+    } catch (error) {
+      console.error('Error fetching cities:', error);
+    }
+  };
+  const fetchDistricts = async cityCode => {
+    try {
+      const response = await fetch(
+        `https://provinces.open-api.vn/api/p/${cityCode}?depth=2`,
+      );
+      const data = await response.json();
+      setDistricts(data.districts);
+    } catch (error) {
+      console.error('Error fetching districts:', error);
+    }
+  };
+
+  const fetchWards = async districtCode => {
+    try {
+      const wardResponse = await fetch(
+        `https://provinces.open-api.vn/api/d/${districtCode}?depth=2`,
+      );
+      const wardData = await wardResponse.json();
+      setWards(wardData.wards);
+    } catch (error) {
+      console.error('Error fetching wards:', error);
+    }
+  };
+  useEffect(() => {
+    fetchCities();
+  }, []);
   const renderBottomSheetContent = () => (
     <View style={styles.bottomSheetContainer}>
       <View style={styles.contDialog}>
         <View style={styles.start}>
-          <TouchableOpacity style={styles.btnClosee}>
+          <TouchableOpacity
+            style={styles.btnClosee}
+            onPress={toggleBottomSheet}>
             <Image
               style={styles.iconClose}
               source={require('../../../assets/images/icons/icon_close.png')}
@@ -34,43 +98,74 @@ const AccountSettingsScreen = props => {
           </TouchableOpacity>
           <Text style={styles.txtStart}>Địa chỉ</Text>
         </View>
-        <TouchableOpacity style={styles.contCity}>
-          <View style={styles.txt}>
-            <Text style={styles.txtCity}>Tỉnh/Thành phố</Text>
-            <Text style={styles.txtZ}>*</Text>
-          </View>
-          <Image
-            style={styles.icondown}
-            source={require('../../../assets/images/icons/icon_down-arrow.png')}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.contdistrict}>
-          <View style={styles.txt}>
-            <Text style={styles.txtCity}>Quận, huyện, thị xã</Text>
-            <Text style={styles.txtZ}>*</Text>
-          </View>
-          <Image
-            style={styles.icondown}
-            source={require('../../../assets/images/icons/icon_down-arrow.png')}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.contward}>
-          <View style={styles.txt}>
-            <Text style={styles.txtCity}>Phường, xã, thị trấn</Text>
-            <Text style={styles.txtZ}>*</Text>
-          </View>
-          <Image
-            style={styles.icondown}
-            source={require('../../../assets/images/icons/icon_down-arrow.png')}
-          />
-        </TouchableOpacity>
+        <Dropdown
+          style={styles.dropdown}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={cities}
+          search
+          maxHeight={300}
+          labelField="name" // Change "label" to "name"
+          valueField="code" // Change "value" to "code"
+          placeholder="Tỉnh/Thành phố*"
+          searchPlaceholder="Tìm kiếm..."
+          value={selectedCity} // Use selectedCity as the value
+          onChange={city => {
+            setSelectedCity(city);
+            fetchDistricts(city.code);
+          }}
+        />
+        <Dropdown
+          style={styles.dropdown}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={districts}
+          search
+          maxHeight={300}
+          labelField="name" // Change "label" to "name"
+          valueField="code" // Change "value" to "code"
+          placeholder="Quận/huyện*"
+          searchPlaceholder="Tìm kiếm..."
+          value={selectedDistrict} // Use selectedCity as the value
+          onChange={districts => {
+            setSelectedDistrict(districts.code);
+            fetchWards(districts.code);
+          }}
+        />
+        <Dropdown
+          style={styles.dropdown}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={wards}
+          search
+          maxHeight={300}
+          labelField="name"
+          valueField="code"
+          placeholder="Phường, xã, thị trấn"
+          searchPlaceholder="Tìm kiếm..."
+          value={selectedWard}
+          onChange={ward => {
+            setIsWardSelected(true);
+            setSelectedWard(ward);
+          }}
+        />
+
         <View style={styles.contAddres}>
-          <TextInput
-            style={styles.inputWard}
-            placeholder="Địa chỉ cụ thể"
-            value={ward}
-            onChangeText={text => setWard(text)}
-          />
+          <TouchableOpacity onPress={showAddressNotification}>
+            <TextInput
+              editable={isWardSelected}
+              style={styles.inputWard}
+              placeholder="Địa chỉ cụ thể"
+              value={ward}
+              onChangeText={text => setWard(text)}
+            />
+          </TouchableOpacity>
         </View>
       </View>
       <TouchableOpacity
@@ -628,5 +723,37 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: 'center',
     marginTop: 20,
+  },
+  dropdown: {
+    width: '100%',
+    margin: 16,
+    // height: 50,
+    borderBottomColor: 'gray',
+    borderBottomWidth: 0.5,
+    height: 50,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 5,
+    borderColor: '#ebebeb',
+    borderWidth: 1,
+    borderRadius: 5,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+    color: 'gray',
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    // height: 40,
+    fontSize: 16,
   },
 });
