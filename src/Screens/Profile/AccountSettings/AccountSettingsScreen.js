@@ -88,14 +88,14 @@ const AccountSettingsScreen = props => {
     <View style={styles.bottomSheetContainer}>
       <View style={styles.contDialog}>
         <View style={styles.start}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.btnClosee}
             onPress={toggleBottomSheet}>
             <Image
               style={styles.iconClose}
               source={require('../../../assets/images/icons/icon_close.png')}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <Text style={styles.txtStart}>Địa chỉ</Text>
         </View>
         <Dropdown
