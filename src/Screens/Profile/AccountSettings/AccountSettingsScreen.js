@@ -12,7 +12,6 @@ import {
 import React, {useState, useEffect} from 'react';
 import {Image} from '@rneui/base';
 import Modal from 'react-native-modal';
-import {Picker} from '@react-native-picker/picker';
 import {Dropdown} from 'react-native-element-dropdown';
 const AccountSettingsScreen = props => {
   const {navigation} = props;
@@ -23,8 +22,6 @@ const AccountSettingsScreen = props => {
   const [selectedCity, setSelectedCity] = useState(null);
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);
-  const [isDistrictDropdownVisible, setDistrictDropdownVisible] =
-    useState(false);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
 
   const [wards, setWards] = useState([]);
