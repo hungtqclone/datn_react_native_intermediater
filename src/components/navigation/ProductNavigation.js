@@ -11,6 +11,7 @@ import DanhMucSPP from '../../Screens/DanhMucSPP';
 import CategoriesDetail from '../../Screens/CategoriesDetail';
 import Realestate from '../../Screens/DetailCategories/Realestate';
 import Vehicles from '../../Screens/DetailCategories/Vehicles';
+import Jobber from '../../Screens/DetailCategories/Jober';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,7 @@ const ProductNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="home" component={Home} />
+      <Stack.Screen name="jobber" component={Jobber} />
       <Stack.Screen name="realestate" component={Realestate} />
       <Stack.Screen name="CategoriesDetail" component={CategoriesDetail} />
       <Stack.Screen name="danhMucSPP" component={DanhMucSPP} />
