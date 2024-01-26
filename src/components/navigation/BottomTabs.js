@@ -11,6 +11,7 @@ import DetailProduct from '../../Screens/DetailProduct';
 import ManagementNews from '../../Screens/ManagementNews';
 import StrollScreen from '../../Screens/stroll_market_screen';
 import ProflieStack from './ProfileNavigation';
+import PushNewsNavigation from './PushNewsNavigation';
 // import ViceCityScreen from '../../Screens/ViceCityScreen';
 // Stack
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -83,7 +84,7 @@ const options = ({ route }) => ({
           source={require('../../../image/icon_editblack.png')}
         />
       );
-    }if (route.name === 'StrollTheMarket') {
+    } if (route.name === 'StrollTheMarket') {
       return focused ? (
         <Image
           style={stylesBottomTab.bottomTabIcon}
@@ -95,7 +96,7 @@ const options = ({ route }) => ({
           source={require('../../../image/icon_baggrey.png')}
         />
       );
-    }if (route.name === 'Account') {
+    } if (route.name === 'Account') {
       return focused ? (
         <Image
           style={stylesBottomTab.bottomTabIcon}
@@ -108,8 +109,8 @@ const options = ({ route }) => ({
         />
       );
     }
-    
-    
+
+
   },
   headerShown: false,
   tabBarHideOnKeyboard: true,
@@ -119,7 +120,7 @@ const BottomTabs = () => {
     <Tab.Navigator screenOptions={options}>
       <Tab.Screen name="ProductNavigation" component={ProductNavigation} />
       <Tab.Screen name="NewsManagement" component={ManagementNews} />
-      <Tab.Screen name="PostNews" component={DetailProduct} />
+      <Tab.Screen name="PostNews" component={PushNewsNavigation} />
       <Tab.Screen name="StrollTheMarket" component={StrollScreen} />
       <Tab.Screen name="Account" component={ProflieStack} />
       {/* <Tab.Screen name="Product" component={PurchaseOrdersScreen} /> */}
