@@ -7,7 +7,7 @@ export const Product = StyleSheet.create({
     contaiappbar: {
         flexDirection: 'row',
         width: '100%',
-        height: '10%',
+        height: 50,
         // padding:30,
         backgroundColor: '#FFBF17',
         alignItems: 'center'
@@ -30,7 +30,7 @@ export const Product = StyleSheet.create({
         alignItems: 'center',
     },
     contaitxp: {
-        marginBottom: 20,
+        marginBottom: 5,
         flexDirection: 'row',
         width: '100%',
         height: 48,
@@ -71,7 +71,7 @@ export const Product = StyleSheet.create({
         height: 56,
         alignItems: 'center'
     },
-    img:{
+    img: {
         width: 30,
         height: 30,
     },
@@ -84,17 +84,17 @@ export const Product = StyleSheet.create({
 
     // bottom sheet
     containerbottom: {
-		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center'
-	},
-	contentContainerbottom: {
-		flex: 1,
-		alignItems: 'center'
-	},
-	containerHeadlinebottom: {
-		fontSize: 24,
-		fontWeight: '600',
-		padding: 20
-	}
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    contentContainerbottom: {
+        flex: 1,
+        alignItems: 'center'
+    },
+    containerHeadlinebottom: {
+        fontSize: 24,
+        fontWeight: '600',
+        padding: 20
+    }
 })
