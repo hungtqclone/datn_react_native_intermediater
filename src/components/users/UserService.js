@@ -6,7 +6,7 @@ export const register = async (email, password) => {
             email: email,
             password: password
         }
-        const res = await AxiosInstance().post('/users/register', body);
+        const res = await AxiosInstance().post('/api/users/register', body);
         console.log('register response', res);
         return res;
     } catch (err) {
@@ -21,7 +21,7 @@ export const login = async (email, password) => {
             email: email,
             password: password
         }
-        const res = await AxiosInstance().post('/auth/login', body);
+        const res = await AxiosInstance().post('/api/auth/login', body);
         // console.log('login response',res);
         return res;
     } catch (err) {
@@ -31,7 +31,7 @@ export const login = async (email, password) => {
 }
 export const editUser = async (data) => {
     try {
-        const res = await AxiosInstance().post('/users/update-profile', data)
+        const res = await AxiosInstance().post('/api/users/update-profile', data)
         console.log('editUser response', res);
         return res;
     } catch (error) {
