@@ -3,9 +3,9 @@ import AxiosInstance from "../components/helpers/Axiosintance";
 //Danh mục khám phá
 export const getCategory = async () => {
     try {
-        const category = await AxiosInstance().get('categories');
+        const category = await AxiosInstance().get('api/categories');
         const fileterData = category.data.filter(item => item.parentId === null);
-        console.log("6 Service category : " + JSON.stringify(fileterData));
+        // console.log("6 Service category : " + JSON.stringify(fileterData));
         return fileterData;
     } catch (err) {
         console.log('Category error:', err);
@@ -16,7 +16,7 @@ export const getCategory = async () => {
 //Tin đăng dành cho bạn
 export const getProduct = async () => {
     try {
-        const product = await AxiosInstance().get('postnews');
+        const product = await AxiosInstance().get('api/postnews');
         // console.log("19 Service Products : " + JSON.stringify(product.data));
         return product.data;
     } catch (err) {
@@ -29,7 +29,7 @@ export const getProduct = async () => {
 //Danh mục con
 export const getDetailCategory = async (id) => {
     try {
-        const detail = await AxiosInstance().get(`categories/${id}`);
+        const detail = await AxiosInstance().get(`api/categories/${id}`);
         // console.log("32 Service Products : " + JSON.stringify(detail.data));
         return detail.data;
     } catch (err) {

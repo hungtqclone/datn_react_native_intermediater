@@ -9,7 +9,7 @@ const TestHelper = (props) => {
     const [data, setData] = useState([])
     const [users, setUsers] = useState([])
     const fetchData = async () => {
-        const userData = await AxiosInstance().get(`/user`)
+        const userData = await AxiosInstance().get(`api/user`)
 
         // const response = await axios.get(
         //     `https://datn-nodejs.onrender.com/api/products`,

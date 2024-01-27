@@ -140,7 +140,7 @@ const Realestate = (props) => {
                             scrollEnabled={false}
                         />
                     </ScrollView>
-                    <Text style={RLSTtyles.txtViewAll}>Xem thêm</Text>
+                    <Pressable><Text style={RLSTtyles.txtViewAll}>Xem thêm</Text></Pressable>
                 </View>
 
                 <View style={RLSTtyles.contaiProduct}>
