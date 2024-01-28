@@ -38,11 +38,23 @@ const Register = (props) => {
                         <Text style={[AppStyle.title, { color: '#04CB00' }]}>ĐĂNG KÝ</Text>
                     </View>
                     <View style={[{ marginTop: 30, alignItems: 'center' }]}>
+                        <TextInput style={[AppStyle.txtinput]} placeholder='Nhập Email'>
+                        </TextInput>
+                    </View>
+                    <View style={[{ marginTop: 30, alignItems: 'center' }]}>
                         <TextInput style={[AppStyle.txtinput]} placeholder='Nhập số điện thoại'>
+                        </TextInput>
+                    </View>
+                    <View style={[{ marginTop: 30, alignItems: 'center' }]}>
+                        <TextInput style={[AppStyle.txtinput]} placeholder='Nhập Tên'>
                         </TextInput>
                     </View>
                     <View style={[{ marginTop: 24, alignItems: 'center' }]}>
                         <TextInput style={[AppStyle.txtinput]} placeholder='Nhập mật khẩu'>
+                        </TextInput>
+                    </View>
+                    <View style={[{ marginTop: 24, alignItems: 'center' }]}>
+                        <TextInput style={[AppStyle.txtinput]} placeholder='Nhập lại mật khẩu'>
                         </TextInput>
                     </View>
                     <View style={[{ alignItems: 'center', marginTop: 24 }]}>
