@@ -1,11 +1,22 @@
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { AppStyle } from '../constants/AppStyle'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 const Register = (props) => {
     const { navigation } = props
+
+    const registerUser = async () => {
+        try {
+
+        } catch (error) {
+            console.log("error registerUser: ", registerUser)
+        }
+    }
+
+
+
     return (
         <View style={[AppStyle.container]}>
             <KeyboardAwareScrollView
@@ -19,8 +30,8 @@ const Register = (props) => {
                     <View>
                         <Image style={{ width: '100%', position: 'absolute' }} source={require('../assets/images/reg03.png')} />
                         <Image style={{ width: '100%', position: 'absolute' }} source={require('../assets/images/reg04.png')} />
-                        <TouchableOpacity onPress={() => navigation.navigate('Login') } >
-                        <Text style={[AppStyle.titleMedium, { color: 'black', textAlign: 'right', padding: 18 }]}>BỎ QUA</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('Login')} >
+                            <Text style={[AppStyle.titleMedium, { color: 'black', textAlign: 'right', padding: 18 }]}>BỎ QUA</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={{ alignItems: 'center', marginTop: '20%' }}>

@@ -11,7 +11,7 @@ const AppNavigation = () => {
     return (
         <NavigationContainer>
             {/* {user ? <BottomTabs /> : <UserNavigation />} */}
-            {user ? <BottomTabs /> : <UserNavigation/>}
+            {user ? <BottomTabs /> : <UserNavigation />}
 
         </NavigationContainer>
     )

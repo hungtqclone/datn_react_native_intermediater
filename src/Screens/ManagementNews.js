@@ -13,9 +13,43 @@ const dataPackage = [
 
 ]
 
-const FirstRoute = () => (
-    <View style={{ flex: 1, backgroundColor: '#ff4081' }} />
-);
+const data = {
+    "_id": {
+        "$oid": "6596a557f44c206091cbb025"
+    },
+    "title": "iPhone 13 Pro Max 256GB",
+    "status": true,
+    "detail": "IPhone 13 Pro Max 256Gb Pin 86 Zin full có Gl",
+    "location": "Phan thiết",
+    "price": 12500000,
+    "created_AT": "2024-01-04",
+    "files": "https://cdn.chotot.com/W_w72lyd9UNIP5VTJhFKn4vYQHlldPnIsOpIWCvGKvI/preset:listing/plain/21528fc6116d156ca3bf5f7b3bed1605-2858403316627653829.webp",
+    "role": "mua",
+    "userid": {
+        "$oid": "6587edd36c13142ab0adcd86"
+    },
+    "activable": true,
+    "brandid": "658fbffe082361fcec13f8ba",
+    "__v": 0
+}
+
+const FirstRoute = () => {
+    return (
+        <View style={{ flex: 1, backgroundColor: '#ff4081' }} >
+            <View style={{ backgroundColor: "white", flexDirection: 'row', marginVertical: 1 }}>
+                <View style={{ width: 120, height: 120, padding: 15 }}>
+                    <Image style={{ width: '100%', height: '100%' }} source={{ uri: data.files }} />
+                </View>
+                <View style={{ paddingVertical: 15, flex: 1, marginRight: 30 }}>
+                    <Text>{data.title}</Text>
+                    <Text>{data.price}</Text>
+                    <Text style={{}}>{data.location}</Text>
+                </View>
+            </View>
+
+        </View >
+    )
+}
 
 const SecondRoute = () => (
     <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
@@ -34,12 +68,12 @@ const ManagementNews = () => {
     const layout = useWindowDimensions();
     const [index, setIndex] = React.useState(0);
     const [routes] = useState([
-        { key: 'first', title: 'ĐANG HIỂN THỊ' },
-        { key: 'second', title: 'HẾT HẠN' },
-        { key: 'second2', title: 'BỊ TỪ CHỐI' },
-        { key: 'second3', title: 'CẦN THANH TOÁN' },
-        { key: 'second4', title: 'TIN NHÁP' },
-        { key: 'second5', title: 'CHỜ DUYỆT' },
+        { key: 'first', title: 'Đang hiển thị' },
+        { key: 'second', title: 'Hết hạn' },
+        { key: 'second2', title: 'Bị từ chối' },
+        { key: 'second3', title: 'Cần thanh toán' },
+        { key: 'second4', title: 'Tin nháp' },
+        { key: 'second5', title: 'Chờ duyệt' },
     ]);
     const renderTabBar = props => (
 

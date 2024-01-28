@@ -1,16 +1,16 @@
 import { View, Text, Button, FlatList } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import AxiosInstance from '../components/helpers/Axiosintance'
-import axios from 'axios'
+import { UserContext } from '../components/users/UserContext'
 
-const TestHelper = (props) => {
+const ListUserChat = (props) => {
     const { navigation } = props
-    const userId = "6587edd36c13142ab0adcd86"
+    const { user } = useContext(UserContext)
+    const userId = user._id
     const [data, setData] = useState([])
     const [users, setUsers] = useState([])
     const fetchData = async () => {
-        const userData = await AxiosInstance().get(`api/user`)
-
+        const userData = await AxiosInstance().get(`api/users`)
         // const response = await axios.get(
         //     `https://datn-nodejs.onrender.com/api/products`,
         // );
@@ -19,11 +19,7 @@ const TestHelper = (props) => {
     }
 
     useEffect(() => {
-
         fetchData();
-
-
-
     }, []);
     const renderItem = ({ item }) => (
         <View style={{ padding: 10, marginHorizontal: 10, marginVertical: 3, backgroundColor: "#CCCCCC", borderRadius: 10, display: userId == item._id ? "none" : "inline-block" }}>
@@ -42,4 +38,4 @@ const TestHelper = (props) => {
     )
 }
 
-export default TestHelper
+export default ListUserChat
