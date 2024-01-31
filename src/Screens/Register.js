@@ -16,13 +16,13 @@ const Register = (props) => {
     const registerUser = async () => {
         try {
             const response = await AxiosInstance().post('api/register-user', {
-                email,
-                phone,
-                name,
-                password,
+                email: email,
+                phone: phone,
+                name: name,
+                password: password,
             });
-            console.log('Kết quả từ API:', response.data);
-            if (response.data.success) {
+            console.log('Kết quả từ API:', response);
+            if (response.success) {
                 console.log('Đăng ký thành công!');
             } else {
                 console.log('Đăng ký không thành công:', response.message);

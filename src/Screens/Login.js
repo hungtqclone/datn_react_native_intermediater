@@ -1,10 +1,39 @@
 import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { AppStyle } from '../constants/AppStyle'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import AxiosInstance from '../components/helpers/Axiosintance'
 
 const Login = (props) => {
     const { navigation } = props
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const loginUser = async () => {
+        try {
+            const response = await AxiosInstance().post('api/login-user', {
+                email: email,
+                password: password,
+            });
+
+            console.log('Kết quả từ API:', response);
+
+            if (response.success) {
+                console.log('Đăng nhập thành công!');
+                // Navigate to the home screen or perform any other necessary actions
+                // navigation.navigate('home');
+            } else {
+                console.log('Đăng nhập không thành công:', response.message);
+            }
+        } catch (error) {
+            console.error('Lỗi đăng nhập người dùng:', error);
+            if (error.response && error.response.data) {
+                // console.error('Thông điệp lỗi từ server:', error.response.data);
+            }
+        }
+    };
+
+
     return (
         <View style={[AppStyle.container]}>
             <KeyboardAwareScrollView
@@ -26,15 +55,21 @@ const Login = (props) => {
                         </View>
                     </View>
                     <View style={[{ marginTop: 30, alignItems: 'center' }]}>
-                        <TextInput style={[AppStyle.txtinput]} placeholder='Nhập số điện thoại'>
-                        </TextInput>
+                        <TextInput 
+                        style={[AppStyle.txtinput]} 
+                        placeholder='Nhập số điện thoại'
+                        onChangeText={(text) => setEmail(text)}
+                        />
                     </View>
                     <View style={[{ marginTop: 24, alignItems: 'center' }]}>
-                        <TextInput style={[AppStyle.txtinput]} placeholder='Nhập mật khẩu'>
-                        </TextInput>
+                        <TextInput 
+                        style={[AppStyle.txtinput]} 
+                        placeholder='Nhập mật khẩu'
+                        onChangeText={(text) => setPassword(text)}
+                        />
                     </View>
                     <View style={[{ alignItems: 'center', marginTop: 24 }]}>
-                        <TouchableOpacity style={[AppStyle.button, { backgroundColor: '#FF9900' }]} onPress={() => { }}>
+                        <TouchableOpacity style={[AppStyle.button, { backgroundColor: '#FF9900' }]} onPress={loginUser}>
                             <Text style={[AppStyle.titleBig, { color: '#ffffff', fontSize: 22, fontWeight: 500 }]}>ĐĂNG NHẬP</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={[AppStyle.button, { backgroundColor: '#E7E7E7', marginTop: 24 }]} onPress={() => { }}>
