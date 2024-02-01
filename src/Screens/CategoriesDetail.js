@@ -23,6 +23,7 @@ const CategoriesDetail = (props) => {
     const [products, setProducts] = useState([]);
     const [categoriesDetail, setCategoriesDetail] = useState([]);
     const numColumns = Math.ceil(datatile.length / 2);
+    const urlServer = 'https://datnapi.vercel.app/';
     const { navigation, route } = props;
     const { params } = route;
     console.log("id", params._id);
@@ -63,7 +64,7 @@ const CategoriesDetail = (props) => {
 
         return (
             <TouchableOpacity style={CGDStyles.productBody}>
-                <Image style={CGDStyles.imgproduct} source={{ uri: `${item.files}` }} />
+                <Image style={CGDStyles.imgproduct} source={{ uri: `${urlServer}${item.files}` }} />
                 <Text style={CGDStyles.txtnameproduct} >{item.title}</Text>
                 <Text style={CGDStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
                 <Text style={CGDStyles.txtprice} >{item.price}</Text>
