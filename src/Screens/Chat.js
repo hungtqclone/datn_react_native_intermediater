@@ -1,47 +1,20 @@
 import { View, Text, FlatList, TextInput, Button } from 'react-native'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import AxiosInstance from '../components/helpers/Axiosintance';
-
+import { UserContext } from '../components/users/UserContext';
+const moment = require('moment-timezone');
 const Chat = ({ route }) => {
     const { data } = route.params;
+    const { user } = useContext(UserContext)
     const flatListRef = useRef();
-    const userId = "6587edd36c13142ab0adcd86"
+    const userId = user._id
     const [allMessage, setallMessage] = useState(undefined)
     const [inputMessage, setInputMessage] = useState(undefined);
-    const [conversationId, setConversationId] = useState(undefined)
 
-    const fetchDataConversation = async () => {
-        try {
-            const members = [
-                `%20%22${userId}%22`,
-                `%20%22${data._id}%22%20`
-
-            ]
-            // console.log(members);
-
-            const conversation = await AxiosInstance().get(`/chat/get-conversation-by-members/[${members}]`)
-            console.log("check conversation: ", conversation.conversation.length)
-            if (conversation.conversation.length == 0) {
-                const newConversation = await AxiosInstance().post(`/chat/add-conversation/[${members}]`)
-                console.log("new conversation :", newConversation.conversation._id);
-                if (newConversation.result == true) {
-                    setConversationId(newConversation.conversation._id)
-                }
-            }
-            setConversationId(conversation.conversation[0]._id)
-
-
-        } catch (error) {
-            console.log(error)
-        }
-
-
-
-    }
 
     const fetchDataAllMessage = async () => {
         try {
-            const messageData = await AxiosInstance().get(`/chat/get-message/"${conversationId}"`)
+            const messageData = await AxiosInstance().get(`api/message/get-messages?senderId=${userId}&receiverId=${data._id}`)
             setallMessage(messageData.messages)
         } catch (error) {
             console.log(error)
@@ -55,7 +28,7 @@ const Chat = ({ route }) => {
                 <View style={{ width: "100%", alignItems: 'flex-start' }}>
                     <View style={{ padding: 10, marginHorizontal: 10, marginVertical: 3, backgroundColor: "#AAAAAA", borderRadius: 10, marginRight: 50, alignItems: "flex-start" }}>
                         <Text style={{ color: 'black', fontSize: 17 }}>{item.content}</Text>
-                        <Text style={{ fontSize: 12 }}>{item.timeStamp}</Text>
+                        <Text style={{ fontSize: 12 }}>{moment.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}</Text>
                     </View>
                 </View>
             );
@@ -64,29 +37,21 @@ const Chat = ({ route }) => {
                 <View style={{ width: "100%", alignItems: 'flex-end' }}>
                     <View style={{ padding: 10, marginHorizontal: 10, marginVertical: 3, backgroundColor: "#3333FF", borderRadius: 10, marginLeft: 50, alignItems: "flex-end" }}>
                         <Text style={{ color: 'black', fontSize: 17 }}>{item.content}</Text>
-                        <Text style={{ fontSize: 12 }}>{item.timeStamp}</Text>
+                        <Text style={{ fontSize: 12 }}>{moment.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}</Text>
                     </View>
                 </View>
             );
         }
     };
+
     useEffect(() => {
-        fetchDataConversation();
+        fetchDataAllMessage();
     }, []);
-
-    useEffect(() => {
-        console.log("check id conversation: ", conversationId)
-        if (conversationId != null) {
-            fetchDataAllMessage();
-        }
-
-
-    }, [conversationId]);
 
     const sendMessage = async () => {
         try {
             if (inputMessage != '') {
-                const sendMessgaes = await AxiosInstance().post(`/chat/add-message/${conversationId}/${userId}/${inputMessage}`);
+                const sendMessgaes = await AxiosInstance().post(`api/message/new-message?senderId=${userId}&receiverId=${data._id}&content=${inputMessage}`);
                 console.log(sendMessgaes);
                 if (sendMessgaes.result == true) {
                     fetchDataAllMessage();
@@ -126,6 +91,7 @@ const Chat = ({ route }) => {
             ) : (
                 <Text style={{ textAlign: 'center', fontSize: 18, marginTop: 20 }}>New message</Text>
             )}
+
             <View style={{ position: "absolute", width: "100%", bottom: 10, flexDirection: "row", padding: 10 }}>
                 <TextInput style={{ backgroundColor: "white", borderRadius: 10, fontSize: 16, width: '85%', marginRight: 10 }} placeholder='text message' value={inputMessage} onChangeText={(e) => setInputMessage(e)} />
                 <Button

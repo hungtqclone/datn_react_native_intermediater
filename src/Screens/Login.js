@@ -15,8 +15,8 @@ const Login = (props) => {
                 scrollEnabled={false}
             >
                 <View style={[AppStyle.main, { position: 'relative' }]}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Home")} >
-                    <Text style={[AppStyle.titleBig, { textAlign: 'right', color: '#525357' }]}>Bỏ qua</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate("home")} >
+                        <Text style={[AppStyle.titleBig, { textAlign: 'right', color: '#525357' }]}>Bỏ qua</Text>
                     </TouchableOpacity>
                     <View style={[AppStyle, { marginTop: 20, alignItems: 'center' }]}>
                         <Image style={[{ resizeMode: 'cover' }]} source={require('../assets/images/regLogin.png')} />
@@ -45,7 +45,7 @@ const Login = (props) => {
                         <TouchableOpacity style={[AppStyle.button, { backgroundColor: '#3B5998', width: '40%' }]} onPress={() => { }}>
                             <Text style={[AppStyle.titleBig, { color: '#ffffff', fontSize: 22, fontWeight: 500 }]}>Facebook</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[AppStyle.button, { backgroundColor: '#4CB944', width: '40%' }]} onPress={() => { }}>
+                        <TouchableOpacity style={[AppStyle.button, { backgroundColor: '#4CB944', width: '40%' }]} onPress={() => navigation.navigate('Register')}>
                             <Text style={[AppStyle.titleBig, { color: '#ffffff', fontSize: 22, fontWeight: 500 }]}>Đăng ký</Text>
                         </TouchableOpacity>
                     </View>
