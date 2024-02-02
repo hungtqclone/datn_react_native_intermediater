@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import AxiosInstance from "../components/helpers/Axiosintance";
 
 //Danh mục khám phá
