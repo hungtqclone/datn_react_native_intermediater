@@ -6,7 +6,7 @@ import { BottomSheet } from '@rneui/base';
 
 const ProductCategory = () => {
     const [categories, setCategories] = useState([]);
-    const [idCategory, setIdCategory] = useState(null);
+    const [idCategory, setIdCategory] = useState("658fb995b41f1dd5128fa9cf");
     const ongetCategory = async () => {
         const categories = await getCategory();
         setCategories(categories);
@@ -27,16 +27,27 @@ const ProductCategory = () => {
 
     }, [idCategory]);
 
+    const onClickCategory = (idCategory) => {
+        console.log("on click category: ")
+        setIdCategory(idCategory); setCategories([])
+    }
+
+    const nextPostNews = () => {
+        console.log("open screen post news")
+    }
+
     const renderItem = ({ item, index }) => {
 
         return (
-            <TouchableOpacity style={Product.contaitong} onPress={({ }) => { setIdCategory(item._id); setCategories([]) }}>
+            <TouchableOpacity style={Product.contaitong} onPress={({ }) => { idCategory ? nextPostNews() : onClickCategory(item._id) }}>
                 <View style={Product.contaiimg}>
                     <Image style={Product.img} source={{ uri: `${item.icon}` }} />
                 </View>
                 <View style={Product.contaiCity}>
                     <Text style={Product.txtCity}>{item.name}</Text>
-                    <Image source={require('../../image/show-right.png')} />
+                    <View style={{ display: idCategory ? 'none' : 'inline-block' }}>
+                        <Image source={require('../../image/show-right.png')} />
+                    </View>
                 </View>
             </TouchableOpacity>
         );
@@ -45,14 +56,14 @@ const ProductCategory = () => {
 
     return (
         <View style={Product.Container}>
-            <View style={[Product.contaiappbar, { display: idCategory ? 'inline-block' : 'none' }]}>
+            {/* <View style={[Product.contaiappbar, { display: idCategory ? 'inline-block' : 'none' }]}>
                 <TouchableOpacity style={Product.pres} onPress={({ }) => { setIdCategory(null); setCategories([]) }}>
                     <Image source={require('../../image/back.png')} />
                 </TouchableOpacity>
                 <View style={Product.contaitxt}>
                     <Text style={Product.txtTille}>CHỌN DANH MỤC</Text>
                 </View  >
-            </View>
+            </View> */}
             <View style={Product.contaitxp}>
                 <Image source={require('../../image/searchBar.png')} />
                 <TextInput placeholder='Nhập từ khóa để lọc' placeholderTextColor={'#9C9C9C'} style={Product.txpserch}>
