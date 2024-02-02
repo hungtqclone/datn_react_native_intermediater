@@ -88,7 +88,7 @@ const SavedSearchScreen = props => {
             style={styles.icondot}
             source={require('../../../assets/images/icons/icon_dot.png')}
           />
-          <Text style={styles.horizontaltime}>{item.time}</Text>
+          <Text style={styles.horizontaltime}>{item.created_AT}</Text>
         </View>
       </View>
     </View>
