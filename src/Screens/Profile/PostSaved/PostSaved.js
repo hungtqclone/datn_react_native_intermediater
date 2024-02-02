@@ -8,17 +8,21 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Image} from '@rneui/base';
 import {getProduct} from '../../ScreenService';
-
+import {getPostSaved} from '../../ScreenService';
+import {UserContext} from '../../../components/users/UserContext';
 const PostSaved = props => {
   //link api
   const urlServer = 'http://datnapi.vercel.app/';
   const [products, setProducts] = useState([]);
+  const [saved, setSaved] = useState([]);
   const {navigation} = props;
   const [isLoading, setIsLoading] = useState(true);
-
+  //lấy thông tin user
+  const {user} = useContext(UserContext);
+  const userId = user._id;
   const ongetProducts = async () => {
     try {
       setIsLoading(true); // Set loading state to true before making the request
@@ -30,8 +34,18 @@ const PostSaved = props => {
       setIsLoading(false); // Set loading state to false after the request is complete
     }
   };
+  const ongetSaved = async () => {
+    try {
+      console.log('userId', userId);
+      const saved = await getPostSaved(userId);
+      setSaved(saved);
+    } catch (error) {
+      console.error('không lấy được ds tin đã lưu:', error);
+    }
+  };
   useEffect(() => {
     ongetProducts();
+    ongetSaved();
   }, []);
 
   const renderItem = ({item, index}) => (
@@ -64,6 +78,36 @@ const PostSaved = props => {
       </View>
     </View>
   );
+  const renderSaved = ({item, index}) => (
+    <View key={index} style={styles.horizontalItem}>
+      <Image
+        source={{uri: `${urlServer}${item.postId.files[0]}`}}
+        style={styles.horizontalImage}
+      />
+
+      <View style={styles.horizontalTextContainer}>
+        <TouchableOpacity style={styles.iconSave}>
+          <Image
+            source={require('../../../assets/images/icons/icon_heart.png')}
+            style={styles.icontim}
+          />
+        </TouchableOpacity>
+        <Text style={styles.horizontalname}>{item.postId.title}</Text>
+        <Text style={styles.horizontalrice}>{item.postId.price} đ</Text>
+        <View style={styles.contend}>
+          <Image
+            style={styles.iconbag}
+            source={require('../../../assets/images/icons/icon_office_bag.png')}
+          />
+          <Image
+            style={styles.icondot}
+            source={require('../../../assets/images/icons/icon_dot.png')}
+          />
+          <Text style={styles.horizontaltime}>{item.postId.created_AT}</Text>
+        </View>
+      </View>
+    </View>
+  );
   return (
     <ScrollView style={styles.body}>
       <View style={styles.appbar}>
@@ -82,10 +126,22 @@ const PostSaved = props => {
         </View>
       </View>
       <View style={styles.container}>
-        <Text style={styles.txtnoti}>
-          Bạn chưa lưu tin rao nào. Hãy bấm vào nút ❤️ ở tin rao để lưu lại và
-          xem sau.
-        </Text>
+        {saved.length === 0 ? (
+          <Text style={styles.txtnoti}>
+            Bạn chưa lưu tin rao nào. Hãy bấm vào nút ❤️ ở tin rao để lưu lại và
+            xem sau.
+          </Text>
+        ) : (
+          <FlatList
+            data={saved}
+            scrollEnabled={false}
+            keyExtractor={item => item._id.toString()}
+            renderItem={renderSaved}
+            // horizontal
+            numColumns={2}
+            showsHorizontalScrollIndicator={false}
+          />
+        )}
       </View>
       {isLoading ? (
         <ActivityIndicator
@@ -155,6 +211,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     marginBottom: 10,
+    marginTop: 10,
   },
   contNew: {
     justifyContent: 'center',
