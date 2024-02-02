@@ -9,40 +9,23 @@ import {
   FlatList,
   ScrollView,
   Linking,
+  ActivityIndicator,
 } from 'react-native';
-import Geolocation from '@react-native-community/geolocation';
-import axios from 'axios';
-import Modal from 'react-native-modal';
-
-const MAX_ADDRESS_LENGTH = 30;
+import {getProduct} from '../ScreenService';
 const MAX_HEIGHT = 100;
 const Explore = () => {
   //list và hiện list ảnh sản phẩm
 
-  const data = [
-    {id: '1', image: require('../../assets/images/imgProduct.png')},
-    {id: '2', image: require('../../assets/images/imgProduct.png')},
-    {id: '3', image: require('../../assets/images/imgProduct.png')},
-    {id: '4', image: require('../../assets/images/imgProduct.png')},
-    {id: '5', image: require('../../assets/images/imgProduct.png')},
-    {id: '6', image: require('../../assets/images/imgProduct.png')},
-    // Add more images as needed
-  ];
-  const visibleData = data ? data.slice(0, 4) : [];
-  const remainingItemCount = Math.max(0, data.length - 4);
-  const renderItem = ({item}) => (
-    <View style={styles.gridItem}>
-      <Image source={item.image} style={styles.image} />
-    </View>
-  );
-
+  //link api
+  const urlServer = 'http://datnapi.vercel.app/';
   // hàm hiện thị nút xem thêm
   const [isExpanded, setIsExpanded] = useState(false);
   const [showCollapseButton, setShowCollapseButton] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
-
+  const [products, setProducts] = useState([]);
   const checkContentHeight = event => {
     const {height} = event.nativeEvent.layout;
 
@@ -52,17 +35,17 @@ const Explore = () => {
       setShowCollapseButton(false);
     }
   };
-
-  const renderContent = () => {
-    const content = `Xe nhà đang sử dụng, muốn lên 7 chỗ nên cần sang lại cho chủ mới. Màu trắng nội thất đỏ Đăng kiểm còn tới 07/2025 Xe 1 chủ mua từ đầu. Xem xe tại nhà.`;
-
-    if (isExpanded) {
-      return content;
-    } else {
-      return `${content.slice(0, MAX_HEIGHT)}...`;
+  const ongetProducts = async () => {
+    try {
+      setIsLoading(true); // Set loading state to true before making the request
+      const products = await getProduct();
+      setProducts(products);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      setIsLoading(false); // Set loading state to false after the request is complete
     }
   };
-
   // gọi điện
   const phoneNumber = '0123456789';
 
@@ -74,118 +57,145 @@ const Explore = () => {
       console.log('Không thể thực hiện cuộc gọi trên thiết bị này.');
     }
   };
+  useEffect(() => {
+    ongetProducts();
+  }, []);
+  const renderItem = ({item, index}) => (
+    <View key={item.id} style={styles.container}>
+      <View style={styles.header}>
+        <Image
+          style={styles.img}
+          source={require('../../assets/images/icons/man-person-icon.png')}
+        />
+        <View>
+          <View style={styles.nameshop}>
+            <Text style={styles.textnameshop}>Auto 380</Text>
+            <Image
+              style={styles.iconbag}
+              source={require('../../assets/images/icons/icon_bag.png')}
+            />
+          </View>
+          <View style={styles.timecont}>
+            <Text> {item.created_AT}</Text>
+            <View style={styles.circle} />
+            <Text>5km</Text>
+          </View>
+        </View>
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() => console.log('theo dõi')}>
+          <Text style={styles.txtBtn}>Theo dõi</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.bodycont}>
+        {/* Định vị hiện tại ở góc trên bên trái */}
+        <View style={styles.currentLocation} zIndex={2}>
+          <Image
+            source={require('../../assets/images/icons/icon_address.png')}
+            style={styles.imgaddress}
+          />
+          <Text style={styles.locationText}>Quận ABC, TP XYZ</Text>
+        </View>
+        {/* Danh sách Gridview */}
+        <FlatList
+          scrollEnabled={false}
+          data={item.files}
+          renderItem={({item, index}) => (
+            // console.log('Constructed Image URL:', `${urlServer}${item}`),
+            <View key={item.toString()} style={styles.gridItem}>
+              <Image
+                source={{uri: `${urlServer}${item}`}}
+                style={styles.image}
+              />
+              {/* {index === 3 && (
+                <TouchableOpacity
+                  style={styles.overlay}
+                  onPress={() => console.log('+2')}>
+                  <Text style={styles.overlayText}>
+                    {remainingItemCount > 0 ? `+${remainingItemCount}` : ''}
+                  </Text>
+                </TouchableOpacity>
+              )} */}
+            </View>
+          )}
+          keyExtractor={index => index.toString()}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        />
+        <TouchableOpacity style={styles.nameprice}>
+          <View style={styles.cont_nameprice}>
+            <Text style={styles.textnameprice}> {item.title} </Text>
+            <Text style={styles.textprice}>{item.price} đ</Text>
+          </View>
+          <Image
+            style={styles.icon_arrow_right}
+            source={require('../../assets/images/icons/icon_arrow_right.png')}
+          />
+        </TouchableOpacity>
+        <View style={styles.infoPro} onLayout={checkContentHeight}>
+          {/* <Text style={styles.textInfoPro}>{renderContent()}</Text> */}
+          <Text style={styles.textInfoPro}>{item.detail}</Text>
+          <TouchableOpacity style={styles.btncall} onPress={handleCallPress}>
+            <Text style={styles.textcall}>Liên hệ ngay: </Text>
+            <Text style={styles.textcall}>{phoneNumber}</Text>
+          </TouchableOpacity>
+          {showCollapseButton && (
+            <TouchableOpacity onPress={toggleExpand}>
+              <Text style={styles.readMoreText}>
+                {isExpanded ? 'Thu gọn' : 'Thêm'}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
+      <View style={styles.btncontact}>
+        <TouchableOpacity style={styles.btnCall}>
+          <Image
+            style={styles.iconCall}
+            source={require('../../assets/images/icons/heart.png')}
+          />
+          <Text style={styles.txtBtnCall}>Lưu tin</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.btnCall}>
+          <Image
+            style={styles.iconCall}
+            source={require('../../assets/images/icons/icon_chat.png')}
+          />
+          <Text style={styles.txtBtnCall}>Chat</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.btnCall}>
+          <Image
+            style={styles.iconCall}
+            source={require('../../assets/images/icons/iconShare.png')}
+          />
+          <Text style={styles.txtBtnCall}>Chia sẻ</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
   return (
     <View style={styles.body}>
       <ScrollView>
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <Image
-              style={styles.img}
-              source={require('../../assets/images/icons/man-person-icon.png')}
-            />
-            <View>
-              <View style={styles.nameshop}>
-                <Text style={styles.textnameshop}>Auto 380</Text>
-                <Image
-                  style={styles.iconbag}
-                  source={require('../../assets/images/icons/icon_bag.png')}
-                />
-              </View>
-              <View style={styles.timecont}>
-                <Text>5 giờ trước</Text>
-                <View style={styles.circle} />
-                <Text>5km</Text>
-              </View>
-            </View>
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => console.log('theo dõi')}>
-              <Text style={styles.txtBtn}>Theo dõi</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.bodycont}>
-            {/* Định vị hiện tại ở góc trên bên trái */}
-            <View style={styles.currentLocation} zIndex={2}>
-              <Image
-                source={require('../../assets/images/icons/icon_address.png')}
-                style={styles.imgaddress}
-              />
-              <Text style={styles.locationText}>Quận ABC, TP XYZ</Text>
-            </View>
-            {/* Danh sách Gridview */}
+        {isLoading ? (
+          <ActivityIndicator
+            style={styles.loadingIcon}
+            size="large"
+            color="#3498db"
+          />
+        ) : (
+          <>
             <FlatList
               scrollEnabled={false}
-              data={visibleData}
-              renderItem={({item, index}) => (
-                <View style={styles.gridItem}>
-                  <Image source={item.image} style={styles.image} />
-                  {index === 3 && (
-                    <TouchableOpacity
-                      style={styles.overlay}
-                      onPress={() => console.log('+2')}>
-                      <Text style={styles.overlayText}>
-                        {remainingItemCount > 0 ? `+${remainingItemCount}` : ''}
-                      </Text>
-                    </TouchableOpacity>
-                  )}
-                </View>
-              )}
-              keyExtractor={item => item.id}
-              numColumns={2}
+              data={products}
+              renderItem={renderItem}
+              keyExtractor={item => item._id.toString()}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
+              horizontal={false}
             />
-            <TouchableOpacity style={styles.nameprice}>
-              <View style={styles.cont_nameprice}>
-                <Text style={styles.textnameprice}>CHEVROLET AVEO 2017.</Text>
-                <Text style={styles.textprice}>275.000.000 đ</Text>
-              </View>
-              <Image
-                style={styles.icon_arrow_right}
-                source={require('../../assets/images/icons/icon_arrow_right.png')}
-              />
-            </TouchableOpacity>
-            <View style={styles.infoPro} onLayout={checkContentHeight}>
-              <Text style={styles.textInfoPro}>{renderContent()}</Text>
-              <TouchableOpacity
-                style={styles.btncall}
-                onPress={handleCallPress}>
-                <Text style={styles.textcall}>Liên hệ ngay: </Text>
-                <Text style={styles.textcall}>{phoneNumber}</Text>
-              </TouchableOpacity>
-              {showCollapseButton && (
-                <TouchableOpacity onPress={toggleExpand}>
-                  <Text style={styles.readMoreText}>
-                    {isExpanded ? 'Thu gọn' : 'Thêm'}
-                  </Text>
-                </TouchableOpacity>
-              )}
-            </View>
-          </View>
-          <View style={styles.btncontact}>
-            <TouchableOpacity style={styles.btnCall}>
-              <Image
-                style={styles.iconCall}
-                source={require('../../assets/images/icons/heart.png')}
-              />
-              <Text style={styles.txtBtnCall}>Lưu tin</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.btnCall}>
-              <Image
-                style={styles.iconCall}
-                source={require('../../assets/images/icons/icon_chat.png')}
-              />
-              <Text style={styles.txtBtnCall}>Chat</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.btnCall}>
-              <Image
-                style={styles.iconCall}
-                source={require('../../assets/images/icons/iconShare.png')}
-              />
-              <Text style={styles.txtBtnCall}>Chia sẻ</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+          </>
+        )}
       </ScrollView>
     </View>
   );
@@ -196,6 +206,8 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     backgroundColor: '#FDF5E6',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   //phần địa chỉ
   contAddress: {
@@ -310,8 +322,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   image: {
-    width: 300,
-    height: 200,
+    width: '100%',
+    height: 300,
   },
   currentLocation: {
     position: 'absolute',
@@ -430,6 +442,9 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     marginRight: 5,
+  },
+  loadingIcon: {
+    marginTop: 20,
   },
 });
 
