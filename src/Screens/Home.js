@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity, Pressable } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { homeStyles } from '../styleSheets/HomeStyles'
@@ -29,24 +30,26 @@ const Home = (props) => {
     { id: 2, image: require('../../image/bannerchotot.png') }
   ];
 
+  urlApi = 'http://datnapi.vercel.app/'
+
   const handToCategoriesDetail = (_id) => {
 
-    if(_id === '658fbcbdb41f1dd5128fa9e4' ) {
-      return navigation.navigate('realestate',{_id});
+    if (_id === '658fbcbdb41f1dd5128fa9e4') {
+      return navigation.navigate('realestate', { _id });
     }
-    if(_id === '65ae8089d30801351cc0dea9' ) {
-      return navigation.navigate('vehicles',{_id});
-    }if(_id === '658fbb7db41f1dd5128fa9da' ) {
-      return navigation.navigate('jobber',{_id});
+    if (_id === '65ae8089d30801351cc0dea9') {
+      return navigation.navigate('vehicles', { _id });
+    } if (_id === '658fbb7db41f1dd5128fa9da') {
+      return navigation.navigate('jobber', { _id });
     }
-    navigation.navigate('CategoriesDetail',{_id});
+    navigation.navigate('CategoriesDetail', { _id });
   }
 
   // Banner slider
   const renderItem = ({ item, index }) => {
     return (
       <View style={homeStyles.contaiBanner}>
-        <Image style={{ width: widthCasual,height:'100%' }} source={item.image}></Image>
+        <Image style={{ width: widthCasual, height: '100%' }} source={item.image}></Image>
       </View>
     );
   }
@@ -63,7 +66,7 @@ const Home = (props) => {
   const renderItemCategory = (value) => {
     const { item } = value;
     return (
-      <Pressable style={homeStyles.categoryBody} onPress={()=> handToCategoriesDetail(item._id)}>
+      <Pressable style={homeStyles.categoryBody} onPress={() => handToCategoriesDetail(item._id)}>
         <Image style={homeStyles.imgcategoy} source={{ uri: `${item.img}` }} />
         <Text style={homeStyles.txtCategoty} numberOfLines={2}>{item.name}</Text>
       </Pressable>
@@ -71,7 +74,7 @@ const Home = (props) => {
   }
   const ongetCategory = async () => {
     const categories = await getCategory();
-      setCategories(categories);
+    setCategories(categories);
 
     // console.log("Danh muc :58 >" + JSON.stringify(categories));
   }
@@ -80,7 +83,7 @@ const Home = (props) => {
 
     return (
       <TouchableOpacity style={homeStyles.productBody}>
-        <Image style={homeStyles.imgproduct} source={{ uri: `${item.files}` }} />
+        <Image style={homeStyles.imgproduct} source={{ uri: `${urlApi}${item.files}` }} />
         <Text style={homeStyles.txtnameproduct} >{item.title}</Text>
         <Text style={homeStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
         <Text style={homeStyles.txtprice} >{item.price}</Text>

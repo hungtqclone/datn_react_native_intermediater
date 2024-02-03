@@ -45,6 +45,7 @@ export const AppStyle = StyleSheet.create({
         paddingLeft: 15,
         borderRadius: 5,
         paddingVertical: 2,
+        color:'#000'
     },
     button: {
         backgroundColor: COLOR.primary,

@@ -30,7 +30,13 @@ const ReviewStack = () => {
 
 const ProflieStack = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        presentation: 'modal',
+        animationTypeForReplace: 'push',
+        animation: 'slide_from_right',
+      }}>
       <Stack.Screen name="Proflie" component={Profile_screen} />
       <Stack.Screen
         name="PurchaseOrdersScreen"

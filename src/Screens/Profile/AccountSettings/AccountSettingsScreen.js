@@ -172,7 +172,7 @@ const AccountSettingsScreen = props => {
       </TouchableOpacity>
     </View>
   );
-
+//dđ
   return (
     <View style={styles.body}>
       <ScrollView>

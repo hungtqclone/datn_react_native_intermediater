@@ -22,11 +22,14 @@ const datatile = [
 const CategoriesDetail = (props) => {
     const [products, setProducts] = useState([]);
     const [categoriesDetail, setCategoriesDetail] = useState([]);
+    const [idCategory, setIdCategory] = useState("658fb995b41f1dd5128fa9cf")
     const numColumns = Math.ceil(datatile.length / 2);
-    const urlServer = 'https://datnapi.vercel.app/';
+    urlApi = 'http://datnapi.vercel.app/'
     const { navigation, route } = props;
-    const { params } = route;
-    console.log("id", params._id);
+
+    //id của category truyền qua
+    // const { params } = route;
+    // console.log("id", params._id);
     const widthCasual = Dimensions.get("window").width;
     // Banner slider
     const renderItem = ({ item, index }) => {
@@ -45,26 +48,34 @@ const CategoriesDetail = (props) => {
             </View>
         );
     }
+
+    const nextScreenListProducts = (idCategory) => {
+        console.log("next screen list products with idcatetory = ", idCategory)
+    }
+
     // CategoryDetail
     const renderItemCategoryDetail = (value) => {
         const { item } = value;
         return (
-            <Pressable style={CGDStyles.categoryBody}>
+            <TouchableOpacity style={CGDStyles.categoryBody} onPress={() => nextScreenListProducts(item._id)}>
                 <Image style={CGDStyles.imgcategoy} source={{ uri: `${item.img}` }} />
                 <Text style={CGDStyles.txtCategoty} numberOfLines={2}>{item.name}</Text>
-            </Pressable>
+            </TouchableOpacity>
         );
     }
     const ongetCategoryDetail = async () => {
-        const detailCate = await getDetailCategory(params._id);
+        const detailCate = await getDetailCategory(idCategory);
         setCategoriesDetail(detailCate);
         // console.log("Danh muc nổi bật 60: >" + JSON.stringify(detailCate));
     }
-    const renderItemProduct = ({ item }) => {
 
+    const nextScreenProductDetail = (idPostNews) => {
+        console.log("next screen product detail with idPostNews = ", idPostNews)
+    }
+    const renderItemProduct = ({ item }) => {
         return (
-            <TouchableOpacity style={CGDStyles.productBody}>
-                <Image style={CGDStyles.imgproduct} source={{ uri: `${urlServer}${item.files}` }} />
+            <TouchableOpacity style={CGDStyles.productBody} onPress={() => nextScreenProductDetail(item._id)}>
+                <Image style={CGDStyles.imgproduct} source={{ uri: `${urlApi}${item.files}` }} />
                 <Text style={CGDStyles.txtnameproduct} >{item.title}</Text>
                 <Text style={CGDStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
                 <Text style={CGDStyles.txtprice} >{item.price}</Text>
@@ -85,7 +96,7 @@ const CategoriesDetail = (props) => {
 
     useEffect(() => {
         ongetCategoryDetail(), ongetProducts();
-    }, [params._id]);
+    }, [idCategory]);
     return (
         <View style={CGDStyles.body}>
             <View style={CGDStyles.containerse}>
@@ -182,10 +193,11 @@ const CategoriesDetail = (props) => {
                     </View>
                 </View>
 
-                
+
             </ScrollView>
         </View>
     )
 }
+
 
 export default CategoriesDetail
