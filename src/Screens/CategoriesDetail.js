@@ -149,7 +149,6 @@ const CategoriesDetail = (props) => {
                             <FlatList
                                 data={products}
                                 renderItem={renderItemProduct}
-
                                 keyExtractor={item => item._id}
                                 horizontal={true}
                             />
