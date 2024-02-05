@@ -10,9 +10,9 @@ const AxiosInstance = (contentType = 'application/json') => {
 
     axiosInstance.interceptors.request.use(
         async (config) => {
-            const token = await AsyncStorage.getItem('token');
+            const user = await AsyncStorage.getItem('user');
             config.headers = {
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${user}`,
                 'Accept': 'application/json',
                 'Content-Type': contentType
             }
