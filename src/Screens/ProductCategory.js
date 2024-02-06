@@ -7,6 +7,8 @@ import { BottomSheet } from '@rneui/base';
 const ProductCategory = () => {
     const [categories, setCategories] = useState([]);
     const [idCategory, setIdCategory] = useState("658fb995b41f1dd5128fa9cf");
+    urlApi = 'http://datnapi.vercel.app/'
+
     const ongetCategory = async () => {
         const categories = await getCategory();
         setCategories(categories);
@@ -41,7 +43,7 @@ const ProductCategory = () => {
         return (
             <TouchableOpacity style={Product.contaitong} onPress={({ }) => { idCategory ? nextPostNews() : onClickCategory(item._id) }}>
                 <View style={Product.contaiimg}>
-                    <Image style={Product.img} source={{ uri: `${item.icon}` }} />
+                    <Image style={Product.img} source={{ uri: `${urlApi}${item.icon}` }} />
                 </View>
                 <View style={Product.contaiCity}>
                     <Text style={Product.txtCity}>{item.name}</Text>
