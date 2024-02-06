@@ -1,38 +1,25 @@
 import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { AppStyle } from '../constants/AppStyle'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import AxiosInstance from '../components/helpers/Axiosintance'
+import { UserContext } from '../components/users/UserContext'
 
 const Login = (props) => {
     const { navigation } = props
+    const { setuser } = useContext(UserContext)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { onLogin } = useContext(UserContext)
 
     const loginUser = async () => {
-        try {
-            const response = await AxiosInstance().post('api/login-user', {
-                email: email,
-                password: password,
-            });
+        await onLogin(email, password)
 
-            console.log('Kết quả từ API:', response);
-
-            if (response.success) {
-                console.log('Đăng nhập thành công!');
-                // Navigate to the home screen or perform any other necessary actions
-                // navigation.navigate('home');
-            } else {
-                console.log('Đăng nhập không thành công:', response.message);
-            }
-        } catch (error) {
-            console.error('Lỗi đăng nhập người dùng:', error);
-            if (error.response && error.response.data) {
-                // console.error('Thông điệp lỗi từ server:', error.response.data);
-            }
-        }
     };
 
+    const skipLogin = () => {
+        setuser(1)
+    }
 
     return (
         <View style={[AppStyle.container]}>
@@ -44,7 +31,7 @@ const Login = (props) => {
                 scrollEnabled={false}
             >
                 <View style={[AppStyle.main, { position: 'relative' }]}>
-                    <TouchableOpacity onPress={() => navigation.navigate("home")} >
+                    <TouchableOpacity onPress={() => skipLogin()} >
                         <Text style={[AppStyle.titleBig, { textAlign: 'right', color: '#525357' }]}>Bỏ qua</Text>
                     </TouchableOpacity>
                     <View style={[AppStyle, { marginTop: 20, alignItems: 'center' }]}>
@@ -55,17 +42,17 @@ const Login = (props) => {
                         </View>
                     </View>
                     <View style={[{ marginTop: 30, alignItems: 'center' }]}>
-                        <TextInput 
-                        style={[AppStyle.txtinput]} 
-                        placeholder='Nhập số điện thoại'
-                        onChangeText={(text) => setEmail(text)}
+                        <TextInput
+                            style={[AppStyle.txtinput]}
+                            placeholder='Nhập số điện thoại'
+                            onChangeText={(text) => setEmail(text)}
                         />
                     </View>
                     <View style={[{ marginTop: 24, alignItems: 'center' }]}>
-                        <TextInput 
-                        style={[AppStyle.txtinput]} 
-                        placeholder='Nhập mật khẩu'
-                        onChangeText={(text) => setPassword(text)}
+                        <TextInput
+                            style={[AppStyle.txtinput]}
+                            placeholder='Nhập mật khẩu'
+                            onChangeText={(text) => setPassword(text)}
                         />
                     </View>
                     <View style={[{ alignItems: 'center', marginTop: 24 }]}>

@@ -8,17 +8,17 @@ import Explore from './StrollScreenTab/Explore';
 const Tab = createMaterialTopTabNavigator();
 
 const StrollTabs = () => {
-  return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarLabelStyle: { fontSize: 13, fontWeight: 'bold' },
-       
-      }}
-    >
-      <Tab.Screen name="NearYou" component={NearYou} options={{ tabBarLabel: 'Gần Bạn' }} />
-      <Tab.Screen name="Explore" component={Explore} options={{ tabBarLabel: 'Khám Phá' }} />
-    </Tab.Navigator>
-  );
+    return (
+        <Tab.Navigator
+            screenOptions={{
+                tabBarLabelStyle: { fontSize: 13, fontWeight: 'bold' },
+
+            }}
+        >
+            <Tab.Screen name="NearYou" component={NearYou} options={{ tabBarLabel: 'Gần Bạn' }} />
+            <Tab.Screen name="Explore" component={Explore} options={{ tabBarLabel: 'Khám Phá' }} />
+        </Tab.Navigator>
+    );
 }
 
 const StrollScreen = (props) => {
