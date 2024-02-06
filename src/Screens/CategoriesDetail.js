@@ -73,7 +73,6 @@ const CategoriesDetail = (props) => {
         console.log("next screen product detail with idPostNews = ", idPostNews)
     }
     const renderItemProduct = ({ item }) => {
-
         return (
             <TouchableOpacity style={CGDStyles.productBody} onPress={() => nextScreenProductDetail(item._id)}>
                 <Image style={CGDStyles.imgproduct} source={{ uri: `${urlApi}${item.files}` }} />
@@ -161,7 +160,6 @@ const CategoriesDetail = (props) => {
                             <FlatList
                                 data={products}
                                 renderItem={renderItemProduct}
-
                                 keyExtractor={item => item._id}
                                 horizontal={true}
                             />
@@ -200,5 +198,6 @@ const CategoriesDetail = (props) => {
         </View>
     )
 }
+
 
 export default CategoriesDetail

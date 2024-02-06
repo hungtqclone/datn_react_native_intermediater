@@ -1,27 +1,32 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState, createContext } from 'react'
+import React, { useState, createContext, useEffect } from 'react'
 import { login } from './UserService';
 
 
 export const UserContext = createContext();
 
+
+
+
 export const UserProvider = (props) => {
     const { children } = props;
-    const [user, setuser] = useState({
-        "_id": "659155ecf1e1d9ec8cfbcd93",
-        "password": "$2a$12$q6GBQwrhDYAO.53ghJxNOuMHr5pDlEINU2wer63BGMGumDeDQAxEC",
-        "email": "thanhdev1@gmail.com",
-        "phone": 9912312329,
-        "name": "alo 101101",
-        "uytin": "0",
-    });
+    const [user, setuser] = useState(null);
+    const dataUser = async () => {
+        const checkUser = await AsyncStorage.getItem('user');
+        setuser(JSON.parse(checkUser));
+        return;
+    }
+    if (user != 1) {
+        dataUser();
+    }
+
     const onLogin = async (email, password) => {
         try {
             const result = await login(email, password);
-            console.log('login result:', result);
-            if (result.statusCode == 200) {
-                setuser(result.data.user);
-                await AsyncStorage.setItem('token', result.data.token);
+            if (result.success == true) {
+                console.log("check data user: ", result);
+                setuser(result.user);
+                await AsyncStorage.setItem('user', JSON.stringify(result.user));
                 return true;
             }
         } catch (error) {
