@@ -2,7 +2,8 @@ import {View, Text} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 
-import ProductCategory from '../../Screens/ProductCategory';
+import Postnews from '../../Screens/Postnews';
+import DetailPostnews from '../../Screens/Postnews/DetailPostNews';
 
 
 const Stack = createNativeStackNavigator();
@@ -10,7 +11,8 @@ const Stack = createNativeStackNavigator();
 const PushNewsNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="ProductCategory" component={ProductCategory} />
+      <Stack.Screen name="Postnews" component={Postnews} />
+      <Stack.Screen name="DetailPostnews" component={DetailPostnews} />
       
 
     </Stack.Navigator>

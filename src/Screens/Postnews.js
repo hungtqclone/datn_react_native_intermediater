@@ -4,9 +4,12 @@ import { Product } from '../styleSheets/ProductCategory'
 import { getCategory, getDetailCategory } from './ScreenService';
 import { BottomSheet } from '@rneui/base';
 
-const ProductCategory = () => {
+const Postnews = (props) => {
+    const { navigation } = props;
     const [categories, setCategories] = useState([]);
     const [idCategory, setIdCategory] = useState("658fb995b41f1dd5128fa9cf");
+    urlApi = 'http://datnapi.vercel.app/'
+
     const ongetCategory = async () => {
         const categories = await getCategory();
         setCategories(categories);
@@ -32,16 +35,17 @@ const ProductCategory = () => {
         setIdCategory(idCategory); setCategories([])
     }
 
-    const nextPostNews = () => {
-        console.log("open screen post news")
+    const nextPostNews = (_id) => {
+        navigation.navigate('DetailPostnews',{_id});
     }
 
     const renderItem = ({ item, index }) => {
 
         return (
-            <TouchableOpacity style={Product.contaitong} onPress={({ }) => { idCategory ? nextPostNews() : onClickCategory(item._id) }}>
+            <TouchableOpacity style={Product.contaitong} onPress={() => nextPostNews(item._id)}>
+                 {/* onPress={({ }) => { idCategory ? nextPostNews(item._id) : onClickCategory(item._id) }} */}
                 <View style={Product.contaiimg}>
-                    <Image style={Product.img} source={{ uri: `${item.icon}` }} />
+                    <Image style={Product.img} source={{ uri: `${urlApi}${item.icon}` }} />
                 </View>
                 <View style={Product.contaiCity}>
                     <Text style={Product.txtCity}>{item.name}</Text>
@@ -84,5 +88,5 @@ const ProductCategory = () => {
     );
 }
 
-export default ProductCategory
+export default Postnews
 
