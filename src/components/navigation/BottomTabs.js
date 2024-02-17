@@ -12,6 +12,8 @@ import ManagementNews from '../../Screens/ManagementNews';
 import StrollScreen from '../../Screens/stroll_market_screen';
 import ProflieStack from './ProfileNavigation';
 import PushNewsNavigation from './PushNewsNavigation';
+import ScrollStack from './ScrollStack';
+import ManagementStack from './ManagementStack';
 // import ViceCityScreen from '../../Screens/ViceCityScreen';
 // Stack
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -119,9 +121,10 @@ const BottomTabs = () => {
   return (
     <Tab.Navigator screenOptions={options}>
       <Tab.Screen name="ProductNavigation" component={ProductNavigation} />
-      <Tab.Screen name="NewsManagement" component={ManagementNews} />
+      <Tab.Screen name="NewsManagement" component={ManagementStack} />
       <Tab.Screen name="PostNews" component={PushNewsNavigation} />
-      <Tab.Screen name="StrollTheMarket" component={StrollScreen} />
+      {/* <Tab.Screen name="StrollTheMarket" component={StrollScreen} /> */}
+      <Tab.Screen name="StrollTheMarket" component={ScrollStack} />
       <Tab.Screen name="Account" component={ProflieStack} />
       {/* <Tab.Screen name="Product" component={PurchaseOrdersScreen} /> */}
     </Tab.Navigator>
