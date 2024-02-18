@@ -14,6 +14,7 @@ import AccountSettingsScreen from '../../Screens/Profile/AccountSettings/Account
 import PhonePricing from '../../Screens/Profile/PhonePricing/PhonePricing';
 import HelpScreen from '../../Screens/Profile/Help/HelpScreen';
 import CommentsScreen from '../../Screens/Profile/Comments/CommentsScreen';
+import Login from '../../Screens/Login';
 // Stack
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -54,6 +55,7 @@ const ProflieStack = () => {
       />
       <Stack.Screen name="HelpScreen" component={HelpScreen} />
       <Stack.Screen name="CommentsScreen" component={CommentsScreen} />
+      <Stack.Screen name="Login" component={Login} />
     </Stack.Navigator>
   );
 };
