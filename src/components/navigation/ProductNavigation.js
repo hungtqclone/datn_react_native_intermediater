@@ -12,13 +12,13 @@ import CategoriesDetail from '../../Screens/CategoriesDetail';
 import Realestate from '../../Screens/DetailCategories/Realestate';
 import Vehicles from '../../Screens/DetailCategories/Vehicles';
 import Jobber from '../../Screens/DetailCategories/Jober';
-
+import HomeStack from './HomeStack';
 const Stack = createNativeStackNavigator();
 
 const ProductNavigation = () => {
   return (
     <Stack.Navigator initialRouteName='CategoriesDetail' screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="home" component={Home} />
+      <Stack.Screen name="HomeStack" component={HomeStack} />
       <Stack.Screen name="jobber" component={Jobber} />
       <Stack.Screen name="realestate" component={Realestate} />
       <Stack.Screen name="CategoriesDetail" component={CategoriesDetail} />
