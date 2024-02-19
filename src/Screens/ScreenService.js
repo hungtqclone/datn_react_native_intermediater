@@ -52,3 +52,15 @@ export const getPostSaved = async id => {
     return err;
   }
 };
+
+// get hãng 
+export const getBrands = async id => {
+  try {
+    const detail = await AxiosInstance().get(`api/brands/${id}`);
+    // console.log("32 Service Products : " + JSON.stringify(detail.data));
+    return detail.data;
+  } catch (err) {
+    console.log('Products error:', err);
+    return err;
+  }
+};

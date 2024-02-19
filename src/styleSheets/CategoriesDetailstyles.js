@@ -321,4 +321,5 @@ export const CGDStyles = StyleSheet.create({
         color:'grey',
         marginHorizontal:5,
     },
+    
 });

@@ -2,6 +2,9 @@ import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, Scrol
 import React, { useState, useEffect } from 'react'
 import { CGDStyles } from '../styleSheets/CategoriesDetailstyles';
 import { getDetailCategory, getProduct } from './ScreenService';
+import PostnewsStack from '../components/navigation/PostnewsTabnavigation';
+import { TabView } from 'react-native-tab-view';
+import Foryou from './News/Foryou';
 const data = [
     { id: 1, image: require('../../image/bannertet.jpg') },
     { id: 2, image: require('../../image/laptopbanner.jpg') }
@@ -50,7 +53,8 @@ const CategoriesDetail = (props) => {
     }
 
     const nextScreenListProducts = (idCategory) => {
-        console.log("next screen list products with idcatetory = ", idCategory)
+
+        navigation.navigate('product', { idCategory });
     }
 
     // CategoryDetail
@@ -169,13 +173,11 @@ const CategoriesDetail = (props) => {
                         </View>
                     </View>
                 </View>
-
                 <View style={CGDStyles.containerOfical}>
-                    <Text style={CGDStyles.txtOffical}>Offical Store</Text>
                     <View style={CGDStyles.contaiitemOffical}>
                         <View style={CGDStyles.contaiTitleOffical}>
                             <Image style={CGDStyles.imgTitleOffical} source={require('../../image/icon_market.jpg')} />
-                            <Text style={CGDStyles.txtTitleOffical} numberOfLines={1}>Chợ tốt ofical store</Text>
+                            <Text style={CGDStyles.txtTitleOffical} numberOfLines={1}>Chợ tốt</Text>
                             <Image style={CGDStyles.imgMark} source={require('../../image/mark.png')} />
                             <Image style={CGDStyles.imgright} source={require('../../image/right.png')} />
                         </View>
@@ -192,9 +194,11 @@ const CategoriesDetail = (props) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-
-
+                <Foryou/>
             </ScrollView>
+
+                
+       
         </View>
     )
 }
