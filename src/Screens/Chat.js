@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { View, Text, FlatList, TextInput, Button } from 'react-native'
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import AxiosInstance from '../components/helpers/Axiosintance';

@@ -19,6 +19,7 @@ export const getProduct = async () => {
   try {
     const product = await AxiosInstance().get('api/postnews');
     // console.log("19 Service Products : " + JSON.stringify(product.data));
+
     return product.data;
   } catch (err) {
     console.log('Products error:', err);

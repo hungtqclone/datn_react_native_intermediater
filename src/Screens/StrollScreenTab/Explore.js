@@ -99,7 +99,8 @@ const Explore = () => {
         {/* Danh sách Gridview */}
         <FlatList
           scrollEnabled={false}
-          data={item.files}
+        //  data={item.files}
+          data={item.files.slice(0, 4)} // Chỉ hiển thị 4 ảnh đầu tiên
           renderItem={({item, index}) => (
             // console.log('Constructed Image URL:', `${urlServer}${item}`),
             <View key={item.toString()} style={styles.gridItem}>
@@ -324,6 +325,8 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 300,
+    borderColor: 'black',
+    borderWidth: 1,
   },
   currentLocation: {
     position: 'absolute',
