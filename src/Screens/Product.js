@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity, Pressable } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { getBrands, getCategory, getProduct } from './ScreenService'
+import { getBrands, getProductByidCate } from './ScreenService'
 import { productStyles } from '../styleSheets/ProductStyles'
 import PostnewsStack from '../components/navigation/PostnewsTabnavigation'
 const data = [
@@ -35,6 +35,7 @@ const Product = (props) => {
     const { params } = route;
     const { idCategory } = params;
     const [idCate, setIdCate] = useState(idCategory);
+    const [post, setPostNews] = useState([]);
     const [brand, setBrands] = useState([]);
     urlApi = 'http://datnapi.vercel.app/'
     const ongetBrands = async () => {
@@ -42,8 +43,13 @@ const Product = (props) => {
         setBrands(brands);
         // console.log("Sản Phẩm :83 >" + JSON.stringify(products));
     }
+    const ongetPosst = async () => {
+        const posst = await getProductByidCate(idCate);
+        setPostNews(posst);
+        // console.log("Sản Phẩm :83 >" + JSON.stringify(products));
+    }
     useEffect(() => {
-        ongetBrands();
+        ongetBrands(), ongetPosst();
         console.log('id', idCate);
     }, [idCate]);
     const numColumns = Math.ceil(dataAddress.length / 2);
@@ -82,9 +88,28 @@ const Product = (props) => {
             </Pressable>
         );
     }
+
+    // postnews
+    const renderPostNews = ({ item, index }) => {
+        return (
+            <Pressable style={productStyles.productBody2}>
+                <Image style={productStyles.imgproduct} source={{ uri: `${urlApi}${item.files}` }} />
+                <View style={productStyles.contaiColum}>
+                    <Text style={productStyles.txtdetail}>{item.detail}</Text>
+                    <Text style={productStyles.txtprice} >{item.price} d</Text>
+
+                    <View style={productStyles.contaiicontimeaddress}>
+                        <Image style={productStyles.imgiconprofile} source={require('../../image/Phone.png')} />
+                        <Text style={productStyles.txtTime} > - {item.created_AT} - </Text>
+                        <Text style={productStyles.txtAdress} >{item.location}</Text>
+                    </View>
+                </View>
+            </Pressable>
+        );
+    }
     return (
         <View style={productStyles.body}>
-                  
+
             <View style={productStyles.containerse}>
                 <View style={productStyles.viewSearch}>
                     <TextInput style={productStyles.txpSearch} placeholder='Tìm kiếm trên chợ tốt' />
@@ -93,7 +118,7 @@ const Product = (props) => {
                 <Image style={productStyles.icon} source={require('../../image/notificaiton.png')} />
                 <Image style={productStyles.icon} source={require('../../image/chatting.png')} />
             </View>
-          
+
             <View style={productStyles.contaicity}>
                 <View style={productStyles.viewrow}>
                     <Image style={productStyles.iconadd} source={require('../../image/icon_address.png')} />
@@ -152,8 +177,17 @@ const Product = (props) => {
                     showsHorizontalScrollIndicator={false}
                 />
             </View>
-        
-            
+            <View>
+                <FlatList
+                    data={post}
+                    renderItem={renderPostNews}
+                    horizontal={false}
+                    pagingEnabled={true}
+                    keyExtractor={item => item._id.toString()}
+                    showsHorizontalScrollIndicator={false}
+                />
+            </View>
+
         </View>
     )
 }

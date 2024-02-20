@@ -65,3 +65,15 @@ export const getBrands = async id => {
     return err;
   }
 };
+
+// get Sản phẩm theo categories 
+export const getProductByidCate = async idCategory => {
+  try {
+    const post = await AxiosInstance().get(`api/postnews/${idCategory}`);
+    // console.log("32 Service Products : " + JSON.stringify(detail.data));
+    return post.data;
+  } catch (err) {
+    console.log('Products error:', err);
+    return err;
+  }
+};

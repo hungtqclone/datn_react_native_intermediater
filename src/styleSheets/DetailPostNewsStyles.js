@@ -101,6 +101,13 @@ export const PNStyles = StyleSheet.create({
         borderRadius:5,
         borderWidth:0.5,
     },
+    inputTTMT:{
+        marginTop:15,
+        width:'100%',
+        height:100,
+        borderRadius:5,
+        borderWidth:0.5,
+    },
     presAddres:{
         borderRadius:5,
         width: '100%',
@@ -110,5 +117,37 @@ export const PNStyles = StyleSheet.create({
         borderWidth:0.5,
         borderColor:'grey',
         alignContent:'space-between',
+    },
+
+    contaiBtn:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+        width:'100%',
+        padding:10,
+        marginVertical:10,
+    },
+    btnXT:{
+        width:'47%',
+        borderWidth:0.5,
+        borderColor:'#FF8800',
+        borderRadius:5,
+    },
+    btnDT:{
+        width:'47%',
+        backgroundColor:'#FF8800',
+        borderRadius:5,
+
+    },
+    txtXT:{
+        textAlign:'center',
+        padding:10,
+        color:'#FF8800'
+    },
+    txtDT:{
+        textAlign:'center',
+        padding:10,
+        color:'white'
+
     }
 });

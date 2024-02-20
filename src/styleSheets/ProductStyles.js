@@ -153,7 +153,7 @@ export const productStyles = StyleSheet.create({
     contaiCategory: {
         width: '100%',
         backgroundColor: 'white',
-        marginTop: 8,
+        marginTop: 5,
         height: 300,
     },
 
@@ -180,33 +180,35 @@ export const productStyles = StyleSheet.create({
         color: 'black',
 
     },
-    // product
+
+
+    // posttnews
     contaiProduct: {
         width: '100%',
+        height: '100%',
         backgroundColor: 'white',
-        marginTop: 8,
         alignItems: 'center',
     },
-
-    productBody: {
+    productBody2: {
+        borderBottomWidth:0.5,
         padding: 10,
-        width: '50%',
-        flexDirection: 'column',
-        alignItems: 'center',
+        width: '100%',
+        flexDirection: 'row',
         backgroundColor: 'white',
-        borderWidth: 0.2,
         borderColor: '#DCDCDC'
     },
+    contaiColum: {
+        flexDirection: 'column',
+        width: '68%',
+        marginLeft:5,
+    },
     imgproduct: {
-        width: '100%',
-        height: 175,
-        padding: 2
+        width: '30%',
+        height: 100,
     },
     txtTitleProduct: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        paddingVertical: 10,
-        paddingLeft: 10,
+        fontSize: 20,
+        fontWeight: '900',
         color: 'black',
         alignSelf: 'flex-start'
 
@@ -223,7 +225,7 @@ export const productStyles = StyleSheet.create({
         textAlign: 'left',
         color: 'black',
         alignSelf: 'flex-start',
-        fontSize: 18
+        fontSize: 15
 
     },
     txtprice: {
@@ -233,11 +235,12 @@ export const productStyles = StyleSheet.create({
         fontSize: 16,
         alignSelf: 'flex-start',
         marginTop: 5,
+        marginBottom:35,
     },
     contaiicontimeaddress: {
         flexDirection: 'row',
         alignSelf: 'flex-start',
-        marginTop: 20,
+       
 
     },
     imgiconprofile: {

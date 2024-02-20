@@ -63,7 +63,10 @@ const DetailPostnews = (props) => {
                 </View>
                 <View style={PNStyles.contaiupload}>
                     <TextInput placeholder='Tiêu đề tin đăng' style={PNStyles.inputTT} />
-                    <TextInput placeholder='Mô tả chi tiết' maxLength={5} style={PNStyles.inputTT} />
+                    <TextInput 
+                        multiline
+                        numberOfLines={4}
+                        maxLength={40} placeholder='Mô tả chi tiết' style={PNStyles.inputTTMT} />
                 </View>
 
                 <View style={PNStyles.viewtile}>
@@ -75,6 +78,17 @@ const DetailPostnews = (props) => {
                             <Text >Địa chỉ</Text>
                         </View>
                         <Image style={PNStyles.imgDow} source={require('../../../image/down.png')}></Image>
+                    </Pressable>
+                </View>
+
+                <View style={PNStyles.contaiBtn}>
+                    <Pressable style={PNStyles.btnXT}>
+                        <Text style={PNStyles.txtXT}>
+                            XEM TRƯỚC
+                        </Text>
+                    </Pressable>
+                    <Pressable style={PNStyles.btnDT}>
+                        <Text style={PNStyles.txtDT}>ĐĂNG TIN</Text>
                     </Pressable>
                 </View>
             </ScrollView>
