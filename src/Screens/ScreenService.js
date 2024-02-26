@@ -77,3 +77,28 @@ export const getProductByidCate = async idCategory => {
     return err;
   }
 };
+
+// Add posst news
+export const addPostNews = async (data) => {
+  try {
+    const response = await AxiosInstance().post(`api/postnews/add`, data);
+    console.log("85 add Post news resspone: " + JSON.stringify(response.data));
+    return response.data;
+  } catch (err) {
+    console.log('Add error:', err);
+    return err;
+  }
+}
+
+// upload image
+export const uploadImage = async (form) => {
+
+  try {
+    const response = await AxiosInstance('multipart/form-data')
+      .post('api/postnews/upload', form);
+    return response.data;
+  } catch (err) {
+    console.log('Upload Image error:', err);
+    return err;
+  }
+}

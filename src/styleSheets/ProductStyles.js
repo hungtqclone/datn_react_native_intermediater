@@ -122,9 +122,7 @@ export const productStyles = StyleSheet.create({
         backgroundColor: 'white',
         flexDirection: 'column',
         borderRadius: 2,
-        alignItems: 'center',
-        alignContent: 'center',
-        alignSelf: 'center',
+        justifyContent:'center',
         marginHorizontal: 2,
     },
 
@@ -201,6 +199,7 @@ export const productStyles = StyleSheet.create({
         flexDirection: 'column',
         width: '68%',
         marginLeft:5,
+        justifyContent:'space-between'
     },
     imgproduct: {
         width: '30%',
@@ -235,7 +234,6 @@ export const productStyles = StyleSheet.create({
         fontSize: 16,
         alignSelf: 'flex-start',
         marginTop: 5,
-        marginBottom:35,
     },
     contaiicontimeaddress: {
         flexDirection: 'row',

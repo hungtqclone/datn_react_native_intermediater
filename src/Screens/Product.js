@@ -118,76 +118,75 @@ const Product = (props) => {
                 <Image style={productStyles.icon} source={require('../../image/notificaiton.png')} />
                 <Image style={productStyles.icon} source={require('../../image/chatting.png')} />
             </View>
-
-            <View style={productStyles.contaicity}>
-                <View style={productStyles.viewrow}>
-                    <Image style={productStyles.iconadd} source={require('../../image/icon_address.png')} />
-                    <Text> Khu vực: </Text>
-                    <Pressable style={productStyles.viewrow}>
-                        <Text style={productStyles.txtTQ}>Toàn quốc </Text>
-                        <Image style={productStyles.icondown} source={require('../../image/down.png')} />
-                    </Pressable>
+            <ScrollView>
+                <View style={productStyles.contaicity}>
+                    <View style={productStyles.viewrow}>
+                        <Image style={productStyles.iconadd} source={require('../../image/icon_address.png')} />
+                        <Text> Khu vực: </Text>
+                        <Pressable style={productStyles.viewrow}>
+                            <Text style={productStyles.txtTQ}>Toàn quốc </Text>
+                            <Image style={productStyles.icondown} source={require('../../image/down.png')} />
+                        </Pressable>
+                    </View>
+                    <View style={productStyles.contaifilter}>
+                        <Pressable style={productStyles.contaifill}>
+                            <Image style={productStyles.iconfilter} source={require('../../image/icon_filter.png')} />
+                            <Text style={productStyles.txtTQ}>Lọc </Text>
+                        </Pressable>
+                        <FlatList
+                            data={data}
+                            renderItem={renderFill}
+                            horizontal={true}
+                            pagingEnabled={true}
+                            keyExtractor={item => item.id}
+                            showsHorizontalScrollIndicator={false}
+                        />
+                    </View>
                 </View>
-                <View style={productStyles.contaifilter}>
-                    <Pressable style={productStyles.contaifill}>
-                        <Image style={productStyles.iconfilter} source={require('../../image/icon_filter.png')} />
-                        <Text style={productStyles.txtTQ}>Lọc </Text>
-                    </Pressable>
+
+                <View style={productStyles.contaiAdresss}>
+                    <Text style={productStyles.txtGY}>Gợi ý khu vực </Text>
                     <FlatList
-                        data={data}
-                        renderItem={renderFill}
+                        contentContainerStyle={{
+                            alignSelf: 'flex-start',
+                        }}
+                        numColumns={numColumns}
+                        showsVerticalScrollIndicator={false}
+                        showsHorizontalScrollIndicator={false}
+                        data={dataAddress}
+                        renderItem={renderAdress}
+                        scrollEnabled={false}
+                    />
+                </View>
+                <View>
+                    <FlatList
+                        data={brand}
+                        renderItem={renderItemBrands}
+                        horizontal={true}
+                        keyExtractor={item => item._id.toString()}
+                        showsHorizontalScrollIndicator={false}
+                    />
+                </View>
+                <View>
+                    <FlatList
+                        data={dataFindkey}
+                        renderItem={renderFindkey}
                         horizontal={true}
                         pagingEnabled={true}
                         keyExtractor={item => item.id}
                         showsHorizontalScrollIndicator={false}
                     />
                 </View>
-            </View>
-
-            <View style={productStyles.contaiAdresss}>
-                <Text style={productStyles.txtGY}>Gợi ý khu vực </Text>
-                <FlatList
-                    contentContainerStyle={{
-                        alignSelf: 'flex-start',
-                    }}
-                    numColumns={numColumns}
-                    showsVerticalScrollIndicator={false}
-                    showsHorizontalScrollIndicator={false}
-                    data={dataAddress}
-                    renderItem={renderAdress}
-                    scrollEnabled={false}
-                />
-            </View>
-            <View>
-                <FlatList
-                    data={brand}
-                    renderItem={renderItemBrands}
-                    horizontal={true}
-                    keyExtractor={item => item._id.toString()}
-                    showsHorizontalScrollIndicator={false}
-                />
-            </View>
-            <View>
-                <FlatList
-                    data={dataFindkey}
-                    renderItem={renderFindkey}
-                    horizontal={true}
-                    pagingEnabled={true}
-                    keyExtractor={item => item.id}
-                    showsHorizontalScrollIndicator={false}
-                />
-            </View>
-            <View>
-                <FlatList
-                    data={post}
-                    renderItem={renderPostNews}
-                    horizontal={false}
-                    pagingEnabled={true}
-                    keyExtractor={item => item._id.toString()}
-                    showsHorizontalScrollIndicator={false}
-                />
-            </View>
-
+                <View>
+                    <FlatList
+                        data={post}
+                        renderItem={renderPostNews}
+                        horizontal={false}
+                        keyExtractor={item => item._id.toString()}
+                        showsHorizontalScrollIndicator={false}
+                    />
+                </View>
+            </ScrollView>
         </View>
     )
 }

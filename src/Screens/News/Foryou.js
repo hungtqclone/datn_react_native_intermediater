@@ -40,7 +40,7 @@ const Foryou = () => {
                     renderItem={renderItemPostnew}
                     numColumns={2}
                     keyExtractor={item => item._id}
-                    scrollEnabled={false}
+                    scrollEnabled={true}
                 />
             </View>
     )
