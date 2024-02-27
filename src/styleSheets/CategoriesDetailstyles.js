@@ -139,7 +139,6 @@ export const CGDStyles = StyleSheet.create({
         fontWeight: '900',
         paddingVertical:10,
         color:'white',
-        alignSelf:'flex-start'
         
     },
     txtnameproduct:{
@@ -321,4 +320,5 @@ export const CGDStyles = StyleSheet.create({
         color:'grey',
         marginHorizontal:5,
     },
+    
 });

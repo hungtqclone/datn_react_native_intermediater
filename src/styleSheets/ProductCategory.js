@@ -25,7 +25,7 @@ export const Product = StyleSheet.create({
     contaitxt: {
         flexDirection: 'column',
         justifyContent: 'center',
-        width: '80%',
+        width: '100%',
         height: '100%',
         alignItems: 'center',
     },
@@ -43,6 +43,9 @@ export const Product = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 3,
         elevation: 10,
+    },
+    txpserch:{
+        width:'100%'
     },
     contaitong: {
         marginBottom: 10,
@@ -96,5 +99,56 @@ export const Product = StyleSheet.create({
         fontSize: 24,
         fontWeight: '600',
         padding: 20
+    },
+    // MOdel 
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+      },
+      modalView: {
+      flex:1,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 10,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+      },
+      button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+      },
+      buttonOpen: {
+        backgroundColor: '#F194FF',
+      },
+      buttonClose: {
+        backgroundColor: '#2196F3',
+      },
+      textStyle: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+      },
+      modalText: {
+        marginBottom: 15,
+        textAlign: 'center',
+      },
+      overlay: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.7)', // Màu nền mờ với độ trong suốt 50%
+        zIndex: 1 // Đảm bảo nằm trên mọi phần tử khác trên màn hình
     }
 })

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity, Pressable, useWindowDimensions } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { MGNStyles } from '../styleSheets/ManagementNewsStyles'
@@ -64,7 +65,8 @@ const renderScene = SceneMap({
     second5: SecondRoute,
 });
 
-const ManagementNews = () => {
+const ManagementNews = (props) => {
+    const { navigation } = props;
     const layout = useWindowDimensions();
     const [index, setIndex] = React.useState(0);
     const [routes] = useState([
@@ -110,7 +112,9 @@ const ManagementNews = () => {
                 <View style={MGNStyles.contaiimg}>
                     <Image style={MGNStyles.icon} source={require('../../image/searchtabar.png')} />
                     <Image style={MGNStyles.icon} source={require('../../image/notificaiton.png')} />
+                    <TouchableOpacity onPress={() => navigation.navigate('ChatNavigation')} >
                     <Image style={MGNStyles.icon} source={require('../../image/chatting.png')} />
+                    </TouchableOpacity>
                 </View>
             </View>
             <View style={MGNStyles.containerPackage}>

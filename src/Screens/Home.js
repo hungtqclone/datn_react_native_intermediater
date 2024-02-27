@@ -128,14 +128,6 @@ const Home = props => {
     return (
       <TouchableOpacity style={homeStyles.productBody}>
         <Image
-          source={require('../assets/images/icons/icon_heart.png')}
-          style={{
-            width: 500,
-            height: 200,
-            opacity: opacity,
-          }}
-        />
-        <Image
           style={homeStyles.imgproduct}
           source={{uri: `${urlApi}${item.files}`}}
         />
@@ -177,14 +169,20 @@ const Home = props => {
             source={require('../../image/search.png')}
           />
         </View>
-        <Image
-          style={homeStyles.icon}
-          source={require('../../image/notificaiton.png')}
-        />
-        <Image
-          style={homeStyles.icon}
-          source={require('../../image/chatting.png')}
-        />
+
+        <TouchableOpacity onPress={() => console.log('ádasdsa')}>
+          <Image
+            style={homeStyles.icon}
+            source={require('../../image/notificaiton.png')}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate('chat')}>
+          <Image
+            style={homeStyles.icon}
+            source={require('../../image/chatting.png')}
+          />
+        </TouchableOpacity>
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}

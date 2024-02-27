@@ -40,21 +40,29 @@ const Postnews = props => {
     }
   }, [idCategory]);
 
+  // const onClickCategory = idCategory => {
+  //   console.log('on click category: ');
+  //   setIdCategory(idCategory);
+  //   setCategories([]);
+  // };
+
+  //   }, [idCategory]);
+
   const onClickCategory = idCategory => {
     console.log('on click category: ');
     setIdCategory(idCategory);
     setCategories([]);
   };
 
-  const nextPostNews = _id => {
-    navigation.navigate('DetailPostnews', {_id});
+  const nextPostNews = (_id, name) => {
+    navigation.navigate('DetailPostnews', {_id, name});
   };
 
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity
         style={Product.contaitong}
-        onPress={() => nextPostNews(item._id)}>
+        onPress={() => nextPostNews(item._id, item.name)}>
         {/* onPress={({ }) => { idCategory ? nextPostNews(item._id) : onClickCategory(item._id) }} */}
         <View style={Product.contaiimg}>
           <Image style={Product.img} source={{uri: `${urlApi}${item.icon}`}} />
@@ -69,16 +77,42 @@ const Postnews = props => {
     );
   };
 
+  // >>>>>>> master
+
+  // const renderItem = ({item, index}) => {
   return (
+    // <<<<<<< HEAD
+    //       <TouchableOpacity
+    //         style={Product.contaitong}
+    //         onPress={() => nextPostNews(item._id)}>
+    //         {/* onPress={({ }) => { idCategory ? nextPostNews(item._id) : onClickCategory(item._id) }} */}
+    //         <View style={Product.contaiimg}>
+    //           <Image style={Product.img} source={{uri: `${urlApi}${item.icon}`}} />
+    //         </View>
+    //         <View style={Product.contaiCity}>
+    //           <Text style={Product.txtCity}>{item.name}</Text>
+    //           <View style={{display: idCategory ? 'none' : 'inline-block'}}>
+    //             <Image source={require('../../image/show-right.png')} />
+    //           </View>
+    //         </View>
+    //       </TouchableOpacity>
+    //     );
+    //   };
+
+    //   return (
+    //     <View style={Product.Container}>
+    //       {/* <View style={[Product.contaiappbar, { display: idCategory ? 'inline-block' : 'none' }]}>
+    //                 <TouchableOpacity style={Product.pres} onPress={({ }) => { setIdCategory(null); setCategories([]) }}>
+
     <View style={Product.Container}>
-      {/* <View style={[Product.contaiappbar, { display: idCategory ? 'inline-block' : 'none' }]}>
-                <TouchableOpacity style={Product.pres} onPress={({ }) => { setIdCategory(null); setCategories([]) }}>
-                    <Image source={require('../../image/back.png')} />
-                </TouchableOpacity>
-                <View style={Product.contaitxt}>
-                    <Text style={Product.txtTille}>CHỌN DANH MỤC</Text>
-                </View  >
-            </View> */}
+      <View style={Product.contaiappbar}>
+        <Pressable style={Product.pres}>
+          <Image source={require('../../image/back.png')} />
+        </Pressable>
+        <View style={Product.contaitxt}>
+          <Text style={Product.txtTille}>CHỌN DANH MỤC</Text>
+        </View>
+      </View>
       <View style={Product.contaitxp}>
         <Image source={require('../../image/searchBar.png')} />
         <TextInput

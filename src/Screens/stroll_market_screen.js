@@ -22,6 +22,7 @@ const StrollTabs = () => {
 }
 
 const StrollScreen = (props) => {
+    const { navigation } = props;
     return (
         <View style={styles.body}>
             <View style={styles.appbar}>
@@ -33,7 +34,7 @@ const StrollScreen = (props) => {
                     <TouchableOpacity>
                         <Image style={styles.appbarIconimg} source={require('../assets/images/icons/icon_notification.png')} />
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('ChatNavigation')} >
                         <Image style={styles.appbarIconimg} source={require('../assets/images/icons/icon_chat.png')} />
                     </TouchableOpacity>
                 </View>

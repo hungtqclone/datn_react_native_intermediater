@@ -10,12 +10,10 @@ const Stack = createNativeStackNavigator();
 
 const ChatNavigation = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="list" component={ListUserChat} />
-        <Stack.Screen name="chat" component={Chat} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="list" component={ListUserChat} />
+      <Stack.Screen name="chat" component={Chat} />
+    </Stack.Navigator>
   );
 };
 
