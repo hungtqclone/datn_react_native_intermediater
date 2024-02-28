@@ -122,7 +122,7 @@ export const productStyles = StyleSheet.create({
         backgroundColor: 'white',
         flexDirection: 'column',
         borderRadius: 2,
-        justifyContent:'center',
+        justifyContent: 'center',
         marginHorizontal: 2,
     },
 
@@ -188,7 +188,7 @@ export const productStyles = StyleSheet.create({
         alignItems: 'center',
     },
     productBody2: {
-        borderBottomWidth:0.5,
+        borderBottomWidth: 0.5,
         padding: 10,
         width: '100%',
         flexDirection: 'row',
@@ -198,8 +198,8 @@ export const productStyles = StyleSheet.create({
     contaiColum: {
         flexDirection: 'column',
         width: '68%',
-        marginLeft:5,
-        justifyContent:'space-between'
+        marginLeft: 5,
+        justifyContent: 'space-between'
     },
     imgproduct: {
         width: '30%',
@@ -220,12 +220,15 @@ export const productStyles = StyleSheet.create({
         fontSize: 18
 
     },
-    txtdetail: {
+    txtTitle: {
         textAlign: 'left',
         color: 'black',
         alignSelf: 'flex-start',
         fontSize: 15
 
+    },
+    txtDetail: {
+        fontSize: 13
     },
     txtprice: {
         textAlign: 'left',
@@ -238,7 +241,7 @@ export const productStyles = StyleSheet.create({
     contaiicontimeaddress: {
         flexDirection: 'row',
         alignSelf: 'flex-start',
-       
+
 
     },
     imgiconprofile: {

@@ -1,9 +1,11 @@
 /* eslint-disable prettier/prettier */
-import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity, Pressable, useWindowDimensions } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity, Pressable, useWindowDimensions, ActivityIndicator } from 'react-native'
+import React, { useState, useEffect, useContext } from 'react'
 import { MGNStyles } from '../styleSheets/ManagementNewsStyles'
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import AxiosInstance from '../components/helpers/Axiosintance'
+import { UserContext } from '../components/users/UserContext'
 
 const dataPackage = [
     { id: 1, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
@@ -13,6 +15,8 @@ const dataPackage = [
     { id: 5, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
 
 ]
+
+
 
 const data = {
     "_id": {
@@ -34,20 +38,66 @@ const data = {
     "__v": 0
 }
 
-const FirstRoute = () => {
+const renderItemPosts = ({ item }) => {
+    console.log("check data item render posts:", item);
     return (
         <View style={{ flex: 1, backgroundColor: '#ff4081' }} >
             <View style={{ backgroundColor: "white", flexDirection: 'row', marginVertical: 1 }}>
                 <View style={{ width: 120, height: 120, padding: 15 }}>
-                    <Image style={{ width: '100%', height: '100%' }} source={{ uri: data.files }} />
+                    <Image style={{ width: '100%', height: '100%' }} source={{ uri: item.files }} />
                 </View>
-                <View style={{ paddingVertical: 15, flex: 1, marginRight: 30 }}>
-                    <Text>{data.title}</Text>
-                    <Text>{data.price}</Text>
-                    <Text style={{}}>{data.location}</Text>
+                <View style={{ paddingVertical: 15, flex: 1, marginRight: 30, height: "100%" }}>
+                    <Text style={{ color: "black", fontSize: 16 }} numberOfLines={2}>{item.title}</Text>
+                    <Text style={{ color: "red", fontWeight: 600, fontSize: 15, position: 'absolute', bottom: 38 }}>{item.price} d</Text>
+                    <Text style={{ position: "absolute", bottom: 15 }}>{item.location}</Text>
                 </View>
             </View>
 
+        </View >
+    )
+}
+
+const FirstRoute = () => {
+    const [dataPosts, setDataPosts] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
+
+    const { user } = useContext(UserContext)
+    const userId = user._id
+
+    const fetchData = async () => {
+
+        const resultPosts = await AxiosInstance().get(`/api/postnews/user/${userId}`)
+        console.log("check dataPosts: ", resultPosts)
+        setDataPosts(resultPosts)
+        if (resultPosts.result) {
+            setIsLoading(false)
+        }
+
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    return (
+        <View style={{ flex: 1, backgroundColor: '#ff4081' }} >
+            {/* <View style={{ backgroundColor: "white", flexDirection: 'row', marginVertical: 1 }}>
+                <View style={{ width: 120, height: 120, padding: 15 }}>
+                    <Image style={{ width: '100%', height: '100%' }} source={{ uri: data.files }} />
+                </View>
+                <View style={{ paddingVertical: 15, flex: 1, marginRight: 30, height: "100%" }}>
+                    <Text style={{ color: "black", fontSize: 16 }} numberOfLines={2}>{data.title}</Text>
+                    <Text style={{ color: "red", fontWeight: 600, fontSize: 15, position: 'absolute', bottom: 38 }}>{data.price} d</Text>
+                    <Text style={{ position: "absolute", bottom: 15 }}>{data.location}</Text>
+                </View>
+            </View> */}
+            <FlatList
+                data={dataPosts}
+                renderItem={renderItemPosts}
+                horizontal={false}
+                keyExtractor={item => item._id}
+                showsHorizontalScrollIndicator={false}
+            />
         </View >
     )
 }
@@ -113,7 +163,7 @@ const ManagementNews = (props) => {
                     <Image style={MGNStyles.icon} source={require('../../image/searchtabar.png')} />
                     <Image style={MGNStyles.icon} source={require('../../image/notificaiton.png')} />
                     <TouchableOpacity onPress={() => navigation.navigate('ChatNavigation')} >
-                    <Image style={MGNStyles.icon} source={require('../../image/chatting.png')} />
+                        <Image style={MGNStyles.icon} source={require('../../image/chatting.png')} />
                     </TouchableOpacity>
                 </View>
             </View>
