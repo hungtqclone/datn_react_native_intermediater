@@ -26,6 +26,9 @@ import DanhMucSP from './src/Screens/DanhMucSP';
 import DanhMucSPP from './src/Screens/DanhMucSPP';
 import StrollScreen from './src/Screens/stroll_market_screen';
 import ChatNavigation from './src/components/navigation/ChatNavigation';
+import Product from './src/Screens/Product';
+import Home from './src/Screens/Home';
+import Foryou from './src/Screens/News/Foryou';
 function App() {
 
   // return(
@@ -41,6 +44,12 @@ function App() {
       </UserProvider>
     </SafeAreaView>
   );
+
+  // return (
+  //   <SafeAreaView style={{ flex: 1 }}>
+  //     <Foryou/>
+  //   </SafeAreaView>
+  // );
 }
 
 export default App;

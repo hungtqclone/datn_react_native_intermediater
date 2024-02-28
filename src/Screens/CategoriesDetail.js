@@ -2,6 +2,10 @@ import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, Scrol
 import React, { useState, useEffect } from 'react'
 import { CGDStyles } from '../styleSheets/CategoriesDetailstyles';
 import { getDetailCategory, getProduct } from './ScreenService';
+import PostnewsStack from '../components/navigation/PostnewsTabnavigation';
+import { TabView } from 'react-native-tab-view';
+import Foryou from './News/Foryou';
+import Shopstores from './DetailCategories/shopstores';
 const data = [
     { id: 1, image: require('../../image/bannertet.jpg') },
     { id: 2, image: require('../../image/laptopbanner.jpg') }
@@ -50,7 +54,8 @@ const CategoriesDetail = (props) => {
     }
 
     const nextScreenListProducts = (idCategory) => {
-        console.log("next screen list products with idcatetory = ", idCategory)
+
+        navigation.navigate('product', { idCategory });
     }
 
     // CategoryDetail
@@ -158,6 +163,8 @@ const CategoriesDetail = (props) => {
                         <View style={CGDStyles.contaiProduct}>
                             <Text style={CGDStyles.txtTitleProduct}>Có gì hot hôm nay</Text>
                             <FlatList
+                                showsHorizontalScrollIndicator={false}
+                                showsVerticalScrollIndicator={false}
                                 data={products}
                                 renderItem={renderItemProduct}
                                 keyExtractor={item => item._id}
@@ -169,32 +176,12 @@ const CategoriesDetail = (props) => {
                         </View>
                     </View>
                 </View>
-
-                <View style={CGDStyles.containerOfical}>
-                    <Text style={CGDStyles.txtOffical}>Offical Store</Text>
-                    <View style={CGDStyles.contaiitemOffical}>
-                        <View style={CGDStyles.contaiTitleOffical}>
-                            <Image style={CGDStyles.imgTitleOffical} source={require('../../image/icon_market.jpg')} />
-                            <Text style={CGDStyles.txtTitleOffical} numberOfLines={1}>Chợ tốt ofical store</Text>
-                            <Image style={CGDStyles.imgMark} source={require('../../image/mark.png')} />
-                            <Image style={CGDStyles.imgright} source={require('../../image/right.png')} />
-                        </View>
-                        <TouchableOpacity style={CGDStyles.productBodyOffical}>
-                            <Image style={CGDStyles.imgproductOffical} source={require('../../image/Phone.png')} />
-                            {/* <Text style={CGDStyles.txtnameproductOffical} >Laptop Asus ZenBook (AMD Ryzen 5-6600U) - XANH</Text> */}
-                            <Text style={CGDStyles.txtdetailOffical} numberOfLines={1}>Laptop Asus ZenBook (AMD Ryzen 5-6600U) - XANH</Text>
-                            <Text style={CGDStyles.txtpriceOffical} >2900000 đ</Text>
-                            <View style={CGDStyles.contaiicontimeaddressOffical}>
-                                <Image style={CGDStyles.imgiconprofileOffical} source={require('../../image/Phone.png')} />
-                                {/* <Text style={CGDStyles.txtTimeOffical} > - {item.created_AT} - </Text> */}
-                                <Text style={CGDStyles.txtAdressOffical} >HCM</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-
+                <Shopstores />
+                <Foryou />
             </ScrollView>
+
+
+
         </View>
     )
 }
