@@ -20,10 +20,10 @@ const PostsPresently = () => {
     )
     const fetchData = async () => {
         try {
-            const postPresently = await AxiosInstance().get(`/api/postnews/user/${userId}`)
-            console.log("check data posts hidden: ", postPresently)
-            if (postPresently.result) {
-                setPosts(postPresently.data)
+            const postsPresently = await AxiosInstance().get(`/api/postnews/user/${userId}`)
+            console.log("check data posts hidden: ", postsPresently)
+            if (postsPresently.result) {
+                setPosts(postsPresently.data.postsPresently)
                 setIsLoading(false)
             }
         } catch (error) {

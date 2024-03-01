@@ -24,10 +24,10 @@ const PostsHidden = (props) => {
 
     const fetchData = async () => {
         try {
-            const postHiden = await AxiosInstance().get(`/api/postnews/user/${userId}`)
-            console.log("check data posts hidden: ", postHiden)
-            if (postHiden.result) {
-                setPosts(postHiden.data)
+            const postsHidden = await AxiosInstance().get(`/api/postnews/user/${userId}`)
+            console.log("check data posts hidden: ", postsHidden)
+            if (postsHidden.result) {
+                setPosts(postsHidden.data.postsHidden)
                 setIsLoading(false)
             }
         } catch (error) {
