@@ -142,9 +142,9 @@ export const productStyles = StyleSheet.create({
         width: 40,
         height: 40
     },
-    txtTitle: {
+    txtTitle2: {
         textAlign: 'center',
-        color: 'black'
+        color: 'black',
 
     },
     // Category
