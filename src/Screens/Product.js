@@ -79,7 +79,7 @@ const Product = (props) => {
         return (
             <View style={productStyles.contaiTitle}>
                 <Image style={productStyles.imgTitle} source={{ uri: `${urlApi}${item.files}` }}></Image>
-                <Text style={productStyles.txtTitle}>{item.nameBrand}</Text>
+                <Text style={productStyles.txtTitle2}>{item.nameBrand}</Text>
             </View>
         );
     }
