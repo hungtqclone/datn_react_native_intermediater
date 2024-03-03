@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity, Pressable } from 'react-native'
+import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity, Pressable, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { CGDStyles } from '../styleSheets/CategoriesDetailstyles';
 import { getDetailCategory, getProduct } from './ScreenService';
@@ -147,7 +147,13 @@ const CategoriesDetail = (props) => {
                         showsVerticalScrollIndicator={false}
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={{ paddingVertical: 20 }}>
-                        <FlatList
+                        {categoriesDetail.length == 0 ? (
+                            <ActivityIndicator
+                                style={{ marginTop: 10, marginLeft: 170 }}
+                                size="large"
+                                color="#3498db"
+                            />
+                        ) : (<FlatList
                             contentContainerStyle={{
                                 alignSelf: 'flex-start',
                             }}
@@ -157,7 +163,8 @@ const CategoriesDetail = (props) => {
                             data={categoriesDetail}
                             renderItem={renderItemCategoryDetail}
                             scrollEnabled={false}
-                        />
+                        />)}
+
                     </ScrollView>
                     <View style={CGDStyles.containerHot}>
                         <View style={CGDStyles.contaiProduct}>
