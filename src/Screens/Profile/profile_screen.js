@@ -67,15 +67,18 @@ const Profile_screen = props => {
           ) : (
             <View style={styles.infoAv}>
               <TouchableOpacity onPress={pickImage}>
-                <Image source={avatarSource} style={styles.avt} />
+                <Image 
+                // source={avatarSource}
+                source={require('../../assets/images/icons/man-person-icon.png')}
+                 style={styles.avt} />
               </TouchableOpacity>
-              <Image
+              {/* <Image
                 source={require('../../assets/images/icons/icon_edit.png')}
                 style={styles.iconedit}
-              />
+              /> */}
               <View>
-                <Text style={styles.nameNguoiban}>Hiếu Android Shop</Text>
-                <View style={styles.reviewContainer}>
+                <Text style={styles.nameNguoiban}>{user.name} </Text>
+                {/* <View style={styles.reviewContainer}>
                   <Text style={styles.countReview}>4.9</Text>
                   <View style={styles.contStars}>
                     <Image
@@ -100,14 +103,14 @@ const Profile_screen = props => {
                     />
                   </View>
                   <Text style={styles.reviewText}>(0)</Text>
-                </View>
-                <View style={styles.dotOnl}>
+                </View> */}
+                {/* <View style={styles.dotOnl}>
                   <Text style={styles.txtOn0}>0</Text>
                   <Text style={styles.txtOnl}> Người theo dõi</Text>
                   <View style={styles.gach}></View>
                   <Text style={styles.txtOn0}>0</Text>
                   <Text style={styles.txtOnl}> Đang theo dõi</Text>
-                </View>
+                </View> */}
               </View>
             </View>
           )}
