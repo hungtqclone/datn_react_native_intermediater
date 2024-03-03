@@ -81,16 +81,6 @@ const FirstRoute = () => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#ff4081' }} >
-            {/* <View style={{ backgroundColor: "white", flexDirection: 'row', marginVertical: 1 }}>
-                <View style={{ width: 120, height: 120, padding: 15 }}>
-                    <Image style={{ width: '100%', height: '100%' }} source={{ uri: data.files }} />
-                </View>
-                <View style={{ paddingVertical: 15, flex: 1, marginRight: 30, height: "100%" }}>
-                    <Text style={{ color: "black", fontSize: 16 }} numberOfLines={2}>{data.title}</Text>
-                    <Text style={{ color: "red", fontWeight: 600, fontSize: 15, position: 'absolute', bottom: 38 }}>{data.price} d</Text>
-                    <Text style={{ position: "absolute", bottom: 15 }}>{data.location}</Text>
-                </View>
-            </View> */}
             <FlatList
                 data={dataPosts}
                 renderItem={renderItemPosts}
@@ -127,25 +117,7 @@ const ManagementNews = (props) => {
         { key: 'second4', title: 'Tin nháp' },
         { key: 'second5', title: 'Chờ duyệt' },
     ]);
-    const renderTabBar = props => (
 
-        <TabBar
-            {...props}
-            indicatorStyle={{ backgroundColor: 'yellow' }}
-            style={{ backgroundColor: 'transparent' }}
-            activeColor='black'
-            inactiveColor='gray'
-            renderLabel={({ route, focused, color }) => (
-                <View
-                    style={{
-                        width: '100%',
-                    }}
-                >
-                    <Text style={{ color }}>{route.title}</Text>
-                </View>
-            )}
-        />
-    );
     // Package
     const renderItemPackage = ({ item, index }) => {
         return (
@@ -190,22 +162,8 @@ const ManagementNews = (props) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-
-                <TabView
-                    navigationState={{ index, routes }}
-                    renderScene={renderScene}
-                    onIndexChange={setIndex}
-                    initialLayout={{ width: layout.width }}
-                    renderTabBar={renderTabBar}
-                >
-                </TabView>
-
             </View>
-
         </View>
-
-
-
     );
 }
 export default ManagementNews
