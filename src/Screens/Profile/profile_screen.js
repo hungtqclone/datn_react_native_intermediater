@@ -175,7 +175,7 @@ const Profile_screen = props => {
           <Text style={styles.txtMagOrder}>Tiện ích</Text>
           <View style={styles.contMagOrderItem}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('PostSaved')}
+              onPress={() => navigation.navigate('PostSavedNavigation')}
               style={styles.contMagOrderItemLeft}>
               <Image
                 source={require('../../assets/images/icons/icon_heart_save.png')}

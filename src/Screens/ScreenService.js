@@ -102,3 +102,14 @@ export const uploadImage = async (form) => {
     return err;
   }
 }
+
+export const getProductById = async (id) => {
+  try {
+      const res = await AxiosInstance().get(`/api/postnews/get-by-id/${id}`);
+      console.log('getProductById response', res.data);
+      return res.data;
+  } catch (error) {
+      console.log("getProductById error", error);
+      throw error;
+  }
+};

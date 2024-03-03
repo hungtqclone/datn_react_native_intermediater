@@ -39,3 +39,14 @@ export const editUser = async (data) => {
         return error;
     }
 }
+
+export const getProductById = async (id) => {
+    try {
+        const res = await AxiosInstance().get(`/api/postnews/${id}`);
+        console.log('getProductById response', res.data);
+        return res.data;
+    } catch (error) {
+        console.log("getProductById error", error);
+        throw error;
+    }
+};

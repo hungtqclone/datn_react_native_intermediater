@@ -13,7 +13,7 @@ import {Image} from '@rneui/base';
 import {getProduct} from '../../ScreenService';
 import {getPostSaved} from '../../ScreenService';
 import {UserContext} from '../../../components/users/UserContext';
-const PostSaved = props => {
+const PostSaved = (props) => {
   //link api
   const urlServer = 'http://datnapi.vercel.app/';
   const [products, setProducts] = useState([]);
@@ -49,7 +49,8 @@ const PostSaved = props => {
   }, []);
 
   const renderItem = ({item, index}) => (
-    <View key={index} style={styles.horizontalItem}>
+    <TouchableOpacity key={index} style={styles.horizontalItem} 
+    onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })} >
       <Image
         source={{uri: `${urlServer}${item.files[0]}`}}
         style={styles.horizontalImage}
@@ -76,7 +77,7 @@ const PostSaved = props => {
           <Text style={styles.horizontaltime}>{item.created_AT}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
   const renderSaved = ({item, index}) => (
     <View key={index} style={styles.horizontalItem}>

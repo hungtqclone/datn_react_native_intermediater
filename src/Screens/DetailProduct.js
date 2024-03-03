@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+
 import {
   StyleSheet,
   Text,
@@ -7,13 +8,22 @@ import {
   ScrollView,
   TouchableOpacity,
   FlatList,
+  ActivityIndicator
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import StarRating from 'react-native-star-rating';
-const DetailProduct = props => {
+import { useRoute } from '@react-navigation/native';
+import { getProductById } from './ScreenService';
+const DetailProduct = (props) => {
   //navigation
   const {navigation, rating, totalReviews} = props;
-
+  //link api
+  const urlServer = 'http://datnapi.vercel.app/';
+  //lấy id truyền qua từ màn hình trước
+  const route = useRoute();
+  const { id_product } = route.params;
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const data = [
     {id: '1', question: 'Món hàng này còn không?'},
     {id: '2', question: 'Bạn có ship hàng không?'},
@@ -57,6 +67,25 @@ const DetailProduct = props => {
       <Text>{item.question}</Text>
     </View>
   );
+
+  const ongetProducts = async () => {
+    try {
+      const res = await getProductById(id_product);
+      setProducts(res);
+      setIsLoading(false);
+      return res;
+    } catch (error) {
+      console.log('getProductById error', error);
+      throw error;
+      setIsLoading(true);
+    }
+  }
+
+  useEffect(() => {
+    ongetProducts();
+    
+  }, []);
+
   return (
     <View style={styles.body}>
       <View style={styles.appbar}>
@@ -93,20 +122,30 @@ const DetailProduct = props => {
           />
         </TouchableOpacity>
       </View>
+      {isLoading ? (
+        <ActivityIndicator
+          style={styles.loadingIcon}
+          size="large"
+          color="#3498db"
+        />
+      ) : (
+        <>
       <ScrollView>
         <View style={styles.header}>
           <Image
-            source={require('../assets/images/imgProduct.png')}
+           //source={require('../assets/images/imgProduct.png')}
+            source={{uri: `${urlServer}${products.files[0]}`}}
             style={styles.product}
           />
         </View>
         <View style={styles.nameProduct}>
-          <Text style={styles.txtNameProduct}>SAMSUNG GALAXY S6 EDGE </Text>
+          {/* <Text style={styles.txtNameProduct}>SAMSUNG GALAXY S6 EDGE </Text> */}
+          <Text style={styles.txtNameProduct}>{products.title} </Text>
         </View>
         <View style={styles.price}>
           <View>
-            <Text style={styles.textprice}> 5.190.000 đ </Text>
-            <Text style={styles.timeIn}>57 phút trước</Text>
+            <Text style={styles.textprice}> {products.price +' đ'} </Text>
+            <Text style={styles.timeIn}>{products.created_AT}</Text>
           </View>
           <View style={styles.containerPrice}>
             <Image
@@ -188,14 +227,15 @@ const DetailProduct = props => {
             <Text style={styles.titleDecs}>Mô tả</Text>
           </View>
           <View style={styles.contentDecs}>
-            <Text>
+         <Text>   {products.detail}</Text>
+            {/* <Text>
               -Bán note 8 bản hàn sử dụng tốt k lỗi lầm gì từ lúc mua tới giờ
             </Text>
             <Text>-Còn hộp sách đầy đủ</Text>
             <Text>-Viền tróc sơn ít do dùng lâu</Text>
             <Text>-Bao test nước</Text>
             <Text>-Mình còn dư bộ dán màn hình bác nào mua mình tặng luôn</Text>
-            <Text>-Cấu hình thì ae tra google giúp em nhé ,tks mọi người</Text>
+            <Text>-Cấu hình thì ae tra google giúp em nhé ,tks mọi người</Text> */}
           </View>
         </View>
         <View style={styles.infoProduct}>
@@ -427,6 +467,8 @@ const DetailProduct = props => {
           <Text style={styles.textmuangay}>Mua ngay</Text>
         </TouchableOpacity>
       </View>
+      </>
+      )}
     </View>
   );
 };
