@@ -97,7 +97,7 @@ const Product = (props) => {
     const renderPostNews = ({ item, index }) => {
         return (
             <Pressable style={productStyles.productBody2}>
-                <Image style={productStyles.imgproduct} source={{ uri: `${urlApi}${item.files}` }} />
+                <Image style={productStyles.imgproduct} source={{ uri: `${urlApi}${item.files[0]}` }} />
                 <View style={productStyles.contaiColum}>
                     <Text style={productStyles.txtTitle} numberOfLines={1}>{item.title}</Text>
                     <Text style={productStyles.txtDetail} numberOfLines={2}>{item.detail}</Text>
@@ -123,7 +123,9 @@ const Product = (props) => {
                 <Image style={productStyles.icon} source={require('../../image/notificaiton.png')} />
                 <Image style={productStyles.icon} source={require('../../image/chatting.png')} />
             </View>
-            <ScrollView>
+            <ScrollView
+            scrollEnabled={true}
+            >
                 <View style={productStyles.contaicity}>
                     <View style={productStyles.viewrow}>
                         <Image style={productStyles.iconadd} source={require('../../image/icon_address.png')} />
@@ -191,6 +193,7 @@ const Product = (props) => {
                         />
                     ) : (
                         <FlatList
+                            scrollEnabled={false}
                             data={post}
                             renderItem={renderPostNews}
                             horizontal={false}
