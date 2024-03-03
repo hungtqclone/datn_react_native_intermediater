@@ -1,5 +1,6 @@
-import { View, Pressable, Modal, Text, Image, StyleSheet, TextInput, TouchableOpacity, VirtualizedList, Button, FlatList, ScrollView ,Alert} from 'react-native'
+import { View, Pressable, Modal, Text, Image, StyleSheet, TextInput, TouchableOpacity, VirtualizedList, Button, FlatList, ScrollView, Alert } from 'react-native'
 import React, { useState, useMemo, useEffect, useCallback } from 'react'
+import axios from 'axios';
 import { BottomSheet } from '@rneui/base';
 import { getCategory, getDetailCategory, addPostNews, uploadImage } from '../ScreenService';
 import { PNStyles } from '../../styleSheets/DetailPostNewsStyles';
@@ -10,6 +11,7 @@ import Postnews from '../Postnews';
 const DetailPostnews = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [modalVisibleImage, setModalVisibleImage] = useState(false);
+    const [modalVisibleAddress, setModalVisibleAddress] = useState(false);
     const [categories, setCategories] = useState([]);
     const [idCategory, setIdCategory] = useState('');
     const { navigation, route } = props;
@@ -43,7 +45,8 @@ const DetailPostnews = (props) => {
     useEffect(() => {
         console.log('id', idPost);
         console.log('name', namePost);
-    }, [idPost, name]);
+        console.log('IMAGEPATH', imagePath);
+    }, [idPost, name, imagePath]);
 
     const handleTouchableOpacityPress = (newIdPost, newNamePost) => {
         setIdPost(newIdPost);
@@ -52,6 +55,10 @@ const DetailPostnews = (props) => {
     }
     const CloseModel = () => {
         setModalVisible(false);
+    }
+    const CloseModelImage = () => {
+
+
     }
     const ongetCategory = async () => {
         const categories = await getCategory();
@@ -68,7 +75,35 @@ const DetailPostnews = (props) => {
             ongetDetailCategory();
         }
     }, [idCategory]);
+    const uploadImageToServer = async (formData) => {
+        try {
+            const response = await axios.post('https://datnapi.vercel.app/api/postnews/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            // console.log("RESPONSE", response);
+            return response.data;
+        } catch (error) {
+            console.log('Error uploading image to server:', error);
+            return null;
+        }
+    };
 
+    // nút tiếp tục 
+    const handleaddImageTocloudiary = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('file', { uri: image, type: 'image/jpeg', name: 'photo.jpg' });
+            const response = await uploadImageToServer(formData);
+            console.log(" 94 RESPONSE", response.files);
+            // Xử lý kết quả trả về từ server
+            setImagePath(response.files);
+
+        } catch (error) {
+            console.log('Error uploading image to server:', error);
+        }
+    };
     // Add post and image
     const takePhoto = useCallback(async (response) => {
         if (response.didCancel) return;
@@ -78,15 +113,6 @@ const DetailPostnews = (props) => {
             const asset = response.assets[0];
             setImage(asset.uri);
             setModalVisible(false);
-            // upload image
-            const formData = new FormData();
-            formData.append('image', {
-                uri: asset.uri,
-                type: asset.type,
-                name: asset.fileName,
-            });
-            const data = await uploadImage(formData);
-            setImagePath(data.path);
         }
         updateSelectedImages();
     }, []);
@@ -112,6 +138,10 @@ const DetailPostnews = (props) => {
     }, []);
 
     const save = useCallback(async () => {
+        if (!title || !detail || !price || !statusTT || !brand || !warranty || !origin || !imagePath) {
+            Alert.alert('Vui lòng điền đầy đủ thông tin.');
+            return;
+        }
         const currentDate = new Date();
         const properties = {
             statusTT,
@@ -125,23 +155,22 @@ const DetailPostnews = (props) => {
             location: 'HCM',
             price,
             activable: true,
-            role:'mua',
+            role: 'mua',
             created_AT: currentDate,
-            files: [imagePath],
-            userid:'6587edd36c13142ab0adcd86',
-            brandid:'6587edd36c13142ab0adcd86',
+            files: imagePath,
+            userid: '6587edd36c13142ab0adcd86',
+            brandid: '6587edd36c13142ab0adcd86',
             properties,
             idCategory: idPost,
 
         };
         const response = await addPostNews(data);
-        console.log(response);
-        if(response == false){
+        console.log(response.files);
+        if (response == false) {
             Alert.alert('Thêm thất bại');
         }
         Alert.alert('Thêm Thành công');
         setImage(null);
-        setImagePath(null);
         setTitle('');
         setDetail('');
         setLocation('');
@@ -157,7 +186,6 @@ const DetailPostnews = (props) => {
     }, [imagePath, title, detail, location, price, created_AT, statusTT, brand, warranty, origin, userid, brandid]);
 
     const updateSelectedImages = () => {
-        console.log('>>>>>' + imagePath);
         if (selectedImages.length < 5) {
             const newSelectedImages = [...selectedImages, imagePath];
             setSelectedImages(newSelectedImages);
@@ -183,7 +211,9 @@ const DetailPostnews = (props) => {
     return (
         <View style={PNStyles.body}>
             <View style={PNStyles.containerse}>
-                <Image style={PNStyles.icon} source={require('../../../image/back.png')} />
+                <Pressable onPress={CloseModelImage}>
+                    <Image style={PNStyles.icon} source={require('../../../image/back.png')} />
+                </Pressable>
                 <Image style={PNStyles.iconchotot} source={require('../../../image/icon_chotot.jpg')} />
             </View>
             <ScrollView>
@@ -241,7 +271,7 @@ const DetailPostnews = (props) => {
                     <Text style={PNStyles.txtTT}>THÔNG TIN NGƯỜI BÁN</Text>
                 </View>
                 <View style={PNStyles.contaiupload}>
-                    <Pressable style={PNStyles.presAddres}>
+                    <Pressable style={PNStyles.presAddres} onPress={() => { setModalVisibleAddress(true) }}>
                         <View style={PNStyles.contaicolum}>
                             <Text >Địa chỉ</Text>
                         </View>
@@ -333,11 +363,69 @@ const DetailPostnews = (props) => {
                             }
                         </View>
                         <View style={PNStyles.viewAl}>
-                            <Pressable style={PNStyles.btnModelTT}  >
+                            <Pressable style={PNStyles.btnModelTT} onPress={() => {
+                                handleaddImageTocloudiary();
+                                setModalVisibleImage(false);
+                            }}>
                                 <Text style={PNStyles.txtModelTT}>Tiếp tục</Text>
                             </Pressable>
                         </View>
                     </View>
+                </View>
+            </Modal>
+            {modalVisibleAddress &&
+                <View style={PNStyles.overlay} />
+            }
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisibleAddress}
+            >
+                <View style={PNStyles.centeredView}>
+                    <View style={PNStyles.modalView}>
+                        <View style={PNStyles.containerModelAddress}>
+                            <Pressable onPress={() => { setModalVisibleAddress(false) }}>
+                                <Image style={PNStyles.icon} source={require('../../../image/close.png')} />
+                            </Pressable>
+                            <Text style={PNStyles.txtModelAdress}>Địa chỉ</Text>
+                        </View>
+                        <View style={PNStyles.contaiupModeladdress}>
+                            <Pressable style={PNStyles.pressAddMD} onPress={() => { }}>
+                                <View style={PNStyles.contaicolum}>
+                                    <Text style={PNStyles.txtAddressDetail}>Tỉnh, thành phố *</Text>
+                                    <Text style={PNStyles.txtAddressDetails}>Tuyên Quang</Text>
+                                </View>
+                                <Image style={PNStyles.imgDow} source={require('../../../image/down.png')}></Image>
+                            </Pressable>
+                        </View>
+                        <View style={PNStyles.contaiupModeladdress}>
+                            <Pressable style={PNStyles.pressAddMD} onPress={() => { }}>
+                                <View style={PNStyles.contaicolum}>
+                                    <Text style={PNStyles.txtAddressDetail}>Quận, huyện, thị xã * *</Text>
+                                    <Text style={PNStyles.txtAddressDetails}>Huyện Chiêm hoa</Text>
+                                </View>
+                                <Image style={PNStyles.imgDow} source={require('../../../image/down.png')}></Image>
+                            </Pressable>
+                        </View>
+                        <View style={PNStyles.contaiupModeladdress}>
+                            <Pressable style={PNStyles.pressAddMD} onPress={() => { }}>
+                                <View style={PNStyles.contaicolum}>
+                                    <Text style={PNStyles.txtAddressDetail}>Phường, xã, thị trấn *</Text>
+                                    <Text style={PNStyles.txtAddressDetails}>Vĩnh lộc</Text>
+                                </View>
+                                <Image style={PNStyles.imgDow} source={require('../../../image/down.png')}></Image>
+                            </Pressable>
+                        </View>
+                        <View style={PNStyles.contaiupModeladdress}>
+                            <TextInput placeholder='Địa chỉ cụ thể' style={PNStyles.inputDCCT} />
+                        </View>
+
+
+
+
+
+                    </View>
+
                 </View>
             </Modal>
         </View>

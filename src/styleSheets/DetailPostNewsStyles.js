@@ -33,10 +33,9 @@ export const PNStyles = StyleSheet.create({
         marginBottom:20,
     },
     contaicolum:{
-        padding:5,
+        padding:10,
         width:'93%',
         flexDirection:'column',
-
     },
     contairow:{
         flexDirection:'row',
@@ -380,5 +379,66 @@ export const PNStyles = StyleSheet.create({
         width:'100%',
         alignContent: 'bottom',
         alignItems: 'center',
-    }
+    },
+
+    //Model Address
+    containerModelAddress: {
+        width: '100%',
+        height: 50,
+        backgroundColor: "#FFBF17",
+        flexDirection: 'row',
+        alignItems: 'center',
+        alignContent: 'space-between',
+        padding: 10,
+    },
+    txtModelAdress:{
+        fontSize:20,
+        fontWeight:'600',
+        color:'black',
+        marginLeft:'30%',
+    },
+
+    // detail model
+    contaiupModeladdress:{
+        padding:10,
+        width:'100%',
+
+    },
+    tcouploadimg:{
+        marginTop:15,
+        width:'100%',
+        height:150,
+        justifyContent:'center',
+        alignItems:'center',
+        borderRadius:5,
+        backgroundColor:'#F4F4F4',
+        borderWidth:1,
+        borderColor:'#FF8800'
+    },
+    pressAddMD:{
+        borderRadius:5,
+        width: '100%',
+        height:50,
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderWidth:0.5,
+        borderColor:'grey',
+        alignContent:'space-between',
+    },
+    txtAddressDetail:{
+        color:'grey',
+        fontSize:10,
+        fontWeight:'bold',
+    },
+    txtAddressDetails:{
+        color:'black',
+        fontSize:16,
+    },
+    inputDCCT:{
+        width:'100%',
+        height:50,
+        borderRadius:5,
+        borderWidth:0.3,
+    },
+   
 });
