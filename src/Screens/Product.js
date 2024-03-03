@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity, Pressable } from 'react-native'
+import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity, Pressable, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { getBrands, getProductByidCate } from './ScreenService'
 import { productStyles } from '../styleSheets/ProductStyles'
@@ -37,6 +37,7 @@ const Product = (props) => {
     const [idCate, setIdCate] = useState(idCategory);
     const [post, setPostNews] = useState([]);
     const [brand, setBrands] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     urlApi = 'http://datnapi.vercel.app/'
     const ongetBrands = async () => {
         const brands = await getBrands(idCate);
@@ -46,6 +47,9 @@ const Product = (props) => {
     const ongetPosst = async () => {
         const posst = await getProductByidCate(idCate);
         setPostNews(posst);
+        if (posst.length > 0) {
+            setIsLoading(false);
+        }
         // console.log("Sản Phẩm :83 >" + JSON.stringify(products));
     }
     useEffect(() => {
@@ -95,7 +99,8 @@ const Product = (props) => {
             <Pressable style={productStyles.productBody2}>
                 <Image style={productStyles.imgproduct} source={{ uri: `${urlApi}${item.files}` }} />
                 <View style={productStyles.contaiColum}>
-                    <Text style={productStyles.txtdetail}>{item.detail}</Text>
+                    <Text style={productStyles.txtTitle} numberOfLines={1}>{item.title}</Text>
+                    <Text style={productStyles.txtDetail} numberOfLines={2}>{item.detail}</Text>
                     <Text style={productStyles.txtprice} >{item.price} d</Text>
 
                     <View style={productStyles.contaiicontimeaddress}>
@@ -178,13 +183,22 @@ const Product = (props) => {
                     />
                 </View>
                 <View>
-                    <FlatList
-                        data={post}
-                        renderItem={renderPostNews}
-                        horizontal={false}
-                        keyExtractor={item => item._id.toString()}
-                        showsHorizontalScrollIndicator={false}
-                    />
+                    {isLoading ? (
+                        <ActivityIndicator
+                            style={{ marginTop: 20 }}
+                            size="large"
+                            color="#3498db"
+                        />
+                    ) : (
+                        <FlatList
+                            data={post}
+                            renderItem={renderPostNews}
+                            horizontal={false}
+                            keyExtractor={item => item._id.toString()}
+                            showsHorizontalScrollIndicator={false}
+                        />
+                    )}
+
                 </View>
             </ScrollView>
         </View>

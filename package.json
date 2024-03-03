@@ -46,7 +46,9 @@
     "react-native-star-rating": "^1.1.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-vector-icons": "^10.0.3",
-    "rn-range-slider": "^2.2.2"
+    "react-native-websocket": "^1.0.2",
+    "rn-range-slider": "^2.2.2",
+    "socket.io-client": "^4.7.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

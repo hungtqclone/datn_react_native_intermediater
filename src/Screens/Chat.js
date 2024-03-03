@@ -3,6 +3,10 @@ import { View, Text, FlatList, TextInput, Button } from 'react-native'
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import AxiosInstance from '../components/helpers/Axiosintance';
 import { UserContext } from '../components/users/UserContext';
+import io from 'socket.io-client';
+
+const socket = io('https://datnapi.vercel.app');
+
 const moment = require('moment-timezone');
 const Chat = ({ route }) => {
     const { data } = route.params;
