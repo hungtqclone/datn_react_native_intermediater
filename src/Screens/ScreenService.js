@@ -90,12 +90,13 @@ export const addPostNews = async (data) => {
   }
 }
 
-// upload image
-export const uploadImage = async (form) => {
+// upload image to cloudiary
+export const uploadImage = async (formData) => {
 
   try {
     const response = await AxiosInstance('multipart/form-data')
-      .post('api/postnews/upload', form);
+      .post('api/postnews/upload', formData);
+      console.log("85 upload image resspone: ", response);
     return response.data;
   } catch (err) {
     console.log('Upload Image error:', err);
