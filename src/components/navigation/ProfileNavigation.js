@@ -50,7 +50,6 @@ const ProflieStack = () => {
       <Stack.Screen name="SalesWalletScreen" component={SalesWalletScreen} />
       <Stack.Screen name="PostSavedNavigation"
         component={PostSavedNavigation}
-        options={{ tabBarVisible: false }} // Ẩn bottom tab bar khi chuyển đến màn hình này
       />
       <Stack.Screen name="SavedSearchScreen" component={SavedSearchScreen} />
       <Stack.Screen name="ReviewStack" component={ReviewStack} />

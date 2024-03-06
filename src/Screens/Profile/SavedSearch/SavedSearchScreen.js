@@ -46,7 +46,7 @@ const horizontalData = [
 
 const SavedSearchScreen = props => {
   //link api
-  const urlServer = 'http://datnapi.vercel.app/';
+  const urlServer = 'https://datnapi-qelj.onrender.com/';
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const {navigation} = props;

@@ -19,7 +19,7 @@ const DetailPostnews = (props) => {
     const { _id, name } = params;
     const [idPost, setIdPost] = useState(_id);
     const [namePost, setName] = useState(name);
-    urlApi = 'http://datnapi.vercel.app/'
+    urlApi = 'https://datnapi-qelj.onrender.com/'
 
     // image
     const [image, setImage] = useState(null);

@@ -15,7 +15,7 @@ import {getPostSaved} from '../../ScreenService';
 import {UserContext} from '../../../components/users/UserContext';
 const PostSaved = (props) => {
   //link api
-  const urlServer = 'http://datnapi.vercel.app/';
+  const urlServer = 'https://datnapi-qelj.onrender.com/';
   const [products, setProducts] = useState([]);
   const [saved, setSaved] = useState([]);
   const {navigation} = props;
@@ -28,9 +28,11 @@ const PostSaved = (props) => {
       setIsLoading(true); // Set loading state to true before making the request
       const products = await getProduct();
       setProducts(products);
+      console.log('ds tin mới:', products);
     } catch (error) {
-      console.error('Error fetching products:', error);
-    } finally {
+      console.log('Error fetching products:', error);
+    } 
+    finally {
       setIsLoading(false); // Set loading state to false after the request is complete
     }
   };
@@ -39,6 +41,7 @@ const PostSaved = (props) => {
       console.log('userId', userId);
       const saved = await getPostSaved(userId);
       setSaved(saved);
+      console.log('ds tin đã lưu:', saved);
     } catch (error) {
       console.error('không lấy được ds tin đã lưu:', error);
     }
@@ -127,12 +130,12 @@ const PostSaved = (props) => {
         </View>
       </View>
       <View style={styles.container}>
-        {saved.length === 0 ? (
+        {/* {user === 1 ? ( */}
           <Text style={styles.txtnoti}>
             Bạn chưa lưu tin rao nào. Hãy bấm vào nút ❤️ ở tin rao để lưu lại và
             xem sau.
           </Text>
-        ) : (
+        {/* ) : ( */}
           <FlatList
             data={saved}
             scrollEnabled={false}
@@ -142,7 +145,7 @@ const PostSaved = (props) => {
             numColumns={2}
             showsHorizontalScrollIndicator={false}
           />
-        )}
+        {/* )} */}
       </View>
       {isLoading ? (
         <ActivityIndicator
@@ -233,8 +236,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 1,
     padding: 1,
-    borderColor: 'Silver',
-    borderWidth: 0.1,
+    // borderColor: 'Silver',
+    // borderWidth: 0.1,
     position: 'relative',
   },
   horizontalImage: {
