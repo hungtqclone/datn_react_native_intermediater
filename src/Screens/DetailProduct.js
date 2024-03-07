@@ -10,9 +10,9 @@ import {
   FlatList,
   ActivityIndicator
 } from 'react-native';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, Component } from 'react';
 import { useRoute } from '@react-navigation/native';
-import { getProductById } from './ScreenService';
+import { getPostNewsByCategory, getProductById } from './ScreenService';
 import { getPostNewsByUserId } from './ScreenService';
 const DetailProduct = (props) => {
   //navigation
@@ -28,6 +28,8 @@ const DetailProduct = (props) => {
   const [prductByUser, setPrductByUser] = useState([]);
   const [proByCaterory, setProByCaterory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingProByUser, setIsLoadingProByUser] = useState(true);
+  const [isLoadingProByCategory, setIsLoadingProByCategory] = useState(true);
 
   const data = [
     { id: '1', question: 'Món hàng này còn không?' },
@@ -36,85 +38,48 @@ const DetailProduct = (props) => {
     { id: '4', question: 'Sản phẩm đã qua sửa chữa chưa?' },
     { id: '5', question: 'Có phụ kiện đi kèm theo sản phẩm?' },
   ];
-  const horizontalData = [
-    {
-      id: '1',
-      name: 'Product 1',
-      price: '1,000,000 đ',
-      time: '1 hour ago',
-      image: require('../assets/images/imgProduct.png'),
-    },
-    {
-      id: '2',
-      name: 'Product 2',
-      price: '2,500,000 đ',
-      time: '2 hours ago',
-      image: require('../assets/images/imgProduct.png'),
-    },
-    {
-      id: '3',
-      name: 'Product 1',
-      price: '1,000,000 đ',
-      time: '1 hour ago',
-      image: require('../assets/images/imgProduct.png'),
-    },
-    {
-      id: '4',
-      name: 'Product 2',
-      price: '2,500,000 đ',
-      time: '2 hours ago',
-      image: require('../assets/images/imgProduct.png'),
-    },
-  ];
-
   const renderItem = ({ item }) => (
     <View style={styles.item}>
       <Text>{item.question}</Text>
     </View>
   );
 
-  const ongetProducts = async () => {
-    try {
-      const res = await getProductById(id_product);
-      setProducts(res);
-      setIsLoading(false);
-      return res;
-    } catch (error) {
-      console.log('getProductById error', error);
-      throw error;
-      setIsLoading(true);
-    }
-  }
-  const ongetPostNewsByUserId = async () => {
-    try {
-      if (products && products.userid) {
-        // console.log('products.userid._id', products.userid._id);
-        const res = await getPostNewsByUserId(products.userid._id);
-        setPrductByUser(res.posts);
-        return res;
-      }
-    } catch (error) {
-      console.log('getPostNewsByUserId error', error);
-      throw error;
-    }
-  }
-  const ongetPostNewsByCategory = async () => {
-    try {
-      // console.log('products.idCategory', products.idCategory._id);
-      const res = await getPostNewsByUserId(products.idCategory._id);
-      setProByCaterory(res);
-       console.log('proByCaterory', proByCaterory.posts);
-      return res;
-    } catch (error) {
-      console.log('getPostNewsByCategory error', error);
-      throw error;
-    }
-  }
+  const reLoadScreen = async (id) => {
+    setIsLoading(true);
+    const productData = await getProductById(id);
+    setProducts(productData);
+    setIsLoading(false);
+
+  };
+
+
+
   useEffect(() => {
-    ongetProducts();
-    ongetPostNewsByUserId();
-    ongetPostNewsByCategory();
+    const fetchData = async () => {
+      try {
+        const productData = await getProductById(id_product);
+        setProducts(productData);
+        setIsLoading(false);
+
+        if (productData && productData.userid) {
+          const userPosts = await getPostNewsByUserId(productData.userid._id);
+          setPrductByUser(userPosts.posts);
+          setIsLoadingProByUser(false);
+        }
+
+        if (productData && productData.idCategory) {
+          const categoryPosts = await getPostNewsByCategory(productData.idCategory._id);
+          setProByCaterory(categoryPosts);
+          setIsLoadingProByCategory(false);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, []);
+
 
   return (
     <View style={styles.body}>
@@ -401,12 +366,15 @@ const DetailProduct = (props) => {
                 <Text style={styles.textviewall}>Xem tất cả</Text>
               </TouchableOpacity>
             </View>
+
             <View style={styles.contpro}>
               <FlatList
                 data={prductByUser}
                 keyExtractor={item => item._id}
                 renderItem={({ item }) => (
-                  <View style={styles.horizontalItem}>
+                  <TouchableOpacity style={styles.horizontalItem}
+                    onPress={() => reLoadScreen(item._id)}
+                  >
                     <Image
                       // source={item.files[0]} 
                       source={{ uri: `${urlApi}${item.files[0]}` }}
@@ -417,7 +385,7 @@ const DetailProduct = (props) => {
                       <Text style={styles.horizontalrice}>{item.price}</Text>
                       <Text style={styles.horizontaltime}>{item.created_AT}</Text>
                     </View>
-                  </View>
+                  </TouchableOpacity>
                 )}
                 horizontal
                 showsHorizontalScrollIndicator={false}
@@ -429,12 +397,15 @@ const DetailProduct = (props) => {
                 <Text style={styles.textviewall}>Xem tất cả</Text>
               </TouchableOpacity>
             </View>
+
             <View style={styles.contpro}>
               <FlatList
                 data={proByCaterory}
                 keyExtractor={item => item._id}
                 renderItem={({ item }) => (
-                  <View style={styles.horizontalItem}>
+                  <TouchableOpacity style={styles.horizontalItem}
+                    onPress={() => reLoadScreen(item._id)}
+                  >
                     <Image
                       source={{ uri: `${urlApi}${item.files[0]}` }}
                       style={styles.horizontalImage} />
@@ -444,16 +415,17 @@ const DetailProduct = (props) => {
                     />
                     <Text style={styles.tagpro}>Thanh toán đảm bảo</Text>
                     <View style={styles.horizontalTextContainer}>
-                      <Text style={styles.horizontalname}>{item.title}</Text>
+                      <Text style={styles.horizontalname} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
                       <Text style={styles.horizontalrice}>{item.price}</Text>
                       <Text style={styles.horizontaltime}>{item.created_AT}</Text>
                     </View>
-                  </View>
+                  </TouchableOpacity>
                 )}
                 horizontal
                 showsHorizontalScrollIndicator={false}
               />
             </View>
+
           </ScrollView>
           <View style={styles.containerbottomtab}>
             <TouchableOpacity
@@ -494,6 +466,7 @@ const DetailProduct = (props) => {
           </View>
         </>
       )}
+
     </View>
   );
 };
@@ -870,7 +843,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   followButton: {
-    marginHorizontal: 10,
+    marginHorizontal: 20,
     width: '40%',
     flexDirection: 'row',
     alignItems: 'center',

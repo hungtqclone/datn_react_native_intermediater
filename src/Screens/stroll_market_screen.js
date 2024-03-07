@@ -3,14 +3,14 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import NearYouNavigation from '../components/navigation/NearYouNavigation';
-import { GetRouteNameScroll } from '../components/navigation/GetRouteNameMarket';
 import ExploreNavigation from '../components/navigation/ExploreNavigation';
 const Tab = createMaterialTopTabNavigator();
 
 const StrollTabs = () => {
     return (
         <Tab.Navigator
-            screenOptions={{tabBarLabelStyle: { fontSize: 13, fontWeight: 'bold' }, }}>
+            swipeEnabled={false}
+            screenOptions={{ tabBarLabelStyle: { fontSize: 13, fontWeight: 'bold' }, }}>
             <Tab.Screen name="NearYouNavigation" component={NearYouNavigation} options={{ tabBarLabel: 'Gần Bạn' }} />
             <Tab.Screen name="ExploreNavigation" component={ExploreNavigation} options={{ tabBarLabel: 'Khám Phá' }} />
         </Tab.Navigator>

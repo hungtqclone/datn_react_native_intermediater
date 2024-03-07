@@ -159,16 +159,8 @@ const NearYou = (props) => {
               <Image
                 source={{uri: `${urlServer}${item}`}}
                 style={styles.image}
+                resizeMode="cover"
               />
-              {/* {index === 3 && (
-                <TouchableOpacity
-                  style={styles.overlay}
-                  onPress={() => console.log('+2')}>
-                  <Text style={styles.overlayText}>
-                    {remainingItemCount > 0 ? `+${remainingItemCount}` : ''}
-                  </Text>
-                </TouchableOpacity>
-              )} */}
             </View>
           )}
           keyExtractor={index => index.toString()}
@@ -232,8 +224,7 @@ const NearYou = (props) => {
   );
 
 
-  // const visibleData = data ? data.slice(0, 4) : [];
-  // const remainingItemCount = Math.max(0, data.length - 4);
+
   // hàm hiện thị nút xem thêm
   const [isExpanded, setIsExpanded] = useState(false);
   const [showCollapseButton, setShowCollapseButton] = useState(false);
