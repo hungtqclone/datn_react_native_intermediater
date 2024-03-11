@@ -8,15 +8,17 @@ import {
   ScrollView,
   TouchableOpacity,
   FlatList,
+  Linking,
   ActivityIndicator
 } from 'react-native';
 import React, { useState, useEffect, useContext, Component } from 'react';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useFocusEffect  } from '@react-navigation/native';
 import { getPostNewsByCategory, getProductById } from './ScreenService';
 import { getPostNewsByUserId } from './ScreenService';
+import Swiper from 'react-native-swiper';
 const DetailProduct = (props) => {
   //navigation
-  const { navigation, rating, totalReviews } = props;
+   const { navigation, rating, totalReviews } = props;
   //link ảnh 
   const urlApi = 'https://datnapi.vercel.app/';
   //link api
@@ -30,6 +32,7 @@ const DetailProduct = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingProByUser, setIsLoadingProByUser] = useState(true);
   const [isLoadingProByCategory, setIsLoadingProByCategory] = useState(true);
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   const data = [
     { id: '1', question: 'Món hàng này còn không?' },
@@ -48,17 +51,34 @@ const DetailProduct = (props) => {
     setIsLoading(true);
     const productData = await getProductById(id);
     setProducts(productData);
+    setPhoneNumber(productData.userid.phone);
     setIsLoading(false);
 
   };
 
-
+  const handleCallPress = (phoneNumber) => {
+    // Kiểm tra nếu thiết bị hỗ trợ mở cuộc gọi
+    if (Linking.canOpenURL(`tel:${phoneNumber}`)) {
+      Linking.openURL(`tel:${phoneNumber}`);
+    } else {
+      console.log('Không thể thực hiện cuộc gọi trên thiết bị này.');
+    }
+  };
+  const handleSMSPress = (phoneNumber) => {
+    // Kiểm tra nếu thiết bị hỗ trợ mở tin nhắn
+    if (Linking.canOpenURL(`sms:${phoneNumber}`)) {
+      Linking.openURL(`sms:${phoneNumber}`);
+    } else {
+      console.log('Không thể mở tin nhắn trên thiết bị này.');
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const productData = await getProductById(id_product);
         setProducts(productData);
+        setPhoneNumber(productData.userid.phone);
         setIsLoading(false);
 
         if (productData && productData.userid) {
@@ -76,8 +96,8 @@ const DetailProduct = (props) => {
         console.error('Error fetching data:', error);
       }
     };
-
     fetchData();
+
   }, []);
 
 
@@ -126,21 +146,33 @@ const DetailProduct = (props) => {
       ) : (
         <>
           <ScrollView >
-            <View style={styles.header}>
+            {/* <View style={styles.header}>
               <Image
                 //source={require('../assets/images/imgProduct.png')}
                 source={{ uri: `${urlServer}${products.files[0]}` }}
                 style={styles.product}
               />
+            </View> */}
+            <View style={styles.containerslide}>
+              <Swiper style={styles.wrapper} showsButtons={false} autoplay={true} autoplayTimeout={2}>
+                {products.files.map((file, index) => (
+                  <View style={styles.slide} key={index}>
+                    <Image
+                      source={{ uri: `${urlServer}${file}` }}
+                      style={styles.image}
+                    />
+                  </View>
+                ))}
+              </Swiper>
             </View>
             <View style={styles.txtHeader}>
               <View style={styles.nameProduct}>
-                <Text style={styles.txtNameProduct}>{products.title} </Text>
+                <Text style={styles.txtNameProduct}> {products.title} </Text>
               </View>
               <View style={styles.price}>
                 <View>
                   <Text style={styles.textprice}>{products.price + ' đ'} </Text>
-                  <Text style={styles.timeIn}>{products.created_AT}</Text>
+                  <Text style={styles.timeIn}>  {products.created_AT}</Text>
                 </View>
                 <TouchableOpacity style={styles.containerPrice}>
                   <Image
@@ -235,7 +267,7 @@ const DetailProduct = (props) => {
                   <View style={styles.row}>
                     <Image
                       source={require('../assets/images/icons/iconTag.png')}
-                      style={styles.image}
+                      style={styles.image1}
                     />
                     <Text style={styles.textdetailInfoProduct}>Hãng:</Text>
                     <Text style={styles.textdetailInfoProduct}>Apple</Text>
@@ -243,7 +275,7 @@ const DetailProduct = (props) => {
                   <View style={styles.row}>
                     <Image
                       source={require('../assets/images/icons/iconTag2.png')}
-                      style={styles.image}
+                      style={styles.image1}
                     />
                     <Text style={styles.textdetailInfoProduct}>Dòng máy:</Text>
                     <Text style={styles.textdetailInfoProduct}>Iphone 6</Text>
@@ -251,7 +283,7 @@ const DetailProduct = (props) => {
                   <View style={styles.row}>
                     <Image
                       source={require('../assets/images/icons/iconProtect.png')}
-                      style={styles.image}
+                      style={styles.image1}
                     />
                     <Text style={styles.textdetailInfoProduct}>
                       Tình trạng bảo hành: Còn bảo hành
@@ -263,7 +295,7 @@ const DetailProduct = (props) => {
                   <View style={styles.row}>
                     <Image
                       source={require('../assets/images/icons/iconColor.png')}
-                      style={styles.image}
+                      style={styles.image1}
                     />
                     <Text style={styles.textdetailInfoProduct}>Màu sắc:</Text>
                     <Text style={styles.textdetailInfoProduct}>Vàng</Text>
@@ -271,7 +303,7 @@ const DetailProduct = (props) => {
                   <View style={styles.row}>
                     <Image
                       source={require('../assets/images/icons/iconPaper.png')}
-                      style={styles.image}
+                      style={styles.image1}
                     />
                     <Text style={styles.textdetailInfoProduct}>
                       Tình trạng: Đã sử dụng (Chưa sửa chữa)
@@ -281,7 +313,7 @@ const DetailProduct = (props) => {
                   <View style={styles.row}>
                     <Image
                       source={require('../assets/images/icons/iconData.png')}
-                      style={styles.image}
+                      style={styles.image1}
                     />
                     <Text style={styles.textdetailInfoProduct}>Dung lượng:</Text>
                     <Text style={styles.textdetailInfoProduct}>64 GB</Text>
@@ -429,18 +461,18 @@ const DetailProduct = (props) => {
           </ScrollView>
           <View style={styles.containerbottomtab}>
             <TouchableOpacity
-              style={styles.bottomtab}
-              onPress={() => console.log('Call pressed')}>
+              style={styles.bottomtabcall}
+              onPress={() => handleCallPress(phoneNumber)}>
               <Image
-                source={require('../assets/images/icons/icon_call.png')}
-                style={styles.iconc}
+                source={require('../assets/images/icons/phone-call.png')}
+                style={styles.icons }
               />
-              <Text style={styles.textcall}>Gọi điện</Text>
+              <Text style={styles.textcall1}>Gọi điện</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.bottomtab}
-              onPress={() => console.log('Text pressed')}>
+              onPress={() => handleSMSPress(phoneNumber)}>
               <Image
                 source={require('../assets/images/icons/icon_sms.jpg')}
                 style={styles.iconc}
@@ -458,11 +490,11 @@ const DetailProduct = (props) => {
               <Text style={styles.textcall}>Chat</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.bottomtabmua}
               onPress={() => console.log('Buy pressed')}>
               <Text style={styles.textmuangay}>Mua ngay</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </>
       )}
@@ -725,6 +757,7 @@ const styles = StyleSheet.create({
   },
   contDesc: {
     marginBottom: 10,
+    marginLeft: 10,
   },
   titleDecs: {
     fontSize: 15,
@@ -743,6 +776,7 @@ const styles = StyleSheet.create({
   },
   infoProduct: {
     marginBottom: 10,
+    marginLeft: 10,
   },
   detailInfoProduct: {
     width: '100%',
@@ -896,10 +930,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
   },
+  bottomtabcall: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 50,
+    justifyContent: 'center',
+    flex: 1,
+    backgroundColor: '#33CC33',
+    padding: 10,
+    borderRadius: 5,
+  },
   containerbottomtab: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 15, // Điều chỉnh giá trị padding theo nhu cầu của bạn
+    // paddingVertical: 15, // Điều chỉnh giá trị padding theo nhu cầu của bạn
     backgroundColor: '#FFF', // Màu nền của container
   },
   bottomtabmua: {
@@ -913,6 +957,11 @@ const styles = StyleSheet.create({
   },
   textcall: {
     color: 'black',
+    fontSize: 12,
+    paddingBottom: 7,
+  },
+  textcall1: {
+    color: 'white',
     fontSize: 12,
     paddingBottom: 7,
   },
@@ -1123,5 +1172,25 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     // borderColor: 'black',
     // borderWidth: 0.5,
-  }
+  },
+  wrapper: {},
+  slide: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  image1: {
+    // width: '100%',
+    // height: '100%',
+  },
+  containerslide: {
+    width: '100%',
+    height: 300,
+  },
+
 });

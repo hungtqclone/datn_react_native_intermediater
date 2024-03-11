@@ -126,7 +126,8 @@ const Home = props => {
   // Postnews
   const renderItemPostnew = ({item}) => {
     return (
-      <TouchableOpacity style={homeStyles.productBody}>
+      <TouchableOpacity style={homeStyles.productBody} 
+      >
         <Image
           style={homeStyles.imgproduct}
           source={{uri: `${urlApi}${item.files}`}}

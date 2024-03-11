@@ -14,7 +14,7 @@ export const GetRouteNameProfile = route => {
     }
     else if (routeName?.includes('SalesWalletScreen')) {
         return 'none';
-    } else if (routeName?.includes('SavedSearchScreen')) {
+    } else if (routeName?.includes('SearchSaveNavigation')) {
         return 'none';
     } else if (routeName?.includes('ReviewStack')) {
         return 'none';
@@ -28,14 +28,15 @@ export const GetRouteNameProfile = route => {
     } else if (routeName?.includes('CommentsScreen')) {
         return 'none';
     }
+    else if (routeName?.includes('DetailProduct')) {
+        return 'none';
+    }
     return 'flex';
 };
 export const GetRouteNameScroll = route => {
     const routeName = getFocusedRouteNameFromRoute(route);
-    if (routeName?.includes('NearYouNavigation')) {
+    if (routeName?.includes('DetailProduct')) {
         return 'none';
-    } else if (routeName?.includes('Explore')) {
-        return 'none';
-    }
+    } 
     return 'flex';
 };

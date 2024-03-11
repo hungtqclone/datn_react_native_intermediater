@@ -65,7 +65,8 @@ const SavedSearchScreen = props => {
     ongetProducts();
   }, []);
   const renderItem = ({item, index}) => (
-    <View key={index} style={styles.horizontalItem}>
+    <TouchableOpacity key={index} style={styles.horizontalItem}
+    onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })} >
       <Image
         source={{uri: `${urlServer}${item.files[0]}`}}
         style={styles.horizontalImage}
@@ -91,7 +92,7 @@ const SavedSearchScreen = props => {
           <Text style={styles.horizontaltime}>{item.created_AT}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
   return (
     <ScrollView style={styles.body}>

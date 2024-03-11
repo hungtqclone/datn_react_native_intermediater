@@ -185,13 +185,20 @@ const DetailPostnews = (props) => {
         setBrandid('');
     }, [imagePath, title, detail, location, price, created_AT, statusTT, brand, warranty, origin, userid, brandid]);
 
-    const updateSelectedImages = () => {
-        if (selectedImages.length < 5) {
-            const newSelectedImages = [...selectedImages, imagePath];
+    // const updateSelectedImages = () => {
+    //     if (selectedImages.length < 5) {
+    //         const newSelectedImages = [...selectedImages, imagePath];
+    //         setSelectedImages(newSelectedImages);
+    //         setSelectedImagesCount(newSelectedImages.length);
+    //     }
+    // };
+    const updateSelectedImages = useCallback((newAssets) => {
+        if (newAssets && newAssets.length > 0) {
+            const newSelectedImages = [...selectedImages, ...newAssets.map(asset => asset.uri)];
             setSelectedImages(newSelectedImages);
             setSelectedImagesCount(newSelectedImages.length);
         }
-    };
+    }, [selectedImages]);
     const renderItem = ({ item, index }) => {
 
         return (

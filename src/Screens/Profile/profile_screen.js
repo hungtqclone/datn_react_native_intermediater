@@ -184,7 +184,7 @@ const Profile_screen = props => {
               <Text style={styles.txtMagOrderItem}>Tin đăng đã lưu</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate('SavedSearchScreen')}
+              onPress={() => navigation.navigate('SearchSaveNavigation')}
               style={styles.contMagOrderItemLeft}>
               <Image
                 source={require('../../assets/images/icons/icon_tag.png')}

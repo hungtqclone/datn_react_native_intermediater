@@ -16,6 +16,7 @@ import HelpScreen from '../../Screens/Profile/Help/HelpScreen';
 import CommentsScreen from '../../Screens/Profile/Comments/CommentsScreen';
 import Login from '../../Screens/Login';
 import PostSavedNavigation from '../../Screens/Profile/PostSaved/PostSavedNavigation';
+import SearchSaveNavigation from '../../Screens/Profile/SavedSearch/SearchSaveNavigation';
 // Stack
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -51,7 +52,7 @@ const ProflieStack = () => {
       <Stack.Screen name="PostSavedNavigation"
         component={PostSavedNavigation}
       />
-      <Stack.Screen name="SavedSearchScreen" component={SavedSearchScreen} />
+      <Stack.Screen name="SearchSaveNavigation" component={SearchSaveNavigation} />
       <Stack.Screen name="ReviewStack" component={ReviewStack} />
       <Stack.Screen name="PhonePricing" component={PhonePricing} />
       <Stack.Screen

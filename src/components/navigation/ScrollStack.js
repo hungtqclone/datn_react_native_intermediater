@@ -20,6 +20,7 @@
           presentation: 'modal',
           animationTypeForReplace: 'push',
           animation: 'slide_from_right',
+         
         }}>
         <Stack.Screen name="StrollScreen" component={StrollScreen} />
         <Stack.Screen name="ChatNavigation" component={ChatNavigation} />

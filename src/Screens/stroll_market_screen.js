@@ -9,8 +9,7 @@ const Tab = createMaterialTopTabNavigator();
 const StrollTabs = () => {
     return (
         <Tab.Navigator
-            swipeEnabled={false}
-            screenOptions={{ tabBarLabelStyle: { fontSize: 13, fontWeight: 'bold' }, }}>
+            screenOptions={{ swipeEnabled: true, tabBarLabelStyle: { fontSize: 13, fontWeight: 'bold' }, }}>
             <Tab.Screen name="NearYouNavigation" component={NearYouNavigation} options={{ tabBarLabel: 'Gần Bạn' }} />
             <Tab.Screen name="ExploreNavigation" component={ExploreNavigation} options={{ tabBarLabel: 'Khám Phá' }} />
         </Tab.Navigator>

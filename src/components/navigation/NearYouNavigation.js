@@ -9,9 +9,12 @@ const Stack = createNativeStackNavigator();
 
 const NearYouNavigation = () => {
     return (
-        <Stack.Navigator initialRouteName='CategoriesDetail' screenOptions={{ headerShown: false }}>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="NearYou" component={NearYou} />
-            <Stack.Screen name="DetailProduct" component={DetailProduct} />
+            <Stack.Screen name="DetailProduct" component={DetailProduct}
+               options={{
+                tabBarVisible: false
+              }} />
         </Stack.Navigator>
     );
 };
