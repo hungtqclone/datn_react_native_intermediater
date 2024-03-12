@@ -35,8 +35,16 @@ export const GetRouteNameProfile = route => {
 };
 export const GetRouteNameScroll = route => {
     const routeName = getFocusedRouteNameFromRoute(route);
-    if (routeName?.includes('DetailProduct')) {
+    if (routeName?.includes('NearYouNavigation')) {
         return 'none';
-    } 
+    } else if (routeName?.includes('DetailProduct')) {
+        return 'none';
+    } else if (routeName?.includes('ExploreNavigation')) {
+        return 'none';
+    } else if (routeName?.includes('NearYou')) {
+        return 'none';
+    } else if (routeName?.includes('Explore')) {
+        return 'none';
+    }
     return 'flex';
 };

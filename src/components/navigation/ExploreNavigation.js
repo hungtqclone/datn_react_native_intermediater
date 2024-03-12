@@ -11,7 +11,7 @@ const ExploreNavigation = () => {
     return (
         <Stack.Navigator initialRouteName='CategoriesDetail' screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Explore" component={Explore} />
-            <Stack.Screen name="DetailProduct" component={DetailProduct}/>
+            {/* <Stack.Screen name="DetailProduct" component={DetailProduct}/> */}
         </Stack.Navigator>
     );
 };

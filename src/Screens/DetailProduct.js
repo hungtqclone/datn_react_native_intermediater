@@ -469,7 +469,6 @@ const DetailProduct = (props) => {
               />
               <Text style={styles.textcall1}>Gọi điện</Text>
             </TouchableOpacity>
-
             <TouchableOpacity
               style={styles.bottomtab}
               onPress={() => handleSMSPress(phoneNumber)}>
@@ -481,7 +480,7 @@ const DetailProduct = (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={styles.bottomtab}
+              style={styles.bottomtab2}
               onPress={() => console.log('Check pressed')}>
               <Image
                 source={require('../assets/images/icons/icon_chat.png')}
@@ -923,6 +922,12 @@ const styles = StyleSheet.create({
   //   fontWeight: 'bold',
   // },
   bottomtab: {
+    alignItems: 'center',
+    height: 50,
+    justifyContent: 'center',
+    flex: 1,
+  },
+  bottomtab2: {
     borderLeftWidth: 1,
     borderLeftColor: 'gray',
     alignItems: 'center',
