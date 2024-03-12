@@ -48,32 +48,38 @@ const AccountSettingsScreen = props => {
 
   const fetchCities = async () => {
     try {
-      const response = await fetch('https://provinces.open-api.vn/api/p/');
+      const response = await fetch('https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json');
       const data = await response.json();
-      setCities(data);
+      setCities(data.map(city => ({ code: city.Id, name: city.Name })));
     } catch (error) {
       console.error('Error fetching cities:', error);
     }
   };
+  
   const fetchDistricts = async cityCode => {
     try {
-      const response = await fetch(
-        `https://provinces.open-api.vn/api/p/${cityCode}?depth=2`,
-      );
+      const response = await fetch(`https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json`);
       const data = await response.json();
-      setDistricts(data.districts);
+      const city = data.find(city => city.Id === cityCode);
+      if (city) {
+        setDistricts(city.Districts.map(district => ({ code: district.Id, name: district.Name })));
+      }
     } catch (error) {
       console.error('Error fetching districts:', error);
     }
   };
-
+  
   const fetchWards = async districtCode => {
     try {
-      const wardResponse = await fetch(
-        `https://provinces.open-api.vn/api/d/${districtCode}?depth=2`,
-      );
-      const wardData = await wardResponse.json();
-      setWards(wardData.wards);
+      const response = await fetch(`https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json`);
+      const data = await response.json();
+      for (const city of data) {
+        const district = city.Districts.find(district => district.Id === districtCode);
+        if (district) {
+          setWards(district.Wards.map(ward => ({ code: ward.Id, name: ward.Name })));
+          break;
+        }
+      }
     } catch (error) {
       console.error('Error fetching wards:', error);
     }
