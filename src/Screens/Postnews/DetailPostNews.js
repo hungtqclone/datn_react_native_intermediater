@@ -1,436 +1,784 @@
-import { View, Pressable, Modal, Text, Image, StyleSheet, TextInput, TouchableOpacity, VirtualizedList, Button, FlatList, ScrollView, Alert } from 'react-native'
-import React, { useState, useMemo, useEffect, useCallback } from 'react'
+import {
+  ActivityIndicator,
+  View,
+  Pressable,
+  Modal,
+  Text,
+  Image,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  VirtualizedList,
+  Button,
+  FlatList,
+  ScrollView,
+  Alert,
+} from 'react-native';
+import React, {
+  useState,
+  useMemo,
+  useEffect,
+  useCallback,
+  useContext,
+} from 'react';
+import {Dropdown} from 'react-native-element-dropdown';
+import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
-import { BottomSheet } from '@rneui/base';
-import { getCategory, getDetailCategory, addPostNews, uploadImage } from '../ScreenService';
-import { PNStyles } from '../../styleSheets/DetailPostNewsStyles';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { Icon } from 'react-native-paper';
+import {BottomSheet} from '@rneui/base';
+import {
+  getCategory,
+  getDetailCategory,
+  addPostNews,
+  getBrands,
+  uploadImage,
+} from '../ScreenService';
+import {PNStyles} from '../../styleSheets/DetailPostNewsStyles';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {UserContext} from '../../components/users/UserContext';
+import ImagePicker from 'react-native-image-crop-picker';
+import {Icon} from 'react-native-paper';
 import Postnews from '../Postnews';
 
-const DetailPostnews = (props) => {
-    const [modalVisible, setModalVisible] = useState(false);
-    const [modalVisibleImage, setModalVisibleImage] = useState(false);
-    const [modalVisibleAddress, setModalVisibleAddress] = useState(false);
-    const [categories, setCategories] = useState([]);
-    const [idCategory, setIdCategory] = useState('');
-    const { navigation, route } = props;
-    const { params } = route;
-    const { _id, name } = params;
-    const [idPost, setIdPost] = useState(_id);
-    const [namePost, setName] = useState(name);
-    urlApi = 'http://datnapi.vercel.app/'
+const DetailPostnews = props => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleImage, setModalVisibleImage] = useState(false);
+  const [modalVisibleImageTo, setModalVisibleImageTo] = useState(true);
+  const [modalVisibleAddress, setModalVisibleAddress] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [idCategory, setIdCategory] = useState('');
+  const {navigation, route} = props;
+  const {user, setuser} = useContext(UserContext);
+  const {params} = route;
+  const {_id, name} = params;
+  const [idPost, setIdPost] = useState(_id);
+  const [namePost, setName] = useState(name);
+  urlApi = 'http://datnapi.vercel.app/';
 
-    // image
-    const [image, setImage] = useState(null);
-    const [imagePath, setImagePath] = useState(null);
-    const [selectedImages, setSelectedImages] = useState([]);
-    const [selectedImagesCount, setSelectedImagesCount] = useState(0);
-    // postnews
-    const [title, setTitle] = useState('');
-    const [detail, setDetail] = useState('');
-    const [location, setLocation] = useState('');
-    const [price, setPrice] = useState('');
-    const [created_AT, setCreated_AT] = useState('');
-    const [files, setFiles] = useState('');
-    const [userid, setUserid] = useState('');
-    const [brandid, setBrandid] = useState('');
-    const [properties, srtProperties] = useState([]);
-    // properties
-    const [statusTT, setStatusTT] = useState('');
-    const [brand, setBrand] = useState('');
-    const [warranty, setWarranty] = useState('');
-    const [origin, setOrigin] = useState('');
+  // image
+  const [image, setImage] = useState([]);
+  const [imagePath, setImagePath] = useState(null);
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [selectedImagesCount, setSelectedImagesCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState('');
 
-    useEffect(() => {
-        console.log('id', idPost);
-        console.log('name', namePost);
-        console.log('IMAGEPATH', imagePath);
-    }, [idPost, name, imagePath]);
+  // postnews
+  const [title, setTitle] = useState('');
+  const [detail, setDetail] = useState('');
+  const [details, setDetails] = useState(['']);
+  const [location, setLocation] = useState('');
+  const [price, setPrice] = useState('');
+  const [created_AT, setCreated_AT] = useState('');
+  const [files, setFiles] = useState('');
+  const [userid, setUserid] = useState('');
+  const [brandid, setBrandid] = useState('');
+  const [brand, setBrand] = useState([]);
+  const [selectedBrandId, setSelectedBrandId] = useState(null);
 
-    const handleTouchableOpacityPress = (newIdPost, newNamePost) => {
-        setIdPost(newIdPost);
-        setName(newNamePost);
-        setModalVisible(false);
-    }
-    const CloseModel = () => {
-        setModalVisible(false);
-    }
-    const CloseModelImage = () => {
+  const [properties, setProperties] = useState('');
+  // properties
+  const [statusTT, setStatusTT] = useState(''); // tình trạng
 
+  // địa chỉ
+  const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [cities, setCities] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
 
+  const [wards, setWards] = useState([]);
+  const [ward, setWard] = useState('');
+  const [selectedWard, setSelectedWard] = useState(null);
+  const [isWardSelected, setIsWardSelected] = useState(false);
+  const handleAddInput = () => {
+    setDetails([...details, '']);
+  };
+  //hiện thông báo nếu chưa chọn địa chỉ
+  const showAddressNotification = () => {
+    if (!selectedCity || !selectedDistrict || !selectedWard) {
+      Alert.alert(
+        'Thông báo',
+        'Vui lòng chọn tỉnh/thành, quận/huyện và phường/xã trước khi nhập địa chỉ cụ thể.',
+      );
     }
-    const ongetCategory = async () => {
-        const categories = await getCategory();
-        setCategories(categories);
+  };
+  const toggleBottomSheet = () => {
+    if (selectedCity && selectedDistrict && selectedWard) {
+      const selectedLocation = `${ward},${selectedWard.name}, ${selectedDistrict.name}, ${selectedCity.name}`;
+      console.log('tên địa chỉ', selectedLocation);
+      setLocation(selectedLocation);
     }
-    const ongetDetailCategory = async () => {
-        const detailCategory = await getDetailCategory(idCategory);
-        setCategories(detailCategory)
+    setModalVisibleAddress(!modalVisibleAddress);
+  };
+
+  const fetchCities = async () => {
+    try {
+      const response = await fetch(
+        'https://vnprovinces.pythonanywhere.com//api/provinces/?basic=true&limit=100',
+      );
+      const data = await response.json();
+      setCities(data.results);
+      // console.log('City', data.results);
+    } catch (error) {
+      console.error('Error fetching cities:', error);
     }
-    useEffect(() => {
-        if (idCategory == null) {
-            ongetCategory();
-        } else {
-            ongetDetailCategory();
-        }
-    }, [idCategory]);
-    const uploadImageToServer = async (formData) => {
-        try {
-            const response = await axios.post('https://datnapi.vercel.app/api/postnews/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            // console.log("RESPONSE", response);
-            return response.data;
-        } catch (error) {
-            console.log('Error uploading image to server:', error);
-            return null;
-        }
+  };
+  const fetchDistricts = async cityCode => {
+    try {
+      const response = await fetch(
+        `https://vnprovinces.pythonanywhere.com/api/provinces/${cityCode}`,
+      );
+      const data = await response.json();
+      setDistricts(data.districts);
+      // console.log('Huyện', data.districts);
+    } catch (error) {
+      console.error('Error fetching districts:', error);
+    }
+  };
+
+  const fetchWards = async districtCode => {
+    try {
+      const wardResponse = await fetch(
+        `https://vnprovinces.pythonanywhere.com/api/districts/${districtCode}`,
+      );
+      const wardData = await wardResponse.json();
+      setWards(wardData.wards);
+      // console.log('Ward', wardData);
+    } catch (error) {
+      console.error('Error fetching wards:', error);
+    }
+  };
+  const ongetBrands = async () => {
+    try {
+      const brandsData = await getBrands(idPost);
+      setBrand(brandsData);
+      // console.log('Sản Phẩm :83 >', brandsData);
+    } catch (error) {
+      console.error('Error getting brands:', error);
+    }
+  };
+  const handleBrandChange = brandId => {
+    setSelectedBrandId(brandId);
+  };
+
+  useEffect(() => {
+    fetchCities(), ongetBrands(), ongetBrands();
+    // console.log('slectcity', selectedCity);
+    // console.log('District', selectedDistrict);
+    // console.log('Ward', selectedWard);
+    // console.log('User', user._id);
+    // console.log('BrandID', selectedBrandId);
+    // console.log('IMAGEPATH', imagePath);
+    // console.log('location', location);
+  }, [
+    idPost,
+    name,
+    imagePath,
+    image,
+    modalVisibleImageTo,
+    location,
+    selectedCity,
+    selectedDistrict,
+    selectedWard,
+    selectedLocation,
+    selectedBrandId
+  ]);
+
+  const handleTouchableOpacityPress = (newIdPost, newNamePost) => {
+    setIdPost(newIdPost);
+    setName(newNamePost);
+    setModalVisible(false);
+  };
+  const onRemoveImage = index => {
+    const updatedImages = image.filter((_, i) => i !== index);
+    setImage(updatedImages);
+  };
+  const CloseModel = () => {
+    if (image.length === 0) {
+      setModalVisible(false);
+    }
+  };
+  const CloseModelImage = () => {};
+  const ongetCategory = async () => {
+    const categories = await getCategory();
+    setCategories(categories);
+  };
+  const ongetDetailCategory = async () => {
+    const detailCategory = await getDetailCategory(idCategory);
+    setCategories(detailCategory);
+  };
+  useEffect(() => {
+    if (idCategory == null) {
+      ongetCategory();
+    } else {
+      ongetDetailCategory();
+    }
+  }, [idCategory]);
+  const uploadImageToServer = async formData => {
+    try {
+      const response = await axios.post(
+        'https://datnapi.vercel.app/api/postnews/upload',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+      return response.data;
+    } catch (error) {
+      console.log('Error uploading image to server:', error);
+      return null;
+    }
+  };
+
+  // nút tiếp tục
+  const handleaddImageTocloudiary = async () => {
+    const ArrayImagePath = [];
+    try {
+      setIsLoading(true);
+      const formData = new FormData();
+      for (var i = 0; i < image.length; i++) {
+        formData.append('file', {
+          uri: image[i],
+          type: 'image/jpeg',
+          name: 'photo.jpg',
+        });
+        const response = await uploadImageToServer(formData);
+        ArrayImagePath.push(response.files);
+      }
+      const uniqueImageLinks = ArrayImagePath.map(images => images[0]);
+      setImagePath(ArrayImagePath);
+      // console.log('IMAGEPATH', uniqueImageLinks);
+      setIsLoading(false);
+    } catch (error) {
+      console.log('Error uploading image to server:', error);
+    }
+  };
+  // Add post and image
+  const takePhoto = useCallback(async response => {
+    if (response.didCancel || response.errorCode || response.errorMessage) {
+      return;
+    }
+    if (response.assets && response.assets.length > 0) {
+      const ArrayImage = response.assets.map(asset => asset.uri);
+      setImage(ArrayImage);
+      setModalVisible(false);
+    }
+  }, []);
+
+  const openCamera = useCallback(async () => {
+    const options = {
+      mediaType: 'photo',
+      quality: 1,
+      saveToPhotos: true,
     };
+    await launchCamera(options, takePhoto);
+  }, []);
 
-    // nút tiếp tục 
-    const handleaddImageTocloudiary = async () => {
-        try {
-            const formData = new FormData();
-            formData.append('file', { uri: image, type: 'image/jpeg', name: 'photo.jpg' });
-            const response = await uploadImageToServer(formData);
-            console.log(" 94 RESPONSE", response.files);
-            // Xử lý kết quả trả về từ server
-            setImagePath(response.files);
-
-        } catch (error) {
-            console.log('Error uploading image to server:', error);
-        }
+  const openLibrary = useCallback(async () => {
+    const options = {
+      mediaType: 'photo',
+      quality: 1,
+      saveToPhotos: true,
+      selectionLimit: 5,
     };
-    // Add post and image
-    const takePhoto = useCallback(async (response) => {
-        if (response.didCancel) return;
-        if (response.errorCode) return;
-        if (response.errorMessage) return;
-        if (response.assets && response.assets.length > 0) {
-            const asset = response.assets[0];
-            setImage(asset.uri);
-            setModalVisible(false);
-        }
-        updateSelectedImages();
-    }, []);
-
-    const openCamera = useCallback(async () => {
-        const options = {
-            mediaType: 'photo',
-            quality: 1,
-            saveToPhotos: true,
-        };
-        await launchCamera(options, takePhoto);
-        updateSelectedImages();
-    }, []);
-
-    const openLibrary = useCallback(async () => {
-        const options = {
-            mediaType: 'photo',
-            quality: 1,
-            saveToPhotos: true,
-        };
-        await launchImageLibrary(options, takePhoto);
-        updateSelectedImages();
-    }, []);
-
-    const save = useCallback(async () => {
-        if (!title || !detail || !price || !statusTT || !brand || !warranty || !origin || !imagePath) {
-            Alert.alert('Vui lòng điền đầy đủ thông tin.');
-            return;
-        }
-        const currentDate = new Date();
-        const properties = {
-            statusTT,
-            brand,
-            warranty,
-            origin
-        };
-        const data = {
-            title,
-            detail,
-            location: 'HCM',
-            price,
-            activable: true,
-            role: 'mua',
-            created_AT: currentDate,
-            files: imagePath,
-            userid: '6587edd36c13142ab0adcd86',
-            brandid: '6587edd36c13142ab0adcd86',
-            properties,
-            idCategory: idPost,
-
-        };
-        const response = await addPostNews(data);
-        console.log(response.files);
-        if (response == false) {
-            Alert.alert('Thêm thất bại');
-        }
-        Alert.alert('Thêm Thành công');
-        setImage(null);
-        setTitle('');
-        setDetail('');
-        setLocation('');
-        setPrice('');
-        setCreated_AT('');
-        setFiles('');
-        setStatusTT('');
-        setBrand('');
-        setWarranty('');
-        setOrigin('');
-        setUserid('');
-        setBrandid('');
-    }, [imagePath, title, detail, location, price, created_AT, statusTT, brand, warranty, origin, userid, brandid]);
-
-    const updateSelectedImages = () => {
-        if (selectedImages.length < 5) {
-            const newSelectedImages = [...selectedImages, imagePath];
-            setSelectedImages(newSelectedImages);
-            setSelectedImagesCount(newSelectedImages.length);
-        }
-    };
-    const renderItem = ({ item, index }) => {
-
-        return (
-            <TouchableOpacity style={PNStyles.contaitong} onPress={() => handleTouchableOpacityPress(item._id, item.name)}>
-                <View style={PNStyles.contaiimg}>
-                    <Image style={PNStyles.img} source={{ uri: `${urlApi}${item.icon}` }} />
-                </View>
-                <View style={PNStyles.contaiCity}>
-                    <Text style={PNStyles.txtCity}>{item.name}</Text>
-                    <View>
-                        <Image source={require('../../../image/show-right.png')} />
-                    </View>
-                </View>
-            </TouchableOpacity>
-        );
+    const response = await launchImageLibrary(options, takePhoto);
+    if (!response.didCancel) {
+      updateSelectedImages(response.assets.length);
     }
+  }, []);
+
+  const updateSelectedImages = count => {
+    setSelectedImagesCount(count);
+  };
+
+  const save = useCallback(async () => {
+    if (
+      !title ||
+      !detail ||
+      !price ||
+      !statusTT ||
+      !brand ||
+      !properties ||
+      !imagePath
+    ) {
+      Alert.alert('Vui lòng điền đầy đủ thông tin.');
+      return;
+    }
+
+    const currentDate = new Date();
+    setIsLoading(true);
+    try {
+      const data = {
+        title,
+        detail,
+        location: location,
+        price,
+        activable: true,
+        role: 'mua',
+        created_AT: currentDate,
+        files: imagePath,
+        userid: user._id,
+        brandid: selectedBrandId,
+        properties: properties,
+        idCategory: idPost,
+      };
+      const response = await addPostNews(data);
+      console.log(response.userid);
+      if (response == false) {
+        Alert.alert('Thêm thất bại');
+      } else {
+        // Hiển thị loading trong 3 giây trước khi tắt
+        setTimeout(() => {
+          Alert.alert('Thêm Thành công');
+          // setImagePath(null);
+          setTitle('');
+          setDetail('');
+          setLocation('');
+          setPrice('');
+          setCreated_AT('');
+          setFiles('');
+          setStatusTT('');
+          setBrand('');
+          setBrandid('');
+          setIsLoading(false); // Tắt loading
+        }, 3000);
+      }
+    } catch (error) {
+      console.log('Error adding post:', error);
+      Alert.alert('Có lỗi xảy ra khi thêm tin đăng.');
+      setIsLoading(false);
+    }
+
+    setIsLoading(false);
+  }, [
+    imagePath,
+    title,
+    detail,
+    location,
+    price,
+    created_AT,
+    statusTT,
+    brand,
+    userid,
+    brandid,
+  ]);
+
+  const renderItem = ({item, index}) => {
     return (
-        <View style={PNStyles.body}>
-            <View style={PNStyles.containerse}>
-                <Pressable onPress={CloseModelImage}>
-                    <Image style={PNStyles.icon} source={require('../../../image/back.png')} />
-                </Pressable>
-                <Image style={PNStyles.iconchotot} source={require('../../../image/icon_chotot.jpg')} />
-            </View>
-            <ScrollView>
-                <Pressable style={PNStyles.presContai} onPress={() => setModalVisible(true)}>
-                    <View style={PNStyles.contaicolum}>
-                        <View style={PNStyles.contairow}>
-                            <Text style={PNStyles.txtCate} >Danh mục tin đăng</Text>
-
-                        </View>
-                        <Text style={PNStyles.txtContent}>Đồ điện tử - {namePost}</Text>
-                    </View>
-                    <Image style={PNStyles.imgDow} source={require('../../../image/down.png')}></Image>
-                </Pressable>
-
-                <View style={PNStyles.viewtile}>
-                    <Text style={PNStyles.txtTT}>THÔNG TIN CHI TIẾT</Text>
-                    <View style={PNStyles.viewrow}>
-                        <Text>Xem thêm về </Text>
-                        <Pressable>
-                            <Text style={PNStyles.txtQD}> Quy định của Chợ Tốt</Text>
-                        </Pressable>
-                    </View>
-                </View>
-
-                <View style={PNStyles.contaiupload}>
-                    <TouchableOpacity style={PNStyles.tcouploadimg} onPress={() => setModalVisibleImage(true)}>
-                        <Image source={require('../../../image/camera_org.png')}></Image>
-                        <Text style={PNStyles.txtloadimg}>ĐĂNG TỪ 01 ĐẾN 06 HÌNH</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={PNStyles.tcouploadimg}>
-                        <Image source={require('../../../image/video_org.png')}></Image>
-                        <Text style={PNStyles.txtloadimg}>ĐĂNG ĐA 01 VIDEO</Text>
-                        <Text style={PNStyles.txtThang}>BẠN ĐÃ ĐĂNG 0/10 VIDEO TRONG THÁNG</Text>
-                    </TouchableOpacity>
-                    <TextInput value={statusTT} onChangeText={setStatusTT} placeholder='Tình trạng' style={PNStyles.inputTT} />
-                    <TextInput value={brand} onChangeText={setBrand} placeholder='Hãng' style={PNStyles.inputTT} />
-                    <TextInput value={warranty} onChangeText={setWarranty} placeholder='Chính sách bảo hành' style={PNStyles.inputTT} />
-                    <TextInput value={origin} onChangeText={setOrigin} placeholder='Xuất xứ' style={PNStyles.inputTT} />
-                    <TextInput value={price} onChangeText={setPrice} placeholder='Giá bán' style={PNStyles.inputTT} />
-                </View>
-                <View style={PNStyles.viewtile}>
-                    <Text style={PNStyles.txtTT}>TIÊU ĐỀ TIN ĐĂNG VÀ MÔ TẢ CHI TIẾT</Text>
-                </View>
-                <View style={PNStyles.contaiupload}>
-                    <TextInput value={title} onChangeText={setTitle} placeholder='Tiêu đề tin đăng' style={PNStyles.inputTT} />
-                    <TextInput
-                        value={detail}
-                        onChangeText={setDetail}
-                        multiline
-                        numberOfLines={4}
-                        maxLength={40} placeholder='Mô tả chi tiết' style={PNStyles.inputTTMT} />
-                </View>
-
-                <View style={PNStyles.viewtile}>
-                    <Text style={PNStyles.txtTT}>THÔNG TIN NGƯỜI BÁN</Text>
-                </View>
-                <View style={PNStyles.contaiupload}>
-                    <Pressable style={PNStyles.presAddres} onPress={() => { setModalVisibleAddress(true) }}>
-                        <View style={PNStyles.contaicolum}>
-                            <Text >Địa chỉ</Text>
-                        </View>
-                        <Image style={PNStyles.imgDow} source={require('../../../image/down.png')}></Image>
-                    </Pressable>
-                </View>
-
-                <View style={PNStyles.contaiBtn}>
-                    <Pressable style={PNStyles.btnXT}>
-                        <Text style={PNStyles.txtXT}>
-                            XEM TRƯỚC
-                        </Text>
-                    </Pressable>
-                    <Pressable style={PNStyles.btnDT} onPress={save}>
-                        <Text style={PNStyles.txtDT}>ĐĂNG TIN</Text>
-                    </Pressable>
-                </View>
-            </ScrollView>
-            {modalVisible &&
-                <View style={PNStyles.overlay} />
-            }
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-            >
-                <View style={PNStyles.centeredView}>
-                    <View style={PNStyles.modalView}>
-                        <View style={PNStyles.Container}>
-                            <View style={PNStyles.contaiappbar}>
-                                <Pressable style={PNStyles.pres} onPress={CloseModel} >
-                                    <Image source={require('../../../image/close.png')} />
-                                </Pressable>
-                                <View style={PNStyles.contaitxt}>
-                                    <Text style={PNStyles.txtTille}>CHỌN DANH MỤC</Text>
-                                </View  >
-                            </View>
-                            <View style={PNStyles.contaitxp}>
-                                <Image source={require('../../../image/searchBar.png')} />
-                                <TextInput placeholder='Nhập từ khóa để lọc' placeholderTextColor={'#9C9C9C'} style={PNStyles.txpserch}>
-                                </TextInput>
-                            </View>
-                            <FlatList
-                                renderItem={renderItem}
-                                data={categories}
-                                keyExtractor={item => item._id}
-                                showsVerticalScrollIndicator={false}
-                            />
-                        </View>
-                    </View>
-                </View>
-            </Modal>
-            {modalVisibleImage &&
-                <View style={PNStyles.overlay} />
-            }
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisibleImage}
-            >
-                <View style={PNStyles.centeredView}>
-                    <View style={PNStyles.modalView}>
-                        <View style={PNStyles.viewModel2}>
-                            <Pressable onPress={() => setModalVisibleImage(false)} >
-                                <Image source={require('../../../image/close.png')} />
-                            </Pressable>
-                            <Text style={PNStyles.txtGDMD}>Gần đây</Text>
-                            <View style={PNStyles.viewMD}>
-                                <Pressable onPress={openLibrary}>
-                                    <Image style={PNStyles.imgpicture} source={require('../../../image/picture.png')} />
-                                </Pressable>
-                                <Text>{`Đã chọn ${selectedImagesCount}/5`}</Text>
-                            </View>
-                        </View>
-                        <View style={PNStyles.viewROW}>
-                            <TouchableOpacity style={PNStyles.tcouploadimg2} onPress={openCamera}>
-                                <Image source={require('../../../image/camera_org.png')}></Image>
-                                <Text style={PNStyles.txtloadimg2}>Chụp hình</Text>
-                            </TouchableOpacity >
-                            {image ?
-                                <TouchableOpacity style={PNStyles.viewImage} onPress={openLibrary} disabled={selectedImages.length >= 5}>
-                                    <Image style={PNStyles.imgSelect} source={{ uri: image }}></Image>
-                                </TouchableOpacity>
-                                :
-                                <TouchableOpacity style={PNStyles.viewImage} >
-                                    <Image style={PNStyles.imgSelect} source={require('../../../image/avt.png')}></Image>
-                                </TouchableOpacity>
-
-                            }
-                        </View>
-                        <View style={PNStyles.viewAl}>
-                            <Pressable style={PNStyles.btnModelTT} onPress={() => {
-                                handleaddImageTocloudiary();
-                                setModalVisibleImage(false);
-                            }}>
-                                <Text style={PNStyles.txtModelTT}>Tiếp tục</Text>
-                            </Pressable>
-                        </View>
-                    </View>
-                </View>
-            </Modal>
-            {modalVisibleAddress &&
-                <View style={PNStyles.overlay} />
-            }
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisibleAddress}
-            >
-                <View style={PNStyles.centeredView}>
-                    <View style={PNStyles.modalView}>
-                        <View style={PNStyles.containerModelAddress}>
-                            <Pressable onPress={() => { setModalVisibleAddress(false) }}>
-                                <Image style={PNStyles.icon} source={require('../../../image/close.png')} />
-                            </Pressable>
-                            <Text style={PNStyles.txtModelAdress}>Địa chỉ</Text>
-                        </View>
-                        <View style={PNStyles.contaiupModeladdress}>
-                            <Pressable style={PNStyles.pressAddMD} onPress={() => { }}>
-                                <View style={PNStyles.contaicolum}>
-                                    <Text style={PNStyles.txtAddressDetail}>Tỉnh, thành phố *</Text>
-                                    <Text style={PNStyles.txtAddressDetails}>Tuyên Quang</Text>
-                                </View>
-                                <Image style={PNStyles.imgDow} source={require('../../../image/down.png')}></Image>
-                            </Pressable>
-                        </View>
-                        <View style={PNStyles.contaiupModeladdress}>
-                            <Pressable style={PNStyles.pressAddMD} onPress={() => { }}>
-                                <View style={PNStyles.contaicolum}>
-                                    <Text style={PNStyles.txtAddressDetail}>Quận, huyện, thị xã * *</Text>
-                                    <Text style={PNStyles.txtAddressDetails}>Huyện Chiêm hoa</Text>
-                                </View>
-                                <Image style={PNStyles.imgDow} source={require('../../../image/down.png')}></Image>
-                            </Pressable>
-                        </View>
-                        <View style={PNStyles.contaiupModeladdress}>
-                            <Pressable style={PNStyles.pressAddMD} onPress={() => { }}>
-                                <View style={PNStyles.contaicolum}>
-                                    <Text style={PNStyles.txtAddressDetail}>Phường, xã, thị trấn *</Text>
-                                    <Text style={PNStyles.txtAddressDetails}>Vĩnh lộc</Text>
-                                </View>
-                                <Image style={PNStyles.imgDow} source={require('../../../image/down.png')}></Image>
-                            </Pressable>
-                        </View>
-                        <View style={PNStyles.contaiupModeladdress}>
-                            <TextInput placeholder='Địa chỉ cụ thể' style={PNStyles.inputDCCT} />
-                        </View>
-
-
-
-
-
-                    </View>
-
-                </View>
-            </Modal>
+      <TouchableOpacity
+        style={PNStyles.contaitong}
+        onPress={() => handleTouchableOpacityPress(item._id, item.name)}>
+        <View style={PNStyles.contaiimg}>
+          <Image style={PNStyles.img} source={{uri: `${urlApi}${item.icon}`}} />
         </View>
+        <View style={PNStyles.contaiCity}>
+          <Text style={PNStyles.txtCity}>{item.name}</Text>
+          <View>
+            <Image source={require('../../../image/show-right.png')} />
+          </View>
+        </View>
+      </TouchableOpacity>
     );
-}
+  };
+  return (
+    <View style={PNStyles.body}>
+      <View style={PNStyles.containerse}>
+        <Pressable onPress={CloseModelImage}>
+          <Image
+            style={PNStyles.icon}
+            source={require('../../../image/back.png')}
+          />
+        </Pressable>
+        <Image
+          style={PNStyles.iconchotot}
+          source={require('../../../image/icon_chotot.jpg')}
+        />
+      </View>
+      <ScrollView>
+        <Pressable
+          style={PNStyles.presContai}
+          onPress={() => setModalVisible(true)}>
+          <View style={PNStyles.contaicolum}>
+            <View style={PNStyles.contairow}>
+              <Text style={PNStyles.txtCate}>Danh mục tin đăng</Text>
+            </View>
+            <Text style={PNStyles.txtContent}>Đồ điện tử - {namePost}</Text>
+          </View>
+          <Image
+            style={PNStyles.imgDow}
+            source={require('../../../image/down.png')}></Image>
+        </Pressable>
 
-export default DetailPostnews
+        <View style={PNStyles.viewtile}>
+          <Text style={PNStyles.txtTT}>THÔNG TIN CHI TIẾT</Text>
+          <View style={PNStyles.viewrow}>
+            <Text>Xem thêm về </Text>
+            <Pressable>
+              <Text style={PNStyles.txtQD}> Quy định của Chợ Tốt</Text>
+            </Pressable>
+          </View>
+        </View>
 
+        <View style={PNStyles.contaiupload}>
+          {image.length === 0 ? (
+            <TouchableOpacity
+              style={PNStyles.tcouploadimg}
+              onPress={() => setModalVisibleImage(true)}>
+              <Image source={require('../../../image/camera_org.png')}></Image>
+              <Text style={PNStyles.txtloadimg}>ĐĂNG TỪ 01 ĐẾN 06 HÌNH</Text>
+            </TouchableOpacity>
+          ) : (
+            <View style={PNStyles.contaiModelimageto}>
+              <ScrollView
+                horizontal={true}
+                scrollEnabled={true}
+                showsHorizontalScrollIndicator={false}>
+                <TouchableOpacity
+                  style={PNStyles.tcouploadimgTool}
+                  onPress={() => setModalVisibleImage(true)}>
+                  <Image
+                    source={require('../../../image/camera_org.png')}></Image>
+                  <Text style={PNStyles.txtloadimgtool}>Thêm hình</Text>
+                </TouchableOpacity>
+                {image.map((uri, index) => (
+                  <View key={index} style={PNStyles.bodyimageto}>
+                    <Pressable
+                      style={PNStyles.btnTool}
+                      onPress={() => onRemoveImage(index)}>
+                      <Image
+                        style={PNStyles.icon}
+                        source={require('../../../image/icon_cross.png')}
+                      />
+                    </Pressable>
+                    <Image style={PNStyles.imgTool} source={{uri}}></Image>
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+          )}
+          <TouchableOpacity style={PNStyles.tcouploadimg}>
+            <Image source={require('../../../image/video_org.png')}></Image>
+            <Text style={PNStyles.txtloadimg}>ĐĂNG ĐA 01 VIDEO</Text>
+            <Text style={PNStyles.txtThang}>
+              BẠN ĐÃ ĐĂNG 0/10 VIDEO TRONG THÁNG
+            </Text>
+          </TouchableOpacity>
+          <TextInput
+            value={statusTT}
+            onChangeText={setStatusTT}
+            placeholder="Tình trạng"
+            style={PNStyles.inputTT}
+          />
+          <View  style={PNStyles.picker}>
+          <Picker
+            selectedValue={selectedBrandId}
+            onValueChange={(itemValue, itemIndex) =>
+              handleBrandChange(itemValue)
+            }>
+            {brand.map(brand => (
+              <Picker.Item
+                key={brand._id}
+                label={brand.nameBrand}
+                value={brand._id}
+              />
+            ))}
+          </Picker>
+        </View>
+          <TextInput
+            value={price}
+            onChangeText={setPrice}
+            placeholder="Giá bán"
+            style={PNStyles.inputTT}
+          />
+        </View>
+        <View style={PNStyles.viewtile}>
+          <Text style={PNStyles.txtTT}>TIÊU ĐỀ TIN ĐĂNG VÀ MÔ TẢ CHI TIẾT</Text>
+        </View>
+        <View style={PNStyles.contaiupload}>
+          <TextInput
+            value={title}
+            onChangeText={setTitle}
+            placeholder="Tiêu đề tin đăng"
+            style={PNStyles.inputTT}
+          />
+          <TextInput
+            value={detail}
+            onChangeText={setDetail}
+            multiline
+            numberOfLines={4}
+            maxLength={40}
+            placeholder="Mô tả chi tiết"
+            style={PNStyles.inputTTMT}
+          />
+          <TextInput
+            value={properties}
+            onChangeText={setProperties}
+            placeholder="Thêm chi tiết"
+            style={PNStyles.inputTTMT}
+          />
+        </View>
+
+        <View style={PNStyles.viewtile}>
+          <Text style={PNStyles.txtTT}>THÔNG TIN NGƯỜI BÁN</Text>
+        </View>
+        <View style={PNStyles.contaiupload}>
+          <Pressable
+            style={PNStyles.presAddres}
+            onPress={() => {
+              setModalVisibleAddress(true);
+            }}>
+            <View style={PNStyles.contaicolum}>
+              <Text>{location === '' ? 'Địa chỉ' : location}</Text>
+            </View>
+            <Image
+              style={PNStyles.imgDow}
+              source={require('../../../image/down.png')}></Image>
+          </Pressable>
+        </View>
+        
+        {/* <View>
+          {details.map((detail, index) => (
+            <View key={index} style={PNStyles.viewTIP}>
+              <Dropdown
+                data={data}
+                search
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                placeholder={'Select item'}
+                searchPlaceholder="Search..."
+                style={PNStyles.drop2}
+              />
+              <TextInput
+                value={detail}
+                onChangeText={text => {
+                  const newDetails = [...details];
+                  newDetails[index] = text;
+                  setDetails(newDetails);
+                }}
+                multiline
+                numberOfLines={4}
+                maxLength={40}
+                placeholder="Mô tả chi tiết"
+                style={PNStyles.inputTTMT}
+              />
+            </View>
+          ))}
+        </View> */}
+        {/* <Pressable style={PNStyles.btnXT}>
+          <Text style={PNStyles.txtXT} onPress={handleAddInput}>
+            Thêm input
+          </Text>
+        </Pressable> */}
+        <View style={PNStyles.contaiBtn}>
+          <Pressable style={PNStyles.btnXT}>
+            <Text style={PNStyles.txtXT}>XEM TRƯỚC</Text>
+          </Pressable>
+          <Pressable style={PNStyles.btnDT} onPress={save}>
+            <Text style={PNStyles.txtDT}>ĐĂNG TIN</Text>
+          </Pressable>
+        </View>
+      </ScrollView>
+      {modalVisible && <View style={PNStyles.overlay} />}
+      <Modal animationType="slide" transparent={true} visible={modalVisible}>
+        <View style={PNStyles.centeredView}>
+          <View style={PNStyles.modalView}>
+            <View style={PNStyles.Container}>
+              <View style={PNStyles.contaiappbar}>
+                <Pressable style={PNStyles.pres} onPress={CloseModel}>
+                  <Image source={require('../../../image/close.png')} />
+                </Pressable>
+                <View style={PNStyles.contaitxt}>
+                  <Text style={PNStyles.txtTille}>CHỌN DANH MỤC</Text>
+                </View>
+              </View>
+              <View style={PNStyles.contaitxp}>
+                <Image source={require('../../../image/searchBar.png')} />
+                <TextInput
+                  placeholder="Nhập từ khóa để lọc"
+                  placeholderTextColor={'#9C9C9C'}
+                  style={PNStyles.txpserch}></TextInput>
+              </View>
+              <FlatList
+                renderItem={renderItem}
+                data={categories}
+                keyExtractor={item => item._id}
+                showsVerticalScrollIndicator={false}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
+      {modalVisibleImage && <View style={PNStyles.overlay} />}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisibleImage}>
+        <View style={PNStyles.centeredView}>
+          <View style={PNStyles.modalView}>
+            <View style={PNStyles.viewModel2}>
+              <Pressable onPress={() => setModalVisibleImage(false)}>
+                <Image source={require('../../../image/close.png')} />
+              </Pressable>
+              <Text style={PNStyles.txtGDMD}>Gần đây</Text>
+              <View style={PNStyles.viewMD}>
+                <Pressable onPress={openLibrary}>
+                  <Image
+                    style={PNStyles.imgpicture}
+                    source={require('../../../image/picture.png')}
+                  />
+                </Pressable>
+                <Text>{`Đã chọn ${image.length}/5`}</Text>
+              </View>
+            </View>
+            {isLoading ? (
+              <ActivityIndicator
+                style={PNStyles.loadingIcon}
+                size="large"
+                color="#3498db"
+              />
+            ) : (
+              <View style={PNStyles.viewROW}>
+                <TouchableOpacity
+                  style={PNStyles.tcouploadimg2}
+                  onPress={openCamera}>
+                  <Image
+                    source={require('../../../image/camera_org.png')}></Image>
+                  <Text style={PNStyles.txtloadimg2}>Chụp hình</Text>
+                </TouchableOpacity>
+                {image.length > 0 ? (
+                  <TouchableOpacity
+                    style={PNStyles.viewImage}
+                    onPress={openLibrary}
+                    disabled={selectedImages.length >= 5}>
+                    <Image
+                      style={PNStyles.imgSelect}
+                      source={{uri: image[0]}}></Image>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={PNStyles.viewImage}></TouchableOpacity>
+                )}
+              </View>
+            )}
+            <View style={PNStyles.viewAl}>
+              <Pressable
+                style={PNStyles.btnModelTT}
+                onPress={() => {
+                  handleaddImageTocloudiary();
+                  setModalVisibleImage(false);
+                }}>
+                <Text style={PNStyles.txtModelTT}>Tiếp tục</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      {modalVisibleAddress && <View style={PNStyles.overlay} />}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisibleAddress}>
+        <View style={PNStyles.centeredView}>
+          <View style={PNStyles.modalView}>
+            <View style={PNStyles.containerModelAddress}>
+              <Pressable
+                onPress={() => {
+                  setModalVisibleAddress(false);
+                }}>
+                <Image
+                  style={PNStyles.icon}
+                  source={require('../../../image/close.png')}
+                />
+              </Pressable>
+              <Text style={PNStyles.txtModelAdress}>Địa chỉ</Text>
+            </View>
+            <View style={PNStyles.contaiupModeladdress}>
+              <View style={PNStyles.contDialog}>
+                <Dropdown
+                  style={PNStyles.dropdown}
+                  placeholderStyle={PNStyles.placeholderStyle}
+                  selectedTextStyle={PNStyles.selectedTextStyle}
+                  inputSearchStyle={PNStyles.inputSearchStyle}
+                  iconStyle={PNStyles.iconStyle}
+                  data={cities}
+                  search
+                  maxHeight={300}
+                  labelField="name" // Change "label" to "name"
+                  valueField="id" // Change "value" to "code"
+                  placeholder="Tỉnh/Thành phố*"
+                  searchPlaceholder="Tìm kiếm..."
+                  value={selectedCity} // Use selectedCity as the value
+                  onChange={city => {
+                    setSelectedCity(city);
+                    fetchDistricts(city.id);
+                  }}
+                />
+                <Dropdown
+                  style={PNStyles.dropdown}
+                  placeholderStyle={PNStyles.placeholderStyle}
+                  selectedTextStyle={PNStyles.selectedTextStyle}
+                  inputSearchStyle={PNStyles.inputSearchStyle}
+                  iconStyle={PNStyles.iconStyle}
+                  data={districts}
+                  search
+                  maxHeight={300}
+                  labelField="name" // Change "label" to "name"
+                  valueField="id" // Change "value" to "code"
+                  placeholder="Quận/huyện*"
+                  searchPlaceholder="Tìm kiếm..."
+                  value={selectedDistrict} // Use selectedCity as the value
+                  onChange={districts => {
+                    setSelectedDistrict(districts);
+                    fetchWards(districts.id);
+                  }}
+                />
+                <Dropdown
+                  style={PNStyles.dropdown}
+                  placeholderStyle={PNStyles.placeholderStyle}
+                  selectedTextStyle={PNStyles.selectedTextStyle}
+                  inputSearchStyle={PNStyles.inputSearchStyle}
+                  iconStyle={PNStyles.iconStyle}
+                  data={wards}
+                  search
+                  maxHeight={300}
+                  labelField="name"
+                  valueField="id"
+                  placeholder="Phường, xã, thị trấn"
+                  searchPlaceholder="Tìm kiếm..."
+                  value={selectedWard}
+                  onChange={ward => {
+                    setIsWardSelected(true);
+                    setSelectedWard(ward);
+                  }}
+                />
+
+                <View style={PNStyles.contAddres}>
+                  <TouchableOpacity onPress={showAddressNotification}>
+                    <TextInput
+                      editable={isWardSelected}
+                      style={PNStyles.inputWard}
+                      placeholder="Địa chỉ cụ thể"
+                      value={ward}
+                      onChangeText={text => setWard(text)}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              <TouchableOpacity
+                onPress={toggleBottomSheet}
+                style={PNStyles.bottomSheetCloseButton}>
+                <Text style={PNStyles.bottomSheetCloseButtonText}>Xong</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
+export default DetailPostnews;
