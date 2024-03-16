@@ -8,7 +8,7 @@ const Postnews = (props) => {
     const { navigation } = props;
     const [categories, setCategories] = useState([]);
     const [idCategory, setIdCategory] = useState("658fb995b41f1dd5128fa9cf");
-    urlApi = 'http://datnapi.vercel.app/'
+    urlApi = 'https://datnapi-qelj.onrender.com/'
 
     const ongetCategory = async () => {
         const categories = await getCategory();

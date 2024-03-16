@@ -69,7 +69,7 @@ const Home = props => {
     {id: 2, image: require('../../image/bannerchotot.png')},
   ];
 
-  urlApi = 'http://datnapi.vercel.app/';
+  urlApi = 'https://datnapi-qelj.onrender.com/';
 
   const handToCategoriesDetail = _id => {
     if (_id === '658fbcbdb41f1dd5128fa9e4') {

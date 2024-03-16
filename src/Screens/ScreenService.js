@@ -103,3 +103,36 @@ export const uploadImage = async (formData) => {
     return err;
   }
 }
+
+export const getProductById = async (id) => {
+  try {
+      const res = await AxiosInstance().get(`/api/postnews/get-by-id/${id}`);
+      // console.log('getProductById response', res.data);
+      return res.data;
+  } catch (error) {
+      console.log("getProductById error", error);
+      throw error;
+  }
+};
+
+export const getPostNewsByUserId = async (id) => {
+  try {
+      const res = await AxiosInstance().get(`/api/postnews/user/${id}`);
+      // console.log( `/api/postnews/user/${id}`);
+      // console.log('getPostNewsByUserId response', res.data);
+      return res.data;
+  } catch (error) {
+      console.log("getPostNewsByUserId error", error);
+      throw error;
+  }
+};
+export const getPostNewsByCategory = async (id) => {
+  try {
+      const res = await AxiosInstance().get(`/api/postnews/${id}`);
+      // console.log('getPostNewsByCategory response', res.data);
+      return res.data;
+  } catch (error) {
+      console.log("getPostNewsByCategory error", error);
+      throw error;
+  }
+}

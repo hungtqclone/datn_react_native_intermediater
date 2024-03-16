@@ -7,7 +7,7 @@ import { getProduct } from '../ScreenService'
 
 const Foryou = () => {
     const [products, setProducts] = useState([]);
-    urlApi = 'http://datnapi.vercel.app/'
+    urlApi = 'https://datnapi-qelj.onrender.com/'
     const renderItemPostnew = ({ item }) => {
         return (
             <TouchableOpacity style={foryouStyles.productBody}>

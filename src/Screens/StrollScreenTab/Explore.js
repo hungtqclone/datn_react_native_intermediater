@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,23 +11,25 @@ import {
   Linking,
   ActivityIndicator,
 } from 'react-native';
-import {getProduct} from '../ScreenService';
+import { getProduct } from '../ScreenService';
 const MAX_HEIGHT = 100;
-const Explore = () => {
+const Explore = (props) => {
+  const { navigation } = props;
   //list và hiện list ảnh sản phẩm
 
   //link api
-  const urlServer = 'http://datnapi.vercel.app/';
+  const urlServer = 'https://datnapi-qelj.onrender.com/';
   // hàm hiện thị nút xem thêm
   const [isExpanded, setIsExpanded] = useState(false);
   const [showCollapseButton, setShowCollapseButton] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [phoneNumber, setPhoneNumber] = useState();
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
   const [products, setProducts] = useState([]);
   const checkContentHeight = event => {
-    const {height} = event.nativeEvent.layout;
+    const { height } = event.nativeEvent.layout;
 
     if (height > MAX_HEIGHT) {
       setShowCollapseButton(true);
@@ -46,12 +48,14 @@ const Explore = () => {
       setIsLoading(false); // Set loading state to false after the request is complete
     }
   };
-  // gọi điện
-  const phoneNumber = '0123456789';
 
-  const handleCallPress = () => {
+
+  const handleCallPress = (phoneNumber) => {
+    // setPhoneNumber(item.phone)
+    // console.log(phoneNumber);
     // Kiểm tra nếu thiết bị hỗ trợ mở cuộc gọi
     if (Linking.canOpenURL(`tel:${phoneNumber}`)) {
+
       Linking.openURL(`tel:${phoneNumber}`);
     } else {
       console.log('Không thể thực hiện cuộc gọi trên thiết bị này.');
@@ -60,7 +64,7 @@ const Explore = () => {
   useEffect(() => {
     ongetProducts();
   }, []);
-  const renderItem = ({item, index}) => (
+  const renderItem = ({ item, index }) => (
     <View key={item.id} style={styles.container}>
       <View style={styles.header}>
         <Image
@@ -69,7 +73,7 @@ const Explore = () => {
         />
         <View>
           <View style={styles.nameshop}>
-            <Text style={styles.textnameshop}>Auto 380</Text>
+            <Text style={styles.textnameshop}>{item.userid.name}</Text>
             <Image
               style={styles.iconbag}
               source={require('../../assets/images/icons/icon_bag.png')}
@@ -94,18 +98,18 @@ const Explore = () => {
             source={require('../../assets/images/icons/icon_address.png')}
             style={styles.imgaddress}
           />
-          <Text style={styles.locationText}>Quận ABC, TP XYZ</Text>
+          <Text style={styles.locationText}>{item.location}</Text>
         </View>
         {/* Danh sách Gridview */}
         <FlatList
           scrollEnabled={false}
-        //  data={item.files}
+          //  data={item.files}
           data={item.files.slice(0, 4)} // Chỉ hiển thị 4 ảnh đầu tiên
-          renderItem={({item, index}) => (
+          renderItem={({ item, index }) => (
             // console.log('Constructed Image URL:', `${urlServer}${item}`),
             <View key={item.toString()} style={styles.gridItem}>
               <Image
-                source={{uri: `${urlServer}${item}`}}
+                source={{ uri: `${urlServer}${item}` }}
                 style={styles.image}
               />
               {/* {index === 3 && (
@@ -124,7 +128,9 @@ const Explore = () => {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         />
-        <TouchableOpacity style={styles.nameprice}>
+        <TouchableOpacity style={styles.nameprice}
+          onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })}
+        >
           <View style={styles.cont_nameprice}>
             <Text style={styles.textnameprice}> {item.title} </Text>
             <Text style={styles.textprice}>{item.price} đ</Text>
@@ -137,9 +143,9 @@ const Explore = () => {
         <View style={styles.infoPro} onLayout={checkContentHeight}>
           {/* <Text style={styles.textInfoPro}>{renderContent()}</Text> */}
           <Text style={styles.textInfoPro}>{item.detail}</Text>
-          <TouchableOpacity style={styles.btncall} onPress={handleCallPress}>
+          <TouchableOpacity style={styles.btncall} onPress={() => handleCallPress(item.userid.phone)}>
             <Text style={styles.textcall}>Liên hệ ngay: </Text>
-            <Text style={styles.textcall}>{phoneNumber}</Text>
+            <Text style={styles.textcall}>{item.userid.phone}</Text>
           </TouchableOpacity>
           {showCollapseButton && (
             <TouchableOpacity onPress={toggleExpand}>
@@ -325,8 +331,8 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 300,
-    borderColor: 'black',
-    borderWidth: 1,
+    // borderColor: 'black',
+    // borderWidth: 1,
   },
   currentLocation: {
     position: 'absolute',

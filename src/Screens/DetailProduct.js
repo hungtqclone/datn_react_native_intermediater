@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+
 import {
   StyleSheet,
   Text,
@@ -7,59 +8,82 @@ import {
   ScrollView,
   TouchableOpacity,
   FlatList,
+  ActivityIndicator
 } from 'react-native';
-import React from 'react';
-import StarRating from 'react-native-star-rating';
-const DetailProduct = props => {
+import React, { useState, useEffect, useContext, Component } from 'react';
+import { useRoute } from '@react-navigation/native';
+import { getPostNewsByCategory, getProductById } from './ScreenService';
+import { getPostNewsByUserId } from './ScreenService';
+const DetailProduct = (props) => {
   //navigation
-  const {navigation, rating, totalReviews} = props;
+  const { navigation, rating, totalReviews } = props;
+  //link ảnh 
+  const urlApi = 'https://datnapi.vercel.app/';
+  //link api
+  const urlServer = 'https://datnapi-qelj.onrender.com/';
+  //lấy id truyền qua từ màn hình trước
+  const route = useRoute();
+  const { id_product } = route.params;
+  const [products, setProducts] = useState([]);
+  const [prductByUser, setPrductByUser] = useState([]);
+  const [proByCaterory, setProByCaterory] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingProByUser, setIsLoadingProByUser] = useState(true);
+  const [isLoadingProByCategory, setIsLoadingProByCategory] = useState(true);
 
   const data = [
-    {id: '1', question: 'Món hàng này còn không?'},
-    {id: '2', question: 'Bạn có ship hàng không?'},
-    {id: '3', question: 'Sản phẩm còn bảo hành không?'},
-    {id: '4', question: 'Sản phẩm đã qua sửa chữa chưa?'},
-    {id: '5', question: 'Có phụ kiện đi kèm theo sản phẩm?'},
+    { id: '1', question: 'Món hàng này còn không?' },
+    { id: '2', question: 'Bạn có ship hàng không?' },
+    { id: '3', question: 'Sản phẩm còn bảo hành không?' },
+    { id: '4', question: 'Sản phẩm đã qua sửa chữa chưa?' },
+    { id: '5', question: 'Có phụ kiện đi kèm theo sản phẩm?' },
   ];
-  const horizontalData = [
-    {
-      id: '1',
-      name: 'Product 1',
-      price: '1,000,000 đ',
-      time: '1 hour ago',
-      image: require('../assets/images/imgProduct.png'),
-    },
-    {
-      id: '2',
-      name: 'Product 2',
-      price: '2,500,000 đ',
-      time: '2 hours ago',
-      image: require('../assets/images/imgProduct.png'),
-    },
-    {
-      id: '3',
-      name: 'Product 1',
-      price: '1,000,000 đ',
-      time: '1 hour ago',
-      image: require('../assets/images/imgProduct.png'),
-    },
-    {
-      id: '4',
-      name: 'Product 2',
-      price: '2,500,000 đ',
-      time: '2 hours ago',
-      image: require('../assets/images/imgProduct.png'),
-    },
-  ];
-
-  const renderItem = ({item}) => (
+  const renderItem = ({ item }) => (
     <View style={styles.item}>
       <Text>{item.question}</Text>
     </View>
   );
+
+  const reLoadScreen = async (id) => {
+    setIsLoading(true);
+    const productData = await getProductById(id);
+    setProducts(productData);
+    setIsLoading(false);
+
+  };
+
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const productData = await getProductById(id_product);
+        setProducts(productData);
+        setIsLoading(false);
+
+        if (productData && productData.userid) {
+          const userPosts = await getPostNewsByUserId(productData.userid._id);
+          setPrductByUser(userPosts.posts);
+          setIsLoadingProByUser(false);
+        }
+
+        if (productData && productData.idCategory) {
+          const categoryPosts = await getPostNewsByCategory(productData.idCategory._id);
+          setProByCaterory(categoryPosts);
+          setIsLoadingProByCategory(false);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
   return (
     <View style={styles.body}>
-      <View style={styles.appbar}>
+      {/* <View style={styles.appbar}>
         <TouchableOpacity
           style={styles.imgBack}
           onPress={() => navigation.goBack()}>
@@ -92,341 +116,357 @@ const DetailProduct = props => {
             style={styles.icon}
           />
         </TouchableOpacity>
-      </View>
-      <ScrollView>
-        <View style={styles.header}>
-          <Image
-            source={require('../assets/images/imgProduct.png')}
-            style={styles.product}
-          />
-        </View>
-        <View style={styles.nameProduct}>
-          <Text style={styles.txtNameProduct}>SAMSUNG GALAXY S6 EDGE </Text>
-        </View>
-        <View style={styles.price}>
-          <View>
-            <Text style={styles.textprice}> 5.190.000 đ </Text>
-            <Text style={styles.timeIn}>57 phút trước</Text>
-          </View>
-          <View style={styles.containerPrice}>
-            <Image
-              style={styles.iconLike}
-              source={require('../assets/images/icons/iconLike.png')}
-            />
-            <Text style={styles.txtLuutin}>Lưu tin</Text>
-          </View>
-        </View>
-        <View style={styles.infoNguoiban}>
-          <View style={styles.center}>
-            <View style={styles.info}>
-              <View style={styles.name}>
-                <View style={styles.infoAv}>
+      </View> */}
+      {isLoading ? (
+        <ActivityIndicator
+          style={styles.loadingIcon}
+          size="large"
+          color="#3498db"
+        />
+      ) : (
+        <>
+          <ScrollView >
+            <View style={styles.header}>
+              <Image
+                //source={require('../assets/images/imgProduct.png')}
+                source={{ uri: `${urlServer}${products.files[0]}` }}
+                style={styles.product}
+              />
+            </View>
+            <View style={styles.txtHeader}>
+              <View style={styles.nameProduct}>
+                <Text style={styles.txtNameProduct}>{products.title} </Text>
+              </View>
+              <View style={styles.price}>
+                <View>
+                  <Text style={styles.textprice}>{products.price + ' đ'} </Text>
+                  <Text style={styles.timeIn}>{products.created_AT}</Text>
+                </View>
+                <TouchableOpacity style={styles.containerPrice}>
                   <Image
-                    source={require('../assets/images/avatarDetail.png')}
-                    style={styles.avt}
+                    style={styles.iconLike}
+                    source={require('../assets/images/icons/iconLike.png')}
                   />
-                  <View>
-                    <Text style={styles.nameNguoiban}>Hiếu Android Shop</Text>
-                    <View style={styles.reviewContainer}>
+                  <Text style={styles.txtLuutin}>Lưu tin</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={styles.infoNguoiban}>
+              <View style={styles.center}>
+                <View style={styles.info}>
+                  <View style={styles.name}>
+                    <View style={styles.infoAv}>
                       <Image
-                        source={require('../assets/images/icons/icon_stars.png')}
-                        style={styles.iconStart}
+                        source={require('../assets/images/avatarDetail.png')}
+                        style={styles.avt}
                       />
-                      <Image
-                        source={require('../assets/images/icons/icon_stars.png')}
-                        style={styles.iconStart}
-                      />
-                      <Image
-                        source={require('../assets/images/icons/icon_stars.png')}
-                        style={styles.iconStart}
-                      />
-                      <Image
-                        source={require('../assets/images/icons/icon_stars.png')}
-                        style={styles.iconStart}
-                      />
-                      <Image
-                        source={require('../assets/images/icons/icon_stars.png')}
-                        style={styles.iconStart}
-                      />
-                      <Text>4.9</Text>
-                      {/* <Text style={styles.reviewText}>{`(${totalReviews})`}</Text> */}
+                      <View>
+                        <Text style={styles.nameNguoiban}>  {products.userid.name} </Text>
+                        <View style={styles.reviewContainer}>
+                          <Image
+                            source={require('../assets/images/icons/icon_stars.png')}
+                            style={styles.iconStart}
+                          />
+                          <Image
+                            source={require('../assets/images/icons/icon_stars.png')}
+                            style={styles.iconStart}
+                          />
+                          <Image
+                            source={require('../assets/images/icons/icon_stars.png')}
+                            style={styles.iconStart}
+                          />
+                          <Image
+                            source={require('../assets/images/icons/icon_stars.png')}
+                            style={styles.iconStart}
+                          />
+                          <Image
+                            source={require('../assets/images/icons/icon_stars.png')}
+                            style={styles.iconStart}
+                          />
+                          <Text>4.9</Text>
+                          {/* <Text style={styles.reviewText}>{`(${totalReviews})`}</Text> */}
+                        </View>
+                        <View style={styles.dotOnl}>
+                          <View style={styles.dot} />
+                          <Text style={styles.txtOnl}>Đang hoạt động</Text>
+                        </View>
+                      </View>
                     </View>
-                    <View style={styles.dotOnl}>
-                      <View style={styles.dot} />
-                      <Text style={styles.txtOnl}>Đang hoạt động</Text>
-                    </View>
+                    <TouchableOpacity style={styles.containerXemtrang}>
+                      <Text style={styles.txtXemtrang}>Xem trang</Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
-                <View style={styles.containerXemtrang}>
-                  <Text style={styles.txtXemtrang}>Xem trang</Text>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity style={styles.followButton}>
+                    {/* <Ionicons name="add" size={20} color="white" /> */}
+                    <Image
+                      source={require('../assets/images/icons/icon_add.png')}
+                      style={styles.icons}
+                    />
+                    <Text style={styles.folowtext}>Theo dõi</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={styles.viewStoreButton}>
+                    {/* <FontAwesome name="shopping-bag" size={20} color="white" /> */}
+                    <Image
+                      source={require('../assets/images/icons/icon_store.png')}
+                      style={styles.icons}
+                    />
+                    <Text style={styles.viewtext}>Xem cửa</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.followButton}>
-                {/* <Ionicons name="add" size={20} color="white" /> */}
-                <Image
-                  source={require('../assets/images/icons/icon_add.png')}
-                  style={styles.icons}
-                />
-                <Text style={styles.folowtext}>Theo dõi</Text>
+            <View style={styles.decriptionPr}>
+              <View style={styles.contDesc}>
+                <Text style={styles.titleDecs}>Mô tả</Text>
+              </View>
+              <View style={styles.contentDecs}>
+                <Text>   {products.detail}</Text>
+              </View>
+            </View>
+            <View style={styles.infoProduct}>
+              <View style={styles.contTitleInfo}>
+                <Text>Thông tin sản phẩm</Text>
+              </View>
+              <View style={styles.detailInfoProduct}>
+                <View style={styles.col1}>
+                  <View style={styles.row}>
+                    <Image
+                      source={require('../assets/images/icons/iconTag.png')}
+                      style={styles.image}
+                    />
+                    <Text style={styles.textdetailInfoProduct}>Hãng:</Text>
+                    <Text style={styles.textdetailInfoProduct}>Apple</Text>
+                  </View>
+                  <View style={styles.row}>
+                    <Image
+                      source={require('../assets/images/icons/iconTag2.png')}
+                      style={styles.image}
+                    />
+                    <Text style={styles.textdetailInfoProduct}>Dòng máy:</Text>
+                    <Text style={styles.textdetailInfoProduct}>Iphone 6</Text>
+                  </View>
+                  <View style={styles.row}>
+                    <Image
+                      source={require('../assets/images/icons/iconProtect.png')}
+                      style={styles.image}
+                    />
+                    <Text style={styles.textdetailInfoProduct}>
+                      Tình trạng bảo hành: Còn bảo hành
+                    </Text>
+                    <Text style={styles.textdetailInfoProduct}></Text>
+                  </View>
+                </View>
+                <View style={styles.col2}>
+                  <View style={styles.row}>
+                    <Image
+                      source={require('../assets/images/icons/iconColor.png')}
+                      style={styles.image}
+                    />
+                    <Text style={styles.textdetailInfoProduct}>Màu sắc:</Text>
+                    <Text style={styles.textdetailInfoProduct}>Vàng</Text>
+                  </View>
+                  <View style={styles.row}>
+                    <Image
+                      source={require('../assets/images/icons/iconPaper.png')}
+                      style={styles.image}
+                    />
+                    <Text style={styles.textdetailInfoProduct}>
+                      Tình trạng: Đã sử dụng (Chưa sửa chữa)
+                    </Text>
+                    <Text style={styles.textdetailInfoProduct}></Text>
+                  </View>
+                  <View style={styles.row}>
+                    <Image
+                      source={require('../assets/images/icons/iconData.png')}
+                      style={styles.image}
+                    />
+                    <Text style={styles.textdetailInfoProduct}>Dung lượng:</Text>
+                    <Text style={styles.textdetailInfoProduct}>64 GB</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View>
+              <Text style={styles.ask}>Hỏi người bán qua chat</Text>
+              <FlatList
+                data={data}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+              />
+            </View>
+            <View>
+              <Text style={styles.ask}>Khu vực</Text>
+              <Text style={styles.adress}>
+                {products.location}
+              </Text>
+            </View>
+            <View style={styles.rp}>
+              <TouchableOpacity style={styles.rpbutton}>
+                <Text style={styles.rptext}>Báo tin đã bán</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.viewStoreButton}>
-                {/* <FontAwesome name="shopping-bag" size={20} color="white" /> */}
-                <Image
-                  source={require('../assets/images/icons/icon_store.png')}
-                  style={styles.icons}
-                />
-                <Text style={styles.viewtext}>Xem cửa</Text>
+              <TouchableOpacity style={styles.rpbutton}>
+                <Text style={styles.rptext}>Báo tin không hợp lệ</Text>
               </TouchableOpacity>
             </View>
-          </View>
-        </View>
-        <View style={styles.decriptionPr}>
-          <View style={styles.contDesc}>
-            <Text style={styles.titleDecs}>Mô tả</Text>
-          </View>
-          <View style={styles.contentDecs}>
-            <Text>
-              -Bán note 8 bản hàn sử dụng tốt k lỗi lầm gì từ lúc mua tới giờ
-            </Text>
-            <Text>-Còn hộp sách đầy đủ</Text>
-            <Text>-Viền tróc sơn ít do dùng lâu</Text>
-            <Text>-Bao test nước</Text>
-            <Text>-Mình còn dư bộ dán màn hình bác nào mua mình tặng luôn</Text>
-            <Text>-Cấu hình thì ae tra google giúp em nhé ,tks mọi người</Text>
-          </View>
-        </View>
-        <View style={styles.infoProduct}>
-          <View style={styles.contTitleInfo}>
-            <Text>Thông tin sản phẩm</Text>
-          </View>
-          <View style={styles.detailInfoProduct}>
-            <View style={styles.col1}>
-              <View style={styles.row}>
-                <Image
-                  source={require('../assets/images/icons/iconTag.png')}
-                  style={styles.image}
-                />
-                <Text style={styles.textdetailInfoProduct}>Hãng:</Text>
-                <Text style={styles.textdetailInfoProduct}>Apple</Text>
-              </View>
-              <View style={styles.row}>
-                <Image
-                  source={require('../assets/images/icons/iconTag2.png')}
-                  style={styles.image}
-                />
-                <Text style={styles.textdetailInfoProduct}>Dòng máy:</Text>
-                <Text style={styles.textdetailInfoProduct}>Iphone 6</Text>
-              </View>
-              <View style={styles.row}>
-                <Image
-                  source={require('../assets/images/icons/iconProtect.png')}
-                  style={styles.image}
-                />
-                <Text style={styles.textdetailInfoProduct}>
-                  Tình trạng bảo hành: Còn bảo hành
-                </Text>
-                <Text style={styles.textdetailInfoProduct}></Text>
+            <TouchableOpacity style={styles.pushbt}>
+              <Text style={styles.pushtext}>Đăng nhanh - Bán gọn</Text>
+            </TouchableOpacity>
+            <View style={styles.share}>
+              <Text style={styles.sharetext}>Chia sẽ tin đăng này cho bạn bè</Text>
+              <View style={styles.listIcons}>
+                <TouchableOpacity style={styles.iconimg}>
+                  <Image
+                    source={require('../assets/images/icons/icon_fb.png')}
+                    style={styles.iconImage}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.iconimg}>
+                  <Image
+                    source={require('../assets/images/icons/icon_zalo.png')}
+                    style={styles.iconImage}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.iconimg}>
+                  <Image
+                    source={require('../assets/images/icons/icon_mess.png')}
+                    style={styles.iconImage}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.iconimg}>
+                  <Image
+                    source={require('../assets/images/icons/icon_whatapp.png')}
+                    style={styles.iconImage}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.iconimg}>
+                  <Image
+                    source={require('../assets/images/icons/icon_sms.jpg')}
+                    style={styles.iconImage}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.iconimg}>
+                  <Image
+                    source={require('../assets/images/icons/icon_link.jpg')}
+                    style={styles.iconImage}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
-            <View style={styles.col2}>
-              <View style={styles.row}>
-                <Image
-                  source={require('../assets/images/icons/iconColor.png')}
-                  style={styles.image}
-                />
-                <Text style={styles.textdetailInfoProduct}>Màu sắc:</Text>
-                <Text style={styles.textdetailInfoProduct}>Vàng</Text>
-              </View>
-              <View style={styles.row}>
-                <Image
-                  source={require('../assets/images/icons/iconPaper.png')}
-                  style={styles.image}
-                />
-                <Text style={styles.textdetailInfoProduct}>
-                  Tình trạng: Đã sử dụng (Chưa sửa chữa)
-                </Text>
-                <Text style={styles.textdetailInfoProduct}></Text>
-              </View>
-              <View style={styles.row}>
-                <Image
-                  source={require('../assets/images/icons/iconData.png')}
-                  style={styles.image}
-                />
-                <Text style={styles.textdetailInfoProduct}>Dung lượng:</Text>
-                <Text style={styles.textdetailInfoProduct}>64 GB</Text>
-              </View>
+            <View style={styles.newdiff1}>
+              <Text style={styles.diferrence} numberOfLines={1} ellipsizeMode="tail">
+                Tin rao khác của {products.userid.name}
+              </Text>
+              <TouchableOpacity style={styles.btnviewall}>
+                <Text style={styles.textviewall}>Xem tất cả</Text>
+              </TouchableOpacity>
             </View>
-          </View>
-        </View>
-        <View>
-          <Text style={styles.ask}>Hỏi người bán qua chat</Text>
-          <FlatList
-            data={data}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
-        <View>
-          <Text style={styles.ask}>Khu vực</Text>
-          <Text style={styles.adress}>
-            Phường Ngã Tư Xã, Quận Đống Đa, Hà Nội
-          </Text>
-        </View>
-        <View style={styles.rp}>
-          <TouchableOpacity style={styles.rpbutton}>
-            {/* <Ionicons name="add" size={20} color="white" /> */}
-            <Text style={styles.rptext}>Báo tin đã bán</Text>
-          </TouchableOpacity>
 
-          <TouchableOpacity style={styles.rpbutton}>
-            {/* <FontAwesome name="shopping-bag" size={20} color="white" /> */}
-            <Text style={styles.rptext}>Báo tin không hợp lệ</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.pushbt}>
-          <Text style={styles.pushtext}>Đăng nhanh - Bán gọn</Text>
-        </View>
-        <View style={styles.share}>
-          <Text style={styles.sharetext}>Chia sẽ tin đăng này cho bạn bè</Text>
-          <View style={styles.listIcons}>
-            <TouchableOpacity style={styles.iconimg}>
-              <Image
-                source={require('../assets/images/icons/icon_fb.png')}
-                style={styles.iconImage}
+            <View style={styles.contpro}>
+              <FlatList
+                data={prductByUser}
+                keyExtractor={item => item._id}
+                renderItem={({ item }) => (
+                  <TouchableOpacity style={styles.horizontalItem}
+                    onPress={() => reLoadScreen(item._id)}
+                  >
+                    <Image
+                      // source={item.files[0]} 
+                      source={{ uri: `${urlApi}${item.files[0]}` }}
+                      style={styles.horizontalImage} />
+                    <Text style={styles.tagpro}>Thanh toán đảm bảo</Text>
+                    <View style={styles.horizontalTextContainer}>
+                      <Text style={styles.horizontalname} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
+                      <Text style={styles.horizontalrice}>{item.price}</Text>
+                      <Text style={styles.horizontaltime}>{item.created_AT}</Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
+                horizontal
+                showsHorizontalScrollIndicator={false}
               />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconimg}>
-              <Image
-                source={require('../assets/images/icons/icon_zalo.png')}
-                style={styles.iconImage}
+            </View>
+            <View style={styles.newdiff}>
+              <Text style={styles.diferrence}>Tin đăng tương tự</Text>
+              <TouchableOpacity style={styles.btnviewall}>
+                <Text style={styles.textviewall}>Xem tất cả</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.contpro}>
+              <FlatList
+                data={proByCaterory}
+                keyExtractor={item => item._id}
+                renderItem={({ item }) => (
+                  <TouchableOpacity style={styles.horizontalItem}
+                    onPress={() => reLoadScreen(item._id)}
+                  >
+                    <Image
+                      source={{ uri: `${urlApi}${item.files[0]}` }}
+                      style={styles.horizontalImage} />
+                    <Image
+                      source={require('../assets/images/icons/like.png')}
+                      style={styles.icontim}
+                    />
+                    <Text style={styles.tagpro}>Thanh toán đảm bảo</Text>
+                    <View style={styles.horizontalTextContainer}>
+                      <Text style={styles.horizontalname} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
+                      <Text style={styles.horizontalrice}>{item.price}</Text>
+                      <Text style={styles.horizontaltime}>{item.created_AT}</Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
+                horizontal
+                showsHorizontalScrollIndicator={false}
               />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconimg}>
+            </View>
+
+          </ScrollView>
+          <View style={styles.containerbottomtab}>
+            <TouchableOpacity
+              style={styles.bottomtab}
+              onPress={() => console.log('Call pressed')}>
               <Image
-                source={require('../assets/images/icons/icon_mess.png')}
-                style={styles.iconImage}
+                source={require('../assets/images/icons/icon_call.png')}
+                style={styles.iconc}
               />
+              <Text style={styles.textcall}>Gọi điện</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.iconimg}>
-              <Image
-                source={require('../assets/images/icons/icon_whatapp.png')}
-                style={styles.iconImage}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconimg}>
+
+            <TouchableOpacity
+              style={styles.bottomtab}
+              onPress={() => console.log('Text pressed')}>
               <Image
                 source={require('../assets/images/icons/icon_sms.jpg')}
-                style={styles.iconImage}
+                style={styles.iconc}
               />
+              <Text style={styles.textcall}>Nhắn tin</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.iconimg}>
+
+            <TouchableOpacity
+              style={styles.bottomtab}
+              onPress={() => console.log('Check pressed')}>
               <Image
-                source={require('../assets/images/icons/icon_link.jpg')}
-                style={styles.iconImage}
+                source={require('../assets/images/icons/icon_chat.png')}
+                style={styles.iconc}
               />
+              <Text style={styles.textcall}>Chat</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.bottomtabmua}
+              onPress={() => console.log('Buy pressed')}>
+              <Text style={styles.textmuangay}>Mua ngay</Text>
             </TouchableOpacity>
           </View>
-        </View>
-        <View style={styles.newdiff1}>
-          <Text style={styles.diferrence}>
-            Tin rao khác của Hiếu Android Shop
-          </Text>
-          <TouchableOpacity style={styles.btnviewall}>
-            <Text style={styles.textviewall}>Xem tất cả</Text>
-          </TouchableOpacity>
-        </View>
+        </>
+      )}
 
-        <View style={styles.contpro}>
-          <FlatList
-            data={horizontalData}
-            keyExtractor={item => item.id}
-            renderItem={({item}) => (
-              <View style={styles.horizontalItem}>
-                <Image source={item.image} style={styles.horizontalImage} />
-                <Text style={styles.tagpro}>Thanh toán đảm bảo</Text>
-                <View style={styles.horizontalTextContainer}>
-                  <Text style={styles.horizontalname}>{item.name}</Text>
-                  <Text style={styles.horizontalrice}>{item.price}</Text>
-                  <Text style={styles.horizontaltime}>{item.time}</Text>
-                </View>
-              </View>
-            )}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
-        <View style={styles.newdiff}>
-          <Text style={styles.diferrence}>Tin đăng tương tự</Text>
-          <TouchableOpacity style={styles.btnviewall}>
-            <Text style={styles.textviewall}>Xem tất cả</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.contpro}>
-          <FlatList
-            data={horizontalData}
-            keyExtractor={item => item.id}
-            renderItem={({item}) => (
-              <View style={styles.horizontalItem}>
-                <Image source={item.image} style={styles.horizontalImage} />
-                <Image
-                  source={require('../assets/images/icons/like.png')}
-                  style={styles.icontim}
-                />
-                <Text style={styles.tagpro}>Thanh toán đảm bảo</Text>
-                <View style={styles.horizontalTextContainer}>
-                  <Text style={styles.horizontalname}>{item.name}</Text>
-                  <Text style={styles.horizontalrice}>{item.price}</Text>
-                  <Text style={styles.horizontaltime}>{item.time}</Text>
-                </View>
-              </View>
-            )}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
-      </ScrollView>
-      <View style={styles.containerbottomtab}>
-        <TouchableOpacity
-          style={styles.bottomtab}
-          onPress={() => console.log('Call pressed')}>
-          <Image
-            source={require('../assets/images/icons/icon_call.png')}
-            style={styles.iconc}
-          />
-          <Text style={styles.textcall}>Gọi điện</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.bottomtab}
-          onPress={() => console.log('Text pressed')}>
-          <Image
-            source={require('../assets/images/icons/icon_sms.jpg')}
-            style={styles.iconc}
-          />
-          <Text style={styles.textcall}>Nhắn tin</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.bottomtab}
-          onPress={() => console.log('Check pressed')}>
-          <Image
-            source={require('../assets/images/icons/icon_chat.png')}
-            style={styles.iconc}
-          />
-          <Text style={styles.textcall}>Chat</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.bottomtabmua}
-          onPress={() => console.log('Buy pressed')}>
-          <Text style={styles.textmuangay}>Mua ngay</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
@@ -450,6 +490,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+
   },
   imgBack: {
     top: 20,
@@ -485,8 +526,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   nameProduct: {
-    paddingHorizontal: 10,
+    // paddingHorizontal: 10,
     borderRadius: 10,
+    // backgroundColor: '#F1F2F3',
+
   },
   txtNameProduct: {
     fontSize: 15,
@@ -533,16 +576,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 10,
-    padding: 10,
+    // backgroundColor: '#F1F2F3',
+
+    // padding: 10,
   },
   textprice: {
     fontSize: 12,
     fontWeight: 'bold',
     color: 'red',
+    padding: 5,
+
   },
   containerPrice: {
     flexDirection: 'row',
     alignItems: 'center',
+    borderColor: 'red',
+    borderWidth: 1,
+    borderRadius: 15,
+    padding: 5,
   },
   txtLuutin: {
     fontSize: 12,
@@ -557,6 +608,7 @@ const styles = StyleSheet.create({
   timeIn: {
     fontSize: 8,
     color: 'black',
+
   },
   dungluong: {
     padding: 5,
@@ -791,7 +843,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   followButton: {
-    marginHorizontal: 10,
+    marginHorizontal: 20,
     width: '40%',
     flexDirection: 'row',
     alignItems: 'center',
@@ -965,7 +1017,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderTopColor: '#C0C0C0',
-    borderTopWidth: 20,
+    borderTopWidth: 5,
+    padding: 10,
   },
   newdiff: {
     marginTop: 10,
@@ -984,7 +1037,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomColor: '#C0C0C0',
-    borderBottomWidth: 20,
+    borderBottomWidth: 5,
   },
   btnviewall: {
     // width: '40%',
@@ -1000,6 +1053,7 @@ const styles = StyleSheet.create({
     color: 'blue',
   },
   horizontalItem: {
+    width: 100,
     flexDirection: 'column',
     padding: 5,
   },
@@ -1063,4 +1117,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
   },
+  txtHeader: {
+    padding: 10,
+    alignContent: 'center',
+    textAlign: 'left',
+    // borderColor: 'black',
+    // borderWidth: 0.5,
+  }
 });

@@ -3,7 +3,7 @@ import React from 'react'
 
 const ItemPosts = (props) => {
     const { data } = props
-    const urlApi = `http://datnapi.vercel.app/`
+    const urlApi = `https://datnapi-qelj.onrender.com/`
     // console.log("check data item: ", data)
     return (
         <View>

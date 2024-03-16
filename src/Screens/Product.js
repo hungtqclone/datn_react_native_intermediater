@@ -38,7 +38,7 @@ const Product = (props) => {
     const [post, setPostNews] = useState([]);
     const [brand, setBrands] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    urlApi = 'http://datnapi.vercel.app/'
+    urlApi = 'https://datnapi-qelj.onrender.com/'
     const ongetBrands = async () => {
         const brands = await getBrands(idCate);
         setBrands(brands);
