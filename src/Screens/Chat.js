@@ -7,7 +7,7 @@ import io from 'socket.io-client';
 const socket = io('https://datnapi.vercel.app');
 
 const moment = require('moment-timezone');
-const Chat = ({ route }) => {
+const Chat = ( {navigation, route }) => {
     const { data } = route.params;
     const { user } = useContext(UserContext)
     const flatListRef = useRef();
