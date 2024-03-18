@@ -248,7 +248,7 @@ const DetailPostnews = props => {
         ArrayImagePath.push(response.files);
       }
       const uniqueImageLinks = ArrayImagePath.map(images => images[0]);
-      setImagePath(ArrayImagePath);
+      setImagePath(uniqueImageLinks);
       // console.log('IMAGEPATH', uniqueImageLinks);
       setIsLoading(false);
     } catch (error) {
@@ -472,7 +472,34 @@ const DetailPostnews = props => {
             style={PNStyles.inputTT}
           />
           <View  style={PNStyles.picker}>
-          <Picker
+          <Dropdown
+                  style={{width: '100%',
+                  // height: 50,
+                  borderBottomColor: 'gray',
+                  borderBottomWidth: 0.5,
+                  height: 50,
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: 5,
+                  borderColor: '#ebebeb',
+                  borderWidth: 1,
+                  borderRadius: 5,}}
+                  placeholderStyle={PNStyles.placeholderStyle}
+                  selectedTextStyle={PNStyles.selectedTextStyle}
+                  inputSearchStyle={PNStyles.inputSearchStyle}
+                  iconStyle={PNStyles.iconStyle}
+                  data={brand}
+                  // maxHeight={300}
+                  labelField="nameBrand" // Change "label" to "name"
+                  valueField="_id" // Change "value" to "code"
+                  placeholder="Hãng"
+                
+                  value={selectedBrandId} // Use selectedCity as the value
+                  onChange={selectedBrandId => {
+                    setSelectedBrandId(selectedBrandId._id);
+                  }}
+                />
+          {/* <Picker
             selectedValue={selectedBrandId}
             onValueChange={(itemValue, itemIndex) =>
               handleBrandChange(itemValue)
@@ -480,11 +507,11 @@ const DetailPostnews = props => {
             {brand.map(brand => (
               <Picker.Item
                 key={brand._id}
-                label={brand.nameBrand}
+                label={selectedBrandId != null ? brand.nameBrand :"Hãng"}
                 value={brand._id}
               />
             ))}
-          </Picker>
+          </Picker> */}
         </View>
           <TextInput
             value={price}
@@ -506,14 +533,16 @@ const DetailPostnews = props => {
           <TextInput
             value={detail}
             onChangeText={setDetail}
-            multiline
-            numberOfLines={4}
-            maxLength={40}
+            multiline={true}
+            underlineColorAndroid='transparent'
+          
             placeholder="Mô tả chi tiết"
             style={PNStyles.inputTTMT}
           />
           <TextInput
             value={properties}
+            multiline={true}
+            underlineColorAndroid='transparent'
             onChangeText={setProperties}
             placeholder="Thêm chi tiết"
             style={PNStyles.inputTTMT}

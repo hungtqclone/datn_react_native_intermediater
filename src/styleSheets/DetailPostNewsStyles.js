@@ -103,7 +103,7 @@ export const PNStyles = StyleSheet.create({
     inputTTMT:{
         marginTop:15,
         width:'100%',
-        height:100,
+        maxHeight:100,
         borderRadius:5,
         borderWidth:0.5,
     },
