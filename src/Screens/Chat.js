@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-import { View, Text, FlatList, TextInput, Button } from 'react-native'
+import { View, Text, FlatList, TextInput, Button, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import AxiosInstance from '../components/helpers/Axiosintance';
 import { UserContext } from '../components/users/UserContext';
@@ -8,14 +7,14 @@ import io from 'socket.io-client';
 const socket = io('https://datnapi.vercel.app');
 
 const moment = require('moment-timezone');
-const Chat = ({ route }) => {
+const Chat = ( {navigation, route }) => {
     const { data } = route.params;
     const { user } = useContext(UserContext)
     const flatListRef = useRef();
     const userId = user._id
     const [allMessage, setallMessage] = useState(undefined)
     const [inputMessage, setInputMessage] = useState(undefined);
-
+    const [isSending, setIsSending] = useState(false);
 
     const fetchDataAllMessage = async () => {
         try {
@@ -24,25 +23,47 @@ const Chat = ({ route }) => {
         } catch (error) {
             console.log(error)
         }
-
     }
     const renderItem = ({ item }) => {
-
         if (userId !== item.senderId) {
             return (
-                <View style={{ width: "100%", alignItems: 'flex-start' }}>
-                    <View style={{ padding: 10, marginHorizontal: 10, marginVertical: 3, backgroundColor: "#AAAAAA", borderRadius: 10, marginRight: 50, alignItems: "flex-start" }}>
-                        <Text style={{ color: 'black', fontSize: 17 }}>{item.content}</Text>
-                        <Text style={{ fontSize: 12 }}>{moment.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}</Text>
+                <View style={{ width: "100%", alignItems: 'flex-start', marginBottom: 5 }}>
+                    <View style={{
+                        maxWidth: '80%',
+                        alignSelf: 'flex-start',
+                        backgroundColor: "#AAAAAA",
+                        borderRadius: 20,
+                        paddingVertical: 8,
+                        paddingHorizontal: 12,
+                        marginLeft: 10,
+                        marginTop: 3,
+                        marginBottom: 3,
+                    }}>
+                        <Text style={{ color: 'white', fontSize: 17, lineHeight: 22 }}>{item.content}</Text>
+                        <Text style={{ alignSelf: 'flex-start', color: 'white', fontSize: 12, marginTop: 4 }}>
+                            {moment.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}
+                        </Text>
                     </View>
                 </View>
             );
         } else {
             return (
-                <View style={{ width: "100%", alignItems: 'flex-end' }}>
-                    <View style={{ padding: 10, marginHorizontal: 10, marginVertical: 3, backgroundColor: "#3333FF", borderRadius: 10, marginLeft: 50, alignItems: "flex-end" }}>
-                        <Text style={{ color: 'black', fontSize: 17 }}>{item.content}</Text>
-                        <Text style={{ fontSize: 12 }}>{moment.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}</Text>
+                <View style={{ width: "100%", alignItems: 'flex-end', marginBottom: 5 }}>
+                    <View style={{
+                        maxWidth: '80%',
+                        alignSelf: 'flex-end',
+                        backgroundColor: "#3333FF",
+                        borderRadius: 20,
+                        paddingVertical: 8,
+                        paddingHorizontal: 12,
+                        marginRight: 10,
+                        marginTop: 3,
+                        marginBottom: 3,
+                    }}>
+                        <Text style={{ color: 'white', fontSize: 17, lineHeight: 22 }}>{item.content}</Text>
+                        <Text style={{ alignSelf: 'flex-end', color: 'white', fontSize: 12, marginTop: 4 }}>
+                            {moment.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}
+                        </Text>
                     </View>
                 </View>
             );
@@ -54,34 +75,31 @@ const Chat = ({ route }) => {
     }, []);
 
     const sendMessage = async () => {
-        try {
-            if (inputMessage != '') {
-                const sendMessgaes = await AxiosInstance().post(`api/message/new-message?senderId=${userId}&receiverId=${data._id}&content=${inputMessage}`);
-                console.log(sendMessgaes);
-                if (sendMessgaes.result == true) {
+        if (inputMessage.trim() !== '') {
+            setIsSending(true);
+            try {
+                const sendMessageResponse = await AxiosInstance().post(`api/message/new-message?senderId=${userId}&receiverId=${data._id}&content=${inputMessage}`);
+                console.log(sendMessageResponse);
+                if (sendMessageResponse.result === true) {
                     fetchDataAllMessage();
                 }
-
-                setInputMessage(undefined)
-
+                setInputMessage('');
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setIsSending(false);
             }
-        } catch (error) {
-            console.log(error)
         }
-
-
-
-
-    }
+    };
 
     return (
         <View style={{ position: "relative", flex: 1, backgroundColor: "#DDDDDD" }}>
-            <View style={{ padding: 10, backgroundColor: "#FF99CC", marginBottom: 10 }}>
-                <Text style={{ fontSize: 20, color: "white" }}>{data.name}</Text>
+            <View style={{ padding: 10, backgroundColor: "#FFCC00", marginBottom: 10, flexDirection:'row', alignItems:'center' }}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Image source={require('../assets/images/icons/arrow-back.png')}/>
+                </TouchableOpacity>
+                <Text style={{ fontSize: 20, color: "black", fontWeight:'bold' }}>{data.name}</Text>
             </View>
-
-
-
             {allMessage && allMessage.length > 0 ? (
                 <FlatList
                     ref={flatListRef}
@@ -97,12 +115,22 @@ const Chat = ({ route }) => {
                 <Text style={{ textAlign: 'center', fontSize: 18, marginTop: 20 }}>New message</Text>
             )}
 
-            <View style={{ position: "absolute", width: "100%", bottom: 10, flexDirection: "row", padding: 10 }}>
-                <TextInput style={{ backgroundColor: "white", borderRadius: 10, fontSize: 16, width: '85%', marginRight: 10 }} placeholder='text message' value={inputMessage} onChangeText={(e) => setInputMessage(e)} />
-                <Button
-                    onPress={() => sendMessage()}
-                    title="Gửi"
-                />
+            <View style={{ position: "absolute", width: "100%", bottom: 10, flexDirection: "row", alignItems: "center", padding: 10 }}>
+                <View style={{ flexDirection: "row", flex: 1, borderRadius: 10, backgroundColor: "white", alignItems: "center", marginRight: 10 }}>
+                    <TextInput
+                        style={{ flex: 1, fontSize: 16, paddingHorizontal: 10 }}
+                        placeholder='Type a message'
+                        value={inputMessage}
+                        onChangeText={setInputMessage}
+                    />
+                    <TouchableOpacity onPress={() => sendMessage()} style={{ padding: 10 }}>
+                        {isSending ? (
+                            <ActivityIndicator size="small" color="#0000ff" />
+                        ) : (
+                            <Image source={require('../assets/images/send-message.png')} style={{ width: 25, height: 25 }} />
+                        )}
+                    </TouchableOpacity>
+                </View>
             </View>
 
         </View >
