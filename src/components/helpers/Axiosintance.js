@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AxiosInstance = (contentType = 'application/json') => {
     const axiosInstance = axios.create({
-        baseURL: 'https://datnapi-7ur3.onrender.com/'
+        baseURL: 'https://datn-nodejs.onrender.com'
         //  baseURL: 'http://192.168.1.3:8080/api/'
     });
 

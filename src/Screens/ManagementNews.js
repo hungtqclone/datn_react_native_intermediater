@@ -65,6 +65,7 @@ const renderScene = SceneMap({
 
 const ManagementNews = (props) => {
     const { navigation } = props;
+    const { user } = useContext(UserContext)
     const layout = useWindowDimensions();
     const [index, setIndex] = React.useState(0);
     const [routes] = useState([
@@ -129,7 +130,7 @@ const ManagementNews = (props) => {
                 <View style={MGNStyles.contaiProfile}>
                     <View style={MGNStyles.contaiJus}>
                         <Image source={require('../../image/Apple.png')} style={MGNStyles.imgProfile} ></Image>
-                        <Text style={MGNStyles.txtProfile}>Võ Hoàng Thanh</Text>
+                        <Text style={MGNStyles.txtProfile}>{user.name}</Text>
                     </View>
                     <View style={MGNStyles.contaiPoint}>
                         <Image source={require('../../image/Apple.png')} style={MGNStyles.imgcoint}></Image>

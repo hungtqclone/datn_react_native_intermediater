@@ -6,15 +6,15 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState, useContext} from 'react';
-import {Image} from '@rneui/base';
+import React, { useState, useContext } from 'react';
+import { Image } from '@rneui/base';
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {UserContext} from '../../components/users/UserContext';
+import { UserContext } from '../../components/users/UserContext';
 
 const Profile_screen = props => {
-  const {navigation} = props;
-  const {user, setuser} = useContext(UserContext);
+  const { navigation } = props;
+  const { user, setuser } = useContext(UserContext);
   const [avatarSource, setAvatarSource] = useState(
     require('../../assets/images/avatarDetail.png'),
   );
@@ -26,7 +26,7 @@ const Profile_screen = props => {
       });
 
       // Update the avatarSource with the selected image
-      setAvatarSource({uri: image.path});
+      setAvatarSource({ uri: image.path });
     } catch (error) {
       console.log('ImagePicker Error: ', error);
     }
@@ -56,7 +56,7 @@ const Profile_screen = props => {
         <View style={styles.bodyhearder}>
           {user === 1 ? (
             <TouchableOpacity
-              onPress={() =>{  setuser(null);}}
+              onPress={() => { setuser(null); }}
               style={styles.infoAv}>
               <Image
                 source={require('../../assets/images/icons/man-person-icon.png')}
@@ -67,10 +67,10 @@ const Profile_screen = props => {
           ) : (
             <View style={styles.infoAv}>
               <TouchableOpacity onPress={pickImage}>
-                <Image 
-                // source={avatarSource}
-                source={require('../../assets/images/icons/man-person-icon.png')}
-                 style={styles.avt} />
+                <Image
+                  // source={avatarSource}
+                  source={require('../../assets/images/icons/man-person-icon.png')}
+                  style={styles.avt} />
               </TouchableOpacity>
               {/* <Image
                 source={require('../../assets/images/icons/icon_edit.png')}
@@ -78,6 +78,7 @@ const Profile_screen = props => {
               /> */}
               <View>
                 <Text style={styles.nameNguoiban}>{user.name} </Text>
+                <TouchableOpacity><Text style={{ color: "blue", marginTop: 3 }}>Nạp đồng tốt</Text></TouchableOpacity>
                 {/* <View style={styles.reviewContainer}>
                   <Text style={styles.countReview}>4.9</Text>
                   <View style={styles.contStars}>
@@ -129,7 +130,7 @@ const Profile_screen = props => {
             <TouchableOpacity style={styles.cuGood}>
               <Text style={styles.txtPoint}>Đồng Tốt</Text>
               <View style={styles.contIcon}>
-                <Text style={styles.txtPointCount}>0</Text>
+                <Text style={styles.txtPointCount}>{user.balance}</Text>
                 <Image
                   source={require('../../assets/images/icons/icon_coin.png')}
                   style={styles.iconCuGood}
@@ -245,7 +246,7 @@ const Profile_screen = props => {
             <TouchableOpacity
               style={[
                 styles.contMagOrderItemLeft,
-                {display: user == 1 ? 'none' : 'inline-block'},
+                { display: user == 1 ? 'none' : 'inline-block' },
               ]}
               onPress={() => onLogOut()}>
               <Image
