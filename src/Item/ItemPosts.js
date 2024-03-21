@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 const ItemPosts = (props) => {
@@ -17,6 +17,7 @@ const ItemPosts = (props) => {
                         <Text style={{ color: "red", fontWeight: 600, fontSize: 15, position: 'absolute', bottom: 38 }}>{data.price} d</Text>
                         <Text style={{ position: "absolute", bottom: 15 }}>{data.location}</Text>
                     </View>
+                    <TouchableOpacity style={{ position: "absolute", bottom: 15, right: 5 }}><Text style={{ color: "blue" }}>Mua vip</Text></TouchableOpacity>
                 </View>
 
             </View >

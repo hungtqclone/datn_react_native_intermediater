@@ -28,7 +28,7 @@ const CategoriesDetail = (props) => {
     const [categoriesDetail, setCategoriesDetail] = useState([]);
     const [idCategory, setIdCategory] = useState("658fb995b41f1dd5128fa9cf")
     const numColumns = Math.ceil(datatile.length / 2);
-    urlApi = 'https://datnapi-qelj.onrender.com/'
+    urlApi = 'https://datn-nodejs.onrender.com/'
     const { navigation, route } = props;
 
     //id của category truyền qua

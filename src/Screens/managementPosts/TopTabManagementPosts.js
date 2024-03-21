@@ -3,7 +3,8 @@ import React from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import PostsHidden from './PostsHidden'
 import PostsPresently from './PostsPresently'
-
+import ManagementPNavigation from './ManagementPNavigation'
+import ManagementHNavigation from './ManagementPNavigation'
 const Tab = createMaterialTopTabNavigator()
 
 const options = ({ route }) => ({
@@ -30,9 +31,9 @@ const TopTabManagementPosts = () => {
     return (
 
         <Tab.Navigator screenOptions={options}>
-            <Tab.Screen name="PostsPresently" component={PostsPresently} />
+            <Tab.Screen name="PostsPresently" component={ManagementPNavigation} />
             <Tab.Screen name="PostsHidden" component={PostsHidden} />
-
+               
         </Tab.Navigator>
 
     )

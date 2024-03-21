@@ -1146,8 +1146,8 @@ const styles = StyleSheet.create({
   },
   tagpro: {
     position: 'absolute',
-    bottom: 85,
-    left: 10,
+    bottom: 95,
+    left: 5,
     padding: 5,
     backgroundColor: 'green',
     borderRadius: 1,
