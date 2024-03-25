@@ -48,3 +48,18 @@ export const GetRouteNameScroll = route => {
     }
     return 'flex';
 };
+export const GetRouteNameManament = route => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    if (routeName?.includes('ManagementHNavigation')) {
+        return 'none';
+    } else if (routeName?.includes('ManagementPNavigation')) {
+        return 'none';
+    } else if (routeName?.includes('PostsPresently')) {
+        return 'none';
+    } else if (routeName?.includes('DetailProduct')) {
+        return 'none';
+    } else if (routeName?.includes('ExplPostsHiddenore')) {
+        return 'none';
+    }
+    return 'flex';
+};
