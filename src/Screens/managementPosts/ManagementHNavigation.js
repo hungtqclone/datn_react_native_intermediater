@@ -13,7 +13,7 @@ const Stack = createNativeStackNavigator();
 const ManagementHNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="PostsHidden" component={PostsHidden} />
+      <Stack.Screen name="PostsHiddenn" component={PostsHidden} />
       <Stack.Screen name="DetailProduct" component={DetailProduct} />
     </Stack.Navigator>
   );

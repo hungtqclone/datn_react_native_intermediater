@@ -9,7 +9,7 @@ const Tab = createMaterialTopTabNavigator()
 
 const options = ({ route }) => ({
     tabBarLabel: ({ focused, color }) => {
-        if (route.name === 'PostsPresently') {
+        if (route.name === 'PostsPresentlys') {
             return focused ? (
                 <Text style={{ color: 'blue' }}>Tin đang hiện</Text>
             ) : (
@@ -31,7 +31,7 @@ const TopTabManagementPosts = () => {
     return (
 
         <Tab.Navigator screenOptions={options}>
-            <Tab.Screen name="PostsPresently" component={ManagementPNavigation} />
+            <Tab.Screen name="PostsPresentlys" component={ManagementPNavigation} />
             <Tab.Screen name="PostsHidden" component={PostsHidden} />
                
         </Tab.Navigator>
