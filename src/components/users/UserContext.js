@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, createContext, useEffect } from 'react'
 import { login } from './UserService';
+import AxiosInstance from '../helpers/Axiosintance';
 
 
 export const UserContext = createContext();
@@ -16,9 +17,12 @@ export const UserProvider = (props) => {
         setuser(JSON.parse(checkUser));
         return;
     }
-    if (user != 1) {
-        dataUser();
-    }
+    useEffect(() => {
+        dataUser()
+    }, []);
+    // if (user != 1) {
+    //     dataUser();
+    // }
 
     const onLogin = async (email, password) => {
         try {

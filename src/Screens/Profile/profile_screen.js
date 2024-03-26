@@ -5,16 +5,24 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Linking,
+  TextInput
 } from 'react-native';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Image } from '@rneui/base';
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import AxiosInstance from '../../components/helpers/Axiosintance';
 import { UserContext } from '../../components/users/UserContext';
+import { useFocusEffect } from '@react-navigation/native';
+import Modal from 'react-native-modal'
 
 const Profile_screen = props => {
   const { navigation } = props;
   const { user, setuser } = useContext(UserContext);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [dataUser, setDataUser] = useState(user)
+  const [amount, setAmount] = useState(0)
   const [avatarSource, setAvatarSource] = useState(
     require('../../assets/images/avatarDetail.png'),
   );
@@ -31,14 +39,64 @@ const Profile_screen = props => {
       console.log('ImagePicker Error: ', error);
     }
   };
-
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
   const onLogOut = async () => {
     await AsyncStorage.setItem('user', '');
     setuser(null);
   };
 
+  const fetchDataUser = async () => {
+    try {
+      const dataUser = await AxiosInstance().get(`/api/get-user-byId/${user._id}`)
+      await AsyncStorage.setItem('user', JSON.stringify(dataUser.user));
+      setuser(dataUser.user)
+      setDataUser(dataUser.user)
+    } catch (error) {
+      console.log("fetch data user error: ", error)
+      return
+    }
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchDataUser()
+      return () => {
+        console.log("unfocus profile")
+      }
+    }, [])
+  )
+
+
+  const handleOpenWeb = () => {
+    if (amount < 20000) return
+    Linking.openURL(`https://datn-web-payment.vercel.app/buy/${dataUser._id}/${amount}`);
+  };
+
+  const handleInputNumber = (text) => {
+    setAmount(text)
+  }
+
   return (
     <ScrollView style={styles.body}>
+      <Modal isVisible={isModalVisible}>
+        <View style={{ backgroundColor: 'white', padding: 8 }}>
+          <Text style={{ color: "Black", fontSize: 17, textAlign: 'center' }}>Nạp đồng tốt</Text>
+          <TextInput keyboardType='number-pad' placeholder='Nhập số tiền bạn muốn nạp' onChangeText={handleInputNumber} style={{ borderColor: "gray", borderWidth: 1, marginTop: 6 }} />
+          <Text style={{ color: "red", display: amount < 20000 ? "flex" : "none" }}>số tiền nạp không được dưới 20.000</Text>
+          <Text>Khi click vào xác nhận sẽ nhảy qua trang web</Text>
+          <View style={{ flexDirection: "row", width: "100%" }}>
+
+            <TouchableOpacity style={{ backgroundColor: '#33CCFF', padding: 5, borderRadius: 5, flex: 1, paddingVertical: 10 }} title="Mua vip" onPress={() => handleOpenWeb()} >
+              <Text style={{ color: "white", textAlign: 'center' }}>Xác nhận</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{ backgroundColor: '#33CCFF', padding: 5, borderRadius: 5, marginLeft: 10, flex: 1, paddingVertical: 10 }} onPress={toggleModal} >
+              <Text style={{ color: "white", textAlign: "center" }}>Đóng</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
       <View style={styles.appbar}>
         <View style={styles.appbarLeft}>
           <Text style={styles.appbarLeftText}>Thêm</Text>
@@ -77,8 +135,8 @@ const Profile_screen = props => {
                 style={styles.iconedit}
               /> */}
               <View>
-                <Text style={styles.nameNguoiban}>{user.name} </Text>
-                <TouchableOpacity><Text style={{ color: "blue", marginTop: 3 }}>Nạp đồng tốt</Text></TouchableOpacity>
+                <Text style={styles.nameNguoiban}>{dataUser.name} </Text>
+                <TouchableOpacity onPress={toggleModal}><Text style={{ color: "blue", marginTop: 3 }}>Nạp đồng tốt</Text></TouchableOpacity>
                 {/* <View style={styles.reviewContainer}>
                   <Text style={styles.countReview}>4.9</Text>
                   <View style={styles.contStars}>
@@ -130,7 +188,7 @@ const Profile_screen = props => {
             <TouchableOpacity style={styles.cuGood}>
               <Text style={styles.txtPoint}>Đồng Tốt</Text>
               <View style={styles.contIcon}>
-                <Text style={styles.txtPointCount}>{user.balance}</Text>
+                <Text style={styles.txtPointCount}>{dataUser.balance}</Text>
                 <Image
                   source={require('../../assets/images/icons/icon_coin.png')}
                   style={styles.iconCuGood}

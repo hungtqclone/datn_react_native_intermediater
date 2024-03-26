@@ -1,9 +1,10 @@
-import { View, Text, Image, TouchableOpacity, Button, TextInput, ActivityIndicator } from 'react-native'
+import { View, Text, Image, TouchableOpacity, Button, TextInput, ActivityIndicator, Alert } from 'react-native'
 import React, { useState, useContext } from 'react'
 import AxiosInstance from '../components/helpers/Axiosintance'
 import { UserContext } from '../components/users/UserContext';
 import Modal from 'react-native-modal'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+
 
 const ItemPosts = (props) => {
     const { data } = props
@@ -37,9 +38,10 @@ const ItemPosts = (props) => {
 
                     await AsyncStorage.setItem('user', JSON.stringify(dataUser.user));
                     setuser(dataUser.user);
+                    Alert.alert('mua vip thành công');
                 }
-
-
+            } else {
+                Alert.alert('mua vip thất bại');
             }
         } catch (error) {
             console.log('buy vip error: ', error)
@@ -98,7 +100,7 @@ const ItemPosts = (props) => {
                         <Text style={{ color: "red", fontWeight: 600, fontSize: 15, position: 'absolute', bottom: 38 }}>{data.price} d</Text>
                         <Text style={{ position: "absolute", bottom: 15 }}>{data.location}</Text>
                     </View>
-                    <TouchableOpacity style={{ position: "absolute", bottom: 15, right: 5 }} onPress={toggleModal}><Text style={{ color: "blue", fontSize: 16 }}>Mua vip</Text></TouchableOpacity>
+                    <TouchableOpacity style={{ position: "absolute", bottom: 15, right: 5, display: data.isVip ? "none" : "flex" }} onPress={toggleModal}><Text style={{ color: "blue", fontSize: 16 }}>Mua vip</Text></TouchableOpacity>
                 </View>
 
             </View >

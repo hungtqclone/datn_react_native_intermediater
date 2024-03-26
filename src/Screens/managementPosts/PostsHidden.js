@@ -19,7 +19,7 @@ const PostsHidden = (props) => {
             return () => {
                 console.log("unfocus hidden")
             }
-        }, [])
+        }, [isLoading])
     )
 
     const fetchData = async () => {
