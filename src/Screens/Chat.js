@@ -3,11 +3,10 @@ import React, { useState, useEffect, useRef, useContext } from 'react'
 import AxiosInstance from '../components/helpers/Axiosintance';
 import { UserContext } from '../components/users/UserContext';
 import io from 'socket.io-client';
-
-const socket = io('https://datnapi.vercel.app');
+import { urlAPI } from '../components/helpers/urlAPI';
 
 const moment = require('moment-timezone');
-const Chat = ( {navigation, route }) => {
+const Chat = ({ navigation, route }) => {
     const { data } = route.params;
     const { user } = useContext(UserContext)
     const flatListRef = useRef();
@@ -15,6 +14,9 @@ const Chat = ( {navigation, route }) => {
     const [allMessage, setallMessage] = useState(undefined)
     const [inputMessage, setInputMessage] = useState(undefined);
     const [isSending, setIsSending] = useState(false);
+    const [messages, setMessages] = useState([]);
+    const [messageInput, setMessageInput] = useState('');
+    const [socket, setSocket] = useState(null);
 
     const fetchDataAllMessage = async () => {
         try {
@@ -69,21 +71,42 @@ const Chat = ( {navigation, route }) => {
             );
         }
     };
+    const newSocket = io(urlAPI);
+    useEffect(() => {
 
+        setSocket(newSocket);
+
+        newSocket.on('connect', () => {
+            console.log('Connected to server');
+        });
+        newSocket.emit('set-socketId', userId);
+
+    }, []);
     useEffect(() => {
         fetchDataAllMessage();
     }, []);
+    newSocket.on('receive-message', (message) => {
+        console.log("check message receiver: ", message);
+        fetchDataAllMessage()
+    });
 
     const sendMessage = async () => {
         if (inputMessage.trim() !== '') {
             setIsSending(true);
             try {
-                const sendMessageResponse = await AxiosInstance().post(`api/message/new-message?senderId=${userId}&receiverId=${data._id}&content=${inputMessage}`);
-                console.log(sendMessageResponse);
-                if (sendMessageResponse.result === true) {
-                    fetchDataAllMessage();
-                }
+                socket.emit('send-message', {
+                    "senderId": userId,
+                    "receiverId": data._id,
+                    "content": inputMessage
+
+                });
+                // const sendMessageResponse = await AxiosInstance().post(`api/message/new-message?senderId=${userId}&receiverId=${data._id}&content=${inputMessage}`);
+                // console.log(sendMessageResponse);
+                // if (sendMessageResponse.result === true) {
+                //     fetchDataAllMessage();
+                // }
                 setInputMessage('');
+                fetchDataAllMessage();
             } catch (error) {
                 console.error(error);
             } finally {
@@ -94,11 +117,11 @@ const Chat = ( {navigation, route }) => {
 
     return (
         <View style={{ position: "relative", flex: 1, backgroundColor: "#DDDDDD" }}>
-            <View style={{ padding: 10, backgroundColor: "#FFCC00", marginBottom: 10, flexDirection:'row', alignItems:'center' }}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Image source={require('../assets/images/icons/arrow-back.png')}/>
+            <View style={{ padding: 10, backgroundColor: "#FFCC00", marginBottom: 10, flexDirection: 'row', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Image source={require('../assets/images/icons/arrow-back.png')} />
                 </TouchableOpacity>
-                <Text style={{ fontSize: 20, color: "black", fontWeight:'bold' }}>{data.name}</Text>
+                <Text style={{ fontSize: 20, color: "black", fontWeight: 'bold' }}>{data.name}</Text>
             </View>
             {allMessage && allMessage.length > 0 ? (
                 <FlatList

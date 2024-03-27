@@ -48,6 +48,7 @@ const Profile_screen = props => {
   };
 
   const fetchDataUser = async () => {
+    if (user == 1) return
     try {
       const dataUser = await AxiosInstance().get(`/api/get-user-byId/${user._id}`)
       await AsyncStorage.setItem('user', JSON.stringify(dataUser.user));

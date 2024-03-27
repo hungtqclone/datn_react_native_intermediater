@@ -4,7 +4,7 @@
  *
  * @format
  */
-import React from 'react';
+import React, { useEffect } from 'react';
 import type { PropsWithChildren } from 'react';
 import {
   SafeAreaView,
@@ -29,6 +29,7 @@ import ChatNavigation from './src/components/navigation/ChatNavigation';
 import Product from './src/Screens/Product';
 import Home from './src/Screens/Home';
 import Foryou from './src/Screens/News/Foryou';
+
 function App() {
 
   // return(

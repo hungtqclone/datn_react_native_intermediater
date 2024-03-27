@@ -3,7 +3,6 @@ import React, { useState, createContext, useEffect } from 'react'
 import { login } from './UserService';
 import AxiosInstance from '../helpers/Axiosintance';
 
-
 export const UserContext = createContext();
 
 
@@ -13,10 +12,25 @@ export const UserProvider = (props) => {
     const { children } = props;
     const [user, setuser] = useState(null);
     const dataUser = async () => {
-        const checkUser = await AsyncStorage.getItem('user');
-        setuser(JSON.parse(checkUser));
-        return;
+        const receiverUser = await AsyncStorage.getItem('user');
+        if (receiverUser != '') {
+
+
+            const checkUser = await AxiosInstance().get(
+                `/api/get-user-byId/${JSON.parse(receiverUser)._id}`,
+            );
+            console.log("check user: ", checkUser)
+            if (checkUser.success) {
+                setuser(checkUser.user);
+                return;
+            } else {
+                setuser(null);
+                return;
+            }
+        }
+
     }
+
     useEffect(() => {
         dataUser()
     }, []);

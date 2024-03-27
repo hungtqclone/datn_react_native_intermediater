@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,12 +14,12 @@ import {
 import Geolocation from '@react-native-community/geolocation';
 import axios from 'axios';
 import Modal from 'react-native-modal';
-import {getProduct} from '../ScreenService';
+import { getProduct } from '../ScreenService';
 
 const MAX_ADDRESS_LENGTH = 30;
 const MAX_HEIGHT = 100;
 const NearYou = (props) => {
-  const {navigation} = props;
+  const { navigation } = props;
   const [isLoading, setIsLoading] = useState(true);
   const [location, setLocation] = useState(null);
   const [address, setAddress] = useState('');
@@ -42,12 +42,12 @@ const NearYou = (props) => {
   const getLocation = () => {
     Geolocation.getCurrentPosition(
       position => {
-        const {latitude, longitude} = position.coords;
-        setLocation({latitude, longitude});
+        const { latitude, longitude } = position.coords;
+        setLocation({ latitude, longitude });
         getAddressFromAPI(latitude, longitude);
       },
       error => console.log(error.message),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
   };
 
@@ -103,7 +103,7 @@ const NearYou = (props) => {
       setProducts(products);
     } catch (error) {
       console.error('Error fetching products:', error);
-    } 
+    }
     finally {
       setIsLoading(false); // Set loading state to false after the request is complete
     }
@@ -113,7 +113,7 @@ const NearYou = (props) => {
     setModalVisible(false);
   };
   //list và hiện list ảnh sản phẩm
-  const renderItem = ({item, index}) => (
+  const renderItem = ({ item, index }) => (
     <View key={index} style={styles.container}>
       <View style={styles.header}>
         <Image
@@ -122,7 +122,7 @@ const NearYou = (props) => {
         />
         <View>
           <View style={styles.nameshop}>
-            <Text style={styles.textnameshop}>{item.userid.name}</Text>
+            <Text style={styles.textnameshop}>{item.userid == null ? "Người dùng không tồn tại" : item.userid.name}</Text>
             <Image
               style={styles.iconbag}
               source={require('../../assets/images/icons/icon_bag.png')}
@@ -153,11 +153,11 @@ const NearYou = (props) => {
         <FlatList
           scrollEnabled={false}
           data={item.files.slice(0, 4)} // Chỉ hiển thị 4 ảnh đầu tiên
-          renderItem={({item, index}) => (
+          renderItem={({ item, index }) => (
             // console.log('Constructed Image URL:', `${urlServer}${item}`),
             <View key={index} style={styles.gridItem}>
               <Image
-                source={{uri: `${urlServer}${item}`}}
+                source={{ uri: `${urlServer}${item}` }}
                 style={styles.image}
                 resizeMode="cover"
               />
@@ -169,7 +169,7 @@ const NearYou = (props) => {
           showsHorizontalScrollIndicator={false}
         />
         <TouchableOpacity style={styles.nameprice}
-            onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })} 
+          onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })}
 
         >
           <View style={styles.cont_nameprice}>
@@ -232,7 +232,7 @@ const NearYou = (props) => {
     setIsExpanded(!isExpanded);
   };
   const checkContentHeight = event => {
-    const {height} = event.nativeEvent.layout;
+    const { height } = event.nativeEvent.layout;
 
     if (height > MAX_HEIGHT) {
       setShowCollapseButton(true);
