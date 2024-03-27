@@ -27,6 +27,8 @@ export const getProduct = async () => {
   }
 };
 
+
+
 //Danh mục con
 export const getDetailCategory = async id => {
   try {
@@ -134,5 +136,17 @@ export const getPostNewsByCategory = async (id) => {
   } catch (error) {
       console.log("getPostNewsByCategory error", error);
       throw error;
+  }
+}
+
+//lưu tin
+export const savePost = async (userid, postId) => {
+  try {
+    const response = await AxiosInstance().post(`/api/saved/save-or-notSave?userId=${userid}&postId=${postId}`);
+    console.log("85 save Post news resspone: " + JSON.stringify(response.data));
+    return response.data;
+  } catch (err) {
+    console.log('Save error:', err);
+    return err;
   }
 }

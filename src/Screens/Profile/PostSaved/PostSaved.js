@@ -8,40 +8,41 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-import React, {useState, useEffect, useContext} from 'react';
-import {Image} from '@rneui/base';
-import {getProduct} from '../../ScreenService';
-import {getPostSaved} from '../../ScreenService';
-import {UserContext} from '../../../components/users/UserContext';
+import React, { useState, useEffect, useContext } from 'react';
+import { Image } from '@rneui/base';
+import { getProduct } from '../../ScreenService';
+import { getPostSaved } from '../../ScreenService';
+import { UserContext } from '../../../components/users/UserContext';
 const PostSaved = (props) => {
   //link api
   const urlServer = 'https://datnapi-qelj.onrender.com/';
   const [products, setProducts] = useState([]);
   const [saved, setSaved] = useState([]);
-  const {navigation} = props;
+  const { navigation } = props;
   const [isLoading, setIsLoading] = useState(true);
   //lấy thông tin user
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const userId = user._id;
   const ongetProducts = async () => {
     try {
       setIsLoading(true); // Set loading state to true before making the request
       const products = await getProduct();
       setProducts(products);
-      console.log('ds tin mới:', products);
+      console.log('ds tin mới:', products[0]);
+      console.log('userId', products[0].userid._id);
     } catch (error) {
       console.log('Error fetching products:', error);
-    } 
+    }
     finally {
       setIsLoading(false); // Set loading state to false after the request is complete
     }
   };
   const ongetSaved = async () => {
     try {
-      console.log('userId', userId);
       const saved = await getPostSaved(userId);
       setSaved(saved);
-      console.log('ds tin đã lưu:', saved);
+
+      // console.log('ds tin đã lưu:', saved);
     } catch (error) {
       console.error('không lấy được ds tin đã lưu:', error);
     }
@@ -51,11 +52,11 @@ const PostSaved = (props) => {
     ongetSaved();
   }, []);
 
-  const renderItem = ({item, index}) => (
-    <TouchableOpacity key={index} style={styles.horizontalItem} 
-    onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })} >
+  const renderItem = ({ item, index }) => (
+    <TouchableOpacity key={index} style={styles.horizontalItem}
+      onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })} >
       <Image
-        source={{uri: `${urlServer}${item.files[0]}`}}
+        source={{ uri: `${urlServer}${item.files[0]}` }}
         style={styles.horizontalImage}
       />
 
@@ -82,10 +83,12 @@ const PostSaved = (props) => {
       </View>
     </TouchableOpacity>
   );
-  const renderSaved = ({item, index}) => (
-    <View key={index} style={styles.horizontalItem}>
+  const renderSaved = ({ item, index }) => (
+    <TouchableOpacity key={index} style={styles.horizontalItem}
+      onPress={() => navigation.navigate('DetailProduct', { id_product: item.postId._id })}
+    >
       <Image
-        source={{uri: `${urlServer}${item.postId.files[0]}`}}
+        source={{ uri: `${urlServer}${item.postId.files[0]}` }}
         style={styles.horizontalImage}
       />
 
@@ -110,7 +113,7 @@ const PostSaved = (props) => {
           <Text style={styles.horizontaltime}>{item.postId.created_AT}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
   return (
     <ScrollView style={styles.body}>
@@ -130,22 +133,23 @@ const PostSaved = (props) => {
         </View>
       </View>
       <View style={styles.container}>
-        {/* {user === 1 ? ( */}
-          <Text style={styles.txtnoti}>
-            Bạn chưa lưu tin rao nào. Hãy bấm vào nút ❤️ ở tin rao để lưu lại và
-            xem sau.
-          </Text>
-        {/* ) : ( */}
-          <FlatList
-            data={saved}
-            scrollEnabled={false}
-            keyExtractor={item => item._id.toString()}
-            renderItem={renderSaved}
-            // horizontal
-            numColumns={2}
-            showsHorizontalScrollIndicator={false}
-          />
-        {/* )} */}
+      {saved.length === 0 ? (
+        <Text style={styles.txtnoti}>
+          Bạn chưa lưu tin rao nào. Hãy bấm vào nút ❤️ ở tin rao để lưu lại và
+          xem sau.
+        </Text>
+       ) : (
+        <FlatList
+          //data={saved}
+           data={saved.filter(item => item.postId.userid._id !== userId)}
+          scrollEnabled={false}
+          keyExtractor={item => item._id.toString()}
+          renderItem={renderSaved}
+          // horizontal
+          numColumns={2}
+          showsHorizontalScrollIndicator={false}
+        />
+        )}
       </View>
       {isLoading ? (
         <ActivityIndicator
@@ -158,7 +162,8 @@ const PostSaved = (props) => {
           <View style={styles.contNew}>
             <Text style={styles.txtNew}>Tin đăng mới</Text>
             <FlatList
-              data={products}
+              //data={products}
+              data={products.filter(item => item.userid._id !== userId)}
               scrollEnabled={false}
               keyExtractor={item => item._id.toString()}
               renderItem={renderItem}
@@ -212,7 +217,7 @@ const styles = StyleSheet.create({
   },
   container: {
     justifyContent: 'center',
-    alignItems: 'center',
+    // alignItems: 'center',
     backgroundColor: '#fff',
     marginBottom: 10,
     marginTop: 10,

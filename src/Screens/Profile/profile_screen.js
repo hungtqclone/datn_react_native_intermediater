@@ -83,7 +83,7 @@ const Profile_screen = props => {
     <ScrollView style={styles.body}>
       <Modal isVisible={isModalVisible}>
         <View style={{ backgroundColor: 'white', padding: 8 }}>
-          <Text style={{ color: "Black", fontSize: 17, textAlign: 'center' }}>Nạp đồng tốt</Text>
+          <Text style={{ color: "black", fontSize: 17, textAlign: 'center' }}>Nạp đồng tốt</Text>
           <TextInput keyboardType='number-pad' placeholder='Nhập số tiền bạn muốn nạp' onChangeText={handleInputNumber} style={{ borderColor: "gray", borderWidth: 1, marginTop: 6 }} />
           <Text style={{ color: "red", display: amount < 20000 ? "flex" : "none" }}>số tiền nạp không được dưới 20.000</Text>
           <Text>Khi click vào xác nhận sẽ nhảy qua trang web</Text>
