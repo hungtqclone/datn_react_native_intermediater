@@ -16,6 +16,7 @@ import AxiosInstance from '../../components/helpers/Axiosintance';
 import { UserContext } from '../../components/users/UserContext';
 import { useFocusEffect } from '@react-navigation/native';
 import Modal from 'react-native-modal'
+import { styleNumber } from '../../styleSheets/styleJS';
 
 const Profile_screen = props => {
   const { navigation } = props;
@@ -70,9 +71,16 @@ const Profile_screen = props => {
   )
 
 
-  const handleOpenWeb = () => {
-    if (amount < 20000) return
-    Linking.openURL(`https://datn-web-payment.vercel.app/buy/${dataUser._id}/${amount}`);
+  const handleOpenWeb = async () => {
+    try {
+      if (amount < 20000) return
+      const payment = await AxiosInstance().post(`/api/stripe/create-payment-intent/${amount}/${dataUser._id}`)
+      console.log("check payment: ", payment)
+      Linking.openURL(`https://datn-web-payment.vercel.app/pay/${payment.clientSecret}`);
+    } catch (error) {
+      console.log(error)
+    }
+    setAmount(0)
   };
 
   const handleInputNumber = (text) => {
@@ -85,7 +93,7 @@ const Profile_screen = props => {
         <View style={{ backgroundColor: 'white', padding: 8 }}>
           <Text style={{ color: "black", fontSize: 17, textAlign: 'center' }}>Nạp đồng tốt</Text>
           <TextInput keyboardType='number-pad' placeholder='Nhập số tiền bạn muốn nạp' onChangeText={handleInputNumber} style={{ borderColor: "gray", borderWidth: 1, marginTop: 6 }} />
-          <Text style={{ color: "red", display: amount < 20000 ? "flex" : "none" }}>số tiền nạp không được dưới 20.000</Text>
+          <Text style={{ color: "red", display: amount < 20000 ? "flex" : "none" }}>số tiền nạp không được dưới 20.000 vnd</Text>
           <Text>Khi click vào xác nhận sẽ nhảy qua trang web</Text>
           <View style={{ flexDirection: "row", width: "100%" }}>
 
@@ -189,7 +197,7 @@ const Profile_screen = props => {
             <TouchableOpacity style={styles.cuGood}>
               <Text style={styles.txtPoint}>Đồng Tốt</Text>
               <View style={styles.contIcon}>
-                <Text style={styles.txtPointCount}>{dataUser.balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</Text>
+                <Text style={styles.txtPointCount}>{styleNumber(dataUser.balance)}</Text>
                 <Image
                   source={require('../../assets/images/icons/icon_coin.png')}
                   style={styles.iconCuGood}
