@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useState, useEffect, } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,9 +11,13 @@ import {
   Linking,
   ActivityIndicator,
 } from 'react-native';
-import { getProduct } from '../ScreenService';
-const MAX_HEIGHT = 100;
+import { getProduct, savePost } from '../ScreenService';
+import { UserContext } from '../../components/users/UserContext';
 const Explore = (props) => {
+  const MAX_HEIGHT = 100;
+  //lấy thông tin user
+  const { user } = useContext(UserContext);
+  const userId = user._id;
   const { navigation } = props;
   //list và hiện list ảnh sản phẩm
 
@@ -48,6 +52,19 @@ const Explore = (props) => {
       setIsLoading(false); // Set loading state to false after the request is complete
     }
   };
+
+  const onSavePost = async (postId) => {
+
+    try {
+      console.log('User ID:', userId);
+      console.log('Post ID:', postId);
+      const response = await savePost(userId, postId);
+      console.log('Save post response:', response);
+    } catch (error) {
+      console.error('Error saving post:', error);
+    }
+  };
+
 
 
   const handleCallPress = (phoneNumber) => {
@@ -162,7 +179,11 @@ const Explore = (props) => {
             style={styles.iconCall}
             source={require('../../assets/images/icons/heart.png')}
           />
-          <Text style={styles.txtBtnCall}>Lưu tin</Text>
+          <TouchableOpacity
+           onPress={() => onSavePost(item._id)}
+          >
+            <Text style={styles.txtBtnCall}>Lưu tin</Text>
+          </TouchableOpacity>
         </TouchableOpacity>
         <TouchableOpacity style={styles.btnCall}>
           <Image

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,11 +14,16 @@ import {
 import Geolocation from '@react-native-community/geolocation';
 import axios from 'axios';
 import Modal from 'react-native-modal';
-import { getProduct } from '../ScreenService';
+
+import { getProduct, savePost } from '../ScreenService';
+import { UserContext } from '../../components/users/UserContext';
 
 const MAX_ADDRESS_LENGTH = 30;
 const MAX_HEIGHT = 100;
 const NearYou = (props) => {
+   //lấy thông tin user
+   const { user } = useContext(UserContext);
+   const userId = user._id;
   const { navigation } = props;
   const [isLoading, setIsLoading] = useState(true);
   const [location, setLocation] = useState(null);
@@ -112,6 +117,18 @@ const NearYou = (props) => {
   const handleCancelUpdate = () => {
     setModalVisible(false);
   };
+
+  const onSavePost = async (postId) => {
+
+    try {
+      console.log('User ID:', userId);
+      console.log('Post ID:', postId);
+      const response = await savePost(userId, postId);
+      console.log('Save post response:', response);
+    } catch (error) {
+      console.error('Error saving post:', error);
+    }
+  };
   //list và hiện list ảnh sản phẩm
   const renderItem = ({ item, index }) => (
     <View key={index} style={styles.container}>
@@ -203,7 +220,11 @@ const NearYou = (props) => {
             style={styles.iconCall}
             source={require('../../assets/images/icons/heart.png')}
           />
-          <Text style={styles.txtBtnCall}>Lưu tin</Text>
+          <TouchableOpacity
+            onPress={() => onSavePost(item._id)}
+          >
+            <Text style={styles.txtBtnCall}>Lưu tin</Text>
+          </TouchableOpacity>
         </TouchableOpacity>
         <TouchableOpacity style={styles.btnCall}>
           <Image
