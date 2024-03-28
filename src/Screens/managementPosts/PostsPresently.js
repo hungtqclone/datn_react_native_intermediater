@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator, FlatList,TouchableOpacity } from 'react-native'
+import { View, Text, ActivityIndicator, FlatList, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState, useContext } from 'react'
 import AxiosInstance from '../../components/helpers/Axiosintance'
 import { UserContext } from '../../components/users/UserContext'
@@ -15,14 +15,12 @@ const PostsPresently = (props) => {
         React.useCallback(() => {
             fetchData()
             return () => {
-                console.log("unfocus presently")
             }
         }, [])
     )
     const fetchData = async () => {
         try {
             const postsPresently = await AxiosInstance().get(`/api/postnews/user/${userId}`)
-            console.log("check data posts hidden: ", postsPresently)
             if (postsPresently.result) {
                 setPosts(postsPresently.data.postsPresently)
                 setIsLoading(false)

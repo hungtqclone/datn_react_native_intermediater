@@ -65,7 +65,6 @@ const Profile_screen = props => {
     React.useCallback(() => {
       fetchDataUser()
       return () => {
-        console.log("unfocus profile")
       }
     }, [])
   )

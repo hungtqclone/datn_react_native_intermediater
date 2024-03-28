@@ -2,8 +2,8 @@ import { View, Text, FlatList, TextInput, Button, TouchableOpacity, Image, Activ
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import AxiosInstance from '../components/helpers/Axiosintance';
 import { UserContext } from '../components/users/UserContext';
-import io from 'socket.io-client';
-import { urlAPI } from '../components/helpers/urlAPI';
+import socket from '../components/helpers/socketIO';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const moment = require('moment-timezone');
 const Chat = ({ navigation, route }) => {
@@ -14,9 +14,9 @@ const Chat = ({ navigation, route }) => {
     const [allMessage, setallMessage] = useState(undefined)
     const [inputMessage, setInputMessage] = useState(undefined);
     const [isSending, setIsSending] = useState(false);
+    const [newMessage, setNewMessage] = useState(null)
     const [messages, setMessages] = useState([]);
     const [messageInput, setMessageInput] = useState('');
-    const [socket, setSocket] = useState(null);
 
     const fetchDataAllMessage = async () => {
         try {
@@ -71,24 +71,35 @@ const Chat = ({ navigation, route }) => {
             );
         }
     };
-    const newSocket = io(urlAPI);
-    useEffect(() => {
 
-        setSocket(newSocket);
+    // useEffect(() => {
 
-        newSocket.on('connect', () => {
-            console.log('Connected to server');
-        });
-        newSocket.emit('set-socketId', userId);
+    //     newSocket.on('connect', () => {
+    //         console.log('Connected to server');
+    //     });
+    //     newSocket.emit('set-socketId', userId);
 
-    }, []);
+    // }, []);
     useEffect(() => {
         fetchDataAllMessage();
     }, []);
-    newSocket.on('receive-message', (message) => {
-        console.log("check message receiver: ", message);
-        fetchDataAllMessage()
+    socket.on('receive-message', (message) => {
+        setNewMessage(message)
     });
+
+    useEffect(() => {
+
+        if (newMessage) {
+            setallMessage([...allMessage, newMessage])
+        }
+
+    }, [newMessage]);
+    // useEffect(() => {
+    //     saveDataMessage()
+    // }, [allMessage]);
+    // const saveDataMessage = async () => {
+    //     return await AsyncStorage.setItem(`${userId + data._id}`, JSON.stringify(allMessage));
+    // }
 
     const sendMessage = async () => {
         if (inputMessage.trim() !== '') {

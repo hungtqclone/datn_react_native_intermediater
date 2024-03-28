@@ -17,7 +17,6 @@ const PostsHidden = (props) => {
         React.useCallback(() => {
             fetchData()
             return () => {
-                console.log("unfocus hidden")
             }
         }, [isLoading])
     )
@@ -25,7 +24,6 @@ const PostsHidden = (props) => {
     const fetchData = async () => {
         try {
             const postsHidden = await AxiosInstance().get(`/api/postnews/user/${userId}`)
-            console.log("check data posts hidden: ", postsHidden)
             if (postsHidden.result) {
                 setPosts(postsHidden.data.postsHidden)
                 setIsLoading(false)
