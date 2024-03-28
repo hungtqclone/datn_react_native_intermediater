@@ -189,7 +189,7 @@ const Profile_screen = props => {
             <TouchableOpacity style={styles.cuGood}>
               <Text style={styles.txtPoint}>Đồng Tốt</Text>
               <View style={styles.contIcon}>
-                <Text style={styles.txtPointCount}>{dataUser.balance}</Text>
+                <Text style={styles.txtPointCount}>{dataUser.balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</Text>
                 <Image
                   source={require('../../assets/images/icons/icon_coin.png')}
                   style={styles.iconCuGood}
