@@ -19,14 +19,16 @@ import {
 import Login from './src/Screens/Login';
 import { UserProvider } from './src/components/users/UserContext';
 import AppNavigation from './src/components/navigation/AppNavigation';
-import socket from './src/components/helpers/socketIO';
+import { MessageProvider } from './src/components/messages/MessageContext';
 function App() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <UserProvider>
-        <AppNavigation />
-      </UserProvider>
+      <MessageProvider>
+        <UserProvider>
+          <AppNavigation />
+        </UserProvider>
+      </MessageProvider>
     </SafeAreaView>
   );
 

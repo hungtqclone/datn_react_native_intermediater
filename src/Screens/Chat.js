@@ -2,43 +2,32 @@ import { View, Text, FlatList, TextInput, Button, TouchableOpacity, Image, Activ
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import AxiosInstance from '../components/helpers/Axiosintance';
 import { UserContext } from '../components/users/UserContext';
-import socket from '../components/helpers/socketIO';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useMessage } from '../components/messages/MessageContext';
 import moment_timezone from 'moment-timezone';
-import moment from 'moment';
-import { useFocusEffect } from '@react-navigation/native';
 
 
 // const moment = require('moment-timezone');
 const Chat = ({ navigation, route }) => {
     const { data } = route.params;
-    const { user, messages, setMessages, setReceiverMessage, messageNew } = useContext(UserContext)
+    const { user } = useContext(UserContext)
+    const { allMessages, socket } = useMessage()
     const flatListRef = useRef();
     const userId = user._id
-    const [allMessage, setallMessage] = useState(undefined)
     const [inputMessage, setInputMessage] = useState(undefined);
     const [isSending, setIsSending] = useState(false);
-    const [newMessage, setNewMessage] = useState(null)
-    // const [messages, setMessages] = useState([]);
-    const [messageInput, setMessageInput] = useState('');
     const filteredData = [];
-    for (let i = messages.length - 1; i >= 0; i--) {
-        if (messages[i].senderId == data._id || messages[i].receiverId == data._id) {
-            filteredData.push(messages[i])
+    for (let i = allMessages.length - 1; i >= 0; i--) {
+        if (allMessages[i].senderId == data._id || allMessages[i].receiverId == data._id) {
+            filteredData.push(allMessages[i])
 
         }
     }
-    // console.log("check message chat: ", filteredData)
-    // setallMessage(filteredData)
-    // setallMessage(messages.filter(item => item.senderId === item.receiverId))
-    // const fetchDataAllMessage = async () => {
-    //     try {
-    //         const messageData = await AxiosInstance().get(`api/message/get-messages?senderId=${userId}&receiverId=${data._id}`)
-    //         setallMessage(messageData.messages)
-    //     } catch (error) {
-    //         console.log(error)
+    // useEffect(() => {
+    //     if (newMessage != null) {
+    //         filteredData.unshift(...[newMessage]);
+
     //     }
-    // }
+    // }, [newMessage]);
     const renderItem = ({ item }) => {
         let checkLeft = userId !== item.senderId
         return (
@@ -67,19 +56,10 @@ const Chat = ({ navigation, route }) => {
 
     };
 
-    // useEffect(() => {
-    //     if (messageNew != null) {
-    //         setMessages([...messages, messageNew])
-    //     }
-    // }, [messageNew]);
-    // socket.on('receive-message', (message) => {
-    //     console.log("check message on chat:", message)
-
-    // });
-
     const sendMessage = async () => {
         if (inputMessage.trim() !== '') {
             setIsSending(true);
+
             try {
                 const body = {
                     "senderId": userId,
@@ -88,16 +68,7 @@ const Chat = ({ navigation, route }) => {
 
                 }
                 socket.emit('send-message', body);
-
                 setInputMessage('');
-                const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${userId}`)
-                setMessages(messagesData.messages)
-                // const sendMessageResponse = await AxiosInstance().post(`api/message/new-message?senderId=${userId}&receiverId=${data._id}&content=${inputMessage}`);
-                // setMessages([...messages, sendMessageResponse.data])
-                // console.log(sendMessageResponse);
-                // if (sendMessageResponse.result === true) {
-                //     fetchDataAllMessage();
-                // }
 
             } catch (error) {
                 console.error(error);
@@ -122,7 +93,12 @@ const Chat = ({ navigation, route }) => {
                     data={filteredData}
                     inverted
                     renderItem={renderItem}
-                    keyExtractor={item => item._id}
+                    keyExtractor={(item, index) => index.toString()}
+                    initialNumToRender={5}
+                    maxToRenderPerBatch={5}
+                    windowSize={10}
+                    updateCellsBatchingPeriod={30}
+                    removeClippedSubviews={true}
                 />
             ) : (
                 <Text style={{ textAlign: 'center', fontSize: 18, marginTop: 20 }}>New message</Text>

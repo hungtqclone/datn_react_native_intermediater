@@ -4,18 +4,15 @@ import { PushNotificationAndroid } from 'react-native';
 import { login } from './UserService';
 import AxiosInstance from '../helpers/Axiosintance';
 import { handleUserId } from '../helpers/socketIO';
-import socket from '../helpers/socketIO';
-
+import { useMessage } from '../messages/MessageContext';
 export const UserContext = createContext();
 
 
 
 export const UserProvider = (props) => {
     const { children } = props;
+    const { setUserId } = useMessage();
     const [user, setuser] = useState(null);
-    const [messageNew, setMessageNew] = useState(null)
-    const [receiverMessage, setReceiverMessage] = useState(true)
-    const [messages, setMessages] = useState([])
     const dataUser = async () => {
         const receiverUser = await AsyncStorage.getItem('user');
         if (receiverUser != null) {
@@ -23,10 +20,9 @@ export const UserProvider = (props) => {
 
             const checkUser = await AxiosInstance().get(`/api/get-user-byId/${JSON.parse(receiverUser)._id}`);
             if (checkUser.success) {
-                handleUserId(checkUser.user._id)
+                // handleUserId(checkUser.user._id)
+                setUserId(checkUser.user._id)
                 setuser(checkUser.user);
-                const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${checkUser.user._id}`)
-                setMessages(messagesData.messages)
                 return;
             } else {
                 setuser(null);
@@ -35,24 +31,10 @@ export const UserProvider = (props) => {
         }
 
     }
-    socket.on('receive-message', (message) => {
-        setMessageNew(message)
-    });
-
-    // setMessages([...messages, messageNew])
-
-
-    useEffect(() => {
-        if (messageNew != null) {
-            setMessages([...messages, messageNew])
-        }
-    }, [messageNew]);
-    // // const saveDataMessage = async () => {
-    //     await AsyncStorage.setItem(`messages`, JSON.stringify(messages));
-    // }
 
     useEffect(() => {
         dataUser()
+
     }, []);
 
     // if (user != 1) {
@@ -64,7 +46,7 @@ export const UserProvider = (props) => {
             const result = await login(email, password);
             if (result.success == true) {
                 await AsyncStorage.setItem('user', JSON.stringify(result.user));
-                handleUserId(result.user._id)
+                setUserId(result.user._id)
                 setuser(result.user);
                 return true;
             }
@@ -74,7 +56,8 @@ export const UserProvider = (props) => {
         return false;
     }
     return (
-        <UserContext.Provider value={{ user, setuser, onLogin, messages, setMessages, setReceiverMessage, messageNew }}>
+        <UserContext.Provider value={{ user, setuser, onLogin }}>
+
             {children}
         </UserContext.Provider>
     )
