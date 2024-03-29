@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   View,
   Linking,
-  TextInput
+  TextInput,
+  ActivityIndicator
 } from 'react-native';
 import React, { useState, useContext, useEffect } from 'react';
 import { Image } from '@rneui/base';
@@ -23,6 +24,7 @@ const Profile_screen = props => {
   const { user, setuser } = useContext(UserContext);
   const [isModalVisible, setModalVisible] = useState(false);
   const [dataUser, setDataUser] = useState(user)
+  const [isLoading, setIsLoading] = useState(false)
   const [amount, setAmount] = useState(0)
   const [avatarSource, setAvatarSource] = useState(
     require('../../assets/images/avatarDetail.png'),
@@ -73,9 +75,12 @@ const Profile_screen = props => {
   const handleOpenWeb = async () => {
     try {
       if (amount < 20000) return
+      setIsLoading(true)
+      toggleModal()
       const payment = await AxiosInstance().post(`/api/stripe/create-payment-intent/${amount}/${dataUser._id}`)
-      console.log("check payment: ", payment)
       Linking.openURL(`https://datn-web-payment.vercel.app/pay/${payment.clientSecret}`);
+      setIsLoading(false)
+
     } catch (error) {
       console.log(error)
     }
@@ -88,23 +93,32 @@ const Profile_screen = props => {
 
   return (
     <ScrollView style={styles.body}>
-      <Modal isVisible={isModalVisible}>
-        <View style={{ backgroundColor: 'white', padding: 8 }}>
-          <Text style={{ color: "black", fontSize: 17, textAlign: 'center' }}>Nạp đồng tốt</Text>
-          <TextInput keyboardType='number-pad' placeholder='Nhập số tiền bạn muốn nạp' onChangeText={handleInputNumber} style={{ borderColor: "gray", borderWidth: 1, marginTop: 6 }} />
-          <Text style={{ color: "red", display: amount < 20000 ? "flex" : "none" }}>số tiền nạp không được dưới 20.000 vnd</Text>
-          <Text>Khi click vào xác nhận sẽ nhảy qua trang web</Text>
-          <View style={{ flexDirection: "row", width: "100%" }}>
+      {isLoading ? (
+        <Modal isVisible={isLoading}>
+          <ActivityIndicator
+            style={{ marginTop: 20 }}
+            size="large"
+            color="#3498db"
+          />
+        </Modal>
+      ) : (
+        <Modal isVisible={isModalVisible}>
+          <View style={{ backgroundColor: 'white', padding: 8 }}>
+            <Text style={{ color: "black", fontSize: 17, textAlign: 'center' }}>Nạp đồng tốt</Text>
+            <TextInput keyboardType='number-pad' placeholder='Nhập số tiền bạn muốn nạp' onChangeText={handleInputNumber} style={{ borderColor: "gray", borderWidth: 1, marginTop: 6 }} />
+            <Text style={{ color: "red", display: amount < 20000 ? "flex" : "none" }}>số tiền nạp không được dưới 20.000 vnd</Text>
+            <Text>Khi click vào xác nhận sẽ nhảy qua trang web</Text>
+            <View style={{ flexDirection: "row", width: "100%" }}>
 
-            <TouchableOpacity style={{ backgroundColor: '#33CCFF', padding: 5, borderRadius: 5, flex: 1, paddingVertical: 10 }} title="Mua vip" onPress={() => handleOpenWeb()} >
-              <Text style={{ color: "white", textAlign: 'center' }}>Xác nhận</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={{ backgroundColor: '#33CCFF', padding: 5, borderRadius: 5, marginLeft: 10, flex: 1, paddingVertical: 10 }} onPress={toggleModal} >
-              <Text style={{ color: "white", textAlign: "center" }}>Đóng</Text>
-            </TouchableOpacity>
+              <TouchableOpacity style={{ backgroundColor: '#33CCFF', padding: 5, borderRadius: 5, flex: 1, paddingVertical: 10 }} title="Mua vip" onPress={() => handleOpenWeb()} >
+                <Text style={{ color: "white", textAlign: 'center' }}>Xác nhận</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{ backgroundColor: '#33CCFF', padding: 5, borderRadius: 5, marginLeft: 10, flex: 1, paddingVertical: 10 }} onPress={toggleModal} >
+                <Text style={{ color: "white", textAlign: "center" }}>Đóng</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>)}
       <View style={styles.appbar}>
         <View style={styles.appbarLeft}>
           <Text style={styles.appbarLeftText}>Thêm</Text>
