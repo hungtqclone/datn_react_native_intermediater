@@ -21,6 +21,7 @@ const Chat = ({ navigation, route }) => {
     const [newMessage, setNewMessage] = useState(null)
     // const [messages, setMessages] = useState([]);
     const [messageInput, setMessageInput] = useState('');
+    const avatarDefault = 'https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg';
     const filteredData = [];
     for (let i = messages.length - 1; i >= 0; i--) {
         if (messages[i].senderId == data._id || messages[i].receiverId == data._id) {
@@ -39,32 +40,32 @@ const Chat = ({ navigation, route }) => {
     //         console.log(error)
     //     }
     // }
+    
     const renderItem = ({ item }) => {
-        let checkLeft = userId !== item.senderId
-        return (
-            <View>
+        const isCurrentUser = userId === item.senderId;
+        const bubbleColor = isCurrentUser ? "#3333FF" : "#AAAAAA";
+        const avatarAlignment = isCurrentUser ? 'flex-end' : 'flex-start';
+        const messageAlignment = isCurrentUser ? 'flex-end' : 'flex-start';
+        const avatarUri = isCurrentUser ? user.avatar || avatarDefault : item.senderAvatar || avatarDefault;
 
-                <View style={{ width: "100%", alignItems: checkLeft ? 'flex-start' : 'flex-end', marginBottom: 5 }}>
-                    <View style={{
-                        maxWidth: '80%',
-                        alignSelf: checkLeft ? 'flex-start' : 'flex-end',
-                        backgroundColor: checkLeft ? "#AAAAAA" : "#3333FF",
-                        borderRadius: 20,
-                        paddingVertical: 8,
-                        paddingHorizontal: 12,
-                        marginLeft: 10,
-                        marginTop: 3,
-                        marginBottom: 3,
-                    }}>
-                        <Text style={{ color: 'white', fontSize: 17, lineHeight: 22 }}>{item.content}</Text>
-                        <Text style={{ alignSelf: checkLeft ? 'flex-start' : 'flex-end', color: 'white', fontSize: 12, marginTop: 4 }}>
-                            {moment_timezone.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}
-                        </Text>
-                    </View>
+        return (
+            <View style={{ flexDirection: 'row', justifyContent: messageAlignment, marginBottom: 5, alignItems: 'flex-end' }}>
+                {isCurrentUser || <Image source={{ uri: avatarUri }} style={{ width: 40, height: 40, borderRadius: 20, marginRight: 10 }} />}
+                <View style={{
+                    maxWidth: '80%',
+                    backgroundColor: bubbleColor,
+                    borderRadius: 20,
+                    paddingVertical: 8,
+                    paddingHorizontal: 12,
+                }}>
+                    <Text style={{ color: 'white', fontSize: 17, lineHeight: 22 }}>{item.content}</Text>
+                    <Text style={{ alignSelf: avatarAlignment, color: 'white', fontSize: 12, marginTop: 4 }}>
+                        {moment_timezone.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}
+                    </Text>
                 </View>
+                {isCurrentUser && <Image source={{ uri: avatarUri }} style={{ width: 40, height: 40, borderRadius: 20, marginLeft: 10 }} />}
             </View>
         );
-
     };
 
     // useEffect(() => {
@@ -115,19 +116,13 @@ const Chat = ({ navigation, route }) => {
                 </TouchableOpacity>
                 <Text style={{ fontSize: 20, color: "black", fontWeight: 'bold' }}>{data.name}</Text>
             </View>
-            {filteredData && filteredData.length > 0 ? (
-                <FlatList
-                    ref={flatListRef}
-                    style={{ marginBottom: 80 }}
-                    data={filteredData}
-                    inverted
-                    renderItem={renderItem}
-                    keyExtractor={item => item._id}
-                />
-            ) : (
-                <Text style={{ textAlign: 'center', fontSize: 18, marginTop: 20 }}>New message</Text>
-            )}
-
+            <FlatList
+                style={{ marginBottom: 80 }}
+                data={filteredData}
+                inverted
+                renderItem={renderItem}
+                keyExtractor={item => item._id}
+            />
             <View style={{ position: "absolute", width: "100%", bottom: 10, flexDirection: "row", alignItems: "center", padding: 10 }}>
                 <View style={{ flexDirection: "row", flex: 1, borderRadius: 10, backgroundColor: "white", alignItems: "center", marginRight: 10 }}>
                     <TextInput
@@ -136,7 +131,7 @@ const Chat = ({ navigation, route }) => {
                         value={inputMessage}
                         onChangeText={setInputMessage}
                     />
-                    <TouchableOpacity onPress={() => sendMessage()} style={{ padding: 10 }}>
+                    <TouchableOpacity onPress={sendMessage} style={{ padding: 10 }}>
                         {isSending ? (
                             <ActivityIndicator size="small" color="#0000ff" />
                         ) : (
@@ -145,9 +140,8 @@ const Chat = ({ navigation, route }) => {
                     </TouchableOpacity>
                 </View>
             </View>
-
-        </View >
-    )
+        </View>
+    );
 }
 
 export default Chat
