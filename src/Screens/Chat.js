@@ -4,36 +4,51 @@ import AxiosInstance from '../components/helpers/Axiosintance';
 import { UserContext } from '../components/users/UserContext';
 import socket from '../components/helpers/socketIO';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment_timezone from 'moment-timezone';
+import moment from 'moment';
 
-const moment = require('moment-timezone');
+// const moment = require('moment-timezone');
 const Chat = ({ navigation, route }) => {
     const { data } = route.params;
-    const { user } = useContext(UserContext)
+    const { user, messages, setMessages } = useContext(UserContext)
     const flatListRef = useRef();
     const userId = user._id
     const [allMessage, setallMessage] = useState(undefined)
     const [inputMessage, setInputMessage] = useState(undefined);
     const [isSending, setIsSending] = useState(false);
     const [newMessage, setNewMessage] = useState(null)
-    const [messages, setMessages] = useState([]);
+    // const [messages, setMessages] = useState([]);
     const [messageInput, setMessageInput] = useState('');
+    const filteredData = [];
+    for (let i = messages.length - 1; i >= 0; i--) {
+        if (messages[i].senderId == data._id || messages[i].receiverId == data._id) {
+            filteredData.push(messages[i])
 
-    const fetchDataAllMessage = async () => {
-        try {
-            const messageData = await AxiosInstance().get(`api/message/get-messages?senderId=${userId}&receiverId=${data._id}`)
-            setallMessage(messageData.messages)
-        } catch (error) {
-            console.log(error)
         }
     }
+    // console.log("check message chat: ", filteredData)
+    // setallMessage(filteredData)
+    // setallMessage(messages.filter(item => item.senderId === item.receiverId))
+    // const fetchDataAllMessage = async () => {
+    //     try {
+    //         const messageData = await AxiosInstance().get(`api/message/get-messages?senderId=${userId}&receiverId=${data._id}`)
+    //         setallMessage(messageData.messages)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+
     const renderItem = ({ item }) => {
-        if (userId !== item.senderId) {
-            return (
-                <View style={{ width: "100%", alignItems: 'flex-start', marginBottom: 5 }}>
+        let checkLeft = userId !== item.senderId
+
+        return (
+            <View>
+
+                <View style={{ width: "100%", alignItems: checkLeft ? 'flex-start' : 'flex-end', marginBottom: 5 }}>
                     <View style={{
                         maxWidth: '80%',
-                        alignSelf: 'flex-start',
-                        backgroundColor: "#AAAAAA",
+                        alignSelf: checkLeft ? 'flex-start' : 'flex-end',
+                        backgroundColor: checkLeft ? "#AAAAAA" : "#3333FF",
                         borderRadius: 20,
                         paddingVertical: 8,
                         paddingHorizontal: 12,
@@ -42,82 +57,44 @@ const Chat = ({ navigation, route }) => {
                         marginBottom: 3,
                     }}>
                         <Text style={{ color: 'white', fontSize: 17, lineHeight: 22 }}>{item.content}</Text>
-                        <Text style={{ alignSelf: 'flex-start', color: 'white', fontSize: 12, marginTop: 4 }}>
-                            {moment.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}
+                        <Text style={{ alignSelf: checkLeft ? 'flex-start' : 'flex-end', color: 'white', fontSize: 12, marginTop: 4 }}>
+                            {moment_timezone.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}
                         </Text>
                     </View>
                 </View>
-            );
-        } else {
-            return (
-                <View style={{ width: "100%", alignItems: 'flex-end', marginBottom: 5 }}>
-                    <View style={{
-                        maxWidth: '80%',
-                        alignSelf: 'flex-end',
-                        backgroundColor: "#3333FF",
-                        borderRadius: 20,
-                        paddingVertical: 8,
-                        paddingHorizontal: 12,
-                        marginRight: 10,
-                        marginTop: 3,
-                        marginBottom: 3,
-                    }}>
-                        <Text style={{ color: 'white', fontSize: 17, lineHeight: 22 }}>{item.content}</Text>
-                        <Text style={{ alignSelf: 'flex-end', color: 'white', fontSize: 12, marginTop: 4 }}>
-                            {moment.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}
-                        </Text>
-                    </View>
-                </View>
-            );
-        }
+            </View>
+        );
+
     };
 
-    // useEffect(() => {
-
-    //     newSocket.on('connect', () => {
-    //         console.log('Connected to server');
-    //     });
-    //     newSocket.emit('set-socketId', userId);
-
-    // }, []);
     useEffect(() => {
-        fetchDataAllMessage();
+        // fetchDataAllMessage();
+        setallMessage(filteredData)
     }, []);
     socket.on('receive-message', (message) => {
-        setNewMessage(message)
+        setMessages([...messages, message])
     });
-
-    useEffect(() => {
-
-        if (newMessage) {
-            setallMessage([...allMessage, newMessage])
-        }
-
-    }, [newMessage]);
-    // useEffect(() => {
-    //     saveDataMessage()
-    // }, [allMessage]);
-    // const saveDataMessage = async () => {
-    //     return await AsyncStorage.setItem(`${userId + data._id}`, JSON.stringify(allMessage));
-    // }
 
     const sendMessage = async () => {
         if (inputMessage.trim() !== '') {
             setIsSending(true);
             try {
-                socket.emit('send-message', {
+                const body = {
                     "senderId": userId,
                     "receiverId": data._id,
                     "content": inputMessage
 
-                });
-                // const sendMessageResponse = await AxiosInstance().post(`api/message/new-message?senderId=${userId}&receiverId=${data._id}&content=${inputMessage}`);
+                }
+                socket.emit('send-message', body);
+
+                setInputMessage('');
+                const sendMessageResponse = await AxiosInstance().post(`api/message/new-message?senderId=${userId}&receiverId=${data._id}&content=${inputMessage}`);
+                setMessages([...messages, sendMessageResponse.data])
                 // console.log(sendMessageResponse);
                 // if (sendMessageResponse.result === true) {
                 //     fetchDataAllMessage();
                 // }
-                setInputMessage('');
-                fetchDataAllMessage();
+
             } catch (error) {
                 console.error(error);
             } finally {
@@ -138,12 +115,10 @@ const Chat = ({ navigation, route }) => {
                 <FlatList
                     ref={flatListRef}
                     style={{ marginBottom: 80 }}
-                    data={allMessage}
+                    data={filteredData}
+                    inverted
                     renderItem={renderItem}
                     keyExtractor={item => item._id}
-                    onContentSizeChange={() => {
-                        flatListRef.current.scrollToEnd({ animated: true });
-                    }}
                 />
             ) : (
                 <Text style={{ textAlign: 'center', fontSize: 18, marginTop: 20 }}>New message</Text>

@@ -13,7 +13,8 @@ export const UserContext = createContext();
 export const UserProvider = (props) => {
     const { children } = props;
     const [user, setuser] = useState(null);
-    const [messageNew, setMessageNew] = useState('')
+    const [messageNew, setMessageNew] = useState(null)
+    const [messages, setMessages] = useState([])
     const dataUser = async () => {
         const receiverUser = await AsyncStorage.getItem('user');
         if (receiverUser != null) {
@@ -23,7 +24,8 @@ export const UserProvider = (props) => {
             if (checkUser.success) {
                 handleUserId(checkUser.user._id)
                 setuser(checkUser.user);
-
+                const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${checkUser.user._id}`)
+                setMessages(messagesData.messages)
                 return;
             } else {
                 setuser(null);
@@ -32,19 +34,27 @@ export const UserProvider = (props) => {
         }
 
     }
-    // socket.on('receive-message', (message) => {
-    //     console.log("check message receiver: ", message);
-    //     saveDataMessage(message)
-    // });
+    socket.on('receive-message', (message) => {
 
-    // const saveDataMessage = async (data) => {
-    //     await AsyncStorage.setItem(`${data.senderId, data.receiverId}`, JSON.stringify(data));
+        if (messages[messages.length - 1]._id == message._id) {
+            setMessageNew(message)
+        } else {
+            setMessages([...messages, message])
+        }
+
+    });
+    // useEffect(() => {
+    //     if(messageNew != null){
+    //         setMessages([...messages,messageNew])
+    //     }
+    // }, [messageNew]);
+    // // const saveDataMessage = async () => {
+    //     await AsyncStorage.setItem(`messages`, JSON.stringify(messages));
     // }
 
     useEffect(() => {
         dataUser()
     }, []);
-
 
     // if (user != 1) {
     //     dataUser();
@@ -65,7 +75,7 @@ export const UserProvider = (props) => {
         return false;
     }
     return (
-        <UserContext.Provider value={{ user, setuser, onLogin }}>
+        <UserContext.Provider value={{ user, setuser, onLogin, messages, setMessages }}>
             {children}
         </UserContext.Provider>
     )

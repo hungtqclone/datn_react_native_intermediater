@@ -32,7 +32,7 @@ const ListUserChat = (props) => {
         <View style={styles.container}>
             <View style={styles.appbar}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Image source={require('../assets/images/icons/arrow-back.png')} styles={styles.leftArrow}/>
+                    <Image source={require('../assets/images/icons/arrow-back.png')} styles={styles.leftArrow} />
                 </TouchableOpacity>
                 <Text style={styles.appbarTitle}>Danh sách tin nhắn</Text>
             </View>
@@ -40,6 +40,7 @@ const ListUserChat = (props) => {
                 data={data}
                 renderItem={renderItem}
                 keyExtractor={item => item._id.toString()}
+
             />
         </View>
     );
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
         color: '#000',
         fontSize: 18,
         fontWeight: 'bold',
-        marginLeft:10
+        marginLeft: 10
     },
     appbar: {
         flexDirection: 'row',
@@ -102,8 +103,8 @@ const styles = StyleSheet.create({
         // borderBottomWidth: 1,
     },
     leftArrow: {
-        width: 24, 
-        height: 24, 
+        width: 24,
+        height: 24,
         resizeMode: 'contain',
     },
 });
