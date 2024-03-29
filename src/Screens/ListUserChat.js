@@ -8,6 +8,7 @@ const ListUserChat = (props) => {
     const { user } = useContext(UserContext);
     const userId = user._id;
     const [data, setData] = useState([]);
+    const avatarDefault = 'https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg';
 
     const fetchData = async () => {
         const response = await AxiosInstance().get('api/users');
@@ -17,16 +18,33 @@ const ListUserChat = (props) => {
     useEffect(() => {
         fetchData();
     }, []);
-
-    const renderItem = ({ item }) => (
-        <TouchableOpacity style={styles.itemContainer} onPress={() => navigation.navigate('chat', { data: item })}>
-            {/* <Image source={{ uri: item.avatar }} style={styles.avatar} /> */}
+    
+    const getRandomTime = () => {
+        const hours = Math.floor(Math.random() * 24);
+        const minutes = Math.floor(Math.random() * 60);
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+      };
+      
+      const renderItem = ({ item }) => {
+        const shortenedLastMessage = item.lastMessage && item.lastMessage.length > 20
+          ? item.lastMessage.substring(0, 20) + '...'
+          : item.lastMessage;
+      
+        const time = item.time || getRandomTime();
+        const lastMessageWithTime = `${shortenedLastMessage || '...'} · ${time}`;
+      
+        return (
+          <TouchableOpacity style={styles.itemContainer} onPress={() => navigation.navigate('chat', { data: item })}>
+            <Image source={{ uri: item.avatar || avatarDefault }} style={styles.avatar} />
             <View style={styles.textContainer}>
-                <Text style={styles.name}>{item.name}</Text>
-                <Text style={styles.lastMessage}>{item.lastMessage}</Text>
+              <Text style={styles.name}>{item.name}</Text>
+              <Text style={styles.lastMessage} numberOfLines={1} ellipsizeMode='tail'>
+                {lastMessageWithTime.trim()}
+              </Text>
             </View>
-        </TouchableOpacity>
-    );
+          </TouchableOpacity>
+        );
+      };          
 
     return (
         <View style={styles.container}>
