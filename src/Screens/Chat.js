@@ -6,11 +6,13 @@ import socket from '../components/helpers/socketIO';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment_timezone from 'moment-timezone';
 import moment from 'moment';
+import { useFocusEffect } from '@react-navigation/native';
+
 
 // const moment = require('moment-timezone');
 const Chat = ({ navigation, route }) => {
     const { data } = route.params;
-    const { user, messages, setMessages } = useContext(UserContext)
+    const { user, messages, setMessages, setReceiverMessage, messageNew } = useContext(UserContext)
     const flatListRef = useRef();
     const userId = user._id
     const [allMessage, setallMessage] = useState(undefined)
@@ -37,10 +39,8 @@ const Chat = ({ navigation, route }) => {
     //         console.log(error)
     //     }
     // }
-
     const renderItem = ({ item }) => {
         let checkLeft = userId !== item.senderId
-
         return (
             <View>
 
@@ -67,13 +67,15 @@ const Chat = ({ navigation, route }) => {
 
     };
 
-    useEffect(() => {
-        // fetchDataAllMessage();
-        setallMessage(filteredData)
-    }, []);
-    socket.on('receive-message', (message) => {
-        setMessages([...messages, message])
-    });
+    // useEffect(() => {
+    //     if (messageNew != null) {
+    //         setMessages([...messages, messageNew])
+    //     }
+    // }, [messageNew]);
+    // socket.on('receive-message', (message) => {
+    //     console.log("check message on chat:", message)
+
+    // });
 
     const sendMessage = async () => {
         if (inputMessage.trim() !== '') {
@@ -88,8 +90,10 @@ const Chat = ({ navigation, route }) => {
                 socket.emit('send-message', body);
 
                 setInputMessage('');
-                const sendMessageResponse = await AxiosInstance().post(`api/message/new-message?senderId=${userId}&receiverId=${data._id}&content=${inputMessage}`);
-                setMessages([...messages, sendMessageResponse.data])
+                const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${userId}`)
+                setMessages(messagesData.messages)
+                // const sendMessageResponse = await AxiosInstance().post(`api/message/new-message?senderId=${userId}&receiverId=${data._id}&content=${inputMessage}`);
+                // setMessages([...messages, sendMessageResponse.data])
                 // console.log(sendMessageResponse);
                 // if (sendMessageResponse.result === true) {
                 //     fetchDataAllMessage();
@@ -111,7 +115,7 @@ const Chat = ({ navigation, route }) => {
                 </TouchableOpacity>
                 <Text style={{ fontSize: 20, color: "black", fontWeight: 'bold' }}>{data.name}</Text>
             </View>
-            {allMessage && allMessage.length > 0 ? (
+            {filteredData && filteredData.length > 0 ? (
                 <FlatList
                     ref={flatListRef}
                     style={{ marginBottom: 80 }}

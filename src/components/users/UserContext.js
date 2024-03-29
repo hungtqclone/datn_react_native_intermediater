@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, createContext, useEffect } from 'react'
+import { PushNotificationAndroid } from 'react-native';
 import { login } from './UserService';
 import AxiosInstance from '../helpers/Axiosintance';
 import { handleUserId } from '../helpers/socketIO';
@@ -9,11 +10,11 @@ export const UserContext = createContext();
 
 
 
-
 export const UserProvider = (props) => {
     const { children } = props;
     const [user, setuser] = useState(null);
     const [messageNew, setMessageNew] = useState(null)
+    const [receiverMessage, setReceiverMessage] = useState(true)
     const [messages, setMessages] = useState([])
     const dataUser = async () => {
         const receiverUser = await AsyncStorage.getItem('user');
@@ -35,19 +36,17 @@ export const UserProvider = (props) => {
 
     }
     socket.on('receive-message', (message) => {
-
-        if (messages[messages.length - 1]._id == message._id) {
-            setMessageNew(message)
-        } else {
-            setMessages([...messages, message])
-        }
-
+        setMessageNew(message)
     });
-    // useEffect(() => {
-    //     if(messageNew != null){
-    //         setMessages([...messages,messageNew])
-    //     }
-    // }, [messageNew]);
+
+    // setMessages([...messages, messageNew])
+
+
+    useEffect(() => {
+        if (messageNew != null) {
+            setMessages([...messages, messageNew])
+        }
+    }, [messageNew]);
     // // const saveDataMessage = async () => {
     //     await AsyncStorage.setItem(`messages`, JSON.stringify(messages));
     // }
@@ -75,7 +74,7 @@ export const UserProvider = (props) => {
         return false;
     }
     return (
-        <UserContext.Provider value={{ user, setuser, onLogin, messages, setMessages }}>
+        <UserContext.Provider value={{ user, setuser, onLogin, messages, setMessages, setReceiverMessage, messageNew }}>
             {children}
         </UserContext.Provider>
     )
