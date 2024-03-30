@@ -17,6 +17,8 @@ export const MGNStyles = StyleSheet.create({
         padding: 5,
     },
     icon: {
+        width: 30,
+        height: 30,
         marginHorizontal: 5,
     },
     txtTitle: {

@@ -28,7 +28,7 @@ const CategoriesDetail = (props) => {
     const [categoriesDetail, setCategoriesDetail] = useState([]);
     const [idCategory, setIdCategory] = useState("658fb995b41f1dd5128fa9cf")
     const numColumns = Math.ceil(datatile.length / 2);
-    urlApi = 'https://datn-nodejs.onrender.com/'
+    urlApi = 'https://datnapi-qelj.onrender.com//'
     const { navigation, route } = props;
 
     //id của category truyền qua
@@ -109,8 +109,8 @@ const CategoriesDetail = (props) => {
                     <TextInput style={CGDStyles.txpSearch} placeholder='Tìm kiếm trên chợ tốt' />
                     <Image style={CGDStyles.imgSearch} source={require('../../image/search.png')} />
                 </View>
-                <Image style={CGDStyles.icon} source={require('../../image/notificaiton.png')} />
-                <Image style={CGDStyles.icon} source={require('../../image/chatting.png')} />
+                <Image style={CGDStyles.icon} source={require('../assets/images/icons/icon_notification.png')} />
+                <Image style={CGDStyles.icon} source={require('../assets/images/icons/icon_chat.png')} />
             </View>
             <ScrollView
                 showsHorizontalScrollIndicator={false}

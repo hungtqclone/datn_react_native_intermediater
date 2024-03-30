@@ -37,6 +37,8 @@ export const CGDStyles = StyleSheet.create({
     },
     icon: {
         marginHorizontal: 5,
+        width: 30,
+        height: 30,
     },
     contaiBanner: {
         height: 100,

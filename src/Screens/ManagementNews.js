@@ -110,10 +110,10 @@ const ManagementNews = (props) => {
             <View style={MGNStyles.containerse}>
                 <Text style={MGNStyles.txtTitle}>Quản lý tin đăng</Text>
                 <View style={MGNStyles.contaiimg}>
-                    <Image style={MGNStyles.icon} source={require('../../image/searchtabar.png')} />
-                    <Image style={MGNStyles.icon} source={require('../../image/notificaiton.png')} />
+                    <Image style={MGNStyles.icon} source={require('../assets/images/icons/icon_search.png')} />
+                    <Image style={MGNStyles.icon} source={require('../assets/images/icons/icon_notification.png')} />
                     <TouchableOpacity onPress={() => navigation.navigate('ChatNavigation')} >
-                        <Image style={MGNStyles.icon} source={require('../../image/chatting.png')} />
+                        <Image style={MGNStyles.icon} source={require('../assets/images/icons/icon_chat.png')} />
                     </TouchableOpacity>
                 </View>
             </View>

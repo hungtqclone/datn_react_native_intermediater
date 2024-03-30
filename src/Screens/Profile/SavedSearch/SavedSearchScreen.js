@@ -46,7 +46,7 @@ const horizontalData = [
 
 const SavedSearchScreen = props => {
   //link api
-  const urlServer = 'https://datn-nodejs.onrender.com/';
+  const urlServer = 'https://datnapi-qelj.onrender.com//';
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { navigation } = props;

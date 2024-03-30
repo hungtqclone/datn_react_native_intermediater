@@ -14,9 +14,14 @@ import {
 import React, { useState, useEffect, useContext, Component } from 'react';
 import { useRoute, useFocusEffect  } from '@react-navigation/native';
 import { getPostNewsByCategory, getProductById } from './ScreenService';
-import { getPostNewsByUserId } from './ScreenService';
+import { getPostNewsByUserId, savePost } from './ScreenService';
 import Swiper from 'react-native-swiper';
+import { UserContext } from '../components/users/UserContext';
+import SweetAlert from 'react-native-sweet-alert';
 const DetailProduct = (props) => {
+  //lấy thông tin user
+  const { user } = useContext(UserContext);
+  const userId = user._id;
   //navigation
    const { navigation, rating, totalReviews } = props;
   //link ảnh 
@@ -72,6 +77,19 @@ const DetailProduct = (props) => {
       console.log('Không thể mở tin nhắn trên thiết bị này.');
     }
   };
+  const onSavePost = async (postId) => {
+    try {
+      console.log('User ID:', userId);
+      console.log('Post ID:', postId);
+      const response = await savePost(userId, postId);
+      console.log('Save post response:', response);
+      // Hiển thị thông báo sau khi lưu thành công
+      alert('Lưu bài viết thành công!');
+    } catch (error) {
+      console.error('Error saving post:', error);
+    }
+  };
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -174,10 +192,12 @@ const DetailProduct = (props) => {
                   <Text style={styles.textprice}>{products.price + ' đ'} </Text>
                   <Text style={styles.timeIn}>  {products.created_AT}</Text>
                 </View>
-                <TouchableOpacity style={styles.containerPrice}>
+                <TouchableOpacity style={styles.containerPrice}
+                   onPress={() => onSavePost(products._id)}
+                >
                   <Image
                     style={styles.iconLike}
-                    source={require('../assets/images/icons/iconLike.png')}
+                    source={require('../assets/images/icons/heart.png')}
                   />
                   <Text style={styles.txtLuutin}>Lưu tin</Text>
                 </TouchableOpacity>
@@ -845,6 +865,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   iconLike: {
+    width: 20,
+    height: 20,
     marginHorizontal: 5,
   },
   appbar: {
@@ -1146,7 +1168,7 @@ const styles = StyleSheet.create({
   },
   tagpro: {
     position: 'absolute',
-    bottom: 95,
+    bottom: 81,
     left: 5,
     padding: 5,
     backgroundColor: 'green',
