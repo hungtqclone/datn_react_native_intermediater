@@ -15,14 +15,16 @@ import PhonePricing from '../../Screens/Profile/PhonePricing/PhonePricing';
 import HelpScreen from '../../Screens/Profile/Help/HelpScreen';
 import CommentsScreen from '../../Screens/Profile/Comments/CommentsScreen';
 import Login from '../../Screens/Login';
+import PostSavedNavigation from '../../Screens/Profile/PostSaved/PostSavedNavigation';
+import SearchSaveNavigation from '../../Screens/Profile/SavedSearch/SearchSaveNavigation';
 // Stack
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
 const ReviewStack = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="ReviewFMeScreen" component={ReviewFMeScreen} />
       <Stack.Screen name="ReviewedFMeScreen" component={ReviewedFMeScreen} />
     </Stack.Navigator>
@@ -37,6 +39,8 @@ const ProflieStack = () => {
         presentation: 'modal',
         animationTypeForReplace: 'push',
         animation: 'slide_from_right',
+
+
       }}>
       <Stack.Screen name="Proflie" component={Profile_screen} />
       <Stack.Screen
@@ -45,8 +49,10 @@ const ProflieStack = () => {
       />
       <Stack.Screen name="SalesOrderScreen" component={SalesOrderScreen} />
       <Stack.Screen name="SalesWalletScreen" component={SalesWalletScreen} />
-      <Stack.Screen name="PostSaved" component={PostSaved} />
-      <Stack.Screen name="SavedSearchScreen" component={SavedSearchScreen} />
+      <Stack.Screen name="PostSavedNavigation"
+        component={PostSavedNavigation}
+      />
+      <Stack.Screen name="SearchSaveNavigation" component={SearchSaveNavigation} />
       <Stack.Screen name="ReviewStack" component={ReviewStack} />
       <Stack.Screen name="PhonePricing" component={PhonePricing} />
       <Stack.Screen

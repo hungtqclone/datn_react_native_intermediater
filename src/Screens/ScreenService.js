@@ -27,6 +27,8 @@ export const getProduct = async () => {
   }
 };
 
+
+
 //Danh mục con
 export const getDetailCategory = async id => {
   try {
@@ -90,15 +92,61 @@ export const addPostNews = async (data) => {
   }
 }
 
-// upload image
-export const uploadImage = async (form) => {
+// upload image to cloudiary
+export const uploadImage = async (formData) => {
 
   try {
     const response = await AxiosInstance('multipart/form-data')
-      .post('api/postnews/upload', form);
+      .post('api/postnews/upload', formData);
+      console.log("85 upload image resspone: ", response);
     return response.data;
   } catch (err) {
     console.log('Upload Image error:', err);
+    return err;
+  }
+}
+
+export const getProductById = async (id) => {
+  try {
+      const res = await AxiosInstance().get(`/api/postnews/get-by-id/${id}`);
+      // console.log('getProductById response', res.data);
+      return res.data;
+  } catch (error) {
+      console.log("getProductById error", error);
+      throw error;
+  }
+};
+
+export const getPostNewsByUserId = async (id) => {
+  try {
+      const res = await AxiosInstance().get(`/api/postnews/user/${id}`);
+      // console.log( `/api/postnews/user/${id}`);
+      // console.log('getPostNewsByUserId response', res.data);
+      return res.data;
+  } catch (error) {
+      console.log("getPostNewsByUserId error", error);
+      throw error;
+  }
+};
+export const getPostNewsByCategory = async (id) => {
+  try {
+      const res = await AxiosInstance().get(`/api/postnews/${id}`);
+      // console.log('getPostNewsByCategory response', res.data);
+      return res.data;
+  } catch (error) {
+      console.log("getPostNewsByCategory error", error);
+      throw error;
+  }
+}
+
+//lưu tin
+export const savePost = async (userid, postId) => {
+  try {
+    const response = await AxiosInstance().post(`/api/saved/save-or-notSave?userId=${userid}&postId=${postId}`);
+    console.log("85 save Post news resspone: " + JSON.stringify(response.data));
+    return response.data;
+  } catch (err) {
+    console.log('Save error:', err);
     return err;
   }
 }

@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useState, useContext } from 'react'
 import { AppStyle } from '../constants/AppStyle'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -11,11 +11,18 @@ const Login = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { onLogin } = useContext(UserContext)
+    const [isLoading, setIsLoading] = useState(false);
 
     const loginUser = async () => {
-        await onLogin(email, password)
-
+        setIsLoading(true);
+        try {
+            await onLogin(email, password);
+        } catch (error) {
+        } finally {
+            setIsLoading(false);
+        }
     };
+
 
     const skipLogin = () => {
         setuser(1)
@@ -50,15 +57,20 @@ const Login = (props) => {
                     </View>
                     <View style={[{ marginTop: 24, alignItems: 'center' }]}>
                         <TextInput
+                            secureTextEntry={true}
                             style={[AppStyle.txtinput]}
-                            placeholder='Nhập mật khẩu'
                             onChangeText={(text) => setPassword(text)}
+                            placeholder='Nhập mật khẩu'
                         />
                     </View>
                     <View style={[{ alignItems: 'center', marginTop: 24 }]}>
-                        <TouchableOpacity style={[AppStyle.button, { backgroundColor: '#FF9900' }]} onPress={loginUser}>
-                            <Text style={[AppStyle.titleBig, { color: '#ffffff', fontSize: 22, fontWeight: 500 }]}>ĐĂNG NHẬP</Text>
-                        </TouchableOpacity>
+                        {isLoading ? (
+                            <ActivityIndicator size="large" color="#FF9900" />
+                        ) : (
+                            <TouchableOpacity style={[AppStyle.button, { backgroundColor: '#FF9900' }]} onPress={loginUser}>
+                                <Text style={[AppStyle.titleBig, { color: '#ffffff', fontSize: 22, fontWeight: '500' }]}>ĐĂNG NHẬP</Text>
+                            </TouchableOpacity>
+                        )}
                         <TouchableOpacity style={[AppStyle.button, { backgroundColor: '#E7E7E7', marginTop: 24 }]} onPress={() => { }}>
                             <Text style={[AppStyle.titleBig, { color: '#575757', fontSize: 22, fontWeight: 500 }]}>QUÊN MẬT KHẨU</Text>
                         </TouchableOpacity>

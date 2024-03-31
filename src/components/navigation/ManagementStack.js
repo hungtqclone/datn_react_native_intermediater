@@ -9,6 +9,7 @@ import ManagementNews from '../../Screens/ManagementNews';
 // Stack
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Chat from '../../Screens/Chat';
+import DetailProduct from '../../Screens/DetailProduct';
 const Stack = createNativeStackNavigator();
 
 const ManagementStack = () => {
@@ -21,6 +22,7 @@ const ManagementStack = () => {
         animation: 'slide_from_right',
       }}>
       <Stack.Screen name="ManagementNews" component={ManagementNews} />
+      <Stack.Screen name="DetailProduct" component={DetailProduct} />
       <Stack.Screen name="ChatNavigation" component={ChatNavigation} />
     </Stack.Navigator>
   );

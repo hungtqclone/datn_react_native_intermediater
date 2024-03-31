@@ -1,10 +1,11 @@
 /* eslint-disable prettier/prettier */
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { urlAPI } from './urlAPI';
 
 const AxiosInstance = (contentType = 'application/json') => {
     const axiosInstance = axios.create({
-        baseURL: 'http://datnapi.vercel.app/'
+        baseURL: urlAPI
         //  baseURL: 'http://192.168.1.3:8080/api/'
     });
 

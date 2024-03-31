@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,20 +14,27 @@ import {
 import Geolocation from '@react-native-community/geolocation';
 import axios from 'axios';
 import Modal from 'react-native-modal';
-import {getProduct} from '../ScreenService';
+
+import { getProduct, savePost } from '../ScreenService';
+import { UserContext } from '../../components/users/UserContext';
 
 const MAX_ADDRESS_LENGTH = 30;
 const MAX_HEIGHT = 100;
-const NearYou = () => {
+const NearYou = (props) => {
+   //lấy thông tin user
+   const { user } = useContext(UserContext);
+   const userId = user._id;
+  const { navigation } = props;
   const [isLoading, setIsLoading] = useState(true);
   const [location, setLocation] = useState(null);
   const [address, setAddress] = useState('');
   const [isModalVisible, setModalVisible] = useState(false);
   const [products, setProducts] = useState([]);
+  const [phoneNumber, setPhoneNumber] = useState();
   //chỉ cho phép getLocation chạy 1 lần
   const [hasRunOnce, setHasRunOnce] = useState(false);
   //link api
-  const urlServer = 'http://datnapi.vercel.app/';
+  const urlServer = 'https://datnapi-qelj.onrender.com/';
   useEffect(() => {
     if (!hasRunOnce) {
       setAddress('Nhấn vào để cập nhật địa chỉ.');
@@ -40,12 +47,12 @@ const NearYou = () => {
   const getLocation = () => {
     Geolocation.getCurrentPosition(
       position => {
-        const {latitude, longitude} = position.coords;
-        setLocation({latitude, longitude});
+        const { latitude, longitude } = position.coords;
+        setLocation({ latitude, longitude });
         getAddressFromAPI(latitude, longitude);
       },
       error => console.log(error.message),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
   };
 
@@ -101,7 +108,8 @@ const NearYou = () => {
       setProducts(products);
     } catch (error) {
       console.error('Error fetching products:', error);
-    } finally {
+    }
+    finally {
       setIsLoading(false); // Set loading state to false after the request is complete
     }
     // console.log('Sản Phẩm :83 >' + JSON.stringify(products));
@@ -109,8 +117,20 @@ const NearYou = () => {
   const handleCancelUpdate = () => {
     setModalVisible(false);
   };
+
+  const onSavePost = async (postId) => {
+
+    try {
+      console.log('User ID:', userId);
+      console.log('Post ID:', postId);
+      const response = await savePost(userId, postId);
+      console.log('Save post response:', response);
+    } catch (error) {
+      console.error('Error saving post:', error);
+    }
+  };
   //list và hiện list ảnh sản phẩm
-  const renderItem = ({item, index}) => (
+  const renderItem = ({ item, index }) => (
     <View key={index} style={styles.container}>
       <View style={styles.header}>
         <Image
@@ -119,7 +139,7 @@ const NearYou = () => {
         />
         <View>
           <View style={styles.nameshop}>
-            <Text style={styles.textnameshop}>Auto 380</Text>
+            <Text style={styles.textnameshop}>{item.userid == null ? "Người dùng không tồn tại" : item.userid.name}</Text>
             <Image
               style={styles.iconbag}
               source={require('../../assets/images/icons/icon_bag.png')}
@@ -144,28 +164,20 @@ const NearYou = () => {
             source={require('../../assets/images/icons/icon_address.png')}
             style={styles.imgaddress}
           />
-          <Text style={styles.locationText}>Quận ABC, TP XYZ</Text>
+          <Text style={styles.locationText}>{item.location}</Text>
         </View>
         {/* Danh sách Gridview */}
         <FlatList
           scrollEnabled={false}
           data={item.files.slice(0, 4)} // Chỉ hiển thị 4 ảnh đầu tiên
-          renderItem={({item, index}) => (
+          renderItem={({ item, index }) => (
             // console.log('Constructed Image URL:', `${urlServer}${item}`),
             <View key={index} style={styles.gridItem}>
               <Image
-                source={{uri: `${urlServer}${item}`}}
+                source={{ uri: `${urlServer}${item}` }}
                 style={styles.image}
+                resizeMode="cover"
               />
-              {/* {index === 3 && (
-                <TouchableOpacity
-                  style={styles.overlay}
-                  onPress={() => console.log('+2')}>
-                  <Text style={styles.overlayText}>
-                    {remainingItemCount > 0 ? `+${remainingItemCount}` : ''}
-                  </Text>
-                </TouchableOpacity>
-              )} */}
             </View>
           )}
           keyExtractor={index => index.toString()}
@@ -173,7 +185,10 @@ const NearYou = () => {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         />
-        <TouchableOpacity style={styles.nameprice}>
+        <TouchableOpacity style={styles.nameprice}
+          onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })}
+
+        >
           <View style={styles.cont_nameprice}>
             <Text style={styles.textnameprice}> {item.title} </Text>
             <Text style={styles.textprice}>{item.price} đ</Text>
@@ -186,9 +201,9 @@ const NearYou = () => {
         <View style={styles.infoPro} onLayout={checkContentHeight}>
           {/* <Text style={styles.textInfoPro}>{renderContent()}</Text> */}
           <Text style={styles.textInfoPro}>{item.detail}</Text>
-          <TouchableOpacity style={styles.btncall} onPress={handleCallPress}>
+          <TouchableOpacity style={styles.btncall} onPress={() => handleCallPress(item.userid.phone)}>
             <Text style={styles.textcall}>Liên hệ ngay: </Text>
-            <Text style={styles.textcall}>{phoneNumber}</Text>
+            <Text style={styles.textcall}>{item.userid.phone}</Text>
           </TouchableOpacity>
           {showCollapseButton && (
             <TouchableOpacity onPress={toggleExpand}>
@@ -205,7 +220,11 @@ const NearYou = () => {
             style={styles.iconCall}
             source={require('../../assets/images/icons/heart.png')}
           />
-          <Text style={styles.txtBtnCall}>Lưu tin</Text>
+          <TouchableOpacity
+            onPress={() => onSavePost(item._id)}
+          >
+            <Text style={styles.txtBtnCall}>Lưu tin</Text>
+          </TouchableOpacity>
         </TouchableOpacity>
         <TouchableOpacity style={styles.btnCall}>
           <Image
@@ -225,15 +244,8 @@ const NearYou = () => {
     </View>
   );
 
-  //   {id: '1', image: require('../../assets/images/imgProduct.png')},
-  //   {id: '2', image: require('../../assets/images/imgProduct.png')},
-  //   {id: '3', image: require('../../assets/images/imgProduct.png')},
-  //   {id: '4', image: require('../../assets/images/imgProduct.png')},
-  //   {id: '5', image: require('../../assets/images/imgProduct.png')},
-  //   {id: '6', image: require('../../assets/images/imgProduct.png')},
-  // ];
-  // const visibleData = data ? data.slice(0, 4) : [];
-  // const remainingItemCount = Math.max(0, data.length - 4);
+
+
   // hàm hiện thị nút xem thêm
   const [isExpanded, setIsExpanded] = useState(false);
   const [showCollapseButton, setShowCollapseButton] = useState(false);
@@ -241,7 +253,7 @@ const NearYou = () => {
     setIsExpanded(!isExpanded);
   };
   const checkContentHeight = event => {
-    const {height} = event.nativeEvent.layout;
+    const { height } = event.nativeEvent.layout;
 
     if (height > MAX_HEIGHT) {
       setShowCollapseButton(true);
@@ -249,19 +261,10 @@ const NearYou = () => {
       setShowCollapseButton(false);
     }
   };
-  const renderContent = () => {
-    const content = `Xe nhà đang sử dụng, muốn lên 7 chỗ nên cần sang lại cho chủ mới. Màu trắng nội thất đỏ Đăng kiểm còn tới 07/2025 Xe 1 chủ mua từ đầu. Xem xe tại nhà.`;
 
-    if (isExpanded) {
-      return content;
-    } else {
-      return `${content.slice(0, MAX_HEIGHT)}...`;
-    }
-  };
   // gọi điện
-  const phoneNumber = '0123456789';
 
-  const handleCallPress = () => {
+  const handleCallPress = (phoneNumber) => {
     // Kiểm tra nếu thiết bị hỗ trợ mở cuộc gọi
     if (Linking.canOpenURL(`tel:${phoneNumber}`)) {
       Linking.openURL(`tel:${phoneNumber}`);
@@ -455,8 +458,8 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 300,
-    borderColor: 'black',
-    borderWidth: 1,
+    // borderColor: 'black',
+    // borderWidth: 1,
   },
   currentLocation: {
     position: 'absolute',

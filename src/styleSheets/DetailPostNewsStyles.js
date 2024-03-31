@@ -33,10 +33,9 @@ export const PNStyles = StyleSheet.create({
         marginBottom:20,
     },
     contaicolum:{
-        padding:5,
+        padding:10,
         width:'93%',
         flexDirection:'column',
-
     },
     contairow:{
         flexDirection:'row',
@@ -95,7 +94,7 @@ export const PNStyles = StyleSheet.create({
         fontWeight:'bold',
     },
     inputTT:{
-        marginTop:15,
+        marginTop:10,
         width:'100%',
         height:50,
         borderRadius:5,
@@ -104,7 +103,7 @@ export const PNStyles = StyleSheet.create({
     inputTTMT:{
         marginTop:15,
         width:'100%',
-        height:100,
+        maxHeight:100,
         borderRadius:5,
         borderWidth:0.5,
     },
@@ -380,5 +379,196 @@ export const PNStyles = StyleSheet.create({
         width:'100%',
         alignContent: 'bottom',
         alignItems: 'center',
-    }
+    },
+
+    //Model Address
+    containerModelAddress: {
+        width: '100%',
+        height: 50,
+        backgroundColor: "#FFBF17",
+        flexDirection: 'row',
+        alignItems: 'center',
+        alignContent: 'space-between',
+        padding: 10,
+    },
+    txtModelAdress:{
+        fontSize:20,
+        fontWeight:'600',
+        color:'black',
+        marginLeft:'30%',
+    },
+
+    // detail model
+    contaiupModeladdress:{
+        padding:10,
+        width:'100%',
+
+    },
+    tcouploadimg:{
+        marginTop:15,
+        width:'100%',
+        height:150,
+        justifyContent:'center',
+        alignItems:'center',
+        borderRadius:5,
+        backgroundColor:'#F4F4F4',
+        borderWidth:1,
+        borderColor:'#FF8800'
+    },
+    pressAddMD:{
+        borderRadius:5,
+        width: '100%',
+        height:50,
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderWidth:0.5,
+        borderColor:'grey',
+        alignContent:'space-between',
+    },
+    txtAddressDetail:{
+        color:'grey',
+        fontSize:10,
+        fontWeight:'bold',
+    },
+    txtAddressDetails:{
+        color:'black',
+        fontSize:16,
+    },
+    inputDCCT:{
+        width:'100%',
+        height:50,
+        borderRadius:5,
+        borderWidth:0.3,
+    },
+
+    // model img toôl
+    contaiModelimageto:{
+        flexDirection:'row',
+        justifyContent:'flex-start'
+    },
+
+    tcouploadimgTool:{
+       marginRight:10,
+        width:100,
+        height:100,
+        justifyContent:'flex-start',
+        alignItems:'center',
+        borderRadius:5,
+        backgroundColor:'#F4F4F4',
+        borderWidth:1,
+        borderColor:'#FF8800'
+    },
+    txtloadimgtool:{
+        marginTop:10,
+        fontSize:14,
+        color:'#FF8800'
+    },
+    imgTool:{
+        width:100,
+        height:100,
+    },
+    bodyimageto:{
+        marginRight:10,
+        position: 'relative',
+    },
+    btnTool:{
+        position: 'absolute',
+        zIndex:1,
+        right:-4,
+        top:-4,
+        justifyContent:'center',
+        alignItems:'center',
+    },
+    icon:{
+        width:20,
+        height:20,
+    },
+
+
+    // dropdow
+    dropdown: {
+        width: '100%',
+        margin: 16,
+        // height: 50,
+        borderBottomColor: 'gray',
+        borderBottomWidth: 0.5,
+        height: 50,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 5,
+        borderColor: '#ebebeb',
+        borderWidth: 1,
+        borderRadius: 5,
+      },
+      placeholderStyle: {
+        fontSize: 16,
+        color: 'gray',
+      },
+      selectedTextStyle: {
+        fontSize: 16,
+      },
+      iconStyle: {
+        width: 20,
+        height: 20,
+      },
+      inputSearchStyle: {
+        // height: 40,
+        fontSize: 16,
+      },
+      contAddres: {
+        width: '100%',
+        height: 60,
+        padding: 5,
+        marginBottom: 20,
+        borderColor: '#ebebeb',
+        borderWidth: 1,
+        borderRadius: 5,
+        justifyContent: 'center',
+        marginTop: 20,
+      },
+      inputWard: {
+        borderWidth: 0,
+        borderBottomColor: 'transparent', // Đặt màu border thành trong suốt
+        borderBottomWidth: 0, // Đặt độ rộng border là 0
+        fontSize: 15,
+        // width: '90%',
+      },
+      bottomSheetContainer: {
+        backgroundColor: '#fff',
+        padding: 16,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+      },
+      bottomSheetCloseButton: {
+        marginTop: 10,
+        alignItems: 'center',
+        backgroundColor: 'silver',
+        padding: 10,
+        borderRadius: 5,
+      },
+      bottomSheetCloseButtonText: {
+        fontSize: 18,
+        color: '#fff',
+      },
+      contDialog: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 20,
+      },
+      viewTIP: {
+        flexDirection: 'row',
+        justifyContent:'space-between',
+        alignItems: 'center',
+        
+      },
+      drop2:{
+            width:100,
+      },
+      picker:{
+        marginTop:10,
+        borderRadius:6,
+        borderWidth:1,
+        borderColor:'grey',
+      }
 });
+ 

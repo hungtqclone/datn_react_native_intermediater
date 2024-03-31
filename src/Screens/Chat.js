@@ -1,112 +1,127 @@
-/* eslint-disable prettier/prettier */
-import { View, Text, FlatList, TextInput, Button } from 'react-native'
+import { View, Text, FlatList, TextInput, Button, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import AxiosInstance from '../components/helpers/Axiosintance';
 import { UserContext } from '../components/users/UserContext';
-import io from 'socket.io-client';
+import { useMessage } from '../components/messages/MessageContext';
+import moment_timezone from 'moment-timezone';
 
-const socket = io('https://datnapi.vercel.app');
 
-const moment = require('moment-timezone');
-const Chat = ({ route }) => {
+// const moment = require('moment-timezone');
+const Chat = ({ navigation, route }) => {
     const { data } = route.params;
     const { user } = useContext(UserContext)
+    const { allMessages, socket } = useMessage()
     const flatListRef = useRef();
     const userId = user._id
-    const [allMessage, setallMessage] = useState(undefined)
     const [inputMessage, setInputMessage] = useState(undefined);
+    const [isSending, setIsSending] = useState(false);
+    const avatarDefault = 'https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg';
+    const filteredData = [];
+    for (let i = allMessages.length - 1; i >= 0; i--) {
+        if (allMessages[i].senderId == data._id || allMessages[i].receiverId == data._id) {
+            filteredData.push(allMessages[i])
 
-
-    const fetchDataAllMessage = async () => {
-        try {
-            const messageData = await AxiosInstance().get(`api/message/get-messages?senderId=${userId}&receiverId=${data._id}`)
-            setallMessage(messageData.messages)
-        } catch (error) {
-            console.log(error)
         }
-
     }
-    const renderItem = ({ item }) => {
+    // useEffect(() => {
+    //     if (newMessage != null) {
+    //         filteredData.unshift(...[newMessage]);
 
-        if (userId !== item.senderId) {
-            return (
-                <View style={{ width: "100%", alignItems: 'flex-start' }}>
-                    <View style={{ padding: 10, marginHorizontal: 10, marginVertical: 3, backgroundColor: "#AAAAAA", borderRadius: 10, marginRight: 50, alignItems: "flex-start" }}>
-                        <Text style={{ color: 'black', fontSize: 17 }}>{item.content}</Text>
-                        <Text style={{ fontSize: 12 }}>{moment.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}</Text>
-                    </View>
+    //     }
+    // }, [newMessage]);
+    const renderItem = ({ item }) => {
+        const isCurrentUser = userId === item.senderId;
+        const bubbleColor = isCurrentUser ? "#3333FF" : "#AAAAAA";
+        const avatarAlignment = isCurrentUser ? 'flex-end' : 'flex-start';
+        const messageAlignment = isCurrentUser ? 'flex-end' : 'flex-start';
+        const avatarUri = isCurrentUser ? user.avatar || avatarDefault : item.senderAvatar || avatarDefault;
+
+        return (
+            <View style={{ flexDirection: 'row', justifyContent: messageAlignment, marginBottom: 5, alignItems: 'flex-end' }}>
+                {isCurrentUser || <Image source={{ uri: avatarUri }} style={{ width: 40, height: 40, borderRadius: 20, marginRight: 10 }} />}
+                <View style={{
+                    maxWidth: '80%',
+                    backgroundColor: bubbleColor,
+                    borderRadius: 20,
+                    paddingVertical: 8,
+                    paddingHorizontal: 12,
+                }}>
+                    <Text style={{ color: 'white', fontSize: 17, lineHeight: 22 }}>{item.content}</Text>
+                    <Text style={{ alignSelf: avatarAlignment, color: 'white', fontSize: 12, marginTop: 4 }}>
+                        {moment_timezone.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}
+                    </Text>
                 </View>
-            );
-        } else {
-            return (
-                <View style={{ width: "100%", alignItems: 'flex-end' }}>
-                    <View style={{ padding: 10, marginHorizontal: 10, marginVertical: 3, backgroundColor: "#3333FF", borderRadius: 10, marginLeft: 50, alignItems: "flex-end" }}>
-                        <Text style={{ color: 'black', fontSize: 17 }}>{item.content}</Text>
-                        <Text style={{ fontSize: 12 }}>{moment.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}</Text>
-                    </View>
-                </View>
-            );
+                {isCurrentUser && <Image source={{ uri: avatarUri }} style={{ width: 40, height: 40, borderRadius: 20, marginLeft: 10 }} />}
+            </View>
+        );
+    };
+
+    const sendMessage = async () => {
+        if (inputMessage.trim() !== '') {
+            setIsSending(true);
+
+            try {
+                const body = {
+                    "senderId": userId,
+                    "receiverId": data._id,
+                    "content": inputMessage
+
+                }
+                socket.emit('send-message', body);
+                setInputMessage('');
+
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setIsSending(false);
+            }
         }
     };
 
-    useEffect(() => {
-        fetchDataAllMessage();
-    }, []);
-
-    const sendMessage = async () => {
-        try {
-            if (inputMessage != '') {
-                const sendMessgaes = await AxiosInstance().post(`api/message/new-message?senderId=${userId}&receiverId=${data._id}&content=${inputMessage}`);
-                console.log(sendMessgaes);
-                if (sendMessgaes.result == true) {
-                    fetchDataAllMessage();
-                }
-
-                setInputMessage(undefined)
-
-            }
-        } catch (error) {
-            console.log(error)
-        }
-
-
-
-
-    }
-
     return (
         <View style={{ position: "relative", flex: 1, backgroundColor: "#DDDDDD" }}>
-            <View style={{ padding: 10, backgroundColor: "#FF99CC", marginBottom: 10 }}>
-                <Text style={{ fontSize: 20, color: "white" }}>{data.name}</Text>
+            <View style={{ padding: 10, backgroundColor: "#FFCC00", marginBottom: 10, flexDirection: 'row', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Image source={require('../assets/images/icons/arrow-back.png')} />
+                </TouchableOpacity>
+                <Text style={{ fontSize: 20, color: "black", fontWeight: 'bold' }}>{data.name}</Text>
             </View>
-
-
-
-            {allMessage && allMessage.length > 0 ? (
+            {filteredData && filteredData.length > 0 ? (
                 <FlatList
                     ref={flatListRef}
                     style={{ marginBottom: 80 }}
-                    data={allMessage}
+                    data={filteredData}
+                    inverted
                     renderItem={renderItem}
-                    keyExtractor={item => item._id}
-                    onContentSizeChange={() => {
-                        flatListRef.current.scrollToEnd({ animated: true });
-                    }}
+                    keyExtractor={(item, index) => index.toString()}
+                    initialNumToRender={5}
+                    maxToRenderPerBatch={5}
+                    windowSize={10}
+                    updateCellsBatchingPeriod={30}
+                    removeClippedSubviews={true}
                 />
             ) : (
                 <Text style={{ textAlign: 'center', fontSize: 18, marginTop: 20 }}>New message</Text>
             )}
-
-            <View style={{ position: "absolute", width: "100%", bottom: 10, flexDirection: "row", padding: 10 }}>
-                <TextInput style={{ backgroundColor: "white", borderRadius: 10, fontSize: 16, width: '85%', marginRight: 10 }} placeholder='text message' value={inputMessage} onChangeText={(e) => setInputMessage(e)} />
-                <Button
-                    onPress={() => sendMessage()}
-                    title="Gửi"
-                />
+            <View style={{ position: "absolute", width: "100%", bottom: 10, flexDirection: "row", alignItems: "center", padding: 10 }}>
+                <View style={{ flexDirection: "row", flex: 1, borderRadius: 10, backgroundColor: "white", alignItems: "center", marginRight: 10 }}>
+                    <TextInput
+                        style={{ flex: 1, fontSize: 16, paddingHorizontal: 10 }}
+                        placeholder='Type a message'
+                        value={inputMessage}
+                        onChangeText={setInputMessage}
+                    />
+                    <TouchableOpacity onPress={sendMessage} style={{ padding: 10 }}>
+                        {isSending ? (
+                            <ActivityIndicator size="small" color="#0000ff" />
+                        ) : (
+                            <Image source={require('../assets/images/send-message.png')} style={{ width: 25, height: 25 }} />
+                        )}
+                    </TouchableOpacity>
+                </View>
             </View>
-
-        </View >
-    )
+        </View>
+    );
 }
 
 export default Chat

@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator, FlatList } from 'react-native'
+import { View, Text, ActivityIndicator, FlatList, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState, useContext } from 'react'
 import AxiosInstance from '../../components/helpers/Axiosintance'
 import { UserContext } from '../../components/users/UserContext'
@@ -17,15 +17,13 @@ const PostsHidden = (props) => {
         React.useCallback(() => {
             fetchData()
             return () => {
-                console.log("unfocus hidden")
             }
-        }, [])
+        }, [isLoading])
     )
 
     const fetchData = async () => {
         try {
             const postsHidden = await AxiosInstance().get(`/api/postnews/user/${userId}`)
-            console.log("check data posts hidden: ", postsHidden)
             if (postsHidden.result) {
                 setPosts(postsHidden.data.postsHidden)
                 setIsLoading(false)
@@ -52,7 +50,12 @@ const PostsHidden = (props) => {
 
                 <FlatList
                     data={posts}
-                    renderItem={({ item }) => <ItemPosts data={item} />}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('DetailProduct', { id_product: posts._id })}
+                        >
+                            <ItemPosts data={item} />
+                        </TouchableOpacity>)}
                     horizontal={false}
                     keyExtractor={item => item._id}
                     showsHorizontalScrollIndicator={false}

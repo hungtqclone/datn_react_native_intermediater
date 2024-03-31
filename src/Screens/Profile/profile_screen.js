@@ -5,16 +5,27 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Linking,
+  TextInput,
+  ActivityIndicator
 } from 'react-native';
-import React, {useState, useContext} from 'react';
-import {Image} from '@rneui/base';
+import React, { useState, useContext, useEffect } from 'react';
+import { Image } from '@rneui/base';
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {UserContext} from '../../components/users/UserContext';
+import AxiosInstance from '../../components/helpers/Axiosintance';
+import { UserContext } from '../../components/users/UserContext';
+import { useFocusEffect } from '@react-navigation/native';
+import Modal from 'react-native-modal'
+import { styleNumber } from '../../styleSheets/styleJS';
 
 const Profile_screen = props => {
-  const {navigation} = props;
-  const {user, setuser} = useContext(UserContext);
+  const { navigation } = props;
+  const { user, setuser } = useContext(UserContext);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [dataUser, setDataUser] = useState(user)
+  const [isLoading, setIsLoading] = useState(false)
+  const [amount, setAmount] = useState(0)
   const [avatarSource, setAvatarSource] = useState(
     require('../../assets/images/avatarDetail.png'),
   );
@@ -26,19 +37,88 @@ const Profile_screen = props => {
       });
 
       // Update the avatarSource with the selected image
-      setAvatarSource({uri: image.path});
+      setAvatarSource({ uri: image.path });
     } catch (error) {
       console.log('ImagePicker Error: ', error);
     }
   };
-
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
   const onLogOut = async () => {
     await AsyncStorage.setItem('user', '');
     setuser(null);
   };
 
+  const fetchDataUser = async () => {
+    if (user == 1) return
+    try {
+      const dataUser = await AxiosInstance().get(`/api/get-user-byId/${user._id}`)
+      await AsyncStorage.setItem('user', JSON.stringify(dataUser.user));
+      setuser(dataUser.user)
+      setDataUser(dataUser.user)
+    } catch (error) {
+      console.log("fetch data user error: ", error)
+      return
+    }
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchDataUser()
+      return () => {
+      }
+    }, [])
+  )
+
+
+  const handleOpenWeb = async () => {
+    try {
+      if (amount < 20000) return
+      setIsLoading(true)
+      toggleModal()
+      const payment = await AxiosInstance().post(`/api/stripe/create-payment-intent/${amount}/${dataUser._id}`)
+      Linking.openURL(`https://datn-web-payment.vercel.app/pay/${payment.clientSecret}`);
+      setIsLoading(false)
+
+    } catch (error) {
+      console.log(error)
+    }
+    setAmount(0)
+  };
+
+  const handleInputNumber = (text) => {
+    setAmount(text)
+  }
+
   return (
     <ScrollView style={styles.body}>
+      {isLoading ? (
+        <Modal isVisible={isLoading}>
+          <ActivityIndicator
+            style={{ marginTop: 20 }}
+            size="large"
+            color="#3498db"
+          />
+        </Modal>
+      ) : (
+        <Modal isVisible={isModalVisible}>
+          <View style={{ backgroundColor: 'white', padding: 8 }}>
+            <Text style={{ color: "black", fontSize: 17, textAlign: 'center' }}>Nạp đồng tốt</Text>
+            <TextInput keyboardType='number-pad' placeholder='Nhập số tiền bạn muốn nạp' onChangeText={handleInputNumber} style={{ borderColor: "gray", borderWidth: 1, marginTop: 6 }} />
+            <Text style={{ color: "red", display: amount < 20000 ? "flex" : "none" }}>số tiền nạp không được dưới 20.000 vnd</Text>
+            <Text>Khi click vào xác nhận sẽ nhảy qua trang web</Text>
+            <View style={{ flexDirection: "row", width: "100%" }}>
+
+              <TouchableOpacity style={{ backgroundColor: '#33CCFF', padding: 5, borderRadius: 5, flex: 1, paddingVertical: 10 }} title="Mua vip" onPress={() => handleOpenWeb()} >
+                <Text style={{ color: "white", textAlign: 'center' }}>Xác nhận</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{ backgroundColor: '#33CCFF', padding: 5, borderRadius: 5, marginLeft: 10, flex: 1, paddingVertical: 10 }} onPress={toggleModal} >
+                <Text style={{ color: "white", textAlign: "center" }}>Đóng</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>)}
       <View style={styles.appbar}>
         <View style={styles.appbarLeft}>
           <Text style={styles.appbarLeftText}>Thêm</Text>
@@ -56,7 +136,7 @@ const Profile_screen = props => {
         <View style={styles.bodyhearder}>
           {user === 1 ? (
             <TouchableOpacity
-              onPress={() =>{  setuser(null);}}
+              onPress={() => { setuser(null); }}
               style={styles.infoAv}>
               <Image
                 source={require('../../assets/images/icons/man-person-icon.png')}
@@ -67,17 +147,18 @@ const Profile_screen = props => {
           ) : (
             <View style={styles.infoAv}>
               <TouchableOpacity onPress={pickImage}>
-                <Image 
-                // source={avatarSource}
-                source={require('../../assets/images/icons/man-person-icon.png')}
-                 style={styles.avt} />
+                <Image
+                  // source={avatarSource}
+                  source={require('../../assets/images/icons/man-person-icon.png')}
+                  style={styles.avt} />
               </TouchableOpacity>
               {/* <Image
                 source={require('../../assets/images/icons/icon_edit.png')}
                 style={styles.iconedit}
               /> */}
               <View>
-                <Text style={styles.nameNguoiban}>{user.name} </Text>
+                <Text style={styles.nameNguoiban}>{dataUser.name} </Text>
+                <TouchableOpacity onPress={toggleModal}><Text style={{ color: "blue", marginTop: 3 }}>Nạp đồng tốt</Text></TouchableOpacity>
                 {/* <View style={styles.reviewContainer}>
                   <Text style={styles.countReview}>4.9</Text>
                   <View style={styles.contStars}>
@@ -129,7 +210,7 @@ const Profile_screen = props => {
             <TouchableOpacity style={styles.cuGood}>
               <Text style={styles.txtPoint}>Đồng Tốt</Text>
               <View style={styles.contIcon}>
-                <Text style={styles.txtPointCount}>0</Text>
+                <Text style={styles.txtPointCount}>{styleNumber(dataUser.balance)}</Text>
                 <Image
                   source={require('../../assets/images/icons/icon_coin.png')}
                   style={styles.iconCuGood}
@@ -175,7 +256,7 @@ const Profile_screen = props => {
           <Text style={styles.txtMagOrder}>Tiện ích</Text>
           <View style={styles.contMagOrderItem}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('PostSaved')}
+              onPress={() => navigation.navigate('PostSavedNavigation')}
               style={styles.contMagOrderItemLeft}>
               <Image
                 source={require('../../assets/images/icons/icon_heart_save.png')}
@@ -184,7 +265,7 @@ const Profile_screen = props => {
               <Text style={styles.txtMagOrderItem}>Tin đăng đã lưu</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate('SavedSearchScreen')}
+              onPress={() => navigation.navigate('SearchSaveNavigation')}
               style={styles.contMagOrderItemLeft}>
               <Image
                 source={require('../../assets/images/icons/icon_tag.png')}
@@ -245,7 +326,7 @@ const Profile_screen = props => {
             <TouchableOpacity
               style={[
                 styles.contMagOrderItemLeft,
-                {display: user == 1 ? 'none' : 'inline-block'},
+                { display: user == 1 ? 'none' : 'inline-block' },
               ]}
               onPress={() => onLogOut()}>
               <Image

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 import ProductNavigation from './ProductNavigation';
@@ -17,6 +17,7 @@ import ManagementStack from './ManagementStack';
 // import ViceCityScreen from '../../Screens/ViceCityScreen';
 // Stack
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { GetRouteNameManament, GetRouteNameProfile, GetRouteNameScroll } from './GetRouteNameMarket';
 
 const Stack = createNativeStackNavigator();
 
@@ -121,11 +122,23 @@ const BottomTabs = () => {
   return (
     <Tab.Navigator screenOptions={options}>
       <Tab.Screen name="ProductNavigation" component={ProductNavigation} />
-      <Tab.Screen name="NewsManagement" component={ManagementStack} />
+      <Tab.Screen name="NewsManagement" component={ManagementStack}
+        options={({ route }) => ({
+          tabBarStyle: { display: GetRouteNameManament(route) },
+          headerShown: false,
+        })} />
       <Tab.Screen name="PostNews" component={PushNewsNavigation} />
       {/* <Tab.Screen name="StrollTheMarket" component={StrollScreen} /> */}
-      <Tab.Screen name="StrollTheMarket" component={ScrollStack} />
-      <Tab.Screen name="Account" component={ProflieStack} />
+      <Tab.Screen name="StrollTheMarket" component={ScrollStack}
+        options={({ route }) => ({
+          tabBarStyle: { display: GetRouteNameScroll(route) },
+          headerShown: false,
+        })} />
+      <Tab.Screen name="Account" component={ProflieStack}
+        options={({ route }) => ({
+          tabBarStyle: { display: GetRouteNameProfile(route) },
+          headerShown: false,
+        })} />
       {/* <Tab.Screen name="Product" component={PurchaseOrdersScreen} /> */}
     </Tab.Navigator>
   );
