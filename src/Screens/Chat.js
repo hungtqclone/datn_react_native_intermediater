@@ -10,7 +10,7 @@ import moment_timezone from 'moment-timezone';
 const Chat = ({ navigation, route }) => {
     const { data } = route.params;
     const { user } = useContext(UserContext)
-    const { allMessages, socket } = useMessage()
+    const { allMessages, socket, newMessage } = useMessage()
     const flatListRef = useRef();
     const userId = user._id
     const [inputMessage, setInputMessage] = useState(undefined);
@@ -23,13 +23,38 @@ const Chat = ({ navigation, route }) => {
 
         }
     }
-    // useEffect(() => {
-    //     if (newMessage != null) {
-    //         filteredData.unshift(...[newMessage]);
+    let numberIndex;
 
-    //     }
-    // }, [newMessage]);
-    const renderItem = ({ item }) => {
+    useEffect(() => {
+        for (let i = 0; i < filteredData.length; i++) {
+            if (filteredData[i].senderId == userId && filteredData[i].seen == true) {
+                numberIndex = i;
+                return
+            }
+
+        }
+        if (newMessage != null) {
+            for (let i = 0; i < newMessage.length; i++) {
+                if (newMessage[i].senderId == data._id) {
+                    socket.emit('see-message', {
+                        "senderId": data._id,
+                        "receiverId": userId
+                    });
+                    return
+                }
+
+            }
+        }
+
+
+    }, [newMessage]);
+    useEffect(() => {
+        socket.emit('see-message', {
+            "senderId": data._id,
+            "receiverId": userId
+        });
+    }, []);
+    const renderItem = ({ item, index }) => {
         const isCurrentUser = userId === item.senderId;
         const bubbleColor = isCurrentUser ? "#3333FF" : "#AAAAAA";
         const avatarAlignment = isCurrentUser ? 'flex-end' : 'flex-start';
@@ -37,21 +62,25 @@ const Chat = ({ navigation, route }) => {
         const avatarUri = isCurrentUser ? user.avatar || avatarDefault : item.senderAvatar || avatarDefault;
 
         return (
-            <View style={{ flexDirection: 'row', justifyContent: messageAlignment, marginBottom: 5, alignItems: 'flex-end' }}>
-                {isCurrentUser || <Image source={{ uri: avatarUri }} style={{ width: 40, height: 40, borderRadius: 20, marginRight: 10 }} />}
-                <View style={{
-                    maxWidth: '80%',
-                    backgroundColor: bubbleColor,
-                    borderRadius: 20,
-                    paddingVertical: 8,
-                    paddingHorizontal: 12,
-                }}>
-                    <Text style={{ color: 'white', fontSize: 17, lineHeight: 22 }}>{item.content}</Text>
-                    <Text style={{ alignSelf: avatarAlignment, color: 'white', fontSize: 12, marginTop: 4 }}>
-                        {moment_timezone.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}
-                    </Text>
+            <View>
+                <View style={{ flexDirection: 'row', justifyContent: messageAlignment, marginBottom: 5, alignItems: 'flex-end' }}>
+                    {isCurrentUser || <Image source={{ uri: avatarUri }} style={{ width: 40, height: 40, borderRadius: 20, marginRight: 10 }} />}
+                    <View style={{
+                        maxWidth: '80%',
+                        backgroundColor: bubbleColor,
+                        borderRadius: 20,
+                        paddingVertical: 8,
+                        paddingHorizontal: 12,
+                    }}>
+                        <Text style={{ color: 'white', fontSize: 17, lineHeight: 22 }}>{item.content}</Text>
+                        <Text style={{ alignSelf: avatarAlignment, color: 'white', fontSize: 12, marginTop: 4 }}>
+                            {moment_timezone.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}
+                        </Text>
+
+                    </View>
+                    {isCurrentUser && <Image source={{ uri: avatarUri }} style={{ width: 40, height: 40, borderRadius: 20, marginLeft: 10 }} />}
                 </View>
-                {isCurrentUser && <Image source={{ uri: avatarUri }} style={{ width: 40, height: 40, borderRadius: 20, marginLeft: 10 }} />}
+                <Text style={{ color: 'gray', textAlign: 'right', marginRight: 54, display: numberIndex == index ? 'flex' : 'none', marginBottom: 5, marginTop: -4 }}>Đã xem</Text>
             </View>
         );
     };
@@ -99,6 +128,7 @@ const Chat = ({ navigation, route }) => {
                     windowSize={10}
                     updateCellsBatchingPeriod={30}
                     removeClippedSubviews={true}
+                    showsVerticalScrollIndicator={false}
                 />
             ) : (
                 <Text style={{ textAlign: 'center', fontSize: 18, marginTop: 20 }}>New message</Text>
