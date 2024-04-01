@@ -36,17 +36,8 @@ export const MessageProvider = ({ children }) => {
             socket.emit('set-socketId', userId);
             fetchDataMessages()
             socket.on('receive-message', (message) => {
-                setNewMessage(prevMessages => [...prevMessages, message]);
                 setAllMessages(prevMessages => [...prevMessages, message]);
 
-            });
-            socket.on('sender-message', (message) => {
-                setAllMessages(prevMessages => [...prevMessages, message]);
-
-            });
-            socket.on('see-message', (seenMessage) => {
-                console.log("check message seen: ", seenMessage)
-                fetchDataMessages();
             });
 
         }
@@ -60,7 +51,7 @@ export const MessageProvider = ({ children }) => {
 
 
     return (
-        <MessageContext.Provider value={{ allMessages, newMessage, socket, setUserId }}>
+        <MessageContext.Provider value={{ allMessages, socket, setUserId }}>
             {children}
         </MessageContext.Provider>
     );
