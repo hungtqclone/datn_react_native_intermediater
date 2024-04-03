@@ -24,7 +24,8 @@ const ScrollStack = () => {
       }}>
       <Stack.Screen name="StrollScreen" component={StrollScreen} />
       <Stack.Screen name="DetailProduct" component={DetailProduct} />
-      <Stack.Screen name="ChatNavigation" component={ChatNavigation} />
+      <Stack.Screen name="ChatNavigation" component={ChatNavigation} 
+      />
     </Stack.Navigator>
   );
 };

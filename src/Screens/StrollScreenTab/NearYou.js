@@ -124,7 +124,8 @@ const NearYou = (props) => {
       console.log('User ID:', userId);
       console.log('Post ID:', postId);
       const response = await savePost(userId, postId);
-      console.log('Save post response:', response);
+     // console.log('Save post response:', response);
+      alert('Lưu bài viết thành công!');
     } catch (error) {
       console.error('Error saving post:', error);
     }

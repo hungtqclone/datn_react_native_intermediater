@@ -76,10 +76,15 @@ const CategoriesDetail = (props) => {
 
     const nextScreenProductDetail = (idPostNews) => {
         console.log("next screen product detail with idPostNews = ", idPostNews)
+        navigation.navigate('DetailProduct', { id_product: idPostNews})
     }
     const renderItemProduct = ({ item }) => {
         return (
-            <TouchableOpacity style={CGDStyles.productBody} onPress={() => nextScreenProductDetail(item._id)}>
+            <TouchableOpacity style={CGDStyles.productBody} 
+            onPress={() => 
+                nextScreenProductDetail(item._id)
+            }
+            >
                 <Image style={CGDStyles.imgproduct} source={{ uri: `${urlApi}${item.files}` }} />
                 <Text style={CGDStyles.txtnameproduct} >{item.title}</Text>
                 <Text style={CGDStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
@@ -183,7 +188,7 @@ const CategoriesDetail = (props) => {
                         </View>
                     </View>
                 </View>
-                <Shopstores />
+                <Shopstores/>
                 <Foryou />
             </ScrollView>
 

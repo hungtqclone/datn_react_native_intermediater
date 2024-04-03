@@ -79,8 +79,8 @@ const DetailProduct = (props) => {
   };
   const onSavePost = async (postId) => {
     try {
-      console.log('User ID:', userId);
-      console.log('Post ID:', postId);
+     // console.log('User ID:', userId);
+     // console.log('Post ID:', postId);
       const response = await savePost(userId, postId);
       console.log('Save post response:', response);
       // Hiển thị thông báo sau khi lưu thành công
