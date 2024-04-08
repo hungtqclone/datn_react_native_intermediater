@@ -9,15 +9,15 @@ import {
   StatusBar,
   ActivityIndicator,
 } from 'react-native';
-import React, {useState, useContext} from 'react';
+import React, { useState, useContext } from 'react';
 import AxiosInstance from '../components/helpers/Axiosintance';
-import {UserContext} from '../components/users/UserContext';
+import { UserContext } from '../components/users/UserContext';
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ItemPosts = props => {
-  const {data} = props;
-  const {user, setuser} = useContext(UserContext);
+  const { data } = props;
+  const { user, setuser } = useContext(UserContext);
   const urlApi = `https://datnapi-qelj.onrender.com/`;
   const [isModalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +25,7 @@ const ItemPosts = props => {
   const [buy, setBuy] = useState(0);
   const showToast = () => {
     if (numberOfDays === 0 || buy >= user.balance) {
-        ToastAndroid.show('Mua vip thất bại', ToastAndroid.SHORT);
+      ToastAndroid.show('Mua vip thất bại', ToastAndroid.SHORT);
     }
     ToastAndroid.show('Mua vip thành công', ToastAndroid.SHORT);
   };
@@ -71,13 +71,13 @@ const ItemPosts = props => {
   // console.log("check data item: ", data)
   return (
     <View>
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         {/* <Button title="Show modal" onPress={toggleModal} /> */}
 
         <Modal isVisible={isModalVisible}>
           {isLoading ? (
             <ActivityIndicator
-              style={{marginTop: 20}}
+              style={{ marginTop: 20 }}
               size="large"
               color="#3498db"
             />
@@ -108,7 +108,7 @@ const ItemPosts = props => {
                 }}>
                 Mua vip cho bài đăng
               </Text>
-              <Text style={{fontWeight: 400, color: 'black', fontSize: 20,alignSelf:'center',padding:5}}>
+              <Text style={{ fontWeight: 400, color: 'black', fontSize: 20, alignSelf: 'center', padding: 5 }}>
                 {data.title}
               </Text>
               <TextInput
@@ -127,32 +127,32 @@ const ItemPosts = props => {
                 placeholderTextColor="#E1E1E1"
               />
 
-          
+
               <Text
-                    style={{
-                      color: 'red',
-                      fontSize:12,
-                      padding:5,
-                      display: numberOfDays == 0 ? 'flex' : 'none',
-                    }}>
-                    Cần điền số ngày mua
-                  </Text>
-                  <Text
-                    style={{
-                      color: 'red',
-                      fontSize:12,
-                      padding:5,
-                      display: buy > user.balance ? 'flex' : 'none',
-                    }}>
-                    Bạn không đủ đồng tốt
-                  </Text>
-                <Text style={{alignItems:'flex-end',textAlign:'right',padding:5}}>Số tiền phải trả: {buy} vnd</Text>
-              
-                 
-                
+                style={{
+                  color: 'red',
+                  fontSize: 12,
+                  padding: 5,
+                  display: numberOfDays == 0 ? 'flex' : 'none',
+                }}>
+                Cần điền số ngày mua
+              </Text>
+              <Text
+                style={{
+                  color: 'red',
+                  fontSize: 12,
+                  padding: 5,
+                  display: buy > user.balance ? 'flex' : 'none',
+                }}>
+                Bạn không đủ đồng tốt
+              </Text>
+              <Text style={{ alignItems: 'flex-end', textAlign: 'right', padding: 5 }}>Số tiền phải trả: {buy} vnd</Text>
+
+
+
 
               {/* <TouchableOpacity><Text>Mua vip</Text></TouchableOpacity> */}
-              <View style={{flexDirection: 'row', width: '100%'}}>
+              <View style={{ flexDirection: 'row', width: '100%' }}>
                 <TouchableOpacity
                   style={{
                     backgroundColor: '#FFBA00',
@@ -162,8 +162,8 @@ const ItemPosts = props => {
                     paddingVertical: 10,
                   }}
                   title="Mua vip"
-                  onPress={() => {buyVips(data.userid, data._id),showToast();}}>
-                  <Text style={{color: 'white', textAlign: 'center',fontWeight:700,fontSize:15}}>
+                  onPress={() => { buyVips(data.userid, data._id), showToast(); }}>
+                  <Text style={{ color: 'white', textAlign: 'center', fontWeight: 700, fontSize: 15 }}>
                     Mua vip
                   </Text>
                 </TouchableOpacity>
@@ -177,7 +177,7 @@ const ItemPosts = props => {
                     paddingVertical: 10,
                   }}
                   onPress={toggleModal}>
-                  <Text style={{fontSize:15,color: 'white', textAlign: 'center',fontWeight:700}}>
+                  <Text style={{ fontSize: 15, color: 'white', textAlign: 'center', fontWeight: 700 }}>
                     Đóng
                   </Text>
                 </TouchableOpacity>
@@ -191,10 +191,10 @@ const ItemPosts = props => {
             flexDirection: 'row',
             marginVertical: 1,
           }}>
-          <View style={{width: 120, height: 120, padding: 15}}>
+          <View style={{ width: 120, height: 120, padding: 15 }}>
             <Image
-              style={{width: '100%', height: '100%'}}
-              source={{uri: urlApi + data.files[0]}}
+              style={{ width: '100%', height: '100%' }}
+              source={{ uri: urlApi + data.files[0] }}
             />
           </View>
           <View
@@ -204,8 +204,8 @@ const ItemPosts = props => {
               marginRight: 30,
               height: '100%',
             }}>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={{color: 'black', fontSize: 16}} numberOfLines={2}>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={{ color: 'black', fontSize: 16 }} numberOfLines={2}>
                 {data.title}
               </Text>
               <Text
@@ -232,14 +232,14 @@ const ItemPosts = props => {
               }}>
               {data.price} d
             </Text>
-            <Text style={{position: 'absolute', bottom: 15}}>
+            <Text style={{ position: 'absolute', bottom: 15 }}>
               {data.location}
             </Text>
           </View>
           <TouchableOpacity
-            style={{position: 'absolute', bottom: 15, right: 5}}
+            style={{ position: 'absolute', bottom: 15, right: 5 }}
             onPress={toggleModal}>
-            <Text style={{color: 'blue', fontSize: 16}}>Mua vip</Text>
+            <Text style={{ color: 'blue', fontSize: 16, display: data.isVip ? 'none' : 'flex' }}>Mua vip</Text>
           </TouchableOpacity>
         </View>
       </View>

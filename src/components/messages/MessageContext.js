@@ -39,6 +39,15 @@ export const MessageProvider = ({ children }) => {
                 setAllMessages(prevMessages => [...prevMessages, message]);
 
             });
+            socket.on('sender-message', (message) => {
+                setAllMessages(prevMessages => [...prevMessages, message]);
+
+            });
+            socket.on('seen-message', () => {
+                fetchDataMessages()
+
+            });
+
 
         }
     }, [userId]);

@@ -2,6 +2,7 @@ import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react
 import React, { useEffect, useState, useContext } from 'react';
 import AxiosInstance from '../components/helpers/Axiosintance';
 import { UserContext } from '../components/users/UserContext';
+import { useMessage } from '../components/messages/MessageContext';
 
 const ListUserChat = (props) => {
     const { navigation } = props;
@@ -18,33 +19,33 @@ const ListUserChat = (props) => {
     useEffect(() => {
         fetchData();
     }, []);
-    
+
     const getRandomTime = () => {
         const hours = Math.floor(Math.random() * 24);
         const minutes = Math.floor(Math.random() * 60);
         return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-      };
-      
-      const renderItem = ({ item }) => {
+    };
+
+    const renderItem = ({ item }) => {
         const shortenedLastMessage = item.lastMessage && item.lastMessage.length > 20
-          ? item.lastMessage.substring(0, 20) + '...'
-          : item.lastMessage;
-      
+            ? item.lastMessage.substring(0, 20) + '...'
+            : item.lastMessage;
+
         const time = item.time || getRandomTime();
         const lastMessageWithTime = `${shortenedLastMessage || '...'} · ${time}`;
-      
+
         return (
-          <TouchableOpacity style={styles.itemContainer} onPress={() => navigation.navigate('chat', { data: item })}>
-            <Image source={{ uri: item.avatar || avatarDefault }} style={styles.avatar} />
-            <View style={styles.textContainer}>
-              <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.lastMessage} numberOfLines={1} ellipsizeMode='tail'>
-                {lastMessageWithTime.trim()}
-              </Text>
-            </View>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.itemContainer} onPress={() => navigation.navigate('chat', { data: item })}>
+                <Image source={{ uri: item.avatar || avatarDefault }} style={styles.avatar} />
+                <View style={styles.textContainer}>
+                    <Text style={styles.name}>{item.name}</Text>
+                    <Text style={styles.lastMessage} numberOfLines={1} ellipsizeMode='tail'>
+                        {lastMessageWithTime.trim()}
+                    </Text>
+                </View>
+            </TouchableOpacity>
         );
-      };          
+    };
 
     return (
         <View style={styles.container}>

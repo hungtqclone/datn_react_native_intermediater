@@ -17,41 +17,56 @@ const Chat = ({ navigation, route }) => {
     const [isSending, setIsSending] = useState(false);
     const avatarDefault = 'https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg';
     const filteredData = [];
+    let numberSeen;
     for (let i = allMessages.length - 1; i >= 0; i--) {
         if (allMessages[i].senderId == data._id || allMessages[i].receiverId == data._id) {
             filteredData.push(allMessages[i])
 
         }
     }
-    // useEffect(() => {
-    //     if (newMessage != null) {
-    //         filteredData.unshift(...[newMessage]);
-
-    //     }
-    // }, [newMessage]);
-    const renderItem = ({ item }) => {
+    useEffect(() => {
+        numberSeen = filteredData.length
+        if (filteredData.length != 0) {
+            for (let i = 0; i < filteredData.length; i++) {
+                if (filteredData[i].senderId == userId && filteredData[i].seen == true) {
+                    numberSeen = i;
+                    return;
+                }
+            }
+        }
+    }, [allMessages]);
+    useEffect(() => {
+        socket.emit('see-message', {
+            "senderId": data._id,
+            "receiverId": userId
+        });
+    }, [filteredData]);
+    const renderItem = ({ item, index }) => {
         const isCurrentUser = userId === item.senderId;
         const bubbleColor = isCurrentUser ? "#3333FF" : "#AAAAAA";
         const avatarAlignment = isCurrentUser ? 'flex-end' : 'flex-start';
         const messageAlignment = isCurrentUser ? 'flex-end' : 'flex-start';
         const avatarUri = isCurrentUser ? user.avatar || avatarDefault : item.senderAvatar || avatarDefault;
-
         return (
-            <View style={{ flexDirection: 'row', justifyContent: messageAlignment, marginBottom: 5, alignItems: 'flex-end' }}>
-                {isCurrentUser || <Image source={{ uri: avatarUri }} style={{ width: 40, height: 40, borderRadius: 20, marginRight: 10 }} />}
-                <View style={{
-                    maxWidth: '80%',
-                    backgroundColor: bubbleColor,
-                    borderRadius: 20,
-                    paddingVertical: 8,
-                    paddingHorizontal: 12,
-                }}>
-                    <Text style={{ color: 'white', fontSize: 17, lineHeight: 22 }}>{item.content}</Text>
-                    <Text style={{ alignSelf: avatarAlignment, color: 'white', fontSize: 12, marginTop: 4 }}>
-                        {moment_timezone.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}
-                    </Text>
+            <View>
+                <View style={{ flexDirection: 'row', justifyContent: messageAlignment, marginBottom: 5, alignItems: 'flex-end' }}>
+                    {isCurrentUser || <Image source={{ uri: avatarUri }} style={{ width: 40, height: 40, borderRadius: 20, marginRight: 10 }} />}
+                    <View style={{
+                        maxWidth: '80%',
+                        backgroundColor: bubbleColor,
+                        borderRadius: 20,
+                        paddingVertical: 8,
+                        paddingHorizontal: 12,
+                    }}>
+                        <Text style={{ color: 'white', fontSize: 17, lineHeight: 22 }}>{item.content}</Text>
+                        <Text style={{ alignSelf: avatarAlignment, color: 'white', fontSize: 12, marginTop: 4 }}>
+                            {moment_timezone.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}
+                        </Text>
+                    </View>
+                    {isCurrentUser && <Image source={{ uri: avatarUri }} style={{ width: 40, height: 40, borderRadius: 20, marginLeft: 10 }} />}
+
                 </View>
-                {isCurrentUser && <Image source={{ uri: avatarUri }} style={{ width: 40, height: 40, borderRadius: 20, marginLeft: 10 }} />}
+                <Text style={{ textAlign: "right", display: index == numberSeen ? 'flex' : 'none' }}>Đã xem</Text>
             </View>
         );
     };
@@ -93,7 +108,7 @@ const Chat = ({ navigation, route }) => {
                     data={filteredData}
                     inverted
                     renderItem={renderItem}
-                    keyExtractor={(item, index) => index.toString()}
+                    keyExtractor={(item, index) => item._id.toString()}
                     initialNumToRender={5}
                     maxToRenderPerBatch={5}
                     windowSize={10}
