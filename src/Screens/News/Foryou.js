@@ -5,12 +5,16 @@ import { foryouStyles } from '../../styleSheets/ForyouStyles'
 import { getProduct } from '../ScreenService'
 
 
-const Foryou = () => {
+const Foryou = (props) => {
+    const { navigation } = props;
     const [products, setProducts] = useState([]);
     urlApi = 'https://datnapi-qelj.onrender.com/'
     const renderItemPostnew = ({ item }) => {
         return (
-            <TouchableOpacity style={foryouStyles.productBody}>
+            <TouchableOpacity style={foryouStyles.productBody}
+            onPress={() => navigation.navigate('DetailProduct', { id: item._id })}
+         //     onPress={() => navigation.navigate('SalesOrderScreen')}
+            >
                 <Image style={foryouStyles.imgproduct} source={{ uri: `${urlApi}${item.files}` }} />
                 <Text style={foryouStyles.txtnameproduct} >{item.title}</Text>
                 <Text style={foryouStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>

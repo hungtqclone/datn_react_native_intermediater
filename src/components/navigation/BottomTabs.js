@@ -17,7 +17,7 @@ import ManagementStack from './ManagementStack';
 // import ViceCityScreen from '../../Screens/ViceCityScreen';
 // Stack
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { GetRouteNameManament, GetRouteNameProfile, GetRouteNameScroll } from './GetRouteNameMarket';
+import { GetRouteNameManament, GetRouteNameProfile, GetRouteNameScroll, GetRouteNameHome } from './GetRouteNameMarket';
 
 const Stack = createNativeStackNavigator();
 
@@ -121,7 +121,12 @@ const options = ({ route }) => ({
 const BottomTabs = () => {
   return (
     <Tab.Navigator screenOptions={options}>
-      <Tab.Screen name="ProductNavigation" component={ProductNavigation} />
+      <Tab.Screen name="ProductNavigation" component={ProductNavigation}
+       options={({ route }) => ({
+        tabBarStyle: { display: GetRouteNameHome(route) },
+        headerShown: false,
+      })}
+      />
       <Tab.Screen name="NewsManagement" component={ManagementStack}
         options={({ route }) => ({
           tabBarStyle: { display: GetRouteNameManament(route) },

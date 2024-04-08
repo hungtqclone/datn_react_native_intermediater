@@ -121,7 +121,7 @@ const DetailProduct = (props) => {
 
   return (
     <View style={styles.body}>
-      {/* <View style={styles.appbar}>
+      <View style={styles.appbar}>
         <TouchableOpacity
           style={styles.imgBack}
           onPress={() => navigation.goBack()}>
@@ -142,7 +142,7 @@ const DetailProduct = (props) => {
           style={styles.imgHeart}
           onPress={() => console.log('heart')}>
           <Image
-            source={require('../assets/images/icons/heart.png')}
+            source={require('../assets/images/icons/heart2.png')}
             style={styles.icon}
           />
         </TouchableOpacity>
@@ -154,7 +154,7 @@ const DetailProduct = (props) => {
             style={styles.icon}
           />
         </TouchableOpacity>
-      </View> */}
+      </View>
       {isLoading ? (
         <ActivityIndicator
           style={styles.loadingIcon}
