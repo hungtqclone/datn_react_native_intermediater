@@ -12,18 +12,20 @@ import {
   ActivityIndicator
 } from 'react-native';
 import React, { useState, useEffect, useContext, Component } from 'react';
-import { useRoute, useFocusEffect  } from '@react-navigation/native';
+import { useRoute, useFocusEffect } from '@react-navigation/native';
 import { getPostNewsByCategory, getProductById } from './ScreenService';
 import { getPostNewsByUserId, savePost } from './ScreenService';
 import Swiper from 'react-native-swiper';
 import { UserContext } from '../components/users/UserContext';
 import SweetAlert from 'react-native-sweet-alert';
+import { useNavigation } from '@react-navigation/native';
 const DetailProduct = (props) => {
   //lấy thông tin user
   const { user } = useContext(UserContext);
   const userId = user._id;
   //navigation
-   const { navigation, rating, totalReviews } = props;
+  const { rating, totalReviews, navigation } = props;
+  // const navigation = useNavigation();
   //link ảnh 
   const urlApi = 'https://datnapi.vercel.app/';
   //link api
@@ -79,8 +81,8 @@ const DetailProduct = (props) => {
   };
   const onSavePost = async (postId) => {
     try {
-     // console.log('User ID:', userId);
-     // console.log('Post ID:', postId);
+      // console.log('User ID:', userId);
+      // console.log('Post ID:', postId);
       const response = await savePost(userId, postId);
       console.log('Save post response:', response);
       // Hiển thị thông báo sau khi lưu thành công
@@ -89,7 +91,7 @@ const DetailProduct = (props) => {
       console.error('Error saving post:', error);
     }
   };
-  
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -193,7 +195,7 @@ const DetailProduct = (props) => {
                   <Text style={styles.timeIn}>  {products.created_AT}</Text>
                 </View>
                 <TouchableOpacity style={styles.containerPrice}
-                   onPress={() => onSavePost(products._id)}
+                  onPress={() => onSavePost(products._id)}
                 >
                   <Image
                     style={styles.iconLike}
@@ -485,7 +487,7 @@ const DetailProduct = (props) => {
               onPress={() => handleCallPress(phoneNumber)}>
               <Image
                 source={require('../assets/images/icons/phone-call.png')}
-                style={styles.icons }
+                style={styles.icons}
               />
               <Text style={styles.textcall1}>Gọi điện</Text>
             </TouchableOpacity>
@@ -501,7 +503,7 @@ const DetailProduct = (props) => {
 
             <TouchableOpacity
               style={styles.bottomtab2}
-              onPress={() => console.log('Check pressed')}>
+              onPress={() => navigation.navigate('Chat', { data: products.userid })}>
               <Image
                 source={require('../assets/images/icons/icon_chat.png')}
                 style={styles.iconc}

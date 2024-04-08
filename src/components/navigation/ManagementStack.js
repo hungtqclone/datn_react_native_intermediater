@@ -25,6 +25,7 @@ const ManagementStack = () => {
       <Stack.Screen name="ManagementNews" component={ManagementNews} />
       <Stack.Screen name="DetailProducts" component={DetailProduct} />
       <Stack.Screen name="ChatNavigation" component={ChatNavigation} />
+      <Stack.Screen name="Chat" component={Chat} />
     </Stack.Navigator>
   );
 };
