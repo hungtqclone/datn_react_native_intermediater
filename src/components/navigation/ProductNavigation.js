@@ -15,6 +15,7 @@ import Jobber from '../../Screens/DetailCategories/Jober';
 import DetailPostnews from '../../Screens/Postnews/DetailPostNews';
 import HomeStack from './HomeStack';
 import DetailProduct from '../../Screens/DetailProduct';
+import Foryou from '../../Screens/News/Foryou';
 const Stack = createNativeStackNavigator();
 
 const ProductNavigation = () => {
@@ -30,6 +31,7 @@ const ProductNavigation = () => {
       <Stack.Screen name="vehicles" component={Vehicles} />
       <Stack.Screen name="DetailPostnews" component={DetailPostnews} />
       <Stack.Screen name="DetailProduct" component={DetailProduct} />
+      <Stack.Screen name="Foryou" component={Foryou} />
     </Stack.Navigator>
   );
 };
