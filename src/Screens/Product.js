@@ -66,7 +66,6 @@ const Product = (props) => {
 
     const fetchData = () => {
         setIsLoadingPage(true)
-        console.log(page)
         setTimeout(() => {
             //chạy api load data page mới tại đây
             setIsLoadingPage(false);
@@ -112,7 +111,7 @@ const Product = (props) => {
     // postnews
     const renderPostNews = ({ item, index }) => {
         return (
-            <Pressable style={productStyles.productBody2}>
+            <TouchableOpacity onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })} style={productStyles.productBody2}>
                 <Image style={productStyles.imgproduct} source={{ uri: `${urlApi}${item.files[0]}` }} />
                 <View style={productStyles.contaiColum}>
                     <Text style={productStyles.txtTitle} numberOfLines={1}>{item.title}</Text>
@@ -128,7 +127,7 @@ const Product = (props) => {
                 </View>
                 <Image style={[productStyles.iconVip, { display: item.isVip ? 'flex' : 'none' }]} source={{ uri: 'https://cdn.pixabay.com/photo/2013/07/12/14/10/star-147919_1280.png' }} />
 
-            </Pressable>
+            </TouchableOpacity>
         );
     }
     const renderFooter = () => {
@@ -153,7 +152,11 @@ const Product = (props) => {
                     <Image style={productStyles.imgSearch} source={require('../../image/search.png')} />
                 </View>
                 <Image style={productStyles.icon} source={require('../assets/images/icons/icon_notification.png')} />
+                <TouchableOpacity 
+                onPress={() => navigation.navigate('ChatNavigation')}
+                >
                 <Image style={productStyles.icon} source={require('../assets/images/icons/icon_chat.png')} />
+                </TouchableOpacity>
             </View>
 
             <ScrollView

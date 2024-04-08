@@ -12,7 +12,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 import React, { useState, useEffect, useContext, Component } from 'react';
-import { useRoute, useFocusEffect  } from '@react-navigation/native';
+import { useRoute, useFocusEffect } from '@react-navigation/native';
 import { getPostNewsByCategory, getProductById } from './ScreenService';
 import { getPostNewsByUserId, savePost } from './ScreenService';
 import Swiper from 'react-native-swiper';
@@ -23,7 +23,7 @@ const DetailProduct = (props) => {
   const { user } = useContext(UserContext);
   const userId = user._id;
   //navigation
-   const { navigation, rating, totalReviews } = props;
+  const { navigation, rating, totalReviews } = props;
   //link ảnh 
   const urlApi = 'https://datnapi.vercel.app/';
   //link api
@@ -38,7 +38,7 @@ const DetailProduct = (props) => {
   const [isLoadingProByUser, setIsLoadingProByUser] = useState(true);
   const [isLoadingProByCategory, setIsLoadingProByCategory] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState('');
-
+  const [title, setTitle] = useState('');
   const data = [
     { id: '1', question: 'Món hàng này còn không?' },
     { id: '2', question: 'Bạn có ship hàng không?' },
@@ -79,8 +79,8 @@ const DetailProduct = (props) => {
   };
   const onSavePost = async (postId) => {
     try {
-     // console.log('User ID:', userId);
-     // console.log('Post ID:', postId);
+      // console.log('User ID:', userId);
+      // console.log('Post ID:', postId);
       const response = await savePost(userId, postId);
       console.log('Save post response:', response);
       // Hiển thị thông báo sau khi lưu thành công
@@ -89,7 +89,7 @@ const DetailProduct = (props) => {
       console.error('Error saving post:', error);
     }
   };
-  
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -98,6 +98,7 @@ const DetailProduct = (props) => {
         setProducts(productData);
         setPhoneNumber(productData.userid.phone);
         setIsLoading(false);
+        setTitle(productData.title);
 
         if (productData && productData.userid) {
           const userPosts = await getPostNewsByUserId(productData.userid._id);
@@ -130,6 +131,12 @@ const DetailProduct = (props) => {
             style={styles.icon}
           />
         </TouchableOpacity>
+        <TouchableOpacity style={styles.btnTitle}>
+          <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
+            {title}
+          </Text>
+        </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.imgShare}
           onPress={() => console.log('share')}>
@@ -193,7 +200,7 @@ const DetailProduct = (props) => {
                   <Text style={styles.timeIn}>  {products.created_AT}</Text>
                 </View>
                 <TouchableOpacity style={styles.containerPrice}
-                   onPress={() => onSavePost(products._id)}
+                  onPress={() => onSavePost(products._id)}
                 >
                   <Image
                     style={styles.iconLike}
@@ -485,7 +492,7 @@ const DetailProduct = (props) => {
               onPress={() => handleCallPress(phoneNumber)}>
               <Image
                 source={require('../assets/images/icons/phone-call.png')}
-                style={styles.icons }
+                style={styles.icons}
               />
               <Text style={styles.textcall1}>Gọi điện</Text>
             </TouchableOpacity>
@@ -874,7 +881,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 60,
     flexDirection: 'row',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 10,
   },
@@ -1219,5 +1226,16 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 300,
   },
+  title: {
+    // width: '40%',
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: 'black',
 
+  },
+  btnTitle: {
+    width: "50%",
+    position: 'absolute',
+    left: 50,
+  },
 });

@@ -3,18 +3,16 @@ import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, Scrol
 import React, { useState, useEffect } from 'react'
 import { foryouStyles } from '../../styleSheets/ForyouStyles'
 import { getProduct } from '../ScreenService'
-
+import { useNavigation } from '@react-navigation/native';
 
 const Foryou = (props) => {
-    const { navigation } = props;
     const [products, setProducts] = useState([]);
+    // const { navigation } = props
+    const navigation = useNavigation();
     urlApi = 'https://datnapi-qelj.onrender.com/'
     const renderItemPostnew = ({ item }) => {
         return (
-            <TouchableOpacity style={foryouStyles.productBody}
-            onPress={() => navigation.navigate('DetailProduct', { id: item._id })}
-         //     onPress={() => navigation.navigate('SalesOrderScreen')}
-            >
+            <TouchableOpacity onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })} style={foryouStyles.productBody}>
                 <Image style={foryouStyles.imgproduct} source={{ uri: `${urlApi}${item.files}` }} />
                 <Text style={foryouStyles.txtnameproduct} >{item.title}</Text>
                 <Text style={foryouStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
@@ -37,16 +35,16 @@ const Foryou = (props) => {
         ongetProducts();
     }, []);
     return (
-            <View style={foryouStyles.contaiProduct}>
-                <Text style={foryouStyles.txtOffical}>Gợi ý hôm nay</Text>
-                <FlatList
-                    data={products}
-                    renderItem={renderItemPostnew}
-                    numColumns={2}
-                    keyExtractor={item => item._id}
-                    scrollEnabled={false}
-                />
-            </View>
+        <View style={foryouStyles.contaiProduct}>
+            <Text style={foryouStyles.txtOffical}>Gợi ý hôm nay</Text>
+            <FlatList
+                data={products}
+                renderItem={renderItemPostnew}
+                numColumns={2}
+                keyExtractor={item => item._id}
+                scrollEnabled={false}
+            />
+        </View>
     )
 }
 
