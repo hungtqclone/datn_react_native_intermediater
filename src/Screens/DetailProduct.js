@@ -18,12 +18,14 @@ import { getPostNewsByUserId, savePost } from './ScreenService';
 import Swiper from 'react-native-swiper';
 import { UserContext } from '../components/users/UserContext';
 import SweetAlert from 'react-native-sweet-alert';
+import { useNavigation } from '@react-navigation/native';
 const DetailProduct = (props) => {
   //lấy thông tin user
   const { user } = useContext(UserContext);
   const userId = user._id;
   //navigation
-  const { navigation, rating, totalReviews } = props;
+  const { rating, totalReviews, navigation } = props;
+  // const navigation = useNavigation();
   //link ảnh 
   const urlApi = 'https://datnapi.vercel.app/';
   //link api
@@ -508,7 +510,7 @@ const DetailProduct = (props) => {
 
             <TouchableOpacity
               style={styles.bottomtab2}
-              onPress={() => console.log('Check pressed')}>
+              onPress={() => navigation.navigate('Chat', { data: products.userid })}>
               <Image
                 source={require('../assets/images/icons/icon_chat.png')}
                 style={styles.iconc}

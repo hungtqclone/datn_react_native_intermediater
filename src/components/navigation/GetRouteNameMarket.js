@@ -45,9 +45,14 @@ export const GetRouteNameScroll = route => {
         return 'none';
     } else if (routeName?.includes('Explore')) {
         return 'none';
-    } else if (routeName?.includes('ChatNavigation')) {
+    }
+    else if (routeName?.includes('Chat')) {
         return 'none';
     }
+    else if (routeName?.includes('ChatNavigation')) {
+        return 'none';
+    }
+
     return 'flex';
 };
 export const GetRouteNameManament = route => {
@@ -70,7 +75,7 @@ export const GetRouteNameHome = route => {
     const routeName = getFocusedRouteNameFromRoute(route);
     if (routeName?.includes('DetailProduct')) {
         return 'none';
-    } else if (routeName?.includes('ChatNavigation')) 
+    } else if (routeName?.includes('ChatNavigation'))
         return 'none';
     return 'flex';
 };
