@@ -25,7 +25,6 @@ export const MessageProvider = ({ children }) => {
         try {
             const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${userId}`)
             setAllMessages(messagesData.messages)
-            console.log(messagesData.messages.length)
         } catch (error) {
             console.log(error)
         }

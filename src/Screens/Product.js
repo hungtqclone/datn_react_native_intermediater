@@ -4,6 +4,7 @@ import { getBrands, getProductByidCate } from './ScreenService'
 import { productStyles } from '../styleSheets/ProductStyles'
 import PostnewsStack from '../components/navigation/PostnewsTabnavigation'
 import { urlAPI } from '../components/helpers/urlAPI'
+import { styleNumber } from '../styleSheets/styleJS'
 urlAPI
 const data = [
     { id: 1, title: 'Điện thoại' },
@@ -116,7 +117,7 @@ const Product = (props) => {
                 <View style={productStyles.contaiColum}>
                     <Text style={productStyles.txtTitle} numberOfLines={1}>{item.title}</Text>
                     <Text style={productStyles.txtDetail} numberOfLines={2}>{item.detail}</Text>
-                    <Text style={productStyles.txtprice} >{item.price} d</Text>
+                    <Text style={productStyles.txtprice} >{styleNumber(item.price)} d</Text>
 
                     <View style={productStyles.contaiicontimeaddress}>
                         <Image style={productStyles.imgiconprofile} source={require('../../image/Phone.png')} />
@@ -152,10 +153,10 @@ const Product = (props) => {
                     <Image style={productStyles.imgSearch} source={require('../../image/search.png')} />
                 </View>
                 <Image style={productStyles.icon} source={require('../assets/images/icons/icon_notification.png')} />
-                <TouchableOpacity 
-                onPress={() => navigation.navigate('ChatNavigation')}
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('ChatNavigation')}
                 >
-                <Image style={productStyles.icon} source={require('../assets/images/icons/icon_chat.png')} />
+                    <Image style={productStyles.icon} source={require('../assets/images/icons/icon_chat.png')} />
                 </TouchableOpacity>
             </View>
 

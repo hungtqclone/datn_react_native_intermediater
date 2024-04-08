@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { foryouStyles } from '../../styleSheets/ForyouStyles'
 import { getProduct } from '../ScreenService'
 import { useNavigation } from '@react-navigation/native';
+import { styleNumber } from '../../styleSheets/styleJS';
 
 const Foryou = (props) => {
     const [products, setProducts] = useState([]);
@@ -16,7 +17,7 @@ const Foryou = (props) => {
                 <Image style={foryouStyles.imgproduct} source={{ uri: `${urlApi}${item.files}` }} />
                 <Text style={foryouStyles.txtnameproduct} >{item.title}</Text>
                 <Text style={foryouStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
-                <Text style={foryouStyles.txtprice} >{item.price}</Text>
+                <Text style={foryouStyles.txtprice} >{styleNumber(item.price)}</Text>
 
                 <View style={foryouStyles.contaiicontimeaddress}>
                     <Image style={foryouStyles.imgiconprofile} source={require('../../../image/Phone.png')} />

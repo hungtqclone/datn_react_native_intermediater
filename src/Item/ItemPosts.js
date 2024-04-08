@@ -14,6 +14,8 @@ import AxiosInstance from '../components/helpers/Axiosintance';
 import { UserContext } from '../components/users/UserContext';
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { styleNumber } from '../styleSheets/styleJS';
+
 
 const ItemPosts = props => {
   const { data } = props;
@@ -230,7 +232,7 @@ const ItemPosts = props => {
                 position: 'absolute',
                 bottom: 38,
               }}>
-              {data.price} d
+              {styleNumber(data.price)} d
             </Text>
             <Text style={{ position: 'absolute', bottom: 15 }}>
               {data.location}

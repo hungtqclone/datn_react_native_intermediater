@@ -6,6 +6,7 @@ import PostnewsStack from '../components/navigation/PostnewsTabnavigation';
 import { TabView } from 'react-native-tab-view';
 import Foryou from './News/Foryou';
 import Shopstores from './DetailCategories/shopstores';
+import { styleNumber } from '../styleSheets/styleJS';
 const data = [
     { id: 1, image: require('../../image/bannertet.jpg') },
     { id: 2, image: require('../../image/laptopbanner.jpg') }
@@ -88,7 +89,7 @@ const CategoriesDetail = (props) => {
                 <Image style={CGDStyles.imgproduct} source={{ uri: `${urlApi}${item.files}` }} />
                 <Text style={CGDStyles.txtnameproduct} >{item.title}</Text>
                 <Text style={CGDStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
-                <Text style={CGDStyles.txtprice} >{item.price}</Text>
+                <Text style={CGDStyles.txtprice} >{styleNumber(item.price)}</Text>
 
                 <View style={CGDStyles.contaiicontimeaddress}>
                     <Image style={CGDStyles.imgiconprofile} source={require('../../image/Phone.png')} />
@@ -116,7 +117,7 @@ const CategoriesDetail = (props) => {
                 </View>
                 <Image style={CGDStyles.icon} source={require('../assets/images/icons/icon_notification.png')} />
                 <TouchableOpacity
-                onPress={() => navigation.navigate('ChatNavigation')}
+                    onPress={() => navigation.navigate('ChatNavigation')}
                 >
                     <Image style={CGDStyles.icon} source={require('../assets/images/icons/icon_chat.png')} />
                 </TouchableOpacity>
@@ -193,7 +194,7 @@ const CategoriesDetail = (props) => {
                         </View>
                     </View>
                 </View>
-                <Shopstores />
+                {/* <Shopstores /> */}
                 <Foryou />
             </ScrollView>
 

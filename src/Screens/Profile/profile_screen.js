@@ -265,13 +265,13 @@ const Profile_screen = props => {
               <Text style={styles.txtMagOrderItem}>Tin đăng đã lưu</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate('SearchSaveNavigation')}
+              onPress={() => navigation.navigate('TransactionHistory')}
               style={styles.contMagOrderItemLeft}>
               <Image
                 source={require('../../assets/images/icons/icon_tag.png')}
                 style={styles.iconMagOrder1}
               />
-              <Text style={styles.txtMagOrderItem}>Tìm kiếm đã lưu</Text>
+              <Text style={styles.txtMagOrderItem}>Lịch sử giao dịch</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => navigation.navigate('ReviewStack')}

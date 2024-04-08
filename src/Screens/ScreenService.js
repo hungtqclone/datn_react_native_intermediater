@@ -98,7 +98,7 @@ export const uploadImage = async (formData) => {
   try {
     const response = await AxiosInstance('multipart/form-data')
       .post('api/postnews/upload', formData);
-      console.log("85 upload image resspone: ", response);
+    console.log("85 upload image resspone: ", response);
     return response.data;
   } catch (err) {
     console.log('Upload Image error:', err);
@@ -108,34 +108,34 @@ export const uploadImage = async (formData) => {
 
 export const getProductById = async (id) => {
   try {
-      const res = await AxiosInstance().get(`/api/postnews/get-by-id/${id}`);
-      // console.log('getProductById response', res.data);
-      return res.data;
+    const res = await AxiosInstance().get(`/api/postnews/get-by-id/${id}`);
+    // console.log('getProductById response', res.data);
+    return res.data;
   } catch (error) {
-      console.log("getProductById error", error);
-      throw error;
+    console.log("getProductById error", error);
+    throw error;
   }
 };
 
 export const getPostNewsByUserId = async (id) => {
   try {
-      const res = await AxiosInstance().get(`/api/postnews/user/${id}`);
-      // console.log( `/api/postnews/user/${id}`);
-      // console.log('getPostNewsByUserId response', res.data);
-      return res.data;
+    const res = await AxiosInstance().get(`/api/postnews/user/${id}`);
+    // console.log( `/api/postnews/user/${id}`);
+    // console.log('getPostNewsByUserId response', res.data);
+    return res.data;
   } catch (error) {
-      console.log("getPostNewsByUserId error", error);
-      throw error;
+    console.log("getPostNewsByUserId error", error);
+    throw error;
   }
 };
 export const getPostNewsByCategory = async (id) => {
   try {
-      const res = await AxiosInstance().get(`/api/postnews/${id}`);
-      // console.log('getPostNewsByCategory response', res.data);
-      return res.data;
+    const res = await AxiosInstance().get(`/api/postnews/${id}`);
+    // console.log('getPostNewsByCategory response', res.data);
+    return res.data;
   } catch (error) {
-      console.log("getPostNewsByCategory error", error);
-      throw error;
+    console.log("getPostNewsByCategory error", error);
+    throw error;
   }
 }
 

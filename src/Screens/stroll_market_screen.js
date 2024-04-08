@@ -4,14 +4,16 @@ import React from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import NearYouNavigation from '../components/navigation/NearYouNavigation';
 import ExploreNavigation from '../components/navigation/ExploreNavigation';
+import NearYou from './StrollScreenTab/NearYou';
+import Explore from './StrollScreenTab/Explore';
 const Tab = createMaterialTopTabNavigator();
 
 const StrollTabs = () => {
     return (
         <Tab.Navigator
             screenOptions={{ swipeEnabled: true, tabBarLabelStyle: { fontSize: 13, fontWeight: 'bold' }, }}>
-            <Tab.Screen name="NearYouNavigation" component={NearYouNavigation} options={{ tabBarLabel: 'Gần Bạn' }} />
-            <Tab.Screen name="ExploreNavigation" component={ExploreNavigation} options={{ tabBarLabel: 'Khám Phá' }} />
+            <Tab.Screen name="NearYou" component={NearYou} options={{ tabBarLabel: 'Gần Bạn' }} />
+            <Tab.Screen name="Explore" component={Explore} options={{ tabBarLabel: 'Khám Phá' }} />
         </Tab.Navigator>
     );
 }

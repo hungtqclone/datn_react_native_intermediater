@@ -49,10 +49,10 @@ const PostSaved = (props) => {
   };
   const onSavePost = async (postId) => {
     try {
-     // console.log('User ID:', userId);
+      // console.log('User ID:', userId);
       //console.log('Post ID:', postId);
       const response = await savePost(userId, postId);
-     // console.log('Save post response:', response);
+      // console.log('Save post response:', response);
       // Hiển thị thông báo sau khi lưu thành công
       //alert('Lưu bài viết thành công!');
       ongetSaved();
@@ -61,7 +61,7 @@ const PostSaved = (props) => {
     }
   };
   useEffect(() => {
-   // ongetProducts();
+    // ongetProducts();
     ongetSaved();
   }, []);
 
@@ -148,22 +148,22 @@ const PostSaved = (props) => {
         </View>
       </View>
       <View style={styles.container}>
-      {saved.length === 0 ? (
-        <Text style={styles.txtnoti}>
-          Bạn chưa lưu tin rao nào. Hãy bấm vào nút ❤️ ở tin rao để lưu lại và
-          xem sau.
-        </Text>
-       ) : (
-        <FlatList
-          //data={saved}
-           data={saved.filter(item => item.postId.userid._id !== userId)}
-          scrollEnabled={false}
-          keyExtractor={item => item._id.toString()}
-          renderItem={renderSaved}
-          // horizontal
-          numColumns={2}
-          showsHorizontalScrollIndicator={false}
-        />
+        {saved.length === 0 ? (
+          <Text style={styles.txtnoti}>
+            Bạn chưa lưu tin rao nào. Hãy bấm vào nút ❤️ ở tin rao để lưu lại và
+            xem sau.
+          </Text>
+        ) : (
+          <FlatList
+            //data={saved}
+            data={saved.filter(item => item.postId)}
+            scrollEnabled={false}
+            keyExtractor={item => item._id.toString()}
+            renderItem={renderSaved}
+            // horizontal
+            numColumns={2}
+            showsHorizontalScrollIndicator={false}
+          />
         )}
       </View>
       {/* {isLoading ? (
