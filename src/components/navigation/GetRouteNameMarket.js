@@ -45,6 +45,8 @@ export const GetRouteNameScroll = route => {
         return 'none';
     } else if (routeName?.includes('Explore')) {
         return 'none';
+    } else if (routeName?.includes('ChatNavigation')) {
+        return 'none';
     }
     return 'flex';
 };

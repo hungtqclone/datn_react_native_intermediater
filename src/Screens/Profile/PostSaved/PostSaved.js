@@ -13,6 +13,7 @@ import { Image } from '@rneui/base';
 import { getProduct } from '../../ScreenService';
 import { getPostSaved } from '../../ScreenService';
 import { UserContext } from '../../../components/users/UserContext';
+import { savePost } from '../../ScreenService';
 const PostSaved = (props) => {
   //link api
   const urlServer = 'https://datnapi-qelj.onrender.com/';
@@ -23,22 +24,21 @@ const PostSaved = (props) => {
   //lấy thông tin user
   const { user } = useContext(UserContext);
   const userId = user._id;
-  const ongetProducts = async () => {
-    try {
-      setIsLoading(true); // Set loading state to true before making the request
-      const products = await getProduct();
-      setProducts(products);
-      console.log('ds tin mới:', products[0]);
-      console.log('userId', products[0].userid._id);
-    } catch (error) {
-      console.log('Error fetching products:', error);
-    }
-    finally {
-      setIsLoading(false); // Set loading state to false after the request is complete
-    }
-  };
+  // const ongetProducts = async () => {
+  //   try {
+  //     setIsLoading(true); // Set loading state to true before making the request
+  //     const products = await getProduct();
+  //     setProducts(products);
+  //   } catch (error) {
+  //     console.log('Error fetching products:', error);
+  //   }
+  //   finally {
+  //     setIsLoading(false); // Set loading state to false after the request is complete
+  //   }
+  // };
   const ongetSaved = async () => {
     try {
+      console.log('userId', userId);
       const saved = await getPostSaved(userId);
       setSaved(saved);
 
@@ -47,8 +47,21 @@ const PostSaved = (props) => {
       console.error('không lấy được ds tin đã lưu:', error);
     }
   };
+  const onSavePost = async (postId) => {
+    try {
+     // console.log('User ID:', userId);
+      //console.log('Post ID:', postId);
+      const response = await savePost(userId, postId);
+     // console.log('Save post response:', response);
+      // Hiển thị thông báo sau khi lưu thành công
+      //alert('Lưu bài viết thành công!');
+      ongetSaved();
+    } catch (error) {
+      console.error('Error saving post:', error);
+    }
+  };
   useEffect(() => {
-    ongetProducts();
+   // ongetProducts();
     ongetSaved();
   }, []);
 
@@ -93,9 +106,11 @@ const PostSaved = (props) => {
       />
 
       <View style={styles.horizontalTextContainer}>
-        <TouchableOpacity style={styles.iconSave}>
+        <TouchableOpacity style={styles.iconSave}
+          onPress={() => onSavePost(item.postId._id)}
+        >
           <Image
-            source={require('../../../assets/images/icons/icon_heart.png')}
+            source={require('../../../assets/images/icons/heart.png')}
             style={styles.icontim}
           />
         </TouchableOpacity>
@@ -151,7 +166,7 @@ const PostSaved = (props) => {
         />
         )}
       </View>
-      {isLoading ? (
+      {/* {isLoading ? (
         <ActivityIndicator
           style={styles.loadingIcon}
           size="large"
@@ -173,7 +188,7 @@ const PostSaved = (props) => {
             />
           </View>
         </>
-      )}
+      )} */}
     </ScrollView>
   );
 };
@@ -241,9 +256,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 1,
     padding: 1,
-    // borderColor: 'Silver',
-    // borderWidth: 0.1,
     position: 'relative',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   horizontalImage: {
     width: '100%',
