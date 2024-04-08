@@ -76,14 +76,14 @@ const CategoriesDetail = (props) => {
 
     const nextScreenProductDetail = (idPostNews) => {
         console.log("next screen product detail with idPostNews = ", idPostNews)
-        navigation.navigate('DetailProduct', { id_product: idPostNews})
+        navigation.navigate('DetailProduct', { id_product: idPostNews })
     }
     const renderItemProduct = ({ item }) => {
         return (
-            <TouchableOpacity style={CGDStyles.productBody} 
-            onPress={() => 
-                nextScreenProductDetail(item._id)
-            }
+            <TouchableOpacity style={CGDStyles.productBody}
+                onPress={() =>
+                    nextScreenProductDetail(item._id)
+                }
             >
                 <Image style={CGDStyles.imgproduct} source={{ uri: `${urlApi}${item.files}` }} />
                 <Text style={CGDStyles.txtnameproduct} >{item.title}</Text>
@@ -115,7 +115,12 @@ const CategoriesDetail = (props) => {
                     <Image style={CGDStyles.imgSearch} source={require('../../image/search.png')} />
                 </View>
                 <Image style={CGDStyles.icon} source={require('../assets/images/icons/icon_notification.png')} />
-                <Image style={CGDStyles.icon} source={require('../assets/images/icons/icon_chat.png')} />
+                <TouchableOpacity
+                onPress={() => navigation.navigate('ChatNavigation')}
+                >
+                    <Image style={CGDStyles.icon} source={require('../assets/images/icons/icon_chat.png')} />
+                </TouchableOpacity>
+
             </View>
             <ScrollView
                 showsHorizontalScrollIndicator={false}
@@ -188,7 +193,7 @@ const CategoriesDetail = (props) => {
                         </View>
                     </View>
                 </View>
-                <Shopstores/>
+                <Shopstores />
                 <Foryou />
             </ScrollView>
 

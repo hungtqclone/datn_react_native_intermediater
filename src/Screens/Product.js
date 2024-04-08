@@ -152,7 +152,11 @@ const Product = (props) => {
                     <Image style={productStyles.imgSearch} source={require('../../image/search.png')} />
                 </View>
                 <Image style={productStyles.icon} source={require('../assets/images/icons/icon_notification.png')} />
+                <TouchableOpacity 
+                onPress={() => navigation.navigate('ChatNavigation')}
+                >
                 <Image style={productStyles.icon} source={require('../assets/images/icons/icon_chat.png')} />
+                </TouchableOpacity>
             </View>
 
             <ScrollView

@@ -18,14 +18,12 @@ import { getPostNewsByUserId, savePost } from './ScreenService';
 import Swiper from 'react-native-swiper';
 import { UserContext } from '../components/users/UserContext';
 import SweetAlert from 'react-native-sweet-alert';
-import { useNavigation } from '@react-navigation/native';
 const DetailProduct = (props) => {
   //lấy thông tin user
   const { user } = useContext(UserContext);
   const userId = user._id;
   //navigation
-  const { rating, totalReviews, navigation } = props;
-  // const navigation = useNavigation();
+  const { navigation, rating, totalReviews } = props;
   //link ảnh 
   const urlApi = 'https://datnapi.vercel.app/';
   //link api
@@ -40,7 +38,7 @@ const DetailProduct = (props) => {
   const [isLoadingProByUser, setIsLoadingProByUser] = useState(true);
   const [isLoadingProByCategory, setIsLoadingProByCategory] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState('');
-
+  const [title, setTitle] = useState('');
   const data = [
     { id: '1', question: 'Món hàng này còn không?' },
     { id: '2', question: 'Bạn có ship hàng không?' },
@@ -100,6 +98,7 @@ const DetailProduct = (props) => {
         setProducts(productData);
         setPhoneNumber(productData.userid.phone);
         setIsLoading(false);
+        setTitle(productData.title);
 
         if (productData && productData.userid) {
           const userPosts = await getPostNewsByUserId(productData.userid._id);
@@ -123,7 +122,7 @@ const DetailProduct = (props) => {
 
   return (
     <View style={styles.body}>
-      {/* <View style={styles.appbar}>
+      <View style={styles.appbar}>
         <TouchableOpacity
           style={styles.imgBack}
           onPress={() => navigation.goBack()}>
@@ -132,6 +131,12 @@ const DetailProduct = (props) => {
             style={styles.icon}
           />
         </TouchableOpacity>
+        <TouchableOpacity style={styles.btnTitle}>
+          <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
+            {title}
+          </Text>
+        </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.imgShare}
           onPress={() => console.log('share')}>
@@ -144,7 +149,7 @@ const DetailProduct = (props) => {
           style={styles.imgHeart}
           onPress={() => console.log('heart')}>
           <Image
-            source={require('../assets/images/icons/heart.png')}
+            source={require('../assets/images/icons/heart2.png')}
             style={styles.icon}
           />
         </TouchableOpacity>
@@ -156,7 +161,7 @@ const DetailProduct = (props) => {
             style={styles.icon}
           />
         </TouchableOpacity>
-      </View> */}
+      </View>
       {isLoading ? (
         <ActivityIndicator
           style={styles.loadingIcon}
@@ -503,7 +508,7 @@ const DetailProduct = (props) => {
 
             <TouchableOpacity
               style={styles.bottomtab2}
-              onPress={() => navigation.navigate('Chat', { data: products.userid })}>
+              onPress={() => console.log('Check pressed')}>
               <Image
                 source={require('../assets/images/icons/icon_chat.png')}
                 style={styles.iconc}
@@ -876,7 +881,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 60,
     flexDirection: 'row',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 10,
   },
@@ -1221,5 +1226,16 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 300,
   },
+  title: {
+    // width: '40%',
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: 'black',
 
+  },
+  btnTitle: {
+    width: "50%",
+    position: 'absolute',
+    left: 50,
+  },
 });

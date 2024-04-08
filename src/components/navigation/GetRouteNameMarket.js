@@ -52,9 +52,9 @@ export const GetRouteNameScroll = route => {
 };
 export const GetRouteNameManament = route => {
     const routeName = getFocusedRouteNameFromRoute(route);
-    if (routeName?.includes('ManagementHNavigation')) {
+    if (routeName?.includes('TopTabManagementPosts')) {
         return 'none';
-    } else if (routeName?.includes('ManagementPNavigation')) {
+    } else if (routeName?.includes('ChatNavigation')) {
         return 'none';
     } else if (routeName?.includes('PostsPresently')) {
         return 'none';
@@ -65,3 +65,13 @@ export const GetRouteNameManament = route => {
     }
     return 'flex';
 };
+
+export const GetRouteNameHome = route => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    if (routeName?.includes('DetailProduct')) {
+        return 'none';
+    } else if (routeName?.includes('ChatNavigation')) 
+        return 'none';
+    return 'flex';
+};
+
