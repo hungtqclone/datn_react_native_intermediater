@@ -35,6 +35,7 @@ const ProductNavigation = () => {
       <Stack.Screen name="DetailProduct" component={DetailProduct} />
       <Stack.Screen name="Foryou" component={Foryou} />
       <Stack.Screen name="ChatNavigation" component={ChatNavigation} />
+      <Stack.Screen name="Chat" component={Chat} />
     </Stack.Navigator>
   );
 };

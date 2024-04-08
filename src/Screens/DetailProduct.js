@@ -508,7 +508,7 @@ const DetailProduct = (props) => {
 
             <TouchableOpacity
               style={styles.bottomtab2}
-              onPress={() => console.log('Check pressed')}>
+              onPress={() => navigation.navigate('Chat', { data: products.userid })}>
               <Image
                 source={require('../assets/images/icons/icon_chat.png')}
                 style={styles.iconc}
