@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react'
 import { getBrands, getProductByidCate } from './ScreenService'
 import { productStyles } from '../styleSheets/ProductStyles'
 import PostnewsStack from '../components/navigation/PostnewsTabnavigation'
+import { urlAPI } from '../components/helpers/urlAPI'
+urlAPI
 const data = [
     { id: 1, title: 'Điện thoại' },
     { id: 2, title: 'Giá' },
@@ -38,6 +40,8 @@ const Product = (props) => {
     const [post, setPostNews] = useState([]);
     const [brand, setBrands] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingPage, setIsLoadingPage] = useState(false)
+    const [page, setPage] = useState(1)
     urlApi = 'https://datnapi-qelj.onrender.com/'
     const ongetBrands = async () => {
         const brands = await getBrands(idCate);
@@ -56,6 +60,18 @@ const Product = (props) => {
         ongetBrands(), ongetPosst();
         console.log('id', idCate);
     }, [idCate]);
+    useEffect(() => {
+        fetchData()
+    }, [page]);
+
+    const fetchData = () => {
+        setIsLoadingPage(true)
+        console.log(page)
+        setTimeout(() => {
+            //chạy api load data page mới tại đây
+            setIsLoadingPage(false);
+        }, 2000)
+    }
     const numColumns = Math.ceil(dataAddress.length / 2);
     const renderFill = ({ item, index }) => {
         return (
@@ -112,6 +128,19 @@ const Product = (props) => {
             </Pressable>
         );
     }
+    const renderFooter = () => {
+        return isLoadingPage ? (
+            <View style={{ paddingVertical: 20 }}>
+                <ActivityIndicator size="large" color="#3498db" />
+            </View>
+        ) : null;
+    };
+
+    const handleLoadMore = () => {
+        if (!isLoadingPage) {
+            setPage(prevPage => prevPage + 1);
+        }
+    };
     return (
         <View style={productStyles.body}>
 
@@ -124,7 +153,7 @@ const Product = (props) => {
                 <Image style={productStyles.icon} source={require('../../image/chatting.png')} />
             </View>
             <ScrollView
-            scrollEnabled={true}
+                scrollEnabled={true}
             >
                 <View style={productStyles.contaicity}>
                     <View style={productStyles.viewrow}>
@@ -199,6 +228,9 @@ const Product = (props) => {
                             horizontal={false}
                             keyExtractor={item => item._id.toString()}
                             showsHorizontalScrollIndicator={false}
+                            ListFooterComponent={renderFooter}
+                            onEndReached={handleLoadMore}
+                            onEndReachedThreshold={0.5}
                         />
                     )}
 
