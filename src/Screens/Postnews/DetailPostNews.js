@@ -21,10 +21,10 @@ import React, {
   useCallback,
   useContext,
 } from 'react';
-import {Dropdown} from 'react-native-element-dropdown';
+import { Dropdown } from 'react-native-element-dropdown';
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
-import {BottomSheet} from '@rneui/base';
+import { BottomSheet } from '@rneui/base';
 import {
   getCategory,
   getDetailCategory,
@@ -32,11 +32,11 @@ import {
   getBrands,
   uploadImage,
 } from '../ScreenService';
-import {PNStyles} from '../../styleSheets/DetailPostNewsStyles';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {UserContext} from '../../components/users/UserContext';
+import { PNStyles } from '../../styleSheets/DetailPostNewsStyles';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { UserContext } from '../../components/users/UserContext';
 import ImagePicker from 'react-native-image-crop-picker';
-import {Icon} from 'react-native-paper';
+import { Icon } from 'react-native-paper';
 import Postnews from '../Postnews';
 
 const DetailPostnews = props => {
@@ -46,10 +46,10 @@ const DetailPostnews = props => {
   const [modalVisibleAddress, setModalVisibleAddress] = useState(false);
   const [categories, setCategories] = useState([]);
   const [idCategory, setIdCategory] = useState('');
-  const {navigation, route} = props;
-  const {user, setuser} = useContext(UserContext);
-  const {params} = route;
-  const {_id, name} = params;
+  const { navigation, route } = props;
+  const { user, setuser } = useContext(UserContext);
+  const { params } = route;
+  const { _id, name } = params;
   const [idPost, setIdPost] = useState(_id);
   const [namePost, setName] = useState(name);
   urlApi = 'http://datnapi.vercel.app/';
@@ -198,7 +198,9 @@ const DetailPostnews = props => {
       setModalVisible(false);
     }
   };
-  const CloseModelImage = () => {};
+  const CloseModelImage = () => {
+    navigation.goBack();
+  };
   const ongetCategory = async () => {
     const categories = await getCategory();
     setCategories(categories);
@@ -365,13 +367,13 @@ const DetailPostnews = props => {
     brandid,
   ]);
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
       <TouchableOpacity
         style={PNStyles.contaitong}
         onPress={() => handleTouchableOpacityPress(item._id, item.name)}>
         <View style={PNStyles.contaiimg}>
-          <Image style={PNStyles.img} source={{uri: `${urlApi}${item.icon}`}} />
+          <Image style={PNStyles.img} source={{ uri: `${urlApi}${item.icon}` }} />
         </View>
         <View style={PNStyles.contaiCity}>
           <Text style={PNStyles.txtCity}>{item.name}</Text>
@@ -452,7 +454,7 @@ const DetailPostnews = props => {
                         source={require('../../../image/icon_cross.png')}
                       />
                     </Pressable>
-                    <Image style={PNStyles.imgTool} source={{uri}}></Image>
+                    <Image style={PNStyles.imgTool} source={{ uri }}></Image>
                   </View>
                 ))}
               </ScrollView>
@@ -471,35 +473,37 @@ const DetailPostnews = props => {
             placeholder="Tình trạng"
             style={PNStyles.inputTT}
           />
-          <View  style={PNStyles.picker}>
-          <Dropdown
-                  style={{width: '100%',
-                  // height: 50,
-                  borderBottomColor: 'gray',
-                  borderBottomWidth: 0.5,
-                  height: 50,
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: 5,
-                  borderColor: '#ebebeb',
-                  borderWidth: 1,
-                  borderRadius: 5,}}
-                  placeholderStyle={PNStyles.placeholderStyle}
-                  selectedTextStyle={PNStyles.selectedTextStyle}
-                  inputSearchStyle={PNStyles.inputSearchStyle}
-                  iconStyle={PNStyles.iconStyle}
-                  data={brand}
-                  // maxHeight={300}
-                  labelField="nameBrand" // Change "label" to "name"
-                  valueField="_id" // Change "value" to "code"
-                  placeholder="Hãng"
-                
-                  value={selectedBrandId} // Use selectedCity as the value
-                  onChange={selectedBrandId => {
-                    setSelectedBrandId(selectedBrandId._id);
-                  }}
-                />
-          {/* <Picker
+          <View style={PNStyles.picker}>
+            <Dropdown
+              style={{
+                width: '100%',
+                // height: 50,
+                borderBottomColor: 'gray',
+                borderBottomWidth: 0.5,
+                height: 50,
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: 5,
+                borderColor: '#ebebeb',
+                borderWidth: 1,
+                borderRadius: 5,
+              }}
+              placeholderStyle={PNStyles.placeholderStyle}
+              selectedTextStyle={PNStyles.selectedTextStyle}
+              inputSearchStyle={PNStyles.inputSearchStyle}
+              iconStyle={PNStyles.iconStyle}
+              data={brand}
+              // maxHeight={300}
+              labelField="nameBrand" // Change "label" to "name"
+              valueField="_id" // Change "value" to "code"
+              placeholder="Hãng"
+
+              value={selectedBrandId} // Use selectedCity as the value
+              onChange={selectedBrandId => {
+                setSelectedBrandId(selectedBrandId._id);
+              }}
+            />
+            {/* <Picker
             selectedValue={selectedBrandId}
             onValueChange={(itemValue, itemIndex) =>
               handleBrandChange(itemValue)
@@ -512,7 +516,7 @@ const DetailPostnews = props => {
               />
             ))}
           </Picker> */}
-        </View>
+          </View>
           <TextInput
             value={price}
             onChangeText={setPrice}
@@ -535,7 +539,7 @@ const DetailPostnews = props => {
             onChangeText={setDetail}
             multiline={true}
             underlineColorAndroid='transparent'
-          
+
             placeholder="Mô tả chi tiết"
             style={PNStyles.inputTTMT}
           />
@@ -566,7 +570,7 @@ const DetailPostnews = props => {
               source={require('../../../image/down.png')}></Image>
           </Pressable>
         </View>
-        
+
         {/* <View>
           {details.map((detail, index) => (
             <View key={index} style={PNStyles.viewTIP}>
@@ -684,7 +688,7 @@ const DetailPostnews = props => {
                     disabled={selectedImages.length >= 5}>
                     <Image
                       style={PNStyles.imgSelect}
-                      source={{uri: image[0]}}></Image>
+                      source={{ uri: image[0] }}></Image>
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity

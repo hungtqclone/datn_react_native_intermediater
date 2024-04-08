@@ -44,8 +44,8 @@ export const Product = StyleSheet.create({
         shadowRadius: 3,
         elevation: 10,
     },
-    txpserch:{
-        width:'100%'
+    txpserch: {
+        width: '100%'
     },
     contaitong: {
         marginBottom: 10,
@@ -106,43 +106,43 @@ export const Product = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 20,
-      },
-      modalView: {
-      flex:1,
+    },
+    modalView: {
+        flex: 1,
         backgroundColor: 'white',
         borderRadius: 20,
         padding: 10,
         alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: {
-          width: 0,
-          height: 2,
+            width: 0,
+            height: 2,
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-      },
-      button: {
+    },
+    button: {
         borderRadius: 20,
         padding: 10,
         elevation: 2,
-      },
-      buttonOpen: {
+    },
+    buttonOpen: {
         backgroundColor: '#F194FF',
-      },
-      buttonClose: {
+    },
+    buttonClose: {
         backgroundColor: '#2196F3',
-      },
-      textStyle: {
+    },
+    textStyle: {
         color: 'white',
         fontWeight: 'bold',
         textAlign: 'center',
-      },
-      modalText: {
+    },
+    modalText: {
         marginBottom: 15,
         textAlign: 'center',
-      },
-      overlay: {
+    },
+    overlay: {
         position: 'absolute',
         top: 0,
         bottom: 0,

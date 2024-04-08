@@ -49,7 +49,7 @@ const PostsPresently = (props) => {
                     data={posts}
                     renderItem={({ item }) =>
                     (<TouchableOpacity
-                        onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })}
+                        onPress={() => navigation.navigate('DetailProducts', { id_product: item._id })}
                     >
                         <ItemPosts data={item} navigation={navigation} />
                     </TouchableOpacity>)

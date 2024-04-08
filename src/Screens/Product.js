@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity, Pressable, ActivityIndicator } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { getBrands, getProductByidCate } from './ScreenService'
 import { productStyles } from '../styleSheets/ProductStyles'
 import PostnewsStack from '../components/navigation/PostnewsTabnavigation'
@@ -124,7 +124,10 @@ const Product = (props) => {
                         <Text style={productStyles.txtTime} > - {item.created_AT} - </Text>
                         <Text style={productStyles.txtAdress} >{item.location}</Text>
                     </View>
+
                 </View>
+                <Image style={[productStyles.iconVip, { display: item.isVip ? 'flex' : 'none' }]} source={{ uri: 'https://cdn.pixabay.com/photo/2013/07/12/14/10/star-147919_1280.png' }} />
+
             </Pressable>
         );
     }
@@ -149,9 +152,10 @@ const Product = (props) => {
                     <TextInput style={productStyles.txpSearch} placeholder='Tìm kiếm trên chợ tốt' />
                     <Image style={productStyles.imgSearch} source={require('../../image/search.png')} />
                 </View>
-                <Image style={productStyles.icon} source={require('../../image/notificaiton.png')} />
-                <Image style={productStyles.icon} source={require('../../image/chatting.png')} />
+                <Image style={productStyles.icon} source={require('../assets/images/icons/icon_notification.png')} />
+                <Image style={productStyles.icon} source={require('../assets/images/icons/icon_chat.png')} />
             </View>
+
             <ScrollView
                 scrollEnabled={true}
             >
@@ -230,7 +234,7 @@ const Product = (props) => {
                             showsHorizontalScrollIndicator={false}
                             ListFooterComponent={renderFooter}
                             onEndReached={handleLoadMore}
-                            onEndReachedThreshold={0.5}
+                            onEndReachedThreshold={1}
                         />
                     )}
 

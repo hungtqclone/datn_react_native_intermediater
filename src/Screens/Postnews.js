@@ -35,15 +35,15 @@ const Postnews = (props) => {
         setIdCategory(idCategory); setCategories([])
     }
 
-    const nextPostNews = (_id,name) => {
-        navigation.navigate('DetailPostnews',{_id,name});
+    const nextPostNews = (_id, name) => {
+        navigation.navigate('DetailPostnews', { _id, name });
     }
 
     const renderItem = ({ item, index }) => {
 
         return (
-            <TouchableOpacity style={Product.contaitong} onPress={() => nextPostNews(item._id,item.name)}>
-                 {/* onPress={({ }) => { idCategory ? nextPostNews(item._id) : onClickCategory(item._id) }} */}
+            <TouchableOpacity style={Product.contaitong} onPress={() => nextPostNews(item._id, item.name)}>
+                {/* onPress={({ }) => { idCategory ? nextPostNews(item._id) : onClickCategory(item._id) }} */}
                 <View style={Product.contaiimg}>
                     <Image style={Product.img} source={{ uri: `${urlApi}${item.icon}` }} />
                 </View>
@@ -61,7 +61,7 @@ const Postnews = (props) => {
     return (
         <View style={Product.Container}>
             <View style={Product.contaiappbar}>
-                <Pressable style={Product.pres} >
+                <Pressable style={[Product.pres, { display: 'none' }]} >
                     <Image source={require('../../image/back.png')} />
                 </Pressable>
                 <View style={Product.contaitxt}>

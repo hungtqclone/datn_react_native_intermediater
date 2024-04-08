@@ -9,196 +9,196 @@ export const PNStyles = StyleSheet.create({
     },
     containerse: {
         width: '100%',
-        height: 70,
+        height: 50,
         backgroundColor: "#FFBF17",
         flexDirection: 'row',
         alignItems: 'center',
         alignContent: 'space-around',
         padding: 10,
     },
-    iconchotot:{
-        marginLeft:100,
-        width:100,
-        height:50,
+    iconchotot: {
+        marginLeft: 100,
+        width: 100,
+        height: 50,
     },
-    presContai:{
-        borderRadius:5,
+    presContai: {
+        borderRadius: 5,
         width: '95%',
         flexDirection: 'row',
         alignItems: 'center',
-        borderWidth:0.5,
-        borderColor:'grey',
-        alignContent:'space-between',
-        margin:10,
-        marginBottom:20,
+        borderWidth: 0.5,
+        borderColor: 'grey',
+        alignContent: 'space-between',
+        margin: 10,
+        marginBottom: 20,
     },
-    contaicolum:{
-        padding:10,
-        width:'93%',
-        flexDirection:'column',
+    contaicolum: {
+        padding: 10,
+        width: '93%',
+        flexDirection: 'column',
     },
-    contairow:{
-        flexDirection:'row',
+    contairow: {
+        flexDirection: 'row',
     },
-    imgDow:{
-        width:15,
-        height:15,
+    imgDow: {
+        width: 15,
+        height: 15,
     },
-    txtCate:{
-        fontSize:13,
-        
-    },
-    txtContent:{
-        fontSize:16,
-        color:'black'
-    },
-    viewtile:{
-        padding:10,
-        flexDirection:'column',
-        backgroundColor:'#F4F4F4',
-    },
-    viewrow:{
-        flexDirection:'row',
-    },
-    txtTT:{
-        fontSize:16,
-        color:'grey'
-    },
-    txtQD:{
-        color:'blue',
-    },
-
-    contaiupload:{
-        padding:10,
-        width:'100%',
+    txtCate: {
+        fontSize: 13,
 
     },
-    tcouploadimg:{
-        marginTop:15,
-        width:'100%',
-        height:150,
-        justifyContent:'center',
-        alignItems:'center',
-        borderRadius:5,
-        backgroundColor:'#F4F4F4',
-        borderWidth:1,
-        borderColor:'#FF8800'
+    txtContent: {
+        fontSize: 16,
+        color: 'black'
     },
-    txtloadimg:{
-        marginTop:10,
-        fontSize:14,
-        fontWeight:'bold',
+    viewtile: {
+        padding: 10,
+        flexDirection: 'column',
+        backgroundColor: '#F4F4F4',
     },
-    txtThang:{
-        fontSize:14,
-        fontWeight:'bold',
+    viewrow: {
+        flexDirection: 'row',
     },
-    inputTT:{
-        marginTop:10,
-        width:'100%',
-        height:50,
-        borderRadius:5,
-        borderWidth:0.5,
+    txtTT: {
+        fontSize: 16,
+        color: 'grey'
     },
-    inputTTMT:{
-        marginTop:15,
-        width:'100%',
-        maxHeight:100,
-        borderRadius:5,
-        borderWidth:0.5,
+    txtQD: {
+        color: 'blue',
     },
-    presAddres:{
-        borderRadius:5,
+
+    contaiupload: {
+        padding: 10,
         width: '100%',
-        height:50,
+
+    },
+    tcouploadimg: {
+        marginTop: 15,
+        width: '100%',
+        height: 150,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5,
+        backgroundColor: '#F4F4F4',
+        borderWidth: 1,
+        borderColor: '#FF8800'
+    },
+    txtloadimg: {
+        marginTop: 10,
+        fontSize: 14,
+        fontWeight: 'bold',
+    },
+    txtThang: {
+        fontSize: 14,
+        fontWeight: 'bold',
+    },
+    inputTT: {
+        marginTop: 10,
+        width: '100%',
+        height: 50,
+        borderRadius: 5,
+        borderWidth: 0.5,
+    },
+    inputTTMT: {
+        marginTop: 15,
+        width: '100%',
+        maxHeight: 100,
+        borderRadius: 5,
+        borderWidth: 0.5,
+    },
+    presAddres: {
+        borderRadius: 5,
+        width: '100%',
+        height: 50,
         flexDirection: 'row',
         alignItems: 'center',
-        borderWidth:0.5,
-        borderColor:'grey',
-        alignContent:'space-between',
+        borderWidth: 0.5,
+        borderColor: 'grey',
+        alignContent: 'space-between',
     },
 
-    contaiBtn:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        alignItems:'center',
-        width:'100%',
-        padding:10,
-        marginVertical:10,
+    contaiBtn: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+        padding: 10,
+        marginVertical: 10,
     },
-    btnXT:{
-        width:'47%',
-        borderWidth:0.5,
-        borderColor:'#FF8800',
-        borderRadius:5,
+    btnXT: {
+        width: '47%',
+        borderWidth: 0.5,
+        borderColor: '#FF8800',
+        borderRadius: 5,
     },
-    btnDT:{
-        width:'47%',
-        backgroundColor:'#FF8800',
-        borderRadius:5,
+    btnDT: {
+        width: '47%',
+        backgroundColor: '#FF8800',
+        borderRadius: 5,
 
     },
-    txtXT:{
-        textAlign:'center',
-        padding:10,
-        color:'#FF8800'
+    txtXT: {
+        textAlign: 'center',
+        padding: 10,
+        color: '#FF8800'
     },
-    txtDT:{
-        textAlign:'center',
-        padding:10,
-        color:'white'
+    txtDT: {
+        textAlign: 'center',
+        padding: 10,
+        color: 'white'
 
     },
     // MOdel 
     centeredView: {
-       
+
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 20,
-      },
-      modalView: {
-        width:'100%',
-      flex:1,
+    },
+    modalView: {
+        width: '100%',
+        flex: 1,
         backgroundColor: 'white',
         borderRadius: 5,
         shadowColor: '#000',
         shadowOffset: {
-          width: 0,
-          height: 2,
+            width: 0,
+            height: 2,
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-      },
-      button: {
+    },
+    button: {
         borderRadius: 20,
         padding: 10,
         elevation: 2,
-      },
-      buttonOpen: {
+    },
+    buttonOpen: {
         backgroundColor: '#F194FF',
-      },
-      buttonClose: {
+    },
+    buttonClose: {
         backgroundColor: '#2196F3',
-      },
-      textStyle: {
+    },
+    textStyle: {
         color: 'white',
         fontWeight: 'bold',
         textAlign: 'center',
-      },
-      modalText: {
+    },
+    modalText: {
         marginBottom: 15,
         textAlign: 'center',
-      },
-      overlay: {
+    },
+    overlay: {
         position: 'absolute',
         top: 0,
         bottom: 0,
         left: 0,
         right: 0,
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        zIndex: 1 
+        zIndex: 1
     },
     // POsst
     Container: {
@@ -245,8 +245,8 @@ export const PNStyles = StyleSheet.create({
         shadowRadius: 3,
         elevation: 10,
     },
-    txpserch:{
-        width:'100%'
+    txpserch: {
+        width: '100%'
     },
     contaitong: {
         marginBottom: 10,
@@ -303,80 +303,80 @@ export const PNStyles = StyleSheet.create({
     },
 
     // MOdel Image
-    viewModel2:{
+    viewModel2: {
         width: '100%',
-        flexDirection:'row',
-        justifyContent:'space-between',
-        alignItems:'center',
-        alignContent:'center',
-        padding:15,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        alignContent: 'center',
+        padding: 15,
     },
-    imgpicture:{
-        width:15,
-        height:15,
-        marginRight:10
+    imgpicture: {
+        width: 15,
+        height: 15,
+        marginRight: 10
     },
-    txtGDMD:{
-        marginLeft:50,
-        fontSize:20,
-        fontWeight:'600',
-        color:'black'
+    txtGDMD: {
+        marginLeft: 50,
+        fontSize: 20,
+        fontWeight: '600',
+        color: 'black'
     },
-    viewMD:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        alignItems:'center',
-        alignContent:'center',
-        
-    },
-    tcouploadimg2:{
-        width:'40%',
-        height:150,
-        justifyContent:'center',
-        alignItems:'center',
-        backgroundColor:'#F4F4F4',
-        
-    },
-    txtloadimg2:{
-        color:'#FF8800',
-        marginTop:10,
-        fontSize:14,
-        fontWeight:'bold',
-        textAlign:'center',
-    },
-    viewImage:{
-        marginHorizontal:5,
-        width:'40%',
-        height:150,
-        justifyContent:'center',
-        alignItems:'center',
-    },
-    viewROW:{
-        flexDirection:'row',
-        height:'80%'
-        
-    },
-    imgSelect:{
-        width:150,
-        height:150,
-       
-    },
-    btnModelTT:{
-        width:'90%',
-        backgroundColor:'grey',
-        borderRadius:3,
+    viewMD: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        alignContent: 'center',
 
     },
-    txtModelTT:{
-        textAlign:'center',
-        fontSize:20,
-        color:'white',
-        padding:5,
-        fontVariant:'bold'
+    tcouploadimg2: {
+        width: '40%',
+        height: 150,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F4F4F4',
 
     },
-    viewAl:{
-        width:'100%',
+    txtloadimg2: {
+        color: '#FF8800',
+        marginTop: 10,
+        fontSize: 14,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    viewImage: {
+        marginHorizontal: 5,
+        width: '40%',
+        height: 150,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    viewROW: {
+        flexDirection: 'row',
+        height: '80%'
+
+    },
+    imgSelect: {
+        width: 150,
+        height: 150,
+
+    },
+    btnModelTT: {
+        width: '90%',
+        backgroundColor: 'grey',
+        borderRadius: 3,
+
+    },
+    txtModelTT: {
+        textAlign: 'center',
+        fontSize: 20,
+        color: 'white',
+        padding: 5,
+        fontVariant: 'bold'
+
+    },
+    viewAl: {
+        width: '100%',
         alignContent: 'bottom',
         alignItems: 'center',
     },
@@ -391,97 +391,97 @@ export const PNStyles = StyleSheet.create({
         alignContent: 'space-between',
         padding: 10,
     },
-    txtModelAdress:{
-        fontSize:20,
-        fontWeight:'600',
-        color:'black',
-        marginLeft:'30%',
+    txtModelAdress: {
+        fontSize: 20,
+        fontWeight: '600',
+        color: 'black',
+        marginLeft: '30%',
     },
 
     // detail model
-    contaiupModeladdress:{
-        padding:10,
-        width:'100%',
+    contaiupModeladdress: {
+        padding: 10,
+        width: '100%',
 
     },
-    tcouploadimg:{
-        marginTop:15,
-        width:'100%',
-        height:150,
-        justifyContent:'center',
-        alignItems:'center',
-        borderRadius:5,
-        backgroundColor:'#F4F4F4',
-        borderWidth:1,
-        borderColor:'#FF8800'
-    },
-    pressAddMD:{
-        borderRadius:5,
+    tcouploadimg: {
+        marginTop: 15,
         width: '100%',
-        height:50,
+        height: 150,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5,
+        backgroundColor: '#F4F4F4',
+        borderWidth: 1,
+        borderColor: '#FF8800'
+    },
+    pressAddMD: {
+        borderRadius: 5,
+        width: '100%',
+        height: 50,
         flexDirection: 'row',
         alignItems: 'center',
-        borderWidth:0.5,
-        borderColor:'grey',
-        alignContent:'space-between',
+        borderWidth: 0.5,
+        borderColor: 'grey',
+        alignContent: 'space-between',
     },
-    txtAddressDetail:{
-        color:'grey',
-        fontSize:10,
-        fontWeight:'bold',
+    txtAddressDetail: {
+        color: 'grey',
+        fontSize: 10,
+        fontWeight: 'bold',
     },
-    txtAddressDetails:{
-        color:'black',
-        fontSize:16,
+    txtAddressDetails: {
+        color: 'black',
+        fontSize: 16,
     },
-    inputDCCT:{
-        width:'100%',
-        height:50,
-        borderRadius:5,
-        borderWidth:0.3,
+    inputDCCT: {
+        width: '100%',
+        height: 50,
+        borderRadius: 5,
+        borderWidth: 0.3,
     },
 
     // model img toôl
-    contaiModelimageto:{
-        flexDirection:'row',
-        justifyContent:'flex-start'
+    contaiModelimageto: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start'
     },
 
-    tcouploadimgTool:{
-       marginRight:10,
-        width:100,
-        height:100,
-        justifyContent:'flex-start',
-        alignItems:'center',
-        borderRadius:5,
-        backgroundColor:'#F4F4F4',
-        borderWidth:1,
-        borderColor:'#FF8800'
+    tcouploadimgTool: {
+        marginRight: 10,
+        width: 100,
+        height: 100,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        borderRadius: 5,
+        backgroundColor: '#F4F4F4',
+        borderWidth: 1,
+        borderColor: '#FF8800'
     },
-    txtloadimgtool:{
-        marginTop:10,
-        fontSize:14,
-        color:'#FF8800'
+    txtloadimgtool: {
+        marginTop: 10,
+        fontSize: 14,
+        color: '#FF8800'
     },
-    imgTool:{
-        width:100,
-        height:100,
+    imgTool: {
+        width: 100,
+        height: 100,
     },
-    bodyimageto:{
-        marginRight:10,
+    bodyimageto: {
+        marginRight: 10,
         position: 'relative',
     },
-    btnTool:{
+    btnTool: {
         position: 'absolute',
-        zIndex:1,
-        right:-4,
-        top:-4,
-        justifyContent:'center',
-        alignItems:'center',
+        zIndex: 1,
+        right: -4,
+        top: -4,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    icon:{
-        width:20,
-        height:20,
+    icon: {
+        width: 20,
+        height: 20,
     },
 
 
@@ -499,23 +499,23 @@ export const PNStyles = StyleSheet.create({
         borderColor: '#ebebeb',
         borderWidth: 1,
         borderRadius: 5,
-      },
-      placeholderStyle: {
+    },
+    placeholderStyle: {
         fontSize: 16,
         color: 'gray',
-      },
-      selectedTextStyle: {
+    },
+    selectedTextStyle: {
         fontSize: 16,
-      },
-      iconStyle: {
+    },
+    iconStyle: {
         width: 20,
         height: 20,
-      },
-      inputSearchStyle: {
+    },
+    inputSearchStyle: {
         // height: 40,
         fontSize: 16,
-      },
-      contAddres: {
+    },
+    contAddres: {
         width: '100%',
         height: 60,
         padding: 5,
@@ -525,50 +525,49 @@ export const PNStyles = StyleSheet.create({
         borderRadius: 5,
         justifyContent: 'center',
         marginTop: 20,
-      },
-      inputWard: {
+    },
+    inputWard: {
         borderWidth: 0,
         borderBottomColor: 'transparent', // Đặt màu border thành trong suốt
         borderBottomWidth: 0, // Đặt độ rộng border là 0
         fontSize: 15,
         // width: '90%',
-      },
-      bottomSheetContainer: {
+    },
+    bottomSheetContainer: {
         backgroundColor: '#fff',
         padding: 16,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
-      },
-      bottomSheetCloseButton: {
+    },
+    bottomSheetCloseButton: {
         marginTop: 10,
         alignItems: 'center',
         backgroundColor: 'silver',
         padding: 10,
         borderRadius: 5,
-      },
-      bottomSheetCloseButtonText: {
+    },
+    bottomSheetCloseButtonText: {
         fontSize: 18,
         color: '#fff',
-      },
-      contDialog: {
+    },
+    contDialog: {
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 20,
-      },
-      viewTIP: {
+    },
+    viewTIP: {
         flexDirection: 'row',
-        justifyContent:'space-between',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        
-      },
-      drop2:{
-            width:100,
-      },
-      picker:{
-        marginTop:10,
-        borderRadius:6,
-        borderWidth:1,
-        borderColor:'grey',
-      }
+
+    },
+    drop2: {
+        width: 100,
+    },
+    picker: {
+        marginTop: 10,
+        borderRadius: 6,
+        borderWidth: 1,
+        borderColor: 'grey',
+    }
 });
- 

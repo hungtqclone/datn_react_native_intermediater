@@ -37,6 +37,8 @@ export const productStyles = StyleSheet.create({
     },
     icon: {
         marginHorizontal: 5,
+        width: 30,
+        height: 30,
     },
     contaiBanner: {
         height: 120,
@@ -256,6 +258,13 @@ export const productStyles = StyleSheet.create({
         fontSize: 12,
         color: 'grey'
     },
+    iconVip: {
+        width: 18,
+        height: 18,
+        position: 'absolute',
+        right: 5,
+        top: 9
+    }
 
 
 

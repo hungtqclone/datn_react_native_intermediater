@@ -52,7 +52,7 @@ const PostsHidden = (props) => {
                     data={posts}
                     renderItem={({ item }) => (
                         <TouchableOpacity
-                            onPress={() => navigation.navigate('DetailProduct', { id_product: posts._id })}
+                            onPress={() => navigation.navigate('DetailProducts', { id_product: posts._id })}
                         >
                             <ItemPosts data={item} />
                         </TouchableOpacity>)}
