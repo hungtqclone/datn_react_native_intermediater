@@ -9,9 +9,9 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { Image } from '@rneui/base';
-import { getProduct } from '../../ScreenService';
+import React, {useState, useEffect} from 'react';
+import {Image} from '@rneui/base';
+import {getProduct} from '../../ScreenService';
 import Product from '../../Product';
 const horizontalData = [
   {
@@ -49,7 +49,7 @@ const SavedSearchScreen = props => {
   const urlServer = 'https://datnapi-qelj.onrender.com//';
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { navigation } = props;
+  const {navigation} = props;
   const ongetProducts = async () => {
     try {
       setIsLoading(true); // Set loading state to true before making the request
@@ -65,30 +65,34 @@ const SavedSearchScreen = props => {
     ongetProducts();
   }, []);
   const renderItem = ({item, index}) => (
-    <TouchableOpacity key={index} style={styles.horizontalItem}
-    onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })} >
-      <Image
-        source={{ uri: `${urlServer}${item.files[0]}` }}
+    <TouchableOpacity
+      key={index}
+      style={styles.horizontalItem}
+      onPress={() =>
+        navigation.navigate('DetailProduct', {id_product: item._id})
+      }>
+      {/* <Image
+        source={{uri: `${urlServer}${item.files[0]}`}}
         style={styles.horizontalImage}
-      />
+      /> */}
       <View style={styles.horizontalTextContainer}>
         <TouchableOpacity style={styles.iconSave}>
-          <Image
+          {/* <Image
             source={require('../../../assets/images/icons/icon_heart.png')}
             style={styles.icontim}
-          />
+          /> */}
         </TouchableOpacity>
         <Text style={styles.horizontalname}>{item.title}</Text>
         <Text style={styles.horizontalrice}>{item.price} đ</Text>
         <View style={styles.contend}>
-          <Image
+          {/* <Image
             style={styles.iconbag}
             source={require('../../../assets/images/icons/icon_office_bag.png')}
-          />
-          <Image
+          /> */}
+          {/* <Image
             style={styles.icondot}
             source={require('../../../assets/images/icons/icon_dot.png')}
-          />
+          /> */}
           <Text style={styles.horizontaltime}>{item.created_AT}</Text>
         </View>
       </View>
@@ -107,16 +111,13 @@ const SavedSearchScreen = props => {
         </View>
         <View style={styles.appbarLeft}>
           <Text style={styles.appbarLeftText}>
-            Tìm kiếm đã lưu <Text>(0/5)</Text>
+            Lich sử giao dịch <Text></Text>
           </Text>
         </View>
       </View>
-      <View style={styles.container}>
-        <Text style={styles.txtnoti}>Bạn chưa lưu tìm kiếm nào</Text>
-      </View>
 
       <View style={styles.contNew}>
-        <Text style={styles.txtNew}>Tin đăng mới</Text>
+        <Text style={styles.txtNew}>Lịch sử giao dịch của bạn</Text>
         {isLoading ? (
           <ActivityIndicator
             style={styles.loadingIcon}

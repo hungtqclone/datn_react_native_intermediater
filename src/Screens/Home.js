@@ -170,7 +170,8 @@ const Home = props => {
             source={require('../../image/search.png')}
           />
         </View>
-        <TouchableOpacity onPress={() => console.log("ádasdsa")}>
+
+        <TouchableOpacity onPress={() => console.log('ádasdsa')}>
           <Image
             style={homeStyles.icon}
             source={require('../../image/notificaiton.png')}
