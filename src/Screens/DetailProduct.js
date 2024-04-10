@@ -485,7 +485,7 @@ const DetailProduct = (props) => {
             </View>
 
           </ScrollView>
-          <View style={styles.containerbottomtab}>
+          <View style={[styles.containerbottomtab, { display: products.userid._id == userId ? 'none' : 'flex' }]}>
             <TouchableOpacity
               style={styles.bottomtabcall}
               onPress={() => handleCallPress(phoneNumber)}>
@@ -978,6 +978,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     // paddingVertical: 15, // Điều chỉnh giá trị padding theo nhu cầu của bạn
     backgroundColor: '#FFF', // Màu nền của container
+
   },
   bottomtabmua: {
     flex: 2,
