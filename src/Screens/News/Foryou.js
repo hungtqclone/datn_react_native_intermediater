@@ -5,16 +5,16 @@ import { foryouStyles } from '../../styleSheets/ForyouStyles'
 import { getProduct } from '../ScreenService'
 import { useNavigation } from '@react-navigation/native';
 import { styleNumber } from '../../styleSheets/styleJS';
+import { urlAPI } from '../../components/helpers/urlAPI';
 
 const Foryou = (props) => {
     const [products, setProducts] = useState([]);
     // const { navigation } = props
     const navigation = useNavigation();
-    urlApi = 'https://datnapi-qelj.onrender.com/'
     const renderItemPostnew = ({ item }) => {
         return (
             <TouchableOpacity onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })} style={foryouStyles.productBody}>
-                <Image style={foryouStyles.imgproduct} source={{ uri: `${urlApi}${item.files}` }} />
+                <Image style={foryouStyles.imgproduct} source={{ uri: `${urlAPI}${item.files}` }} />
                 <Text style={foryouStyles.txtnameproduct} >{item.title}</Text>
                 <Text style={foryouStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
                 <Text style={foryouStyles.txtprice} >{styleNumber(item.price)}</Text>

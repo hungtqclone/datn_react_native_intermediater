@@ -17,13 +17,14 @@ import Modal from 'react-native-modal';
 
 import { getProduct, savePost } from '../ScreenService';
 import { UserContext } from '../../components/users/UserContext';
+import { urlAPI } from '../../components/helpers/urlAPI';
 
 const MAX_ADDRESS_LENGTH = 30;
 const MAX_HEIGHT = 100;
 const NearYou = (props) => {
-   //lấy thông tin user
-   const { user } = useContext(UserContext);
-   const userId = user._id;
+  //lấy thông tin user
+  const { user } = useContext(UserContext);
+  const userId = user._id;
   const { navigation } = props;
   const [isLoading, setIsLoading] = useState(true);
   const [location, setLocation] = useState(null);
@@ -33,8 +34,6 @@ const NearYou = (props) => {
   const [phoneNumber, setPhoneNumber] = useState();
   //chỉ cho phép getLocation chạy 1 lần
   const [hasRunOnce, setHasRunOnce] = useState(false);
-  //link api
-  const urlServer = 'https://datnapi-qelj.onrender.com/';
   useEffect(() => {
     if (!hasRunOnce) {
       setAddress('Nhấn vào để cập nhật địa chỉ.');
@@ -124,7 +123,7 @@ const NearYou = (props) => {
       console.log('User ID:', userId);
       console.log('Post ID:', postId);
       const response = await savePost(userId, postId);
-     // console.log('Save post response:', response);
+      // console.log('Save post response:', response);
       alert('Lưu bài viết thành công!');
     } catch (error) {
       console.error('Error saving post:', error);
@@ -175,7 +174,7 @@ const NearYou = (props) => {
             // console.log('Constructed Image URL:', `${urlServer}${item}`),
             <View key={index} style={styles.gridItem}>
               <Image
-                source={{ uri: `${urlServer}${item}` }}
+                source={{ uri: `${urlAPI}${item}` }}
                 style={styles.image}
                 resizeMode="cover"
               />

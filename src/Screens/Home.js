@@ -11,10 +11,11 @@ import {
   TouchableOpacity,
   Pressable,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {homeStyles} from '../styleSheets/HomeStyles';
-import {getCategory, getProduct} from './ScreenService';
+import React, { useState, useEffect } from 'react';
+import { homeStyles } from '../styleSheets/HomeStyles';
+import { getCategory, getProduct } from './ScreenService';
 import CategoriesDetail from './CategoriesDetail';
+import { urlAPI } from '../components/helpers/urlAPI';
 
 const datatile = [
   {
@@ -22,15 +23,15 @@ const datatile = [
     title: 'Thu mua điện thoại',
     image: require('../../image/icon_banngay.jpg'),
   },
-  {id: 2, title: 'Nạp đồng tốt', image: require('../../image/icon_dongxu.jpg')},
+  { id: 2, title: 'Nạp đồng tốt', image: require('../../image/icon_dongxu.jpg') },
   {
     id: 3,
     title: 'Chợ tốt ưu đãi',
     image: require('../../image/icon_uudai.jpg'),
   },
-  {id: 4, title: 'Thu mua ô tô', image: require('../../image/icon_car.jpg')},
-  {id: 5, title: 'Gói pro', image: require('../../image/icon_pro.jpg')},
-  {id: 6, title: 'Tin đã lưu', image: require('../../image/icon_hearth.jpg')},
+  { id: 4, title: 'Thu mua ô tô', image: require('../../image/icon_car.jpg') },
+  { id: 5, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
+  { id: 6, title: 'Tin đã lưu', image: require('../../image/icon_hearth.jpg') },
   {
     id: 7,
     title: 'Đăng tin cho tặng',
@@ -59,43 +60,42 @@ const datatile = [
 ];
 
 const Home = props => {
-  const {navigation} = props;
+  const { navigation } = props;
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const widthCasual = Dimensions.get('window').width;
   const numColumns = Math.ceil(datatile.length / 2);
   const data = [
-    {id: 1, image: require('../../image/Sinhvien.png')},
-    {id: 2, image: require('../../image/bannerchotot.png')},
+    { id: 1, image: require('../../image/Sinhvien.png') },
+    { id: 2, image: require('../../image/bannerchotot.png') },
   ];
 
-  urlApi = 'https://datnapi-qelj.onrender.com/';
 
   const handToCategoriesDetail = _id => {
     if (_id === '658fbcbdb41f1dd5128fa9e4') {
-      return navigation.navigate('realestate', {_id});
+      return navigation.navigate('realestate', { _id });
     }
     if (_id === '65ae8089d30801351cc0dea9') {
-      return navigation.navigate('vehicles', {_id});
+      return navigation.navigate('vehicles', { _id });
     }
     if (_id === '658fbb7db41f1dd5128fa9da') {
-      return navigation.navigate('jobber', {_id});
+      return navigation.navigate('jobber', { _id });
     }
-    navigation.navigate('CategoriesDetail', {_id});
+    navigation.navigate('CategoriesDetail', { _id });
   };
 
   // Banner slider
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
       <View style={homeStyles.contaiBanner}>
         <Image
-          style={{width: widthCasual, height: '100%'}}
+          style={{ width: widthCasual, height: '100%' }}
           source={item.image}></Image>
       </View>
     );
   };
   //Danh mục Dưới banner slider
-  const renderItemTitle = ({item, index}) => {
+  const renderItemTitle = ({ item, index }) => {
     return (
       <View style={homeStyles.contaiTitle}>
         <Image style={homeStyles.imgTitle} source={item.image}></Image>
@@ -105,12 +105,12 @@ const Home = props => {
   };
   // Category
   const renderItemCategory = value => {
-    const {item} = value;
+    const { item } = value;
     return (
       <Pressable
         style={homeStyles.categoryBody}
         onPress={() => handToCategoriesDetail(item._id)}>
-        <Image style={homeStyles.imgcategoy} source={{uri: `${item.img}`}} />
+        <Image style={homeStyles.imgcategoy} source={{ uri: `${item.img}` }} />
         <Text style={homeStyles.txtCategoty} numberOfLines={2}>
           {item.name}
         </Text>
@@ -124,13 +124,13 @@ const Home = props => {
     // console.log("Danh muc :58 >" + JSON.stringify(categories));
   };
   // Postnews
-  const renderItemPostnew = ({item}) => {
+  const renderItemPostnew = ({ item }) => {
     return (
-      <TouchableOpacity style={homeStyles.productBody} 
+      <TouchableOpacity style={homeStyles.productBody}
       >
         <Image
           style={homeStyles.imgproduct}
-          source={{uri: `${urlApi}${item.files}`}}
+          source={{ uri: `${urlAPI}${item.files}` }}
         />
         <Text style={homeStyles.txtnameproduct}>{item.title}</Text>
         <Text style={homeStyles.txtdetail} numberOfLines={1}>
@@ -216,7 +216,7 @@ const Home = props => {
             scrollEnabled={true}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{paddingVertical: 20}}>
+            contentContainerStyle={{ paddingVertical: 20 }}>
             <FlatList
               contentContainerStyle={{
                 alignSelf: 'flex-start',

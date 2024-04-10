@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useContext } from 'react'
 import AxiosInstance from '../components/helpers/Axiosintance';
 import { UserContext } from '../components/users/UserContext';
 import { useMessage } from '../components/messages/MessageContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment_timezone from 'moment-timezone';
 
 
@@ -10,37 +11,65 @@ import moment_timezone from 'moment-timezone';
 const Chat = ({ navigation, route }) => {
     const { data } = route.params;
     const { user } = useContext(UserContext)
-    const { allMessages, socket } = useMessage()
+    const { socket } = useMessage()
     const flatListRef = useRef();
     const userId = user._id
     const [inputMessage, setInputMessage] = useState(undefined);
     const [isSending, setIsSending] = useState(false);
+    const [allMessages, setAllMessages] = useState([])
+    const [numberSeen, setnumberSeen] = useState()
     const avatarDefault = 'https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg';
     const filteredData = [];
-    let numberSeen;
-    for (let i = allMessages.length - 1; i >= 0; i--) {
-        if (allMessages[i].senderId == data._id || allMessages[i].receiverId == data._id) {
-            filteredData.push(allMessages[i])
+    // let numberSeen;
 
+
+    const fetchDataStorage = async () => {
+        const dataMessagesFetch = await AsyncStorage.getItem(userId)
+        setAllMessages(JSON.parse(dataMessagesFetch))
+    }
+
+    if (allMessages.length != 0) {
+        for (let i = allMessages.length - 1; i >= 0; i--) {
+            if (allMessages[i].senderId == data._id || allMessages[i].receiverId == data._id) {
+                filteredData.push(allMessages[i])
+
+            }
         }
     }
     useEffect(() => {
-        numberSeen = filteredData.length
+        fetchDataStorage()
+    }, [])
+    useEffect(() => {
         if (filteredData.length != 0) {
             for (let i = 0; i < filteredData.length; i++) {
                 if (filteredData[i].senderId == userId && filteredData[i].seen == true) {
-                    numberSeen = i;
+                    setnumberSeen(i)
                     return;
                 }
             }
         }
-    }, [allMessages]);
+    }, [filteredData]);
     useEffect(() => {
+        socket.on('receive-message', (message) => {
+            setAllMessages(prevMessages => [...prevMessages, message]);
+            socket.emit('see-message', {
+                "senderId": data._id,
+                "receiverId": userId
+            });
+        });
+        socket.on('sender-message', (message) => {
+            setAllMessages(prevMessages => [...prevMessages, message]);
+        });
         socket.emit('see-message', {
             "senderId": data._id,
             "receiverId": userId
         });
-    }, [filteredData]);
+        socket.on('seen-message', async () => {
+            const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${userId}`)
+            setAllMessages(messagesData.messages)
+
+        });
+    }, []);
     const renderItem = ({ item, index }) => {
         const isCurrentUser = userId === item.senderId;
         const bubbleColor = isCurrentUser ? "#3333FF" : "#AAAAAA";

@@ -5,7 +5,6 @@ import { productStyles } from '../styleSheets/ProductStyles'
 import PostnewsStack from '../components/navigation/PostnewsTabnavigation'
 import { urlAPI } from '../components/helpers/urlAPI'
 import { styleNumber } from '../styleSheets/styleJS'
-urlAPI
 const data = [
     { id: 1, title: 'Điện thoại' },
     { id: 2, title: 'Giá' },
@@ -43,7 +42,6 @@ const Product = (props) => {
     const [isLoading, setIsLoading] = useState(true);
     const [isLoadingPage, setIsLoadingPage] = useState(false)
     const [page, setPage] = useState(1)
-    urlApi = 'https://datnapi-qelj.onrender.com/'
     const ongetBrands = async () => {
         const brands = await getBrands(idCate);
         setBrands(brands);
@@ -94,7 +92,7 @@ const Product = (props) => {
     const renderItemBrands = ({ item, index }) => {
         return (
             <View style={productStyles.contaiTitle}>
-                <Image style={productStyles.imgTitle} source={{ uri: `${urlApi}${item.files}` }}></Image>
+                <Image style={productStyles.imgTitle} source={{ uri: `${urlAPI}${item.files}` }}></Image>
                 <Text style={productStyles.txtTitle2}>{item.nameBrand}</Text>
             </View>
         );
@@ -113,7 +111,7 @@ const Product = (props) => {
     const renderPostNews = ({ item, index }) => {
         return (
             <TouchableOpacity onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })} style={productStyles.productBody2}>
-                <Image style={productStyles.imgproduct} source={{ uri: `${urlApi}${item.files[0]}` }} />
+                <Image style={productStyles.imgproduct} source={{ uri: `${urlAPI}${item.files[0]}` }} />
                 <View style={productStyles.contaiColum}>
                     <Text style={productStyles.txtTitle} numberOfLines={1}>{item.title}</Text>
                     <Text style={productStyles.txtDetail} numberOfLines={2}>{item.detail}</Text>

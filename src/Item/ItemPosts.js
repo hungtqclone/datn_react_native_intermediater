@@ -15,12 +15,12 @@ import { UserContext } from '../components/users/UserContext';
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styleNumber } from '../styleSheets/styleJS';
+import { urlAPI } from '../components/helpers/urlAPI';
 
 
 const ItemPosts = props => {
   const { data } = props;
   const { user, setuser } = useContext(UserContext);
-  const urlApi = `https://datnapi-qelj.onrender.com/`;
   const [isModalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [numberOfDays, setNumberOfDays] = useState(0);
@@ -196,7 +196,7 @@ const ItemPosts = props => {
           <View style={{ width: 120, height: 120, padding: 15 }}>
             <Image
               style={{ width: '100%', height: '100%' }}
-              source={{ uri: urlApi + data.files[0] }}
+              source={{ uri: urlAPI + data.files[0] }}
             />
           </View>
           <View

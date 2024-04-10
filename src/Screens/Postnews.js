@@ -3,12 +3,12 @@ import React, { useState, useMemo, useEffect } from 'react'
 import { Product } from '../styleSheets/ProductCategory'
 import { getCategory, getDetailCategory } from './ScreenService';
 import { BottomSheet } from '@rneui/base';
+import { urlAPI } from '../components/helpers/urlAPI';
 
 const Postnews = (props) => {
     const { navigation } = props;
     const [categories, setCategories] = useState([]);
     const [idCategory, setIdCategory] = useState("658fb995b41f1dd5128fa9cf");
-    urlApi = 'https://datnapi-qelj.onrender.com/'
 
     const ongetCategory = async () => {
         const categories = await getCategory();
@@ -45,7 +45,7 @@ const Postnews = (props) => {
             <TouchableOpacity style={Product.contaitong} onPress={() => nextPostNews(item._id, item.name)}>
                 {/* onPress={({ }) => { idCategory ? nextPostNews(item._id) : onClickCategory(item._id) }} */}
                 <View style={Product.contaiimg}>
-                    <Image style={Product.img} source={{ uri: `${urlApi}${item.icon}` }} />
+                    <Image style={Product.img} source={{ uri: `${urlAPI}${item.icon}` }} />
                 </View>
                 <View style={Product.contaiCity}>
                     <Text style={Product.txtCity}>{item.name}</Text>

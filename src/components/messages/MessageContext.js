@@ -1,7 +1,8 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import io from 'socket.io-client';
 import { urlAPI } from '../helpers/urlAPI';
-import AxiosInstance from '../helpers/Axiosintance';
+import AxiosInstance from '../helpers/Axiosintance'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const socket = io(urlAPI);
 
@@ -24,7 +25,9 @@ export const MessageProvider = ({ children }) => {
     const fetchDataMessages = async () => {
         try {
             const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${userId}`)
-            setAllMessages(messagesData.messages)
+            await AsyncStorage.setItem(userId, JSON.stringify(messagesData.messages));
+            // setAllMessages(messagesData.messages)
+            // console.log(messagesData.messages.length)
         } catch (error) {
             console.log(error)
         }
@@ -35,12 +38,12 @@ export const MessageProvider = ({ children }) => {
             socket.emit('set-socketId', userId);
             fetchDataMessages()
             socket.on('receive-message', (message) => {
-                setAllMessages(prevMessages => [...prevMessages, message]);
-
+                // setAllMessages(prevMessages => [...prevMessages, message]);
+                fetchDataMessages()
             });
             socket.on('sender-message', (message) => {
-                setAllMessages(prevMessages => [...prevMessages, message]);
-
+                // setAllMessages(prevMessages => [...prevMessages, message]);
+                fetchDataMessages()
             });
             socket.on('seen-message', () => {
                 fetchDataMessages()

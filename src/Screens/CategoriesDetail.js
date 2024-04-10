@@ -7,6 +7,7 @@ import { TabView } from 'react-native-tab-view';
 import Foryou from './News/Foryou';
 import Shopstores from './DetailCategories/shopstores';
 import { styleNumber } from '../styleSheets/styleJS';
+import { urlAPI } from '../components/helpers/urlAPI';
 const data = [
     { id: 1, image: require('../../image/bannertet.jpg') },
     { id: 2, image: require('../../image/laptopbanner.jpg') }
@@ -29,7 +30,6 @@ const CategoriesDetail = (props) => {
     const [categoriesDetail, setCategoriesDetail] = useState([]);
     const [idCategory, setIdCategory] = useState("658fb995b41f1dd5128fa9cf")
     const numColumns = Math.ceil(datatile.length / 2);
-    urlApi = 'https://datnapi-qelj.onrender.com//'
     const { navigation, route } = props;
 
     //id của category truyền qua
@@ -86,7 +86,7 @@ const CategoriesDetail = (props) => {
                     nextScreenProductDetail(item._id)
                 }
             >
-                <Image style={CGDStyles.imgproduct} source={{ uri: `${urlApi}${item.files}` }} />
+                <Image style={CGDStyles.imgproduct} source={{ uri: `${urlAPI}${item.files}` }} />
                 <Text style={CGDStyles.txtnameproduct} >{item.title}</Text>
                 <Text style={CGDStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
                 <Text style={CGDStyles.txtprice} >{styleNumber(item.price)}</Text>

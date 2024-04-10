@@ -38,6 +38,7 @@ import { UserContext } from '../../components/users/UserContext';
 import ImagePicker from 'react-native-image-crop-picker';
 import { Icon } from 'react-native-paper';
 import Postnews from '../Postnews';
+import { urlAPI } from '../../components/helpers/urlAPI';
 
 const DetailPostnews = props => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -52,7 +53,6 @@ const DetailPostnews = props => {
   const { _id, name } = params;
   const [idPost, setIdPost] = useState(_id);
   const [namePost, setName] = useState(name);
-  urlApi = 'http://datnapi.vercel.app/';
 
   // image
   const [image, setImage] = useState([]);
@@ -373,7 +373,7 @@ const DetailPostnews = props => {
         style={PNStyles.contaitong}
         onPress={() => handleTouchableOpacityPress(item._id, item.name)}>
         <View style={PNStyles.contaiimg}>
-          <Image style={PNStyles.img} source={{ uri: `${urlApi}${item.icon}` }} />
+          <Image style={PNStyles.img} source={{ uri: `${urlAPI}${item.icon}` }} />
         </View>
         <View style={PNStyles.contaiCity}>
           <Text style={PNStyles.txtCity}>{item.name}</Text>

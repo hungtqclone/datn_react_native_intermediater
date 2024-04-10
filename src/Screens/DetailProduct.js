@@ -19,6 +19,7 @@ import Swiper from 'react-native-swiper';
 import { UserContext } from '../components/users/UserContext';
 import SweetAlert from 'react-native-sweet-alert';
 import { useNavigation } from '@react-navigation/native';
+import { urlAPI } from '../components/helpers/urlAPI';
 const DetailProduct = (props) => {
   //lấy thông tin user
   const { user } = useContext(UserContext);
@@ -26,10 +27,6 @@ const DetailProduct = (props) => {
   //navigation
   const { rating, totalReviews, navigation } = props;
   // const navigation = useNavigation();
-  //link ảnh 
-  const urlApi = 'https://datnapi.vercel.app/';
-  //link api
-  const urlServer = 'https://datnapi-qelj.onrender.com/';
   //lấy id truyền qua từ màn hình trước
   const route = useRoute();
   const { id_product } = route.params;
@@ -176,7 +173,7 @@ const DetailProduct = (props) => {
             {/* <View style={styles.header}>
               <Image
                 //source={require('../assets/images/imgProduct.png')}
-                source={{ uri: `${urlServer}${products.files[0]}` }}
+                source={{ uri: `${urlAPI}${products.files[0]}` }}
                 style={styles.product}
               />
             </View> */}
@@ -185,7 +182,7 @@ const DetailProduct = (props) => {
                 {products.files.map((file, index) => (
                   <View style={styles.slide} key={index}>
                     <Image
-                      source={{ uri: `${urlServer}${file}` }}
+                      source={{ uri: `${urlAPI}${file}` }}
                       style={styles.image}
                     />
                   </View>
@@ -438,7 +435,7 @@ const DetailProduct = (props) => {
                   >
                     <Image
                       // source={item.files[0]} 
-                      source={{ uri: `${urlApi}${item.files[0]}` }}
+                      source={{ uri: `${urlAPI}${item.files[0]}` }}
                       style={styles.horizontalImage} />
                     <Text style={styles.tagpro}>Thanh toán đảm bảo</Text>
                     <View style={styles.horizontalTextContainer}>
@@ -468,7 +465,7 @@ const DetailProduct = (props) => {
                     onPress={() => reLoadScreen(item._id)}
                   >
                     <Image
-                      source={{ uri: `${urlApi}${item.files[0]}` }}
+                      source={{ uri: `${urlAPI}${item.files[0]}` }}
                       style={styles.horizontalImage} />
                     <Image
                       source={require('../assets/images/icons/like.png')}

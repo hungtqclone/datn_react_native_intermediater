@@ -14,9 +14,8 @@ import { getProduct } from '../../ScreenService';
 import { getPostSaved } from '../../ScreenService';
 import { UserContext } from '../../../components/users/UserContext';
 import { savePost } from '../../ScreenService';
+import { urlAPI } from '../../../components/helpers/urlAPI';
 const PostSaved = (props) => {
-  //link api
-  const urlServer = 'https://datnapi-qelj.onrender.com/';
   const [products, setProducts] = useState([]);
   const [saved, setSaved] = useState([]);
   const { navigation } = props;
@@ -69,7 +68,7 @@ const PostSaved = (props) => {
     <TouchableOpacity key={index} style={styles.horizontalItem}
       onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })} >
       <Image
-        source={{ uri: `${urlServer}${item.files[0]}` }}
+        source={{ uri: `${urlAPI}${item.files[0]}` }}
         style={styles.horizontalImage}
       />
 
@@ -101,7 +100,7 @@ const PostSaved = (props) => {
       onPress={() => navigation.navigate('DetailProduct', { id_product: item.postId._id })}
     >
       <Image
-        source={{ uri: `${urlServer}${item.postId.files[0]}` }}
+        source={{ uri: `${urlAPI}${item.postId.files[0]}` }}
         style={styles.horizontalImage}
       />
 

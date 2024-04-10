@@ -9,10 +9,11 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {Image} from '@rneui/base';
-import {getProduct} from '../../ScreenService';
+import React, { useState, useEffect } from 'react';
+import { Image } from '@rneui/base';
+import { getProduct } from '../../ScreenService';
 import Product from '../../Product';
+import { urlAPI } from '../../../components/helpers/urlAPI';
 const horizontalData = [
   {
     id: '1',
@@ -45,11 +46,9 @@ const horizontalData = [
 ];
 
 const SavedSearchScreen = props => {
-  //link api
-  const urlServer = 'https://datnapi-qelj.onrender.com//';
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const {navigation} = props;
+  const { navigation } = props;
   const ongetProducts = async () => {
     try {
       setIsLoading(true); // Set loading state to true before making the request
@@ -64,15 +63,15 @@ const SavedSearchScreen = props => {
   useEffect(() => {
     ongetProducts();
   }, []);
-  const renderItem = ({item, index}) => (
+  const renderItem = ({ item, index }) => (
     <TouchableOpacity
       key={index}
       style={styles.horizontalItem}
       onPress={() =>
-        navigation.navigate('DetailProduct', {id_product: item._id})
+        navigation.navigate('DetailProduct', { id_product: item._id })
       }>
       {/* <Image
-        source={{uri: `${urlServer}${item.files[0]}`}}
+        source={{uri: `${urlAPI}${item.files[0]}`}}
         style={styles.horizontalImage}
       /> */}
       <View style={styles.horizontalTextContainer}>

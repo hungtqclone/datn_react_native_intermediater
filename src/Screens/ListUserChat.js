@@ -1,38 +1,82 @@
 import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState, useContext } from 'react';
 import AxiosInstance from '../components/helpers/Axiosintance';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserContext } from '../components/users/UserContext';
 import { useMessage } from '../components/messages/MessageContext';
-
+import moment_timezone from 'moment-timezone';
+import { useFocusEffect } from '@react-navigation/native'
 const ListUserChat = (props) => {
     const { navigation } = props;
     const { user } = useContext(UserContext);
+    const { socket } = useMessage()
+    const [allMessages, setAllMessages] = useState([])
     const userId = user._id;
     const [data, setData] = useState([]);
     const avatarDefault = 'https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg';
-
+    let latestMessages = [];
     const fetchData = async () => {
         const response = await AxiosInstance().get('api/users');
         setData(response.users.filter(u => u._id !== userId));
     }
-
+    const lastMessages = async () => {
+        try {
+            const dataMessagesFetch = await AsyncStorage.getItem(userId)
+            setAllMessages(JSON.parse(dataMessagesFetch))
+        } catch (error) {
+            console.log("last messages error: ", error)
+            return
+        }
+    }
+    if (allMessages.length != 0) {
+        allMessages.forEach(message => {
+            const index = latestMessages.findIndex(existingMessage =>
+                (existingMessage.senderId === message.senderId && existingMessage.receiverId === message.receiverId) ||
+                (existingMessage.senderId === message.receiverId && existingMessage.receiverId === message.senderId)
+            );
+            if (index === -1) {
+                latestMessages.push(message);
+            } else if (message.createAt > latestMessages[index].createAt) {
+                latestMessages[index] = message;
+            }
+        });
+    }
+    useFocusEffect(
+        React.useCallback(() => {
+            lastMessages()
+            return () => {
+            }
+        }, [])
+    )
     useEffect(() => {
+        socket.on('receive-message', async (message) => {
+            const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${userId}`)
+            setAllMessages(messagesData.messages)
+        });
         fetchData();
     }, []);
-
     const getRandomTime = () => {
         const hours = Math.floor(Math.random() * 24);
         const minutes = Math.floor(Math.random() * 60);
         return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
     };
 
-    const renderItem = ({ item }) => {
-        const shortenedLastMessage = item.lastMessage && item.lastMessage.length > 20
-            ? item.lastMessage.substring(0, 20) + '...'
-            : item.lastMessage;
+    useEffect(() => {
+        socket.on('receive-message', (message) => {
+            lastMessages()
+        });
+    }, [])
 
-        const time = item.time || getRandomTime();
-        const lastMessageWithTime = `${shortenedLastMessage || '...'} · ${time}`;
+    const renderItem = ({ item }) => {
+        let newMessage = latestMessages.filter(message => message.senderId === item._id || message.receiverId === item._id)
+        let shortenedLastMessage = '...'
+        if (newMessage[0]) {
+            shortenedLastMessage = newMessage[0].content && newMessage[0].content.length > 20
+                ? newMessage[0].content.substring(0, 20) + '...'
+                : newMessage[0].content;
+        }
+
+        const lastMessageWithTime = `${shortenedLastMessage || '...'} · ${newMessage[0] ? moment_timezone.utc(newMessage[0].createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16) : ''}`;
 
         return (
             <TouchableOpacity style={styles.itemContainer} onPress={() => navigation.navigate('chat', { data: item })}>

@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { getProduct, savePost } from '../ScreenService';
 import { UserContext } from '../../components/users/UserContext';
+import { urlAPI } from '../../components/helpers/urlAPI';
 const Explore = (props) => {
   const MAX_HEIGHT = 100;
   //lấy thông tin user
@@ -20,9 +21,6 @@ const Explore = (props) => {
   const userId = user._id;
   const { navigation } = props;
   //list và hiện list ảnh sản phẩm
-
-  //link api
-  const urlServer = 'https://datnapi-qelj.onrender.com/';
   // hàm hiện thị nút xem thêm
   const [isExpanded, setIsExpanded] = useState(false);
   const [showCollapseButton, setShowCollapseButton] = useState(false);
@@ -127,7 +125,7 @@ const Explore = (props) => {
             // console.log('Constructed Image URL:', `${urlServer}${item}`),
             <View key={item.toString()} style={styles.gridItem}>
               <Image
-                source={{ uri: `${urlServer}${item}` }}
+                source={{ uri: `${urlAPI}${item}` }}
                 style={styles.image}
               />
               {/* {index === 3 && (
@@ -181,7 +179,7 @@ const Explore = (props) => {
             source={require('../../assets/images/icons/heart.png')}
           />
           <TouchableOpacity
-           onPress={() => onSavePost(item._id)}
+            onPress={() => onSavePost(item._id)}
           >
             <Text style={styles.txtBtnCall}>Lưu tin</Text>
           </TouchableOpacity>

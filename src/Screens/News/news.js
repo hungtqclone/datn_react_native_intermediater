@@ -3,15 +3,15 @@ import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, Scrol
 import React, { useState, useEffect } from 'react'
 import { foryouStyles } from '../../styleSheets/ForyouStyles'
 import { getProduct } from '../ScreenService'
+import { urlAPI } from '../../components/helpers/urlAPI'
 
 
 const News = () => {
     const [products, setProducts] = useState([]);
-    urlApi = 'https://datnapi-qelj.onrender.com/'
     const renderItemPostnew = ({ item }) => {
         return (
             <TouchableOpacity style={foryouStyles.productBody}>
-                <Image style={foryouStyles.imgproduct} source={{ uri: `${urlApi}${item.files}` }} />
+                <Image style={foryouStyles.imgproduct} source={{ uri: `${urlAPI}${item.files}` }} />
                 <Text style={foryouStyles.txtnameproduct} >{item.title}</Text>
                 <Text style={foryouStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
                 <Text style={foryouStyles.txtprice} >{item.price}</Text>
@@ -33,15 +33,15 @@ const News = () => {
         ongetProducts();
     }, []);
     return (
-            <View style={foryouStyles.contaiProduct}>
-                <FlatList
-                    data={products}
-                    renderItem={renderItemPostnew}
-                    numColumns={2}
-                    keyExtractor={item => item._id}
-                    scrollEnabled={false}
-                />
-            </View>
+        <View style={foryouStyles.contaiProduct}>
+            <FlatList
+                data={products}
+                renderItem={renderItemPostnew}
+                numColumns={2}
+                keyExtractor={item => item._id}
+                scrollEnabled={false}
+            />
+        </View>
     )
 }
 
