@@ -9,19 +9,19 @@ import {
   TextInput,
   ActivityIndicator,
 } from 'react-native';
-import React, {useState, useContext, useEffect} from 'react';
-import {Image} from '@rneui/base';
+import React, { useState, useContext, useEffect } from 'react';
+import { Image } from '@rneui/base';
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AxiosInstance from '../../components/helpers/Axiosintance';
-import {UserContext} from '../../components/users/UserContext';
-import {useFocusEffect} from '@react-navigation/native';
+import { UserContext } from '../../components/users/UserContext';
+import { useFocusEffect } from '@react-navigation/native';
 import Modal from 'react-native-modal';
-import {styleNumber} from '../../styleSheets/styleJS';
+import { styleNumber } from '../../styleSheets/styleJS';
 
 const Profile_screen = props => {
-  const {navigation} = props;
-  const {user, setuser} = useContext(UserContext);
+  const { navigation } = props;
+  const { user, setuser } = useContext(UserContext);
   const [isModalVisible, setModalVisible] = useState(false);
   const [dataUser, setDataUser] = useState(user);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +37,7 @@ const Profile_screen = props => {
       });
 
       // Update the avatarSource with the selected image
-      setAvatarSource({uri: image.path});
+      setAvatarSource({ uri: image.path });
     } catch (error) {
       console.log('ImagePicker Error: ', error);
     }
@@ -68,7 +68,7 @@ const Profile_screen = props => {
   useFocusEffect(
     React.useCallback(() => {
       fetchDataUser();
-      return () => {};
+      return () => { };
     }, []),
   );
 
@@ -99,54 +99,54 @@ const Profile_screen = props => {
       {isLoading ? (
         <Modal isVisible={isLoading}>
           <ActivityIndicator
-            style={{marginTop: 20}}
+            style={{ marginTop: 20 }}
             size="large"
             color="#3498db"
           />
         </Modal>
       ) : (
-        <Modal isVisible={isModalVisible}>
-          <View style={{backgroundColor: 'white', padding: 8}}>
-            <Text style={{color: 'black', fontSize: 17, textAlign: 'center'}}>
+        <Modal isVisible={isModalVisible} animationType="slide">
+          <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, shadowOpacity: 0.25, shadowRadius: 5, shadowColor: '#000', elevation: 10 }}>
+            <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginBottom: 20 }}>
               Nạp đồng tốt
             </Text>
             <TextInput
               keyboardType="number-pad"
               placeholder="Nhập số tiền bạn muốn nạp"
               onChangeText={handleInputNumber}
-              style={{borderColor: 'gray', borderWidth: 1, marginTop: 6}}
+              style={{ borderColor: 'silver', borderWidth: 1, borderRadius: 5, padding: 10, fontSize: 16 }}
             />
             <Text
-              style={{color: 'red', display: amount < 20000 ? 'flex' : 'none'}}>
-              số tiền nạp không được dưới 20.000 vnd
+              style={{ color: 'red', marginTop: 10, display: amount < 20000 ? 'flex' : 'none' }}>
+              Số tiền nạp không được dưới 20.000 VND.
             </Text>
-            <Text>Khi click vào xác nhận sẽ nhảy qua trang web</Text>
-            <View style={{flexDirection: 'row', width: '100%'}}>
+            <Text style={{ marginTop: 10, color:'black' }}>
+              Khi nhấn xác nhận sẽ di chuyển sang trang web thanh toán.
+            </Text>
+            <View style={{ flexDirection: 'row', marginTop: 20 }}>
               <TouchableOpacity
                 style={{
                   backgroundColor: '#33CCFF',
-                  padding: 5,
                   borderRadius: 5,
                   flex: 1,
-                  paddingVertical: 10,
-                }}
-                title="Mua vip"
-                onPress={() => handleOpenWeb()}>
-                <Text style={{color: 'white', textAlign: 'center'}}>
-                  Xác nhận
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#33CCFF',
-                  padding: 5,
-                  borderRadius: 5,
-                  marginLeft: 10,
-                  flex: 1,
-                  paddingVertical: 10,
+                  paddingVertical: 12,
                 }}
                 onPress={toggleModal}>
-                <Text style={{color: 'white', textAlign: 'center'}}>Đóng</Text>
+                <Text style={{ color: 'white', textAlign: 'center', fontSize: 16 }}>Đóng</Text>
+              </TouchableOpacity>
+              <View style={{width:10}}></View>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#33CCFF',
+                  borderRadius: 5,
+                  flex: 1,
+                  paddingVertical: 12,
+                  marginRight: 10,
+                }}
+                onPress={() => handleOpenWeb()}>
+                <Text style={{ color: 'white', textAlign: 'center', fontSize: 16 }}>
+                  Xác nhận
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -195,7 +195,7 @@ const Profile_screen = props => {
               <View>
                 <Text style={styles.nameNguoiban}>{dataUser.name} </Text>
                 <TouchableOpacity onPress={toggleModal}>
-                  <Text style={{color: 'blue', marginTop: 3}}>
+                  <Text style={{ color: 'blue', marginTop: 3 }}>
                     Nạp đồng tốt
                   </Text>
                 </TouchableOpacity>
@@ -368,7 +368,7 @@ const Profile_screen = props => {
             <TouchableOpacity
               style={[
                 styles.contMagOrderItemLeft,
-                {display: user == 1 ? 'none' : 'inline-block'},
+                { display: user == 1 ? 'none' : 'inline-block' },
               ]}
               onPress={() => onLogOut()}>
               <Image
