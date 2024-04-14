@@ -51,7 +51,7 @@ const Register = (props) => {
                             <Text style={[AppStyle.titleMedium, { color: 'black', textAlign: 'right', padding: 18 }]}>BỎ QUA</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={{ alignItems: 'center', marginTop: '20%' }}>
+                    <View style={{ alignItems: 'center', marginTop: '7%' }}>
                         <Text style={[AppStyle.title, { color: '#04CB00' }]}>ĐĂNG KÝ</Text>
                     </View>
                     <View style={[{ marginTop: 30, alignItems: 'center' }]}>
@@ -93,6 +93,11 @@ const Register = (props) => {
                     <View style={[{ alignItems: 'center', marginTop: 24 }]}>
                         <TouchableOpacity style={[AppStyle.button, { backgroundColor: '#FF9900' }]} onPress={registerUser}>
                             <Text style={[AppStyle.titleBig, { color: '#ffffff', fontSize: 22, fontWeight: 500 }]}>ĐĂNG KÝ</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={[{ alignItems: 'center', marginTop: 8 }]}>
+                        <TouchableOpacity style={[AppStyle.button, { backgroundColor: '#4CB944' }]} onPress={() => navigation.goBack()}>
+                            <Text style={[AppStyle.titleBig, { color: '#ffffff', fontSize: 22, fontWeight: 500 }]}>QUAY LẠI</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={{ alignItems: 'center', marginTop: 18 }}>
