@@ -23,7 +23,7 @@ const PhonePricing = props => {
           </TouchableOpacity>
         </View>
         <View style={styles.appbarLeft}>
-          <Text style={styles.appbarLeftText}>Định dạng điện thoại</Text>
+          <Text style={styles.appbarLeftText}>Định giá điện thoại</Text>
         </View>
       </View>
       <View style={styles.container}>

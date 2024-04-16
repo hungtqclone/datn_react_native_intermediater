@@ -136,30 +136,30 @@ const DetailProduct = (props) => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.imgShare}
           onPress={() => console.log('share')}>
           <Image
             source={require('../assets/images/icons/iconShare.png')}
             style={styles.icon}
           />
-        </TouchableOpacity>
-        <TouchableOpacity
+        </TouchableOpacity> */}
+        {/* <TouchableOpacity
           style={styles.imgHeart}
           onPress={() => console.log('heart')}>
           <Image
             source={require('../assets/images/icons/heart2.png')}
             style={styles.icon}
           />
-        </TouchableOpacity>
-        <TouchableOpacity
+        </TouchableOpacity> */}
+        {/* <TouchableOpacity
           style={styles.bacham}
           onPress={() => console.log('bacham')}>
           <Image
             source={require('../assets/images/icons/icon_3dot.png')}
             style={styles.icon}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       {isLoading ? (
         <ActivityIndicator
@@ -203,7 +203,7 @@ const DetailProduct = (props) => {
                 >
                   <Image
                     style={styles.iconLike}
-                    source={require('../assets/images/icons/heart.png')}
+                    source={require('../assets/images/icons/heart2.png')}
                   />
                   <Text style={styles.txtLuutin}>Lưu tin</Text>
                 </TouchableOpacity>
@@ -218,7 +218,7 @@ const DetailProduct = (props) => {
                         source={require('../assets/images/avatarDetail.png')}
                         style={styles.avt}
                       />
-                      <View>
+                      <View style={styles.contName}>
                         <Text style={styles.nameNguoiban}>  {products.userid.name} </Text>
                         <View style={styles.reviewContainer}>
                           <Image
@@ -250,14 +250,14 @@ const DetailProduct = (props) => {
                         </View>
                       </View>
                     </View>
-                    <TouchableOpacity style={styles.containerXemtrang}>
+                    {/* <TouchableOpacity style={styles.containerXemtrang}>
                       <Text style={styles.txtXemtrang}>Xem trang</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                   </View>
                 </View>
-                <View style={styles.buttonContainer}>
+                {/* <View style={styles.buttonContainer}>
                   <TouchableOpacity style={styles.followButton}>
-                    {/* <Ionicons name="add" size={20} color="white" /> */}
+                 
                     <Image
                       source={require('../assets/images/icons/icon_add.png')}
                       style={styles.icons}
@@ -266,22 +266,25 @@ const DetailProduct = (props) => {
                   </TouchableOpacity>
 
                   <TouchableOpacity style={styles.viewStoreButton}>
-                    {/* <FontAwesome name="shopping-bag" size={20} color="white" /> */}
+                 
                     <Image
                       source={require('../assets/images/icons/icon_store.png')}
                       style={styles.icons}
                     />
                     <Text style={styles.viewtext}>Xem cửa</Text>
                   </TouchableOpacity>
-                </View>
+                </View> */}
               </View>
             </View>
+
             <View style={styles.decriptionPr}>
               <View style={styles.contDesc}>
                 <Text style={styles.titleDecs}>Mô tả</Text>
               </View>
               <View style={styles.contentDecs}>
-                <Text>   {products.detail}</Text>
+                <Text>   {products.detail}
+                         {products.properties}
+                </Text>
               </View>
             </View>
             <View style={styles.infoProduct}>
@@ -347,7 +350,7 @@ const DetailProduct = (props) => {
                 </View>
               </View>
             </View>
-            <View>
+            {/* <View>
               <Text style={styles.ask}>Hỏi người bán qua chat</Text>
               <FlatList
                 data={data}
@@ -356,14 +359,14 @@ const DetailProduct = (props) => {
                 horizontal
                 showsHorizontalScrollIndicator={false}
               />
-            </View>
+            </View> */}
             <View>
               <Text style={styles.ask}>Khu vực</Text>
               <Text style={styles.adress}>
                 {products.location}
               </Text>
             </View>
-            <View style={styles.rp}>
+            {/* <View style={styles.rp}>
               <TouchableOpacity style={styles.rpbutton}>
                 <Text style={styles.rptext}>Báo tin đã bán</Text>
               </TouchableOpacity>
@@ -371,11 +374,11 @@ const DetailProduct = (props) => {
               <TouchableOpacity style={styles.rpbutton}>
                 <Text style={styles.rptext}>Báo tin không hợp lệ</Text>
               </TouchableOpacity>
-            </View>
-            <TouchableOpacity style={styles.pushbt}>
+            </View> */}
+            {/* <TouchableOpacity style={styles.pushbt}>
               <Text style={styles.pushtext}>Đăng nhanh - Bán gọn</Text>
-            </TouchableOpacity>
-            <View style={styles.share}>
+            </TouchableOpacity> */}
+            {/* <View style={styles.share}>
               <Text style={styles.sharetext}>Chia sẽ tin đăng này cho bạn bè</Text>
               <View style={styles.listIcons}>
                 <TouchableOpacity style={styles.iconimg}>
@@ -415,7 +418,7 @@ const DetailProduct = (props) => {
                   />
                 </TouchableOpacity>
               </View>
-            </View>
+            </View> */}
             <View style={styles.newdiff1}>
               <Text style={styles.diferrence} numberOfLines={1} ellipsizeMode="tail">
                 Tin rao khác của {products.userid.name}
@@ -440,7 +443,7 @@ const DetailProduct = (props) => {
                     <Text style={styles.tagpro}>Thanh toán đảm bảo</Text>
                     <View style={styles.horizontalTextContainer}>
                       <Text style={styles.horizontalname} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
-                      <Text style={styles.horizontalrice}>{item.price}</Text>
+                      <Text style={styles.horizontalrice} numberOfLines={1} ellipsizeMode="tail">{item.price} đ </Text> 
                       <Text style={styles.horizontaltime}>{item.created_AT}</Text>
                     </View>
                   </TouchableOpacity>
@@ -474,7 +477,7 @@ const DetailProduct = (props) => {
                     <Text style={styles.tagpro}>Thanh toán đảm bảo</Text>
                     <View style={styles.horizontalTextContainer}>
                       <Text style={styles.horizontalname} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
-                      <Text style={styles.horizontalrice}>{item.price}</Text>
+                      <Text style={styles.horizontalrice}numberOfLines={1} ellipsizeMode="tail">{item.price} đ </Text>
                       <Text style={styles.horizontaltime}>{item.created_AT}</Text>
                     </View>
                   </TouchableOpacity>
@@ -576,7 +579,7 @@ const styles = StyleSheet.create({
   },
   imgShare: {
     position: 'absolute',
-    right: 120,
+    right: 80,
     top: 20,
     backgroundColor: '#fff',
     justifyContent: 'center',
@@ -628,6 +631,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 10,
     alignItems: 'center',
+
   },
   price: {
     flexDirection: 'row',
@@ -726,8 +730,9 @@ const styles = StyleSheet.create({
 
   name: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    // justifyContent: 'center',
     alignItems: 'center',
+
   },
   dot: {
     width: 10,
@@ -850,6 +855,7 @@ const styles = StyleSheet.create({
     borderTopColor: '#ccc',
     marginLeft: 5,
     marginRight: 5,
+  
   },
   infoAv: {
     flexDirection: 'row',
@@ -869,6 +875,8 @@ const styles = StyleSheet.create({
   center: {
     width: '100%',
     alignItems: 'center',
+    borderColor: 'black',
+
   },
   iconLike: {
     width: 20,
@@ -1139,6 +1147,7 @@ const styles = StyleSheet.create({
     width: 100,
     flexDirection: 'column',
     padding: 5,
+    
   },
   horizontalImage: {
     width: '100%',
@@ -1175,7 +1184,7 @@ const styles = StyleSheet.create({
   },
   tagpro: {
     position: 'absolute',
-    bottom: 81,
+    top: 76,
     left: 5,
     padding: 5,
     backgroundColor: 'green',
@@ -1238,4 +1247,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 50,
   },
+
 });
