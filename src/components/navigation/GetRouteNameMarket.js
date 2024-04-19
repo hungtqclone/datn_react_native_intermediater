@@ -31,6 +31,9 @@ export const GetRouteNameProfile = route => {
     else if (routeName?.includes('DetailProduct')) {
         return 'none';
     }
+    else if (routeName?.includes('ReviewStack')) {
+        return 'none';
+    }
     return 'flex';
 };
 export const GetRouteNameScroll = route => {
