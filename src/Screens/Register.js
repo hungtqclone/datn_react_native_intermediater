@@ -9,11 +9,59 @@ import AxiosInstance from '../components/helpers/Axiosintance'
 const Register = (props) => {
     const { navigation } = props
     const [email, setEmail] = useState('');
-    const [phone, setphone] = useState('');
+    const [phone, setPhone] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [errors, setErrors] = useState({});
+
+    const validateInput = () => {
+        let isValid = true;
+        let newErrors = {};
+
+        if (!email) {
+            newErrors.email = 'Email không được để trống';
+            isValid = false;
+        } else if (!email.includes('@gmail.com')) {
+            newErrors.email = 'Email phải là một địa chỉ Gmail';
+            isValid = false;
+        }
+
+        if (!phone) {
+            newErrors.phone = 'Số điện thoại không được để trống';
+            isValid = false;
+        } else if (phone.length < 10 || phone.length > 11) {
+            newErrors.phone = 'Số điện thoại phải từ 10 đến 11 số';
+            isValid = false;
+        }
+
+        if (!name) {
+            newErrors.name = 'Họ và tên không được để trống';
+            isValid = false;
+        }
+
+        if (!password) {
+            newErrors.password = 'Mật khẩu không được để trống';
+            isValid = false;
+        } else if (password.length < 6) {
+            newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự';
+            isValid = false;
+        }
+
+        if (password !== confirmPassword) {
+            newErrors.confirmPassword = 'Mật khẩu không khớp';
+            isValid = false;
+        }
+
+        setErrors(newErrors);
+        return isValid;
+    };
 
     const registerUser = async () => {
+        if (!validateInput()) {
+            return;
+        }
+
         try {
             const response = await AxiosInstance().post('api/register-user', {
                 email: email,
@@ -51,46 +99,62 @@ const Register = (props) => {
                             <Text style={[AppStyle.titleMedium, { color: 'black', textAlign: 'right', padding: 18 }]}>BỎ QUA</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={{ alignItems: 'center', marginTop: '7%' }}>
+                    <View style={{ alignItems: 'center', marginTop: '3%' }}>
                         <Text style={[AppStyle.title, { color: '#04CB00' }]}>ĐĂNG KÝ</Text>
                     </View>
-                    <View style={[{ marginTop: 30, alignItems: 'center' }]}>
+                    <View style={[{ marginTop: 8, alignItems: 'center' }]}>
+                        {errors.email && <Text style={{ color: 'red' }}>{errors.email}</Text>}
                         <TextInput
-                            style={[AppStyle.txtinput]}
+                            style={[AppStyle.txtinput, errors.email ? { borderColor: 'red', borderWidth: 1.2 } : {}]}
                             placeholder='Nhập Email'
                             placeholderTextColor={COLOR.notFocus}
                             value={email}
-                            onChangeText={(text) => setEmail(text)}
+                            onChangeText={setEmail}
                         />
                     </View>
-                    <View style={[{ marginTop: 30, alignItems: 'center' }]}>
+                    <View style={[{ marginTop: 8, alignItems: 'center' }]}>
+                        {errors.phone && <Text style={{ color: 'red' }}>{errors.phone}</Text>}
                         <TextInput
-                            style={[AppStyle.txtinput]}
+                            style={[AppStyle.txtinput, errors.phone ? { borderColor: 'red', borderWidth: 1.2 } : {}]}
                             placeholder='Nhập số điện thoại'
                             placeholderTextColor={COLOR.notFocus}
                             value={phone}
-                            onChangeText={(text) => setphone(text)}
+                            onChangeText={setPhone}
                         />
                     </View>
-                    {/* ... (tương tự với các TextInput khác) */}
-                    <View style={[{ marginTop: 24, alignItems: 'center' }]}>
+                    <View style={[{ marginTop: 8, alignItems: 'center' }]}>
+                        {errors.password && <Text style={{ color: 'red' }}>{errors.password}</Text>}
                         <TextInput
-                            style={[AppStyle.txtinput]}
+                            secureTextEntry={true}
+                            style={[AppStyle.txtinput, errors.password ? { borderColor: 'red', borderWidth: 1.2 } : {}]}
                             placeholder='Nhập mật khẩu'
                             placeholderTextColor={COLOR.notFocus}
                             value={password}
-                            onChangeText={(text) => setPassword(text)} />
+                            onChangeText={setPassword}
+                        />
                     </View>
-                    <View style={[{ marginTop: 24, alignItems: 'center' }]}>
+                    <View style={[{ marginTop: 8, alignItems: 'center' }]}>
+                        {errors.confirmPassword && <Text style={{ color: 'red' }}>{errors.confirmPassword}</Text>}
                         <TextInput
-                            style={[AppStyle.txtinput]}
+                            secureTextEntry={true}
+                            style={[AppStyle.txtinput, errors.confirmPassword ? { borderColor: 'red', borderWidth: 1.2 } : {}]}
+                            placeholder='Xác nhận mật khẩu'
+                            placeholderTextColor={COLOR.notFocus}
+                            value={confirmPassword}
+                            onChangeText={setConfirmPassword}
+                        />
+                    </View>
+                    <View style={[{ marginTop: 8, alignItems: 'center' }]}>
+                        {errors.name && <Text style={{ color: 'red' }}>{errors.name}</Text>}
+                        <TextInput
+                            style={[AppStyle.txtinput, errors.name ? { borderColor: 'red', borderWidth: 1.2 } : {}]}
                             placeholder='Họ và tên'
                             placeholderTextColor={COLOR.notFocus}
                             value={name}
-                            onChangeText={(text) => setName(text)}
+                            onChangeText={setName}
                         />
                     </View>
-                    <View style={[{ alignItems: 'center', marginTop: 24 }]}>
+                    <View style={[{ alignItems: 'center', marginTop: 8 }]}>
                         <TouchableOpacity style={[AppStyle.button, { backgroundColor: '#FF9900' }]} onPress={registerUser}>
                             <Text style={[AppStyle.titleBig, { color: '#ffffff', fontSize: 22, fontWeight: 500 }]}>ĐĂNG KÝ</Text>
                         </TouchableOpacity>
