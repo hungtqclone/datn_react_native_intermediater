@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Alert } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { AppStyle } from '../constants/AppStyle'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -61,7 +61,6 @@ const Register = (props) => {
         if (!validateInput()) {
             return;
         }
-
         try {
             const response = await AxiosInstance().post('api/register-user', {
                 email: email,
@@ -71,15 +70,18 @@ const Register = (props) => {
             });
             console.log('Kết quả từ API:', response);
             if (response.success) {
-                console.log('Đăng ký thành công!');
+                Alert.alert('Đăng ký thành công','Bạn đã đăng ký tài khoản thành công', [
+                    { text: 'OK', onPress: () => {navigation.navigate('Login')} },
+                ]);
             } else {
-                console.log('Đăng ký không thành công:', response.message);
+                Alert.alert('Đăng ký không thành công!')
             }
         } catch (error) {
-            console.error('Lỗi đăng ký người dùng:', error);
+            Alert.alert('Lỗi đăng ký người dùng: Người dùng đã tồn tại')
             if (error.response && error.response.data) {
                 // console.error('Thông điệp lỗi từ server:', error.response.data);
-            }}
+            }
+        }
     };
 
     return (
@@ -109,7 +111,7 @@ const Register = (props) => {
                             placeholder='Nhập Email'
                             placeholderTextColor={COLOR.notFocus}
                             value={email}
-                            onChangeText={setEmail}
+                            onChangeText={(text) => setEmail(text)}
                         />
                     </View>
                     <View style={[{ marginTop: 8, alignItems: 'center' }]}>
@@ -119,7 +121,7 @@ const Register = (props) => {
                             placeholder='Nhập số điện thoại'
                             placeholderTextColor={COLOR.notFocus}
                             value={phone}
-                            onChangeText={setPhone}
+                            onChangeText={(text) => setPhone(text)}
                         />
                     </View>
                     <View style={[{ marginTop: 8, alignItems: 'center' }]}>
@@ -130,7 +132,7 @@ const Register = (props) => {
                             placeholder='Nhập mật khẩu'
                             placeholderTextColor={COLOR.notFocus}
                             value={password}
-                            onChangeText={setPassword}
+                            onChangeText={(text) => setPassword(text)}
                         />
                     </View>
                     <View style={[{ marginTop: 8, alignItems: 'center' }]}>
@@ -141,7 +143,7 @@ const Register = (props) => {
                             placeholder='Xác nhận mật khẩu'
                             placeholderTextColor={COLOR.notFocus}
                             value={confirmPassword}
-                            onChangeText={setConfirmPassword}
+                            onChangeText={(text) => setConfirmPassword(text)}
                         />
                     </View>
                     <View style={[{ marginTop: 8, alignItems: 'center' }]}>
@@ -151,7 +153,7 @@ const Register = (props) => {
                             placeholder='Họ và tên'
                             placeholderTextColor={COLOR.notFocus}
                             value={name}
-                            onChangeText={setName}
+                            onChangeText={(text) => setName(text)}
                         />
                     </View>
                     <View style={[{ alignItems: 'center', marginTop: 8 }]}>
