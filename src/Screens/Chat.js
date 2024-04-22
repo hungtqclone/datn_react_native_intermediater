@@ -5,6 +5,7 @@ import { UserContext } from '../components/users/UserContext';
 import { useMessage } from '../components/messages/MessageContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment_timezone from 'moment-timezone';
+import { useFocusEffect } from '@react-navigation/native'
 
 
 // const moment = require('moment-timezone');
@@ -27,6 +28,16 @@ const Chat = ({ navigation, route }) => {
         const dataMessagesFetch = await AsyncStorage.getItem(userId)
         setAllMessages(JSON.parse(dataMessagesFetch))
     }
+    useFocusEffect(
+        React.useCallback(() => {
+            socket.emit('see-message', {
+                "senderId": data._id,
+                "receiverId": userId
+            });
+            return () => {
+            }
+        }, [])
+    )
 
     if (allMessages.length != 0) {
         for (let i = allMessages.length - 1; i >= 0; i--) {
@@ -60,10 +71,7 @@ const Chat = ({ navigation, route }) => {
         socket.on('sender-message', (message) => {
             setAllMessages(prevMessages => [...prevMessages, message]);
         });
-        socket.emit('see-message', {
-            "senderId": data._id,
-            "receiverId": userId
-        });
+
         socket.on('seen-message', async () => {
             const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${userId}`)
             setAllMessages(messagesData.messages)

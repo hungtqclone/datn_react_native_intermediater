@@ -5,6 +5,7 @@ import { productStyles } from '../styleSheets/ProductStyles'
 import PostnewsStack from '../components/navigation/PostnewsTabnavigation'
 import { urlAPI } from '../components/helpers/urlAPI'
 import { styleNumber } from '../styleSheets/styleJS'
+import AxiosInstance from '../components/helpers/Axiosintance'
 const data = [
     { id: 1, title: 'Điện thoại' },
     { id: 2, title: 'Giá' },
@@ -41,6 +42,7 @@ const Product = (props) => {
     const [brand, setBrands] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isLoadingPage, setIsLoadingPage] = useState(false)
+    const [dataSearch, setDataSearch] = useState(undefined)
     const [page, setPage] = useState(1)
     const ongetBrands = async () => {
         const brands = await getBrands(idCate);
@@ -149,12 +151,25 @@ const Product = (props) => {
     const handleLoadMore = () => {
     };
 
+    const handleInputSearch = async (text) => {
+        try {
+            if (text) {
+                const dataPostsSearch = await AxiosInstance().get(`/api/postnews/search/${text}`)
+                setDataSearch(dataPostsSearch.data)
+            } else {
+                setDataSearch(undefined)
+            }
+
+        } catch (error) {
+            console.log("error handle input search product.js: ", error)
+        }
+    }
     return (
         <View style={productStyles.body}>
 
             <View style={productStyles.containerse}>
                 <View style={productStyles.viewSearch}>
-                    <TextInput style={productStyles.txpSearch} placeholder='Tìm kiếm trên chợ tốt' />
+                    <TextInput onChangeText={handleInputSearch} style={productStyles.txpSearch} placeholder='Tìm kiếm trên chợ tốt' />
                     <Image style={productStyles.imgSearch} source={require('../../image/search.png')} />
                 </View>
                 <Image style={productStyles.icon} source={require('../assets/images/icons/icon_notification.png')} />
@@ -236,7 +251,7 @@ const Product = (props) => {
                     ) : (
                         <FlatList
                             scrollEnabled={false}
-                            data={post}
+                            data={dataSearch ? dataSearch : post}
                             renderItem={renderPostNews}
                             horizontal={false}
                             keyExtractor={item => item._id.toString()}

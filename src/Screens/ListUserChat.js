@@ -9,7 +9,7 @@ import { useFocusEffect } from '@react-navigation/native'
 const ListUserChat = (props) => {
     const { navigation } = props;
     const { user } = useContext(UserContext);
-    const { socket } = useMessage()
+    const { socket, setNewMessage } = useMessage()
     const [allMessages, setAllMessages] = useState([])
     const userId = user._id;
     const [data, setData] = useState([]);
@@ -49,6 +49,7 @@ const ListUserChat = (props) => {
         }, [])
     )
     useEffect(() => {
+        setNewMessage(false)
         socket.on('receive-message', async (message) => {
             const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${userId}`)
             setAllMessages(messagesData.messages)

@@ -11,7 +11,7 @@ const MessageContext = createContext();
 export const MessageProvider = ({ children }) => {
     const [messages, setMessages] = useState([]);
     const [allMessages, setAllMessages] = useState([])
-    const [newMessage, setNewMessage] = useState(null)
+    const [newMessage, setNewMessage] = useState(false)
     const [userId, setUserId] = useState(null)
     // useEffect(() => {
     //     socket.on('newMessage', (message) => {
@@ -26,6 +26,13 @@ export const MessageProvider = ({ children }) => {
         try {
             const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${userId}`)
             await AsyncStorage.setItem(userId, JSON.stringify(messagesData.messages));
+            for (let i = 0; i < messagesData.messages.length; i++) {
+                if (messagesData.messages[i].seen == false) {
+                    setNewMessage(true)
+                    return
+                }
+
+            }
             // setAllMessages(messagesData.messages)
             // console.log(messagesData.messages.length)
         } catch (error) {
@@ -62,7 +69,7 @@ export const MessageProvider = ({ children }) => {
 
 
     return (
-        <MessageContext.Provider value={{ allMessages, socket, setUserId }}>
+        <MessageContext.Provider value={{ allMessages, socket, setUserId, newMessage, setNewMessage }}>
             {children}
         </MessageContext.Provider>
     );
