@@ -151,11 +151,11 @@ const NearYou = (props) => {
             <Text>5km</Text>
           </View>
         </View>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.btn}
           onPress={() => console.log('theo dõi')}>
           <Text style={styles.txtBtn}>Theo dõi</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <View style={styles.bodycont}>
         {/* Định vị hiện tại ở góc trên bên trái */}
@@ -218,7 +218,7 @@ const NearYou = (props) => {
         <TouchableOpacity style={styles.btnCall}>
           <Image
             style={styles.iconCall}
-            source={require('../../assets/images/icons/heart.png')}
+            source={require('../../assets/images/icons/heart2.png')}
           />
           <TouchableOpacity
             onPress={() => onSavePost(item._id)}
