@@ -11,18 +11,24 @@ const Foryou = (props) => {
     const [products, setProducts] = useState([]);
     // const { navigation } = props
     const navigation = useNavigation();
+    const formatDate = (datetime) => {
+        const date = new Date(datetime);
+        const day = date.toLocaleDateString('en-GB');
+        return `${day}`;
+    };
+    const truncate = (input, length) => input.length > length ? `${input.substring(0, length)}...` : input;
     const renderItemPostnew = ({ item }) => {
         return (
             <TouchableOpacity onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })} style={foryouStyles.productBody}>
                 <Image style={foryouStyles.imgproduct} source={{ uri: `${item.files}` }} />
                 <Text style={foryouStyles.txtnameproduct} >{item.title}</Text>
                 <Text style={foryouStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
-                <Text style={foryouStyles.txtprice} >{styleNumber(item.price)}</Text>
+                <Text style={foryouStyles.txtprice} >{styleNumber(item.price)}đ</Text>
 
                 <View style={foryouStyles.contaiicontimeaddress}>
                     <Image style={foryouStyles.imgiconprofile} source={require('../../../image/Phone.png')} />
-                    <Text style={foryouStyles.txtTime} > - {item.created_AT} - </Text>
-                    <Text style={foryouStyles.txtAdress} >{item.location}</Text>
+                    <Text style={foryouStyles.txtTime} > - {formatDate(item.created_AT)} - </Text>
+                    <Text style={foryouStyles.txtAdress} numberOfLines={1}>{truncate(item.location, 10)}</Text>
                 </View>
             </TouchableOpacity>
         );
