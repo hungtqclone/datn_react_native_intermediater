@@ -81,7 +81,7 @@ const Profile_screen = props => {
         `/api/stripe/create-payment-intent/${amount}/${dataUser._id}`,
       );
       Linking.openURL(
-        `https://datn-web-payment.vercel.app/pay/${payment._id}`,
+        `https://datn-web-payment.vercel.app/pay/${payment.data._id}`,
       );
       setIsLoading(false);
     } catch (error) {

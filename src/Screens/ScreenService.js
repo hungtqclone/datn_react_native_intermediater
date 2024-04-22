@@ -69,9 +69,9 @@ export const getBrands = async id => {
 };
 
 // get Sản phẩm theo categories 
-export const getProductByidCate = async idCategory => {
+export const getProductByidCate = async (idCategory, page) => {
   try {
-    const post = await AxiosInstance().get(`api/postnews/${idCategory}`);
+    const post = await AxiosInstance().get(`api/postnews/${idCategory}/${page}`);
     // console.log("32 Service Products : " + JSON.stringify(detail.data));
     return post.data;
   } catch (err) {
@@ -130,7 +130,7 @@ export const getPostNewsByUserId = async (id) => {
 };
 export const getPostNewsByCategory = async (id) => {
   try {
-    const res = await AxiosInstance().get(`/api/postnews/${id}`);
+    const res = await AxiosInstance().get(`/api/postnews/${id}/1`);
     // console.log('getPostNewsByCategory response', res.data);
     return res.data;
   } catch (error) {

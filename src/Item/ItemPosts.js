@@ -196,7 +196,7 @@ const ItemPosts = props => {
           <View style={{ width: 120, height: 120, padding: 15 }}>
             <Image
               style={{ width: '100%', height: '100%' }}
-              source={{ uri: urlAPI + data.files[0] }}
+              source={{ uri: data.files[0] }}
             />
           </View>
           <View

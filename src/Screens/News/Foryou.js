@@ -14,7 +14,7 @@ const Foryou = (props) => {
     const renderItemPostnew = ({ item }) => {
         return (
             <TouchableOpacity onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })} style={foryouStyles.productBody}>
-                <Image style={foryouStyles.imgproduct} source={{ uri: `${urlAPI}${item.files}` }} />
+                <Image style={foryouStyles.imgproduct} source={{ uri: `${item.files}` }} />
                 <Text style={foryouStyles.txtnameproduct} >{item.title}</Text>
                 <Text style={foryouStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
                 <Text style={foryouStyles.txtprice} >{styleNumber(item.price)}</Text>

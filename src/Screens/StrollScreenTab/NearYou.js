@@ -174,7 +174,7 @@ const NearYou = (props) => {
             // console.log('Constructed Image URL:', `${urlServer}${item}`),
             <View key={index} style={styles.gridItem}>
               <Image
-                source={{ uri: `${urlAPI}${item}` }}
+                source={{ uri: `${item}` }}
                 style={styles.image}
                 resizeMode="cover"
               />

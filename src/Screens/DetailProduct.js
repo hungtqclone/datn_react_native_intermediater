@@ -182,7 +182,7 @@ const DetailProduct = (props) => {
                 {products.files.map((file, index) => (
                   <View style={styles.slide} key={index}>
                     <Image
-                      source={{ uri: `${urlAPI}${file}` }}
+                      source={{ uri: `${file}` }}
                       style={styles.image}
                     />
                   </View>
@@ -283,7 +283,7 @@ const DetailProduct = (props) => {
               </View>
               <View style={styles.contentDecs}>
                 <Text>   {products.detail}
-                         {products.properties}
+                  {products.properties}
                 </Text>
               </View>
             </View>
@@ -438,12 +438,12 @@ const DetailProduct = (props) => {
                   >
                     <Image
                       // source={item.files[0]} 
-                      source={{ uri: `${urlAPI}${item.files[0]}` }}
+                      source={{ uri: `${item.files[0]}` }}
                       style={styles.horizontalImage} />
                     <Text style={styles.tagpro}>Thanh toán đảm bảo</Text>
                     <View style={styles.horizontalTextContainer}>
                       <Text style={styles.horizontalname} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
-                      <Text style={styles.horizontalrice} numberOfLines={1} ellipsizeMode="tail">{item.price} đ </Text> 
+                      <Text style={styles.horizontalrice} numberOfLines={1} ellipsizeMode="tail">{item.price} đ </Text>
                       <Text style={styles.horizontaltime}>{item.created_AT}</Text>
                     </View>
                   </TouchableOpacity>
@@ -468,7 +468,7 @@ const DetailProduct = (props) => {
                     onPress={() => reLoadScreen(item._id)}
                   >
                     <Image
-                      source={{ uri: `${urlAPI}${item.files[0]}` }}
+                      source={{ uri: `${item.files[0]}` }}
                       style={styles.horizontalImage} />
                     <Image
                       source={require('../assets/images/icons/like.png')}
@@ -477,7 +477,7 @@ const DetailProduct = (props) => {
                     <Text style={styles.tagpro}>Thanh toán đảm bảo</Text>
                     <View style={styles.horizontalTextContainer}>
                       <Text style={styles.horizontalname} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
-                      <Text style={styles.horizontalrice}numberOfLines={1} ellipsizeMode="tail">{item.price} đ </Text>
+                      <Text style={styles.horizontalrice} numberOfLines={1} ellipsizeMode="tail">{item.price} đ </Text>
                       <Text style={styles.horizontaltime}>{item.created_AT}</Text>
                     </View>
                   </TouchableOpacity>
@@ -855,7 +855,7 @@ const styles = StyleSheet.create({
     borderTopColor: '#ccc',
     marginLeft: 5,
     marginRight: 5,
-  
+
   },
   infoAv: {
     flexDirection: 'row',
@@ -1147,7 +1147,7 @@ const styles = StyleSheet.create({
     width: 100,
     flexDirection: 'column',
     padding: 5,
-    
+
   },
   horizontalImage: {
     width: '100%',

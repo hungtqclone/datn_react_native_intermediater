@@ -48,27 +48,32 @@ const Product = (props) => {
         // console.log("Sản Phẩm :83 >" + JSON.stringify(products));
     }
     const ongetPosst = async () => {
-        const posst = await getProductByidCate(idCate);
-        setPostNews(posst);
+        const posst = await getProductByidCate(idCate, page);
+
+        if (page == 1) {
+            setPostNews(posst);
+        } else {
+            setPostNews([...post, ...posst])
+        }
         if (posst.length > 0) {
             setIsLoading(false);
         }
+        setPage(page + 1)
         // console.log("Sản Phẩm :83 >" + JSON.stringify(products));
     }
     useEffect(() => {
         ongetBrands(), ongetPosst();
-        console.log('id', idCate);
-    }, [idCate]);
-    useEffect(() => {
-        fetchData()
-    }, [page]);
+    }, []);
+    // useEffect(() => {
+    //     fetchData()
+    // }, []);
 
     const fetchData = () => {
         setIsLoadingPage(true)
         setTimeout(() => {
-            //chạy api load data page mới tại đây
+            ongetPosst();
             setIsLoadingPage(false);
-        }, 2000)
+        }, 2000);
     }
     const numColumns = Math.ceil(dataAddress.length / 2);
     const renderFill = ({ item, index }) => {
@@ -111,7 +116,7 @@ const Product = (props) => {
     const renderPostNews = ({ item, index }) => {
         return (
             <TouchableOpacity onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })} style={productStyles.productBody2}>
-                <Image style={productStyles.imgproduct} source={{ uri: `${urlAPI}${item.files[0]}` }} />
+                <Image style={productStyles.imgproduct} source={{ uri: `${item.files[0]}` }} />
                 <View style={productStyles.contaiColum}>
                     <Text style={productStyles.txtTitle} numberOfLines={1}>{item.title}</Text>
                     <Text style={productStyles.txtDetail} numberOfLines={2}>{item.detail}</Text>
@@ -131,17 +136,19 @@ const Product = (props) => {
     }
     const renderFooter = () => {
         return isLoadingPage ? (
-            <View style={{ paddingVertical: 20 }}>
+            <View style={{ paddingVertical: 15 }}>
                 <ActivityIndicator size="large" color="#3498db" />
             </View>
-        ) : null;
+        ) : (
+            <TouchableOpacity onPress={fetchData} style={{ paddingVertical: 15, backgroundColor: "white", alignItems: 'center' }}>
+                <Text style={{ color: "green", fontWeight: 500 }}>Xem thêm</Text>
+            </TouchableOpacity>
+        );
     };
 
     const handleLoadMore = () => {
-        if (!isLoadingPage) {
-            setPage(prevPage => prevPage + 1);
-        }
     };
+
     return (
         <View style={productStyles.body}>
 
@@ -236,7 +243,7 @@ const Product = (props) => {
                             showsHorizontalScrollIndicator={false}
                             ListFooterComponent={renderFooter}
                             onEndReached={handleLoadMore}
-                            onEndReachedThreshold={1}
+                            onEndReachedThreshold={0.1}
                         />
                     )}
 

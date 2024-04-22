@@ -86,7 +86,7 @@ const CategoriesDetail = (props) => {
                     nextScreenProductDetail(item._id)
                 }
             >
-                <Image style={CGDStyles.imgproduct} source={{ uri: `${urlAPI}${item.files}` }} />
+                <Image style={CGDStyles.imgproduct} source={{ uri: `${item.files}` }} />
                 <Text style={CGDStyles.txtnameproduct} >{item.title}</Text>
                 <Text style={CGDStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
                 <Text style={CGDStyles.txtprice} >{styleNumber(item.price)}</Text>
