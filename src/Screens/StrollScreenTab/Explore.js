@@ -125,7 +125,7 @@ const Explore = (props) => {
             // console.log('Constructed Image URL:', `${urlServer}${item}`),
             <View key={item.toString()} style={styles.gridItem}>
               <Image
-                source={{ uri: `${urlAPI}${item}` }}
+                source={{ uri: `${item}` }}
                 style={styles.image}
               />
               {/* {index === 3 && (

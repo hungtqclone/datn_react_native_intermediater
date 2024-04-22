@@ -8,6 +8,7 @@ import Foryou from './News/Foryou';
 import Shopstores from './DetailCategories/shopstores';
 import { styleNumber } from '../styleSheets/styleJS';
 import { urlAPI } from '../components/helpers/urlAPI';
+import { useMessage } from '../components/messages/MessageContext';
 const data = [
     { id: 1, image: require('../../image/bannertet.jpg') },
     { id: 2, image: require('../../image/laptopbanner.jpg') }
@@ -30,6 +31,7 @@ const CategoriesDetail = (props) => {
     const [categoriesDetail, setCategoriesDetail] = useState([]);
     const [idCategory, setIdCategory] = useState("658fb995b41f1dd5128fa9cf")
     const numColumns = Math.ceil(datatile.length / 2);
+    const { newMessage } = useMessage();
     const { navigation, route } = props;
 
     //id của category truyền qua
@@ -86,7 +88,7 @@ const CategoriesDetail = (props) => {
                     nextScreenProductDetail(item._id)
                 }
             >
-                <Image style={CGDStyles.imgproduct} source={{ uri: `${urlAPI}${item.files}` }} />
+                <Image style={CGDStyles.imgproduct} source={{ uri: `${item.files}` }} />
                 <Text style={CGDStyles.txtnameproduct} >{item.title}</Text>
                 <Text style={CGDStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
                 <Text style={CGDStyles.txtprice} >{styleNumber(item.price)}</Text>
@@ -119,6 +121,7 @@ const CategoriesDetail = (props) => {
                 <TouchableOpacity
                     onPress={() => navigation.navigate('ChatNavigation')}
                 >
+                    <View style={{ width: 10, height: 10, position: 'absolute', right: 7, backgroundColor: "red", borderRadius: 50, display: newMessage ? 'flex' : 'none' }}></View>
                     <Image style={CGDStyles.icon} source={require('../assets/images/icons/icon_chat.png')} />
                 </TouchableOpacity>
 

@@ -81,7 +81,7 @@ const Profile_screen = props => {
         `/api/stripe/create-payment-intent/${amount}/${dataUser._id}`,
       );
       Linking.openURL(
-        `https://datn-web-payment.vercel.app/pay/${payment.clientSecret}`,
+        `https://datn-web-payment.vercel.app/pay/${payment.data._id}`,
       );
       setIsLoading(false);
     } catch (error) {
@@ -120,7 +120,7 @@ const Profile_screen = props => {
               style={{ color: 'red', marginTop: 10, display: amount < 20000 ? 'flex' : 'none' }}>
               Số tiền nạp không được dưới 20.000 VND.
             </Text>
-            <Text style={{ marginTop: 10, color:'black' }}>
+            <Text style={{ marginTop: 10, color: 'black' }}>
               Khi nhấn xác nhận sẽ di chuyển sang trang web thanh toán.
             </Text>
             <View style={{ flexDirection: 'row', marginTop: 20 }}>
@@ -134,7 +134,7 @@ const Profile_screen = props => {
                 onPress={toggleModal}>
                 <Text style={{ color: 'white', textAlign: 'center', fontSize: 16 }}>Đóng</Text>
               </TouchableOpacity>
-              <View style={{width:10}}></View>
+              <View style={{ width: 10 }}></View>
               <TouchableOpacity
                 style={{
                   backgroundColor: '#33CCFF',
