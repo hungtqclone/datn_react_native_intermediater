@@ -133,7 +133,7 @@ export const PNStyles = StyleSheet.create({
         borderRadius: 5,
     },
     btnDT: {
-        width: '47%',
+        width: '100%',
         backgroundColor: '#FF8800',
         borderRadius: 5,
 
@@ -146,7 +146,8 @@ export const PNStyles = StyleSheet.create({
     txtDT: {
         textAlign: 'center',
         padding: 10,
-        color: 'white'
+        color: 'white',
+        fontWeight:'bold',
 
     },
     // MOdel 
@@ -350,6 +351,15 @@ export const PNStyles = StyleSheet.create({
         height: 150,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    txtlengt:{
+        zIndex:1,
+        position:'absolute',
+        alignItems: 'center',
+        alignContent: 'center',
+        color:'grey',
+        fontSize: 20,
+        fontWeight: 'bold',
     },
     viewROW: {
         flexDirection: 'row',

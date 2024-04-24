@@ -18,6 +18,7 @@ import DetailProduct from '../../Screens/DetailProduct';
 import Foryou from '../../Screens/News/Foryou';
 import Chat from '../../Screens/Chat';
 import ChatNavigation from './ChatNavigation';
+import Login from '../../Screens/Login';
 const Stack = createNativeStackNavigator();
 
 const ProductNavigation = () => {
@@ -36,6 +37,10 @@ const ProductNavigation = () => {
       <Stack.Screen name="Foryou" component={Foryou} />
       <Stack.Screen name="ChatNavigation" component={ChatNavigation} />
       <Stack.Screen name="Chat" component={Chat} />
+      <Stack.Screen name="Login" component={Login} />
+      
+    
+
     </Stack.Navigator>
   );
 };
