@@ -2,7 +2,6 @@ import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ActivityInd
 import React, { useState, useContext } from 'react'
 import { AppStyle } from '../constants/AppStyle'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import AxiosInstance from '../components/helpers/Axiosintance'
 import { UserContext } from '../components/users/UserContext'
 
 const Login = (props) => {
@@ -41,9 +40,12 @@ const Login = (props) => {
 
         setIsLoading(true);
         try {
-            await onLogin(email, password);
+            const user = await onLogin(email, password);
+            if (!user) {
+                throw new Error('Mật khẩu không chính xác');
+            }
         } catch (error) {
-            setError(prev => ({ ...prev, form: 'Đăng nhập thất bại, vui lòng thử lại' }));
+            setError(prev => ({ ...prev, password: error.message || 'Mật khẩu không chính xác' }));
         } finally {
             setIsLoading(false);
         }

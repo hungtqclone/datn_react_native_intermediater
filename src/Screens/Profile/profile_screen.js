@@ -409,6 +409,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginLeft: 10,
+    color:'black'
   },
   appbarRight: {
     flexDirection: 'row',
@@ -510,6 +511,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     backgroundColor: '#fff',
+    bottom:16
   },
   pointGood: {
     padding: 10,

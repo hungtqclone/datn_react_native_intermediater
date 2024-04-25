@@ -65,7 +65,7 @@ const Postnews = (props) => {
                     <Image source={require('../../image/back.png')} />
                 </Pressable>
                 <View style={Product.contaitxt}>
-                    <Text style={Product.txtTille}>CHỌN DANH MỤC</Text>
+                    <Text style={Product.txtTille}>Chọn danh mục</Text>
                 </View  >
             </View>
             <View style={Product.contaitxp}>
