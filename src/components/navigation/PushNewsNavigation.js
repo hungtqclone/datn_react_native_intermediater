@@ -4,6 +4,8 @@ import React from 'react';
 
 import Postnews from '../../Screens/Postnews';
 import DetailPostnews from '../../Screens/Postnews/DetailPostNews';
+import Login from '../../Screens/Login';
+import Register from '../../Screens/Register';
 
 
 const Stack = createNativeStackNavigator();
