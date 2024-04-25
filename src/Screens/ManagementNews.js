@@ -9,17 +9,19 @@ import { UserContext } from '../components/users/UserContext'
 import PostsHidden from './managementPosts/PostsHidden'
 import PostsPresently from './managementPosts/PostsPresently'
 import TopTabManagementPosts from './managementPosts/TopTabManagementPosts'
+import { styleNumber, formatDate } from '../styleSheets/styleJS'
 
 const Tab = createMaterialTopTabNavigator();
 
-const dataPackage = [
-    { id: 1, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
-    { id: 2, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
-    { id: 3, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
-    { id: 4, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
-    { id: 5, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
+const avatarDefault = 'https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg';
 
-]
+// const dataPackage = [
+//     { id: 1, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
+//     { id: 2, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
+//     { id: 3, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
+//     { id: 4, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
+//     { id: 5, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
+// ]
 
 const FirstRoute = () => {
     const [dataPosts, setDataPosts] = useState([])
@@ -96,28 +98,28 @@ const ManagementNews = (props) => {
         />
     );
     // Package
-    const renderItemPackage = ({ item, index }) => {
-        return (
-            <View style={MGNStyles.containerIemPackge}>
-                <Image style={MGNStyles.imgPackage} source={item.image}></Image>
-                <Text style={MGNStyles.txtPackage}>{item.title}</Text>
-            </View>
-        );
-    }
+    // const renderItemPackage = ({ item, index }) => {
+    //     return (
+    //         <View style={MGNStyles.containerIemPackge}>
+    //             <Image style={MGNStyles.imgPackage} source={item.image}></Image>
+    //             <Text style={MGNStyles.txtPackage}>{item.title}</Text>
+    //         </View>
+    //     );
+    // }
 
     return (
         <View style={MGNStyles.body}>
             <View style={MGNStyles.containerse}>
                 <Text style={MGNStyles.txtTitle}>Quản lý tin đăng</Text>
                 <View style={MGNStyles.contaiimg}>
-                    <Image style={MGNStyles.icon} source={require('../assets/images/icons/icon_search.png')} />
+                    {/* <Image style={MGNStyles.icon} source={require('../assets/images/icons/icon_search.png')} /> */}
                     <Image style={MGNStyles.icon} source={require('../assets/images/icons/icon_notification.png')} />
                     <TouchableOpacity onPress={() => navigation.navigate('ChatNavigation')} >
                         <Image style={MGNStyles.icon} source={require('../assets/images/icons/icon_chat.png')} />
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={MGNStyles.containerPackage}>
+            {/* <View style={MGNStyles.containerPackage}>
                 <FlatList
                     data={dataPackage}
                     renderItem={renderItemPackage}
@@ -125,19 +127,33 @@ const ManagementNews = (props) => {
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={item => item.id}
                 />
-            </View>
+            </View> */}
             <View style={MGNStyles.bodyNews}>
                 <View style={MGNStyles.contaiProfile}>
                     <View style={MGNStyles.contaiJus}>
-                        <Image source={require('../../image/Apple.png')} style={MGNStyles.imgProfile} ></Image>
+                        <Image
+                            source={
+                                user && user.avatar
+                                    ? { uri: user.avatar }
+                                    : { uri: avatarDefault}
+                            }
+                            style={MGNStyles.imgProfile}
+                        />
                         <Text style={MGNStyles.txtProfile}>{user.name}</Text>
                     </View>
                     <View style={MGNStyles.contaiPoint}>
-                        <Image source={require('../../image/Apple.png')} style={MGNStyles.imgcoint}></Image>
-                        <Text style={MGNStyles.txtPoint}>0</Text>
-                        <TouchableOpacity style={MGNStyles.btnTouch}>
-                            <Image style={MGNStyles.imgcoint} source={require('../../image/plus.png')}></Image>
-                        </TouchableOpacity>
+                        <Text style={{
+                            fontSize: 14,
+                            fontWeight: 'bold',
+                            marginRight: 5,
+                            color: 'black'
+                        }}>
+                            {styleNumber(user.balance)}
+                        </Text>
+                        <Image
+                            source={require('../assets/images/icons/icon_coin.png')}
+                            style={{ width: 20, height: 20 }}
+                        />
                     </View>
                 </View>
 

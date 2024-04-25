@@ -36,7 +36,6 @@ const Profile_screen = props => {
         // options
       });
 
-      // Update the avatarSource with the selected image
       setAvatarSource({ uri: image.path });
     } catch (error) {
       console.log('ImagePicker Error: ', error);

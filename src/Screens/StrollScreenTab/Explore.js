@@ -186,13 +186,13 @@ const Explore = (props) => {
             <Text style={styles.txtBtnCall}>Lưu tin</Text>
           </TouchableOpacity>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.btnCall}>
+        {/* <TouchableOpacity style={styles.btnCall}>
           <Image
             style={styles.iconCall}
             source={require('../../assets/images/icons/icon_chat.png')}
           />
           <Text style={styles.txtBtnCall}>Chat</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity style={styles.btnCall}>
           <Image
             style={styles.iconCall}
@@ -452,10 +452,10 @@ const styles = StyleSheet.create({
   // phần nút gọi điện và chat
   btncontact: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent:'space-between',
     marginBottom: 20,
-    borderTopColor: '#ccc',
-    borderTopWidth: 1,
+    borderColor: '#ccc',
+    borderBottomWidth:1,
   },
   btnCall: {
     flexDirection: 'row',

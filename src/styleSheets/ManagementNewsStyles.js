@@ -53,10 +53,9 @@ export const MGNStyles = StyleSheet.create({
     },
     // body Tin tức
     bodyNews: {
-        marginTop: 8,
         backgroundColor: 'white',
         width: '100%',
-        height: '100%'
+        height: '90%'
     },
     contaiProfile: {
         flexDirection: 'row',

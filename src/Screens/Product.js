@@ -239,7 +239,7 @@ const Product = (props) => {
                         showsHorizontalScrollIndicator={false}
                     />
                 </View>
-                <View>
+                {/* <View>
                     <FlatList
                         data={dataFindkey}
                         renderItem={renderFindkey}
@@ -248,7 +248,7 @@ const Product = (props) => {
                         keyExtractor={item => item.id}
                         showsHorizontalScrollIndicator={false}
                     />
-                </View>
+                </View> */}
                 <View>
                     {isLoading ? (
                         <ActivityIndicator
