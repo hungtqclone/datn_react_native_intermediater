@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 
 import { RLSTtyles } from '../../styleSheets/RealestateStytles'
 import { getProduct } from '../ScreenService';
+import { styleNumber, formatDate } from '../../styleSheets/styleJS';
 
 const datatile = [
     { id: 1, title: 'Mua bán', image: require('../../../image/icon_muaban.jpg') },
@@ -59,11 +60,11 @@ const Realestate = (props) => {
                 <Image style={RLSTtyles.imgproduct} source={{ uri: `${item.files}` }} />
                 <Text style={RLSTtyles.txtnameproduct} >{item.title}</Text>
                 <Text style={RLSTtyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
-                <Text style={RLSTtyles.txtprice} >{item.price} đ</Text>
+                <Text style={RLSTtyles.txtprice} >{styleNumber(item.price)} đ</Text>
 
                 <View style={RLSTtyles.contaiicontimeaddress}>
                     <Image style={RLSTtyles.imgiconprofile} source={require('../../../image/Phone.png')} />
-                    <Text style={RLSTtyles.txtTime} > - {item.created_AT} - </Text>
+                    <Text style={RLSTtyles.txtTime} > - {formatDate(item.created_AT)} - </Text>
                     <Text style={RLSTtyles.txtAdress} >{item.location}</Text>
                 </View>
             </TouchableOpacity>

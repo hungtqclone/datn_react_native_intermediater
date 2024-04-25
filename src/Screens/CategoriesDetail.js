@@ -6,7 +6,7 @@ import PostnewsStack from '../components/navigation/PostnewsTabnavigation';
 import { TabView } from 'react-native-tab-view';
 import Foryou from './News/Foryou';
 import Shopstores from './DetailCategories/shopstores';
-import { styleNumber } from '../styleSheets/styleJS';
+import { styleNumber, formatDate } from '../styleSheets/styleJS';
 import { urlAPI } from '../components/helpers/urlAPI';
 import { useMessage } from '../components/messages/MessageContext';
 const data = [

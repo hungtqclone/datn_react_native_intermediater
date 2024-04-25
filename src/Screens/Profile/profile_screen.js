@@ -17,7 +17,7 @@ import AxiosInstance from '../../components/helpers/Axiosintance';
 import { UserContext } from '../../components/users/UserContext';
 import { useFocusEffect } from '@react-navigation/native';
 import Modal from 'react-native-modal';
-import { styleNumber } from '../../styleSheets/styleJS';
+import { styleNumber, formatDate } from '../../styleSheets/styleJS';
 
 const Profile_screen = props => {
   const { navigation } = props;

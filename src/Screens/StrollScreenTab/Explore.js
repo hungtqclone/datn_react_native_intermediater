@@ -14,6 +14,8 @@ import {
 import { getProduct, savePost } from '../ScreenService';
 import { UserContext } from '../../components/users/UserContext';
 import { urlAPI } from '../../components/helpers/urlAPI';
+import { styleNumber, formatDate } from '../../styleSheets/styleJS';
+
 const Explore = (props) => {
   const MAX_HEIGHT = 100;
   //lấy thông tin user
@@ -96,7 +98,7 @@ const Explore = (props) => {
             />
           </View>
           <View style={styles.timecont}>
-            <Text> {item.created_AT}</Text>
+            <Text> {formatDate(item.created_AT)}</Text>
             <View style={styles.circle} />
             <Text>5km</Text>
           </View>
@@ -149,7 +151,7 @@ const Explore = (props) => {
         >
           <View style={styles.cont_nameprice}>
             <Text style={styles.textnameprice}> {item.title} </Text>
-            <Text style={styles.textprice}>{item.price} đ</Text>
+            <Text style={styles.textprice}>{styleNumber(item.price)} đ</Text>
           </View>
           <Image
             style={styles.icon_arrow_right}

@@ -14,6 +14,8 @@ import { Image } from '@rneui/base';
 import { getProduct } from '../../ScreenService';
 import Product from '../../Product';
 import { urlAPI } from '../../../components/helpers/urlAPI';
+import { styleNumber, formatDate } from '../../../styleSheets/styleJS';
+
 const horizontalData = [
   {
     id: '1',
@@ -82,7 +84,7 @@ const SavedSearchScreen = props => {
           /> */}
         </TouchableOpacity>
         <Text style={styles.horizontalname}>{item.title}</Text>
-        <Text style={styles.horizontalrice}>{item.price} đ</Text>
+        <Text style={styles.horizontalrice}>{styleNumber(item.price)}đ</Text>
         <View style={styles.contend}>
           {/* <Image
             style={styles.iconbag}
@@ -92,7 +94,7 @@ const SavedSearchScreen = props => {
             style={styles.icondot}
             source={require('../../../assets/images/icons/icon_dot.png')}
           /> */}
-          <Text style={styles.horizontaltime}>{item.created_AT}</Text>
+          <Text style={styles.horizontaltime}>{formatDate(item.created_AT)}</Text>
         </View>
       </View>
     </TouchableOpacity>

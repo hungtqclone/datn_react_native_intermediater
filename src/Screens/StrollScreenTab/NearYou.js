@@ -18,6 +18,8 @@ import Modal from 'react-native-modal';
 import { getProduct, savePost, getPostSaved } from '../ScreenService';
 import { UserContext } from '../../components/users/UserContext';
 import { urlAPI } from '../../components/helpers/urlAPI';
+import { styleNumber, formatDate } from '../../styleSheets/styleJS';
+
 const MAX_ADDRESS_LENGTH = 30;
 const MAX_HEIGHT = 100;
 const NearYou = (props) => {
@@ -162,7 +164,7 @@ const NearYou = (props) => {
               />
             </View>
             <View style={styles.timecont}>
-              <Text> {item.created_AT}</Text>
+              <Text> {formatDate(item.created_AT)}</Text>
               <View style={styles.circle} />
               <Text>5km</Text>
             </View>
@@ -207,7 +209,7 @@ const NearYou = (props) => {
           >
             <View style={styles.cont_nameprice}>
               <Text style={styles.textnameprice}> {item.title} </Text>
-              <Text style={styles.textprice}>{item.price} đ</Text>
+              <Text style={styles.textprice}>{styleNumber(item.price)} đ</Text>
             </View>
             <Image
               style={styles.icon_arrow_right}

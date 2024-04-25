@@ -4,7 +4,7 @@ import { getBrands, getProductByidCate } from './ScreenService'
 import { productStyles } from '../styleSheets/ProductStyles'
 import PostnewsStack from '../components/navigation/PostnewsTabnavigation'
 import { urlAPI } from '../components/helpers/urlAPI'
-import { styleNumber } from '../styleSheets/styleJS'
+import { styleNumber, formatDate } from '../styleSheets/styleJS'
 import AxiosInstance from '../components/helpers/Axiosintance'
 const data = [
     { id: 1, title: 'Điện thoại' },

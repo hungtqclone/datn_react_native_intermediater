@@ -35,6 +35,7 @@ const PostSaved = (props) => {
   //     setIsLoading(false); // Set loading state to false after the request is complete
   //   }
   // };
+   
   const ongetSaved = async () => {
     try {
       console.log('userId', userId);
@@ -80,7 +81,7 @@ const PostSaved = (props) => {
           />
         </TouchableOpacity>
         <Text style={styles.horizontalname}>{item.title}</Text>
-        <Text style={styles.horizontalrice}>{item.price} đ</Text>
+        <Text style={styles.horizontalrice}>{styleNumber(item.price)} đ</Text>
         <View style={styles.contend}>
           <Image
             style={styles.iconbag}
@@ -90,7 +91,7 @@ const PostSaved = (props) => {
             style={styles.icondot}
             source={require('../../../assets/images/icons/icon_dot.png')}
           />
-          <Text style={styles.horizontaltime}>{item.created_AT}</Text>
+          <Text style={styles.horizontaltime}>{formatDate(item.created_AT)}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -124,7 +125,7 @@ const PostSaved = (props) => {
             style={styles.icondot}
             source={require('../../../assets/images/icons/icon_dot.png')}
           />
-          <Text style={styles.horizontaltime}>{item.postId.created_AT}</Text>
+          <Text style={styles.horizontaltime}>{formatDate(item.postId.created_AT)}</Text>
         </View>
       </View>
     </TouchableOpacity>

@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity, Pressable } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { ShopStyles } from '../../styleSheets/ShopStyles'
-import { styleNumber } from '../../styleSheets/styleJS'
+import { styleNumber, formatDate } from '../../styleSheets/styleJS'
 
 const Shopstores = () => {
     return (
