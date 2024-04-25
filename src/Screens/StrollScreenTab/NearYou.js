@@ -126,6 +126,7 @@ const NearYou = (props) => {
       const response = await savePost(userId, postId);
       // console.log('Save post response:', response);
       alert('Lưu bài viết thành công!');
+      ongetProducts();
     } catch (error) {
       console.error('Error saving post:', error);
     }
@@ -137,7 +138,7 @@ const NearYou = (props) => {
       const saved = await getPostSaved(userId);
       setSaved(saved);
 
-      console.log('ds tin đã lưu:', saved);
+      // console.log('ds tin đã lưu:', saved);
     } catch (error) {
       console.error('không lấy được ds tin đã lưu:', error);
     }
@@ -155,7 +156,7 @@ const NearYou = (props) => {
           />
           <View>
             <View style={styles.nameshop}>
-              {/* <Text style={styles.textnameshop}>{item.userid == null ? "Người dùng không tồn tại" : item.userid.name}</Text> */}
+               <Text style={styles.textnameshop}>{item.userid == null ? "Người dùng không tồn tại" : item.userid.name}</Text>
               <Image
                 style={styles.iconbag}
                 source={require('../../assets/images/icons/icon_bag.png')}
@@ -219,7 +220,7 @@ const NearYou = (props) => {
             <Text style={styles.textInfoPro}>{item.detail}</Text>
             <TouchableOpacity style={styles.btncall} onPress={() => handleCallPress(item.userid.phone)}>
               <Text style={styles.textcall}>Liên hệ ngay: </Text>
-              {/* <Text style={styles.textcall}>{item.userid.phone}</Text> */}
+            {/* <Text style={styles.textcall}>{item.userid.phone}</Text> */}
             </TouchableOpacity>
             {showCollapseButton && (
               <TouchableOpacity onPress={toggleExpand}>

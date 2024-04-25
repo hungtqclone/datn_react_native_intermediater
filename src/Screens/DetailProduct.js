@@ -14,10 +14,9 @@ import {
 import React, { useState, useEffect, useContext, Component } from 'react';
 import { useRoute, useFocusEffect } from '@react-navigation/native';
 import { getPostNewsByCategory, getProductById } from './ScreenService';
-import { getPostNewsByUserId, savePost } from './ScreenService';
+import { getPostNewsByUserId, savePost, getPostSaved } from './ScreenService';
 import Swiper from 'react-native-swiper';
 import { UserContext } from '../components/users/UserContext';
-import SweetAlert from 'react-native-sweet-alert';
 import { useNavigation } from '@react-navigation/native';
 import { urlAPI } from '../components/helpers/urlAPI';
 const DetailProduct = (props) => {
@@ -37,7 +36,10 @@ const DetailProduct = (props) => {
   const [isLoadingProByUser, setIsLoadingProByUser] = useState(true);
   const [isLoadingProByCategory, setIsLoadingProByCategory] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [saved, setSaved] = useState([]);
   const [title, setTitle] = useState('');
+  const [isSaved, setIsSaved] = useState(false);
+
   const data = [
     { id: '1', question: 'Món hàng này còn không?' },
     { id: '2', question: 'Bạn có ship hàng không?' },
@@ -88,16 +90,34 @@ const DetailProduct = (props) => {
       console.error('Error saving post:', error);
     }
   };
+  const ongetSaved = async () => {
+    try {
+      console.log('userId', userId);
+      const saved = await getPostSaved(userId);
+      setSaved(saved);
 
+      console.log('ds tin đã lưu:', saved[0].postId._id);
+    } catch (error) {
+      console.error('không lấy được ds tin đã lưu:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // ongetSaved();
+        // // Kiểm tra xem sản phẩm có trong danh sách đã lưu không
+        // console.log('id_product:', id_product);
+        // const isProductSaved = saved.some(item => item.postId._id === id_product);
+        // setIsSaved(isProductSaved);
+        // console.log('isProductSaved:', isProductSaved);
         const productData = await getProductById(id_product);
         setProducts(productData);
+
         setPhoneNumber(productData.userid.phone);
         setIsLoading(false);
         setTitle(productData.title);
+
 
         if (productData && productData.userid) {
           const userPosts = await getPostNewsByUserId(productData.userid._id);
@@ -204,6 +224,8 @@ const DetailProduct = (props) => {
                   <Image
                     style={styles.iconLike}
                     source={require('../assets/images/icons/heart2.png')}
+                    // source={isSaved ? require('../assets/images/icons/heart2.png') : require('../assets/images/icons/heart.png')}
+
                   />
                   <Text style={styles.txtLuutin}>Lưu tin</Text>
                 </TouchableOpacity>
