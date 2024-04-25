@@ -126,7 +126,7 @@ const DetailProduct = (props) => {
           style={styles.imgBack}
           onPress={() => navigation.goBack()}>
           <Image
-            source={require('../assets/images/icons/icon_back.png')}
+            source={require('../assets/images/icons/arrow-back.png')}
             style={styles.icon}
           />
         </TouchableOpacity>
@@ -553,7 +553,7 @@ const styles = StyleSheet.create({
 
   },
   imgBack: {
-    top: 20,
+    top: 18,
     backgroundColor: '#fff',
     left: 20,
     position: 'absolute',
@@ -592,7 +592,7 @@ const styles = StyleSheet.create({
 
   },
   txtNameProduct: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#000',
   },
@@ -636,13 +636,10 @@ const styles = StyleSheet.create({
   price: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10,
-    // backgroundColor: '#F1F2F3',
-
     // padding: 10,
   },
   textprice: {
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: 'bold',
     color: 'red',
     padding: 5,
@@ -667,7 +664,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   timeIn: {
-    fontSize: 8,
+    fontSize: 12,
     color: 'black',
 
   },

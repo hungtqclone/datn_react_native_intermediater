@@ -207,20 +207,15 @@ export const PNStyles = StyleSheet.create({
     },
     contaiappbar: {
         flexDirection: 'row',
-        width: '100%',
         height: 50,
-        // padding:30,
+        padding:10,
         backgroundColor: '#FFBF17',
-        alignItems: 'center'
-    },
-    pres: {
-        marginLeft: 10,
+        justifyContent:'space-around'
     },
     txtTille: {
-        color: '#484D56',
-        fontSize: 18,
-        fontWeight: '500',
-        fontFamily: 'Roboto'
+        fontSize: 20,
+        fontWeight: 'bold',
+        color:'black'
     },
 
     contaitxt: {

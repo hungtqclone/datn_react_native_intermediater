@@ -232,7 +232,7 @@ const ItemPosts = props => {
                 position: 'absolute',
                 bottom: 38,
               }}>
-              {styleNumber(data.price)} d
+              {styleNumber(data.price)} đ
             </Text>
             <Text style={{ position: 'absolute', bottom: 15 }}>
               {data.location}

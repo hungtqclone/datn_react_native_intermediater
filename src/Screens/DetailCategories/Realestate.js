@@ -59,7 +59,7 @@ const Realestate = (props) => {
                 <Image style={RLSTtyles.imgproduct} source={{ uri: `${item.files}` }} />
                 <Text style={RLSTtyles.txtnameproduct} >{item.title}</Text>
                 <Text style={RLSTtyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
-                <Text style={RLSTtyles.txtprice} >{item.price}</Text>
+                <Text style={RLSTtyles.txtprice} >{item.price} đ</Text>
 
                 <View style={RLSTtyles.contaiicontimeaddress}>
                     <Image style={RLSTtyles.imgiconprofile} source={require('../../../image/Phone.png')} />

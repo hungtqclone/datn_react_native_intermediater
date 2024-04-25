@@ -91,12 +91,12 @@ const CategoriesDetail = (props) => {
                 <Image style={CGDStyles.imgproduct} source={{ uri: `${item.files}` }} />
                 <Text style={CGDStyles.txtnameproduct} >{item.title}</Text>
                 <Text style={CGDStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
-                <Text style={CGDStyles.txtprice} >{styleNumber(item.price)}</Text>
+                <Text style={CGDStyles.txtprice} >{styleNumber(item.price)} đ</Text>
 
                 <View style={CGDStyles.contaiicontimeaddress}>
                     <Image style={CGDStyles.imgiconprofile} source={require('../../image/Phone.png')} />
                     {/* <Text style={CGDStyles.txtTime} > - {item.created_AT} - </Text> */}
-                    <Text style={CGDStyles.txtAdress} >{item.location}</Text>
+                    <Text style={CGDStyles.txtAdress} > - {item.location}</Text>
                 </View>
             </TouchableOpacity>
         );

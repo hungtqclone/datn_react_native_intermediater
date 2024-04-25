@@ -2,7 +2,6 @@ import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ActivityInd
 import React, { useState, useContext } from 'react'
 import { AppStyle } from '../constants/AppStyle'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import AxiosInstance from '../components/helpers/Axiosintance'
 import { UserContext } from '../components/users/UserContext'
 
 const Login = (props) => {
@@ -12,17 +11,45 @@ const Login = (props) => {
     const [password, setPassword] = useState('');
     const { onLogin } = useContext(UserContext)
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState({ email: '', password: '' });
+
+    const validateInput = () => {
+        let isValid = true;
+        setError({ email: '', password: '' });
+
+        if (!email) {
+            setError(prev => ({ ...prev, email: 'Email không được để trống' }));
+            isValid = false;
+        } else if (!email.includes('@gmail.com')) {
+            setError(prev => ({ ...prev, email: 'Email phải là một địa chỉ Gmail' }));
+            isValid = false;
+        }
+
+        if (!password) {
+            setError(prev => ({ ...prev, password: 'Mật khẩu không được để trống' }));
+            isValid = false;
+        }
+
+        return isValid;
+    };
 
     const loginUser = async () => {
+        if (!validateInput()) {
+            return;
+        }
+
         setIsLoading(true);
         try {
-            await onLogin(email, password);
+            const user = await onLogin(email, password);
+            if (!user) {
+                throw new Error('Mật khẩu không chính xác');
+            }
         } catch (error) {
+            setError(prev => ({ ...prev, password: error.message || 'Mật khẩu không chính xác' }));
         } finally {
             setIsLoading(false);
         }
     };
-
 
     const skipLogin = () => {
         setuser(1)
@@ -49,17 +76,19 @@ const Login = (props) => {
                         </View>
                     </View>
                     <View style={[{ marginTop: 30, alignItems: 'center' }]}>
+                        {error.email ? <Text style={{ color: 'red' }}>{error.email}</Text> : null}
                         <TextInput
-                            style={[AppStyle.txtinput]}
-                            placeholder='Nhập số điện thoại'
-                            onChangeText={(text) => setEmail(text)}
+                            style={[AppStyle.txtinput, error.email ? { borderColor: 'red', borderWidth: 1 } : null]}
+                            placeholder='Nhập email'
+                            onChangeText={setEmail}
                         />
                     </View>
                     <View style={[{ marginTop: 24, alignItems: 'center' }]}>
+                        {error.password ? <Text style={{ color: 'red' }}>{error.password}</Text> : null}
                         <TextInput
                             secureTextEntry={true}
-                            style={[AppStyle.txtinput]}
-                            onChangeText={(text) => setPassword(text)}
+                            style={[AppStyle.txtinput, error.password ? { borderColor: 'red', borderWidth: 1 } : null]}
+                            onChangeText={setPassword}
                             placeholder='Nhập mật khẩu'
                         />
                     </View>
