@@ -574,40 +574,6 @@ const DetailPostnews = (props) => {
           </Pressable>
         </View>
 
-        {/* <View>
-          {details.map((detail, index) => (
-            <View key={index} style={PNStyles.viewTIP}>
-              <Dropdown
-                data={data}
-                search
-                maxHeight={300}
-                labelField="label"
-                valueField="value"
-                placeholder={'Select item'}
-                searchPlaceholder="Search..."
-                style={PNStyles.drop2}
-              />
-              <TextInput
-                value={detail}
-                onChangeText={text => {
-                  const newDetails = [...details];
-                  newDetails[index] = text;
-                  setDetails(newDetails);
-                }}
-                multiline
-                numberOfLines={4}
-                maxLength={40}
-                placeholder="Mô tả chi tiết"
-                style={PNStyles.inputTTMT}
-              />
-            </View>
-          ))}
-        </View> */}
-        {/* <Pressable style={PNStyles.btnXT}>
-          <Text style={PNStyles.txtXT} onPress={handleAddInput}>
-            Thêm input
-          </Text>
-        </Pressable> */}
         <View style={PNStyles.contaiBtn}>
           {/* <Pressable style={PNStyles.btnXT}>
             <Text style={PNStyles.txtXT}>XEM TRƯỚC</Text>
@@ -630,13 +596,13 @@ const DetailPostnews = (props) => {
                   <Text style={PNStyles.txtTille}>CHỌN DANH MỤC</Text>
                 </View>
               </View>
-              <View style={PNStyles.contaitxp}>
+              {/* <View style={PNStyles.contaitxp}>
                 <Image source={require('../../../image/searchBar.png')} />
                 <TextInput
                   placeholder="Nhập từ khóa để lọc"
                   placeholderTextColor={'#9C9C9C'}
                   style={PNStyles.txpserch}></TextInput>
-              </View>
+              </View> */}
               <FlatList
                 renderItem={renderItem}
                 data={categories}

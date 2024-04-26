@@ -116,7 +116,16 @@ export const getProductById = async (id) => {
     throw error;
   }
 };
-
+export const searchByTitle = async (title) => {
+  try {
+    const res = await AxiosInstance().get(`/api/postnews/search/${title}`);
+    // console.log('getProductById response', res.data);
+    return res.data;
+  } catch (error) {
+    console.log("Search Title error", error);
+    throw error;
+  }
+};
 export const getPostNewsByUserId = async (id) => {
   try {
     const res = await AxiosInstance().get(`/api/postnews/user/${id}`);
@@ -150,3 +159,15 @@ export const savePost = async (userid, postId) => {
     return err;
   }
 }
+
+// search category
+export const searchByNameCategory = async (name) => {
+  try {
+    const res = await AxiosInstance().get(`/api/categories/search/${name}`);
+    console.log('search response', res.data);
+    return res.data;
+  } catch (error) {
+    console.log("Search Title error", error);
+    throw error;
+  }
+};
