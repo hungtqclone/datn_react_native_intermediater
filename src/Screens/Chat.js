@@ -28,13 +28,22 @@ const Chat = ({ navigation, route }) => {
         const dataMessagesFetch = await AsyncStorage.getItem(userId)
         setAllMessages(JSON.parse(dataMessagesFetch))
     }
+    const receiveMessageListener = (message) => {
+        setAllMessages(prevMessages => [...prevMessages, message]);
+        socket.emit('see-message', {
+            "senderId": data._id,
+            "receiverId": userId
+        });
+    };
     useFocusEffect(
         React.useCallback(() => {
             socket.emit('see-message', {
                 "senderId": data._id,
                 "receiverId": userId
             });
+            socket.on('receive-message', receiveMessageListener);
             return () => {
+                socket.off('receive-message', receiveMessageListener);
             }
         }, [])
     )
@@ -61,13 +70,8 @@ const Chat = ({ navigation, route }) => {
         }
     }, [filteredData]);
     useEffect(() => {
-        socket.on('receive-message', (message) => {
-            setAllMessages(prevMessages => [...prevMessages, message]);
-            socket.emit('see-message', {
-                "senderId": data._id,
-                "receiverId": userId
-            });
-        });
+
+
         socket.on('sender-message', (message) => {
             setAllMessages(prevMessages => [...prevMessages, message]);
         });
@@ -77,6 +81,7 @@ const Chat = ({ navigation, route }) => {
             setAllMessages(messagesData.messages)
 
         });
+
     }, []);
     const renderItem = ({ item, index }) => {
         const isCurrentUser = userId === item.senderId;

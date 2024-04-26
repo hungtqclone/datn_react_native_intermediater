@@ -95,6 +95,14 @@ const Product = (props) => {
         );
     }
 
+    const formatDate = (datetime) => {
+        const date = new Date(datetime);
+        const day = date.toLocaleDateString('en-GB');
+        return `${day}`;
+    };
+
+    const truncate = (input, length) => input.length > length ? `${input.substring(0, length)}...` : input;
+
     // danh mục hãng
     const renderItemBrands = ({ item, index }) => {
         return (
@@ -122,12 +130,12 @@ const Product = (props) => {
                 <View style={productStyles.contaiColum}>
                     <Text style={productStyles.txtTitle} numberOfLines={1}>{item.title}</Text>
                     <Text style={productStyles.txtDetail} numberOfLines={2}>{item.detail}</Text>
-                    <Text style={productStyles.txtprice} >{styleNumber(item.price)} d</Text>
+                    <Text style={productStyles.txtprice} >{styleNumber(item.price)} đ</Text>
 
                     <View style={productStyles.contaiicontimeaddress}>
                         <Image style={productStyles.imgiconprofile} source={require('../../image/Phone.png')} />
-                        <Text style={productStyles.txtTime} > - {item.created_AT} - </Text>
-                        <Text style={productStyles.txtAdress} >{item.location}</Text>
+                        <Text style={productStyles.txtTime} > - {formatDate(item.created_AT)} - </Text>
+                        <Text style={productStyles.txtAdress} numberOfLines={1}>{truncate(item.location, 25)}</Text>
                     </View>
 
                 </View>

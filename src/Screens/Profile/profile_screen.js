@@ -262,7 +262,7 @@ const Profile_screen = props => {
           </View>
         </View>
 
-        <View style={styles.contMagOrder}>
+        {/* <View style={styles.contMagOrder}>
           <Text style={styles.txtMagOrder}>Quản lý đơn hàng</Text>
           <View style={styles.contMagOrderItem}>
             <TouchableOpacity
@@ -293,7 +293,7 @@ const Profile_screen = props => {
               <Text style={styles.txtMagOrderItem}>Ví bán hàng</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
         <View style={styles.contMagOrder}>
           <Text style={styles.txtMagOrder}>Tiện ích</Text>
           <View style={styles.contMagOrderItem}>
@@ -347,7 +347,7 @@ const Profile_screen = props => {
               />
               <Text style={styles.txtMagOrderItem}>Định giá điện thoại</Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => navigation.navigate('HelpScreen')}
               style={styles.contMagOrderItemLeft}>
               <Image
@@ -364,7 +364,7 @@ const Profile_screen = props => {
                 style={styles.iconMagOrder1}
               />
               <Text style={styles.txtMagOrderItem}>Đóng góp ý kiến</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               style={[
                 styles.contMagOrderItemLeft,
@@ -409,6 +409,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginLeft: 10,
+    color:'black'
   },
   appbarRight: {
     flexDirection: 'row',
@@ -510,6 +511,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     backgroundColor: '#fff',
+    bottom:16
   },
   pointGood: {
     padding: 10,

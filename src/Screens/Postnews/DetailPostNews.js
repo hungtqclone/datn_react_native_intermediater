@@ -589,11 +589,11 @@ const DetailPostnews = (props) => {
           <View style={PNStyles.modalView}>
             <View style={PNStyles.Container}>
               <View style={PNStyles.contaiappbar}>
-                <Pressable style={PNStyles.pres} onPress={CloseModel}>
+                <Pressable onPress={CloseModel}>
                   <Image source={require('../../../image/close.png')} />
                 </Pressable>
                 <View style={PNStyles.contaitxt}>
-                  <Text style={PNStyles.txtTille}>CHỌN DANH MỤC</Text>
+                  <Text style={PNStyles.txtTille}>Chọn danh mục</Text>
                 </View>
               </View>
               {/* <View style={PNStyles.contaitxp}>

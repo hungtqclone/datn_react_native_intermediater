@@ -14,7 +14,7 @@ const News = () => {
                 <Image style={foryouStyles.imgproduct} source={{ uri: `${urlAPI}${item.files}` }} />
                 <Text style={foryouStyles.txtnameproduct} >{item.title}</Text>
                 <Text style={foryouStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
-                <Text style={foryouStyles.txtprice} >{item.price}</Text>
+                <Text style={foryouStyles.txtprice} >{item.price} đ</Text>
 
                 <View style={foryouStyles.contaiicontimeaddress}>
                     <Image style={foryouStyles.imgiconprofile} source={require('../../../image/Phone.png')} />

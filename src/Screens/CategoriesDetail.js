@@ -102,8 +102,59 @@ const CategoriesDetail = props => {
     } catch (error) {
       console.log('error handle input search product.js: ', error);
     }
+
   };
   const renderSearch = ({item, index}) => {
+
+    // CategoryDetail
+    const renderItemCategoryDetail = (value) => {
+        const { item } = value;
+        return (
+            <TouchableOpacity style={CGDStyles.categoryBody} onPress={() => nextScreenListProducts(item._id)}>
+                <Image style={CGDStyles.imgcategoy} source={{ uri: `${item.img}` }} />
+                <Text style={CGDStyles.txtCategoty} numberOfLines={2}>{item.name}</Text>
+            </TouchableOpacity>
+        );
+    }
+    const ongetCategoryDetail = async () => {
+        const detailCate = await getDetailCategory(idCategory);
+        setCategoriesDetail(detailCate);
+        // console.log("Danh muc nổi bật 60: >" + JSON.stringify(detailCate));
+    }
+
+    const nextScreenProductDetail = (idPostNews) => {
+        console.log("next screen product detail with idPostNews = ", idPostNews)
+        navigation.navigate('DetailProduct', { id_product: idPostNews })
+    }
+    const renderItemProduct = ({ item }) => {
+        return (
+            <TouchableOpacity style={CGDStyles.productBody}
+                onPress={() =>
+                    nextScreenProductDetail(item._id)
+                }
+            >
+                <Image style={CGDStyles.imgproduct} source={{ uri: `${item.files}` }} />
+                <Text style={CGDStyles.txtnameproduct} >{item.title}</Text>
+                <Text style={CGDStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
+                <Text style={CGDStyles.txtprice} >{styleNumber(item.price)} đ</Text>
+
+                <View style={CGDStyles.contaiicontimeaddress}>
+                    <Image style={CGDStyles.imgiconprofile} source={require('../../image/Phone.png')} />
+                    {/* <Text style={CGDStyles.txtTime} > - {item.created_AT} - </Text> */}
+                    <Text style={CGDStyles.txtAdress} > - {item.location}</Text>
+                </View>
+            </TouchableOpacity>
+        );
+    }
+    const ongetProducts = async () => {
+        const products = await getProduct();
+        setProducts(products);
+        // console.log("Sản Phẩm :83 >" + JSON.stringify(products));
+    }
+
+    useEffect(() => {
+        ongetCategoryDetail(), ongetProducts();
+    }, [idCategory]);
     return (
       <TouchableOpacity style={CGDStyles.contaitong}>
         <View style={CGDStyles.contaiCity}>
