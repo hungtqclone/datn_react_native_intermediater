@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, Image, TextInput, Dimensions, FlatList, ScrollView, TouchableOpacity, Pressable, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
-import { getBrands, getProductByidCate } from './ScreenService'
+import { getBrands, getProductByBrandid, getProductByidCate } from './ScreenService'
 import { productStyles } from '../styleSheets/ProductStyles'
 import PostnewsStack from '../components/navigation/PostnewsTabnavigation'
 import { urlAPI } from '../components/helpers/urlAPI'
@@ -8,12 +8,7 @@ import { styleNumber } from '../styleSheets/styleJS'
 import AxiosInstance from '../components/helpers/Axiosintance'
 const data = [
     { id: 1, title: 'Điện thoại' },
-    { id: 2, title: 'Giá' },
-    { id: 3, title: 'Hãng' },
-    { id: 4, title: 'Dung lượng' },
-    { id: 5, title: 'Màu sắc' },
-    { id: 6, title: 'Tình trạng' },
-    { id: 7, title: 'Ship COD' }
+    { id: 2, title: 'Sam Sung' },
 ];
 
 
@@ -24,25 +19,28 @@ const dataAddress = [
     { id: 4, title: 'Đà nẵng' },
     { id: 5, title: 'Phan thiết' },
 ];
-const Product = (props) => {
+const BrandProduct = (props) => {
     const { navigation, route } = props;
     const { params } = route;
+    const { idBrand } = params;
+    const [idBrandST, setIdBrand] = useState(idBrand);
     const { idCategory } = params;
     const [idCate, setIdCate] = useState(idCategory);
     const [post, setPostNews] = useState([]);
-    const [brand, setBrands] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isLoadingPage, setIsLoadingPage] = useState(false)
     const [dataSearch, setDataSearch] = useState(undefined)
     const [page, setPage] = useState(1)
-    const ongetBrands = async () => {
-        const brands = await getBrands(idCate);
-        setBrands(brands);
-        // console.log("Sản Phẩm :83 >" + JSON.stringify(products));
-    }
+    // const ongetBrands = async () => {
+    //     const brands = await getBrands(idCate);
+    //     setBrands(brands);
+    //     // console.log("Sản Phẩm :83 >" + JSON.stringify(products));
+    // }
     const ongetPosst = async () => {
-        const posst = await getProductByidCate(idCate, page);
-
+        const posst = await getProductByBrandid(idCate,idBrandST, page);
+        console.log('next screen product with idBrand = ', idBrandST + "idCate =" + idCate);
+        console.log('post data = ', post);
+        
         if (page == 1) {
             setPostNews(posst);
         } else {
@@ -55,7 +53,7 @@ const Product = (props) => {
         // console.log("Sản Phẩm :83 >" + JSON.stringify(products));
     }
     useEffect(() => {
-        ongetBrands(), ongetPosst();
+      ongetPosst();
     }, []);
     // useEffect(() => {
     //     fetchData()
@@ -68,7 +66,7 @@ const Product = (props) => {
             setIsLoadingPage(false);
         }, 2000);
     }
-    const numColumns = Math.ceil(dataAddress.length / 2);
+    // const numColumns = Math.ceil(dataAddress.length / 2);
     const renderFill = ({ item, index }) => {
         return (
             <Pressable style={productStyles.contaifillScroll}>
@@ -78,13 +76,13 @@ const Product = (props) => {
         );
     }
 
-    const renderAdress = ({ item, index }) => {
-        return (
-            <Pressable style={productStyles.contaifillScrollAdress}>
-                <Text style={productStyles.txtTQ}>{item.title} </Text>
-            </Pressable>
-        );
-    }
+    // const renderAdress = ({ item, index }) => {
+    //     return (
+    //         <Pressable style={productStyles.contaifillScrollAdress}>
+    //             <Text style={productStyles.txtTQ}>{item.title} </Text>
+    //         </Pressable>
+    //     );
+    // }
 
     const formatDate = (datetime) => {
         const date = new Date(datetime);
@@ -93,19 +91,16 @@ const Product = (props) => {
     };
 
     const truncate = (input, length) => input.length > length ? `${input.substring(0, length)}...` : input;
-    const nextScreenBrandProduct = idBrand => {
-        // console.log('next screen product detail with idPostNews = ', idBrand);
-        navigation.navigate('BrandProduct', {idBrand: idBrand,idCategory: idCategory});
-      };
+
     // danh mục hãng
-    const renderItemBrands = ({ item, index }) => {
-        return (
-            <TouchableOpacity style={productStyles.contaiTitle}  onPress={() => nextScreenBrandProduct(item._id)}>
-                <Image style={productStyles.imgTitle} source={{ uri: `${item.files}` }}></Image>
-                <Text style={productStyles.txtTitle2}>{item.nameBrand}</Text>
-            </TouchableOpacity>
-        );
-    }
+    // const renderItemBrands = ({ item, index }) => {
+    //     return (
+    //         <View style={productStyles.contaiTitle}>
+    //             <Image style={productStyles.imgTitle} source={{ uri: `${item.files}` }}></Image>
+    //             <Text style={productStyles.txtTitle2}>{item.nameBrand}</Text>
+    //         </View>
+    //     );
+    // }
 
     // postnews
     const renderPostNews = ({ item, index }) => {
@@ -202,7 +197,7 @@ const Product = (props) => {
                 </View>
 
                 <View style={productStyles.contaiAdresss}>
-                    <Text style={productStyles.txtGY}>Gợi ý khu vực </Text>
+                    {/* <Text style={productStyles.txtGY}>Gợi ý khu vực </Text>
                     <FlatList
                         contentContainerStyle={{
                             alignSelf: 'flex-start',
@@ -213,9 +208,9 @@ const Product = (props) => {
                         data={dataAddress}
                         renderItem={renderAdress}
                         scrollEnabled={false}
-                    />
+                    /> */}
                 </View>
-                <View>
+                {/* <View>
                     <FlatList
                         data={brand}
                         renderItem={renderItemBrands}
@@ -223,7 +218,7 @@ const Product = (props) => {
                         keyExtractor={item => item._id.toString()}
                         showsHorizontalScrollIndicator={false}
                     />
-                </View>
+                </View> */}
                
                 <View>
                     {isLoading ? (
@@ -252,4 +247,4 @@ const Product = (props) => {
     )
 }
 
-export default Product
+export default BrandProduct

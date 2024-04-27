@@ -45,7 +45,7 @@ const Postnews = (props) => {
             <TouchableOpacity style={Product.contaitong} onPress={() => nextPostNews(item._id, item.name)}>
                 {/* onPress={({ }) => { idCategory ? nextPostNews(item._id) : onClickCategory(item._id) }} */}
                 <View style={Product.contaiimg}>
-                    <Image style={Product.img} source={{ uri: `${urlAPI}${item.icon}` }} />
+                    <Image style={Product.img} source={{ uri: `${item.icon}` }} />
                 </View>
                 <View style={Product.contaiCity}>
                     <Text style={Product.txtCity}>{item.name}</Text>

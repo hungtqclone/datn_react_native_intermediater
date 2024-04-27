@@ -56,21 +56,6 @@ const datatile = [
     title: 'Tiềm kiếm đã lưu',
     image: require('../../image/icon_savenew.jpg'),
   },
-  {
-    id: 9,
-    title: 'Tiềm kiếm đã lưu',
-    image: require('../../image/icon_savenew.jpg'),
-  },
-  {
-    id: 10,
-    title: 'Tiềm kiếm đã lưu',
-    image: require('../../image/icon_savenew.jpg'),
-  },
-  {
-    id: 11,
-    title: 'Tiềm kiếm đã lưu',
-    image: require('../../image/icon_savenew.jpg'),
-  },
 ];
 const CategoriesDetail = props => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -78,7 +63,7 @@ const CategoriesDetail = props => {
   const [dataSearch, setDataSearch] = useState(undefined);
   const [categoriesDetail, setCategoriesDetail] = useState([]);
   const [idCategory, setIdCategory] = useState('658fb995b41f1dd5128fa9cf');
-  const numColumns = Math.ceil(datatile.length / 2);
+  const numColumns = Math.ceil(categoriesDetail.length / 2);
   const {newMessage} = useMessage();
   const {navigation, route} = props;
 
@@ -104,59 +89,10 @@ const CategoriesDetail = props => {
     }
 
   };
+  
   const renderSearch = ({item, index}) => {
-
-    // CategoryDetail
-    const renderItemCategoryDetail = (value) => {
-        const { item } = value;
-        return (
-            <TouchableOpacity style={CGDStyles.categoryBody} onPress={() => nextScreenListProducts(item._id)}>
-                <Image style={CGDStyles.imgcategoy} source={{ uri: `${item.img}` }} />
-                <Text style={CGDStyles.txtCategoty} numberOfLines={2}>{item.name}</Text>
-            </TouchableOpacity>
-        );
-    }
-    const ongetCategoryDetail = async () => {
-        const detailCate = await getDetailCategory(idCategory);
-        setCategoriesDetail(detailCate);
-        // console.log("Danh muc nổi bật 60: >" + JSON.stringify(detailCate));
-    }
-
-    const nextScreenProductDetail = (idPostNews) => {
-        console.log("next screen product detail with idPostNews = ", idPostNews)
-        navigation.navigate('DetailProduct', { id_product: idPostNews })
-    }
-    const renderItemProduct = ({ item }) => {
-        return (
-            <TouchableOpacity style={CGDStyles.productBody}
-                onPress={() =>
-                    nextScreenProductDetail(item._id)
-                }
-            >
-                <Image style={CGDStyles.imgproduct} source={{ uri: `${item.files}` }} />
-                <Text style={CGDStyles.txtnameproduct} >{item.title}</Text>
-                <Text style={CGDStyles.txtdetail} numberOfLines={1}>{item.detail}</Text>
-                <Text style={CGDStyles.txtprice} >{styleNumber(item.price)} đ</Text>
-
-                <View style={CGDStyles.contaiicontimeaddress}>
-                    <Image style={CGDStyles.imgiconprofile} source={require('../../image/Phone.png')} />
-                    {/* <Text style={CGDStyles.txtTime} > - {item.created_AT} - </Text> */}
-                    <Text style={CGDStyles.txtAdress} > - {item.location}</Text>
-                </View>
-            </TouchableOpacity>
-        );
-    }
-    const ongetProducts = async () => {
-        const products = await getProduct();
-        setProducts(products);
-        // console.log("Sản Phẩm :83 >" + JSON.stringify(products));
-    }
-
-    useEffect(() => {
-        ongetCategoryDetail(), ongetProducts();
-    }, [idCategory]);
     return (
-      <TouchableOpacity style={CGDStyles.contaitong}>
+      <TouchableOpacity  onPress={() => nextScreenListProducts(item._id)} style={CGDStyles.contaitong} >
         <View style={CGDStyles.contaiCity}>
           <Text style={CGDStyles.txtCity}>{item.name}</Text>
         </View>
@@ -190,6 +126,7 @@ const CategoriesDetail = props => {
 
   const nextScreenListProducts = idCategory => {
     navigation.navigate('product', {idCategory});
+    setModalVisible(false);
   };
 
   // CategoryDetail
@@ -221,7 +158,7 @@ const CategoriesDetail = props => {
       <TouchableOpacity
         style={CGDStyles.productBody}
         onPress={() => nextScreenProductDetail(item._id)}>
-        <Image style={CGDStyles.imgproduct} source={{uri: `${item.files}`}} />
+        <Image style={CGDStyles.imgproduct} source={{uri: `${item.files[0]}`}} />
         <Text style={CGDStyles.txtnameproduct}>{item.title}</Text>
         <Text style={CGDStyles.txtdetail} numberOfLines={1}>
           {item.detail}
