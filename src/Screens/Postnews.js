@@ -68,11 +68,11 @@ const Postnews = (props) => {
                     <Text style={Product.txtTille}>Chọn danh mục</Text>
                 </View  >
             </View>
-            <View style={Product.contaitxp}>
+            {/* <View style={Product.contaitxp}>
                 <Image source={require('../../image/searchBar.png')} />
                 <TextInput placeholder='Nhập từ khóa để lọc' placeholderTextColor={'#9C9C9C'} style={Product.txpserch}>
                 </TextInput>
-            </View>
+            </View> */}
             <FlatList
                 renderItem={renderItem}
                 data={categories}

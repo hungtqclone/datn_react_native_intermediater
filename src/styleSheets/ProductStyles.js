@@ -66,9 +66,12 @@ export const productStyles = StyleSheet.create({
     icondown: {
         width: 12,
         height: 12,
-    },
-    txtTQ: {
+    },txtTQ: {
         color: 'black',
+
+    },
+    txtTQ2: {
+        color: 'orange',
 
     },
     // lọc theo hảng giá 
@@ -89,6 +92,7 @@ export const productStyles = StyleSheet.create({
         alignItems: 'center',
         padding: 5,
         marginHorizontal: 5,
+        borderColor:'orange',
     },
     iconfilter: {
         width: 20,
