@@ -45,7 +45,7 @@ const Postnews = (props) => {
             <TouchableOpacity style={Product.contaitong} onPress={() => nextPostNews(item._id, item.name)}>
                 {/* onPress={({ }) => { idCategory ? nextPostNews(item._id) : onClickCategory(item._id) }} */}
                 <View style={Product.contaiimg}>
-                    <Image style={Product.img} source={{ uri: `${urlAPI}${item.icon}` }} />
+                    <Image style={Product.img} source={{ uri: `${item.icon}` }} />
                 </View>
                 <View style={Product.contaiCity}>
                     <Text style={Product.txtCity}>{item.name}</Text>
@@ -65,7 +65,7 @@ const Postnews = (props) => {
                     <Image source={require('../../image/back.png')} />
                 </Pressable>
                 <View style={Product.contaitxt}>
-                    <Text style={Product.txtTille}>CHỌN DANH MỤC</Text>
+                    <Text style={Product.txtTille}>Chọn danh mục</Text>
                 </View  >
             </View>
             <View style={Product.contaitxp}>

@@ -39,6 +39,9 @@ const DetailProduct = (props) => {
   const [saved, setSaved] = useState([]);
   const [title, setTitle] = useState('');
   const [isSaved, setIsSaved] = useState(false);
+  const [isLoading2, setIsLoading2] = useState(false); // State để kiểm soát việc hiển thị biểu tượng loading
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false); // State để kiểm soát việc vô hiệu hóa nút "Lưu tin"
+
 
   const data = [
     { id: '1', question: 'Món hàng này còn không?' },
@@ -79,15 +82,17 @@ const DetailProduct = (props) => {
     }
   };
   const onSavePost = async (postId) => {
+    setIsLoading2(true); // Bắt đầu hiển thị biểu tượng loading
+    setIsButtonDisabled(true); // Vô hiệu hóa nút "Lưu tin"
     try {
-      // console.log('User ID:', userId);
-      // console.log('Post ID:', postId);
       const response = await savePost(userId, postId);
+      ongetSaved();
       console.log('Save post response:', response);
-      // Hiển thị thông báo sau khi lưu thành công
-      alert('Lưu bài viết thành công!');
     } catch (error) {
       console.error('Error saving post:', error);
+    } finally {
+      setIsLoading2(false); // Kết thúc hiển thị biểu tượng loading
+      setIsButtonDisabled(false); // Kích hoạt lại nút "Lưu tin"
     }
   };
   const ongetSaved = async () => {
@@ -96,7 +101,7 @@ const DetailProduct = (props) => {
       const saved = await getPostSaved(userId);
       setSaved(saved);
 
-      console.log('ds tin đã lưu:', saved[0].postId._id);
+      console.log('ds tin đã lưu:', saved);
     } catch (error) {
       console.error('không lấy được ds tin đã lưu:', error);
     }
@@ -105,7 +110,7 @@ const DetailProduct = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // ongetSaved();
+         ongetSaved();
         // // Kiểm tra xem sản phẩm có trong danh sách đã lưu không
         // console.log('id_product:', id_product);
         // const isProductSaved = saved.some(item => item.postId._id === id_product);
@@ -138,7 +143,7 @@ const DetailProduct = (props) => {
 
   }, []);
 
-
+  const isPostSaved = saved.some(post => post.postId && post.postId._id === id_product);
   return (
     <View style={styles.body}>
       <View style={styles.appbar}>
@@ -146,7 +151,7 @@ const DetailProduct = (props) => {
           style={styles.imgBack}
           onPress={() => navigation.goBack()}>
           <Image
-            source={require('../assets/images/icons/icon_back.png')}
+            source={require('../assets/images/icons/arrow-back.png')}
             style={styles.icon}
           />
         </TouchableOpacity>
@@ -220,15 +225,33 @@ const DetailProduct = (props) => {
                 </View>
                 <TouchableOpacity style={styles.containerPrice}
                   onPress={() => onSavePost(products._id)}
+                  disabled={isButtonDisabled}
                 >
                   <Image
                     style={styles.iconLike}
-                    source={require('../assets/images/icons/heart2.png')}
-                    // source={isSaved ? require('../assets/images/icons/heart2.png') : require('../assets/images/icons/heart.png')}
+                    //source={require('../assets/images/icons/heart2.png')}
+                    source={isPostSaved ? require('../assets/images/icons/heart.png') : require('../assets/images/icons/heart2.png')}
 
                   />
-                  <Text style={styles.txtLuutin}>Lưu tin</Text>
+                    {isLoading2 ? (
+                      <ActivityIndicator size="small" color="#0000ff" />
+                    ) : (
+                      <Text style={styles.txtBtnCall}>{isPostSaved ? 'Đã lưu' : 'Lưu tin'}</Text>
+                    )}
                 </TouchableOpacity>
+                {/* <TouchableOpacity style={styles.btnCall}>
+                  <Image
+                    style={styles.iconCall}
+                    source={isPostSaved ? require('../assets/images/icons/heart.png') : require('../assets/images/icons/heart2.png')}
+                  />
+                  <TouchableOpacity onPress={() => onSavePost(item._id)} disabled={isButtonDisabled}>
+                    {isLoading2 ? (
+                      <ActivityIndicator size="small" color="#0000ff" />
+                    ) : (
+                      <Text style={styles.txtBtnCall}>{isPostSaved ? 'Đã lưu' : 'Lưu tin'}</Text>
+                    )}
+                  </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             </View>
             <View style={styles.infoNguoiban}>
@@ -575,7 +598,7 @@ const styles = StyleSheet.create({
 
   },
   imgBack: {
-    top: 20,
+    top: 18,
     backgroundColor: '#fff',
     left: 20,
     position: 'absolute',
@@ -614,7 +637,7 @@ const styles = StyleSheet.create({
 
   },
   txtNameProduct: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#000',
   },
@@ -658,19 +681,18 @@ const styles = StyleSheet.create({
   price: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10,
-    // backgroundColor: '#F1F2F3',
-
     // padding: 10,
   },
   textprice: {
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: 'bold',
     color: 'red',
     padding: 5,
 
   },
   containerPrice: {
+    width: 100,
+    height: 50,
     flexDirection: 'row',
     alignItems: 'center',
     borderColor: 'red',
@@ -689,7 +711,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   timeIn: {
-    fontSize: 8,
+    fontSize: 12,
     color: 'black',
 
   },

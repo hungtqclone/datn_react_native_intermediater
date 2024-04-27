@@ -9,7 +9,7 @@ import { useFocusEffect } from '@react-navigation/native'
 const ListUserChat = (props) => {
     const { navigation } = props;
     const { user } = useContext(UserContext);
-    const { socket } = useMessage()
+    const { socket, setNewMessage } = useMessage()
     const [allMessages, setAllMessages] = useState([])
     const userId = user._id;
     const [data, setData] = useState([]);
@@ -19,10 +19,10 @@ const ListUserChat = (props) => {
         const response = await AxiosInstance().get('api/users');
         setData(response.users.filter(u => u._id !== userId));
     }
-    const lastMessages = async () => {
+    const fetchDataMessages = async () => {
         try {
-            const dataMessagesFetch = await AsyncStorage.getItem(userId)
-            setAllMessages(JSON.parse(dataMessagesFetch))
+            const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${userId}`)
+            setAllMessages(messagesData.messages)
         } catch (error) {
             console.log("last messages error: ", error)
             return
@@ -43,15 +43,17 @@ const ListUserChat = (props) => {
     }
     useFocusEffect(
         React.useCallback(() => {
-            lastMessages()
+            fetchDataMessages()
             return () => {
             }
         }, [])
     )
     useEffect(() => {
+        setNewMessage(false)
         socket.on('receive-message', async (message) => {
             const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${userId}`)
             setAllMessages(messagesData.messages)
+            // fetchDataMessages()
         });
         fetchData();
     }, []);
@@ -61,19 +63,21 @@ const ListUserChat = (props) => {
         return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
     };
 
-    useEffect(() => {
-        socket.on('receive-message', (message) => {
-            lastMessages()
-        });
-    }, [])
-
     const renderItem = ({ item }) => {
-        let newMessage = latestMessages.filter(message => message.senderId === item._id || message.receiverId === item._id)
+        let newMessage = ''
         let shortenedLastMessage = '...'
-        if (newMessage[0]) {
-            shortenedLastMessage = newMessage[0].content && newMessage[0].content.length > 20
-                ? newMessage[0].content.substring(0, 20) + '...'
-                : newMessage[0].content;
+        let checkNewMessage = false
+        if (latestMessages.length != 0) {
+            newMessage = latestMessages.filter(message => message.senderId === item._id || message.receiverId === item._id)
+            if (newMessage[0]) {
+                shortenedLastMessage = newMessage[0].content && newMessage[0].content.length > 20
+                    ? newMessage[0].content.substring(0, 20) + '...'
+                    : newMessage[0].content;
+
+                if (newMessage[0].senderId == item._id && newMessage[0].seen == false) {
+                    checkNewMessage = true
+                }
+            }
         }
 
         const lastMessageWithTime = `${shortenedLastMessage || '...'} · ${newMessage[0] ? moment_timezone.utc(newMessage[0].createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16) : ''}`;
@@ -83,7 +87,7 @@ const ListUserChat = (props) => {
                 <Image source={{ uri: item.avatar || avatarDefault }} style={styles.avatar} />
                 <View style={styles.textContainer}>
                     <Text style={styles.name}>{item.name}</Text>
-                    <Text style={styles.lastMessage} numberOfLines={1} ellipsizeMode='tail'>
+                    <Text style={[styles.lastMessage, { color: checkNewMessage ? 'black' : 'gray' }]} numberOfLines={1} ellipsizeMode='tail'>
                         {lastMessageWithTime.trim()}
                     </Text>
                 </View>
@@ -128,6 +132,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginVertical: 5,
         marginHorizontal: 10,
+        borderWidth: 1,
+        borderColor: "black"
     },
     avatar: {
         width: 50,

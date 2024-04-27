@@ -14,20 +14,23 @@ import ProflieStack from './ProfileNavigation';
 import PushNewsNavigation from './PushNewsNavigation';
 import ScrollStack from './ScrollStack';
 import ManagementStack from './ManagementStack';
+import Postnews from '../../Screens/Postnews';
+import Login from '../../Screens/Login';
+import { UserContext } from '../users/UserContext';
+
 // import ViceCityScreen from '../../Screens/ViceCityScreen';
 // Stack
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { GetRouteNameManament, GetRouteNameProfile, GetRouteNameScroll, GetRouteNameHome } from './GetRouteNameMarket';
 
-const Stack = createNativeStackNavigator();
 
 const options = ({ route }) => ({
   tabBarLabel: ({ focused, color }) => {
     if (route.name === 'ProductNavigation') {
       return focused ? (
-        <Text style={{ color: '#FFBA00' }}>Home</Text>
+        <Text style={{ color: '#FFBA00' }}>Trang chủ</Text>
       ) : (
-        <Text>Home</Text>
+        <Text>Trang chủ</Text>
       );
     } else if (route.name === 'NewsManagement') {
       return focused ? (
@@ -59,8 +62,9 @@ const options = ({ route }) => ({
     if (route.name === 'ProductNavigation') {
       return focused ? (
         <Image
-          style={stylesBottomTab.bottomTabIcon}
-          source={require('../../../image/icon_homeye.png')}
+          style={[stylesBottomTab.bottomTabIcon, { tintColor: '#FFBA00' }]}
+          source={require('../../../image/icon_homegrey.png')}
+
         />
       ) : (
         <Image
@@ -81,7 +85,12 @@ const options = ({ route }) => ({
         />
       );
     } if (route.name === 'PostNews') {
-      return (
+      return focused ? (
+        <Image
+          style={[stylesBottomTab.bottomTabIcon, { tintColor: '#FFBA00' }]}
+          source={require('../../../image/icon_editblack.png')}
+        />
+      ) : (
         <Image
           style={stylesBottomTab.bottomTabIcon}
           source={require('../../../image/icon_editblack.png')}
@@ -118,21 +127,27 @@ const options = ({ route }) => ({
   headerShown: false,
   tabBarHideOnKeyboard: true,
 });
-const BottomTabs = () => {
+const BottomTabs = (props) => {
+  const { user, setuser } = useContext(UserContext);
+  const { navigation, route } = props;
+  console.log(user._id);
+  useEffect(() => {
+  }, [user]);
   return (
-    <Tab.Navigator screenOptions={options}>
+    <Tab.Navigator screenOptions={options} >
       <Tab.Screen name="ProductNavigation" component={ProductNavigation}
-       options={({ route }) => ({
-        tabBarStyle: { display: GetRouteNameHome(route) },
-        headerShown: false,
-      })}
+        options={({ route }) => ({
+          tabBarStyle: { display: GetRouteNameHome(route) },
+          headerShown: false,
+        })}
       />
       <Tab.Screen name="NewsManagement" component={ManagementStack}
         options={({ route }) => ({
           tabBarStyle: { display: GetRouteNameManament(route) },
           headerShown: false,
         })} />
-      <Tab.Screen name="PostNews" component={PushNewsNavigation} />
+      <Tab.Screen name="PostNews" component={Postnews} />
+
       {/* <Tab.Screen name="StrollTheMarket" component={StrollScreen} /> */}
       <Tab.Screen name="StrollTheMarket" component={ScrollStack}
         options={({ route }) => ({

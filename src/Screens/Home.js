@@ -136,7 +136,7 @@ const Home = props => {
         <Text style={homeStyles.txtdetail} numberOfLines={1}>
           {item.detail}
         </Text>
-        <Text style={homeStyles.txtprice}>{item.price}</Text>
+        <Text style={homeStyles.txtprice}>{item.price} đ</Text>
 
         <View style={homeStyles.contaiicontimeaddress}>
           <Image

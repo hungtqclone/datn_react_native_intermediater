@@ -5,6 +5,7 @@ import { UserContext } from '../components/users/UserContext';
 import { useMessage } from '../components/messages/MessageContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment_timezone from 'moment-timezone';
+import { useFocusEffect } from '@react-navigation/native'
 
 
 // const moment = require('moment-timezone');
@@ -27,6 +28,25 @@ const Chat = ({ navigation, route }) => {
         const dataMessagesFetch = await AsyncStorage.getItem(userId)
         setAllMessages(JSON.parse(dataMessagesFetch))
     }
+    const receiveMessageListener = (message) => {
+        setAllMessages(prevMessages => [...prevMessages, message]);
+        socket.emit('see-message', {
+            "senderId": data._id,
+            "receiverId": userId
+        });
+    };
+    useFocusEffect(
+        React.useCallback(() => {
+            socket.emit('see-message', {
+                "senderId": data._id,
+                "receiverId": userId
+            });
+            socket.on('receive-message', receiveMessageListener);
+            return () => {
+                socket.off('receive-message', receiveMessageListener);
+            }
+        }, [])
+    )
 
     if (allMessages.length != 0) {
         for (let i = allMessages.length - 1; i >= 0; i--) {
@@ -50,25 +70,18 @@ const Chat = ({ navigation, route }) => {
         }
     }, [filteredData]);
     useEffect(() => {
-        socket.on('receive-message', (message) => {
-            setAllMessages(prevMessages => [...prevMessages, message]);
-            socket.emit('see-message', {
-                "senderId": data._id,
-                "receiverId": userId
-            });
-        });
+
+
         socket.on('sender-message', (message) => {
             setAllMessages(prevMessages => [...prevMessages, message]);
         });
-        socket.emit('see-message', {
-            "senderId": data._id,
-            "receiverId": userId
-        });
+
         socket.on('seen-message', async () => {
             const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${userId}`)
             setAllMessages(messagesData.messages)
 
         });
+
     }, []);
     const renderItem = ({ item, index }) => {
         const isCurrentUser = userId === item.senderId;

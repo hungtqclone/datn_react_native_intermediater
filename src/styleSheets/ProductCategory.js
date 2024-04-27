@@ -16,10 +16,10 @@ export const Product = StyleSheet.create({
         marginLeft: 10,
     },
     txtTille: {
-        color: '#484D56',
-        fontSize: 18,
-        fontWeight: '500',
-        fontFamily: 'Roboto'
+        fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: 10,
+    color:'black'
     },
 
     contaitxt: {
@@ -27,7 +27,7 @@ export const Product = StyleSheet.create({
         justifyContent: 'center',
         width: '100%',
         height: '100%',
-        alignItems: 'center',
+        // alignItems: 'center',
     },
     contaitxp: {
         marginBottom: 5,

@@ -59,7 +59,7 @@ const Vehicles = (props) => {
 
                 <View style={VehicleStyle.contaiiPriceV}>
                 <Text style={VehicleStyle.txtnamePriceV} >Giá xe mới</Text>
-                    <Text style={VehicleStyle.txtpriceV} >{item.price}</Text>
+                    <Text style={VehicleStyle.txtpriceV} >{item.price} đ</Text>
                 </View>
 
             </TouchableOpacity>
@@ -71,7 +71,7 @@ const Vehicles = (props) => {
                 <Image style={VehicleStyle.imgproduct} source={{ uri: `${item.files}` }} />
                 <Text style={VehicleStyle.txtnameproduct} >{item.title}</Text>
                 <Text style={VehicleStyle.txtdetail} numberOfLines={1}>{item.detail}</Text>
-                <Text style={VehicleStyle.txtprice} >{item.price}</Text>
+                <Text style={VehicleStyle.txtprice} >{item.price} đ</Text>
 
                 <View style={VehicleStyle.contaiicontimeaddress}>
                     <Image style={VehicleStyle.imgiconprofile} source={require('../../../image/Phone.png')} />

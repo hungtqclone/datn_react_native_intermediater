@@ -40,7 +40,7 @@ import { Icon } from 'react-native-paper';
 import Postnews from '../Postnews';
 import { urlAPI } from '../../components/helpers/urlAPI';
 
-const DetailPostnews = props => {
+const DetailPostnews = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleImage, setModalVisibleImage] = useState(false);
   const [modalVisibleImageTo, setModalVisibleImageTo] = useState(true);
@@ -56,28 +56,28 @@ const DetailPostnews = props => {
 
   // image
   const [image, setImage] = useState([]);
-  const [imagePath, setImagePath] = useState(null);
+  const [imagePath, setImagePath] = useState([0]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [selectedImagesCount, setSelectedImagesCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState('');
 
   // postnews
-  const [title, setTitle] = useState('');
-  const [detail, setDetail] = useState('');
-  const [details, setDetails] = useState(['']);
-  const [location, setLocation] = useState('');
-  const [price, setPrice] = useState('');
+  const [title, setTitle] = useState('123');
+  const [detail, setDetail] = useState('123');
+  const [details, setDetails] = useState(['123']);
+  const [location, setLocation] = useState('abc');
+  const [price, setPrice] = useState('123');
   const [created_AT, setCreated_AT] = useState('');
   const [files, setFiles] = useState('');
   const [userid, setUserid] = useState('');
-  const [brandid, setBrandid] = useState('');
+  const [brandid, setBrandid] = useState('abc');
   const [brand, setBrand] = useState([]);
   const [selectedBrandId, setSelectedBrandId] = useState(null);
 
-  const [properties, setProperties] = useState('');
+  const [properties, setProperties] = useState('123');
   // properties
-  const [statusTT, setStatusTT] = useState(''); // tình trạng
+  const [statusTT, setStatusTT] = useState('123'); // tình trạng
 
   // địa chỉ
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
@@ -190,8 +190,10 @@ const DetailPostnews = props => {
     setModalVisible(false);
   };
   const onRemoveImage = index => {
-    const updatedImages = image.filter((_, i) => i !== index);
-    setImage(updatedImages);
+    if (image && image.length > 0) {
+      const updatedImages = image.filter((_, i) => i !== index);
+      setImage(updatedImages);
+    }
   };
   const CloseModel = () => {
     if (image.length === 0) {
@@ -219,7 +221,7 @@ const DetailPostnews = props => {
   const uploadImageToServer = async formData => {
     try {
       const response = await axios.post(
-        'https://datnapi.vercel.app/api/postnews/upload',
+        `${urlAPI}api/postnews/upload`,
         formData,
         {
           headers: {
@@ -237,6 +239,7 @@ const DetailPostnews = props => {
   // nút tiếp tục
   const handleaddImageTocloudiary = async () => {
     const ArrayImagePath = [];
+
     try {
       setIsLoading(true);
       const formData = new FormData();
@@ -251,7 +254,7 @@ const DetailPostnews = props => {
       }
       const uniqueImageLinks = ArrayImagePath.map(images => images[0]);
       setImagePath(uniqueImageLinks);
-      // console.log('IMAGEPATH', uniqueImageLinks);
+      console.log('ArrayIMAGe', uniqueImageLinks);
       setIsLoading(false);
     } catch (error) {
       console.log('Error uploading image to server:', error);
@@ -279,6 +282,7 @@ const DetailPostnews = props => {
   }, []);
 
   const openLibrary = useCallback(async () => {
+    if (imagePath == null) { return }
     const options = {
       mediaType: 'photo',
       quality: 1,
@@ -298,6 +302,7 @@ const DetailPostnews = props => {
   const save = useCallback(async () => {
     if (
       !title ||
+      !location ||
       !detail ||
       !price ||
       !statusTT ||
@@ -327,25 +332,23 @@ const DetailPostnews = props => {
         idCategory: idPost,
       };
       const response = await addPostNews(data);
-      console.log(response.userid);
+      // console.log(response.userid);
       if (response == false) {
         Alert.alert('Thêm thất bại');
       } else {
         // Hiển thị loading trong 3 giây trước khi tắt
-        setTimeout(() => {
-          Alert.alert('Thêm Thành công');
-          // setImagePath(null);
-          setTitle('');
-          setDetail('');
-          setLocation('');
-          setPrice('');
-          setCreated_AT('');
-          setFiles('');
-          setStatusTT('');
-          setBrand('');
-          setBrandid('');
-          setIsLoading(false); // Tắt loading
-        }, 3000);
+        Alert.alert('Thêm Thành công');
+        setImagePath(null);
+        setImage([]);
+        setTitle('');
+        setDetail('');
+        setLocation('');
+        setPrice('');
+        setCreated_AT('');
+        setStatusTT('');
+        setBrandid('');
+        setProperties('')
+        setIsLoading(false); // Tắt loading
       }
     } catch (error) {
       console.log('Error adding post:', error);
@@ -571,44 +574,10 @@ const DetailPostnews = props => {
           </Pressable>
         </View>
 
-        {/* <View>
-          {details.map((detail, index) => (
-            <View key={index} style={PNStyles.viewTIP}>
-              <Dropdown
-                data={data}
-                search
-                maxHeight={300}
-                labelField="label"
-                valueField="value"
-                placeholder={'Select item'}
-                searchPlaceholder="Search..."
-                style={PNStyles.drop2}
-              />
-              <TextInput
-                value={detail}
-                onChangeText={text => {
-                  const newDetails = [...details];
-                  newDetails[index] = text;
-                  setDetails(newDetails);
-                }}
-                multiline
-                numberOfLines={4}
-                maxLength={40}
-                placeholder="Mô tả chi tiết"
-                style={PNStyles.inputTTMT}
-              />
-            </View>
-          ))}
-        </View> */}
-        {/* <Pressable style={PNStyles.btnXT}>
-          <Text style={PNStyles.txtXT} onPress={handleAddInput}>
-            Thêm input
-          </Text>
-        </Pressable> */}
         <View style={PNStyles.contaiBtn}>
-          <Pressable style={PNStyles.btnXT}>
+          {/* <Pressable style={PNStyles.btnXT}>
             <Text style={PNStyles.txtXT}>XEM TRƯỚC</Text>
-          </Pressable>
+          </Pressable> */}
           <Pressable style={PNStyles.btnDT} onPress={save}>
             <Text style={PNStyles.txtDT}>ĐĂNG TIN</Text>
           </Pressable>
@@ -620,20 +589,20 @@ const DetailPostnews = props => {
           <View style={PNStyles.modalView}>
             <View style={PNStyles.Container}>
               <View style={PNStyles.contaiappbar}>
-                <Pressable style={PNStyles.pres} onPress={CloseModel}>
+                <Pressable onPress={CloseModel}>
                   <Image source={require('../../../image/close.png')} />
                 </Pressable>
                 <View style={PNStyles.contaitxt}>
-                  <Text style={PNStyles.txtTille}>CHỌN DANH MỤC</Text>
+                  <Text style={PNStyles.txtTille}>Chọn danh mục</Text>
                 </View>
               </View>
-              <View style={PNStyles.contaitxp}>
+              {/* <View style={PNStyles.contaitxp}>
                 <Image source={require('../../../image/searchBar.png')} />
                 <TextInput
                   placeholder="Nhập từ khóa để lọc"
                   placeholderTextColor={'#9C9C9C'}
                   style={PNStyles.txpserch}></TextInput>
-              </View>
+              </View> */}
               <FlatList
                 renderItem={renderItem}
                 data={categories}
@@ -686,6 +655,7 @@ const DetailPostnews = props => {
                     style={PNStyles.viewImage}
                     onPress={openLibrary}
                     disabled={selectedImages.length >= 5}>
+                    {/* <Text  style={PNStyles.txtlengt}>+{image.length}</Text> */}
                     <Image
                       style={PNStyles.imgSelect}
                       source={{ uri: image[0] }}></Image>

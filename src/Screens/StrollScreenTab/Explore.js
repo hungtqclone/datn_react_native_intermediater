@@ -11,9 +11,11 @@ import {
   Linking,
   ActivityIndicator,
 } from 'react-native';
-import { getProduct, savePost,getPostSaved } from '../ScreenService';
+import { getProduct, savePost, getPostSaved } from '../ScreenService';
 import { UserContext } from '../../components/users/UserContext';
 import { urlAPI } from '../../components/helpers/urlAPI';
+import FlashMessage, { showMessage } from 'react-native-flash-message';
+
 const Explore = (props) => {
   const MAX_HEIGHT = 100;
   //lấy thông tin user
@@ -27,6 +29,9 @@ const Explore = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState();
   const [saved, setSaved] = useState([]);
+  const [isLoading2, setIsLoading2] = useState(false); // State để kiểm soát việc hiển thị biểu tượng loading
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false); // State để kiểm soát việc vô hiệu hóa nút "Lưu tin"
+
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
@@ -45,6 +50,7 @@ const Explore = (props) => {
       setIsLoading(true); // Set loading state to true before making the request
       const products = await getProduct();
       setProducts(products);
+      console.log('Products:', products);
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {
@@ -53,15 +59,17 @@ const Explore = (props) => {
   };
 
   const onSavePost = async (postId) => {
-
+    setIsLoading2(true); // Bắt đầu hiển thị biểu tượng loading
+    setIsButtonDisabled(true); // Vô hiệu hóa nút "Lưu tin"
     try {
-      console.log('User ID:', userId);
-      console.log('Post ID:', postId);
       const response = await savePost(userId, postId);
-      //console.log('Save post response:', response);
-      alert('Lưu bài viết thành công!');
+      ongetSaved();
+      console.log('Save post response:', response);
     } catch (error) {
       console.error('Error saving post:', error);
+    } finally {
+      setIsLoading2(false); // Kết thúc hiển thị biểu tượng loading
+      setIsButtonDisabled(false); // Kích hoạt lại nút "Lưu tin"
     }
   };
   const ongetSaved = async () => {
@@ -69,7 +77,6 @@ const Explore = (props) => {
       console.log('userId', userId);
       const saved = await getPostSaved(userId);
       setSaved(saved);
-
       // console.log('ds tin đã lưu:', saved);
     } catch (error) {
       console.error('không lấy được ds tin đã lưu:', error);
@@ -92,8 +99,9 @@ const Explore = (props) => {
     ongetProducts();
     ongetSaved();
   }, []);
+
   const renderItem = ({ item, index }) => {
-    const isPostSaved = saved.some(post => post.postId._id === item._id);
+    const isPostSaved = saved.some(post => post.postId && post.postId._id === item._id);
     return (
       <View key={index} style={styles.container}>
         <View style={styles.header}>
@@ -103,7 +111,7 @@ const Explore = (props) => {
           />
           <View>
             <View style={styles.nameshop}>
-               <Text style={styles.textnameshop}>{item.userid == null ? "Người dùng không tồn tại" : item.userid.name}</Text>
+              <Text style={styles.textnameshop}>{item.userid == null ? "Người dùng không tồn tại" : item.userid.name}</Text>
               <Image
                 style={styles.iconbag}
                 source={require('../../assets/images/icons/icon_bag.png')}
@@ -167,7 +175,7 @@ const Explore = (props) => {
             <Text style={styles.textInfoPro}>{item.detail}</Text>
             <TouchableOpacity style={styles.btncall} onPress={() => handleCallPress(item.userid.phone)}>
               <Text style={styles.textcall}>Liên hệ ngay: </Text>
-            {/* <Text style={styles.textcall}>{item.userid.phone}</Text> */}
+              <Text style={styles.textcall}>{item.userid.phone}</Text>
             </TouchableOpacity>
             {showCollapseButton && (
               <TouchableOpacity onPress={toggleExpand}>
@@ -184,12 +192,15 @@ const Explore = (props) => {
               style={styles.iconCall}
               source={isPostSaved ? require('../../assets/images/icons/heart.png') : require('../../assets/images/icons/heart2.png')}
             />
-            <TouchableOpacity
-              onPress={() => onSavePost(item._id)}
-            >
-              <Text style={styles.txtBtnCall}>Lưu tin</Text>
+            <TouchableOpacity onPress={() => onSavePost(item._id)} disabled={isButtonDisabled}>
+              {isLoading2 ? (
+                <ActivityIndicator size="small" color="#0000ff" />
+              ) : (
+                <Text style={styles.txtBtnCall}>{isPostSaved ? 'Đã lưu' : 'Lưu tin'}</Text>
+              )}
             </TouchableOpacity>
           </TouchableOpacity>
+
           <TouchableOpacity style={styles.btnCall}>
             <Image
               style={styles.iconCall}
@@ -208,6 +219,7 @@ const Explore = (props) => {
       </View>
     )
   }
+  const filteredProducts = products.filter(item => item.userid._id !== userId);
   return (
     <View style={styles.body}>
       <ScrollView>
@@ -221,7 +233,7 @@ const Explore = (props) => {
           <>
             <FlatList
               scrollEnabled={false}
-              data={products}
+              data={filteredProducts}
               renderItem={renderItem}
               keyExtractor={item => item._id.toString()}
               showsVerticalScrollIndicator={false}

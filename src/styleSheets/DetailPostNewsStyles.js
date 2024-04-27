@@ -133,7 +133,7 @@ export const PNStyles = StyleSheet.create({
         borderRadius: 5,
     },
     btnDT: {
-        width: '47%',
+        width: '100%',
         backgroundColor: '#FF8800',
         borderRadius: 5,
 
@@ -146,7 +146,8 @@ export const PNStyles = StyleSheet.create({
     txtDT: {
         textAlign: 'center',
         padding: 10,
-        color: 'white'
+        color: 'white',
+        fontWeight:'bold',
 
     },
     // MOdel 
@@ -207,20 +208,15 @@ export const PNStyles = StyleSheet.create({
     },
     contaiappbar: {
         flexDirection: 'row',
-        width: '100%',
         height: 50,
-        // padding:30,
+        padding:10,
         backgroundColor: '#FFBF17',
-        alignItems: 'center'
-    },
-    pres: {
-        marginLeft: 10,
+        justifyContent:'space-around'
     },
     txtTille: {
-        color: '#484D56',
-        fontSize: 18,
-        fontWeight: '500',
-        fontFamily: 'Roboto'
+        fontSize: 20,
+        fontWeight: 'bold',
+        color:'black'
     },
 
     contaitxt: {
@@ -351,6 +347,15 @@ export const PNStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    txtlengt:{
+        zIndex:1,
+        position:'absolute',
+        alignItems: 'center',
+        alignContent: 'center',
+        color:'grey',
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
     viewROW: {
         flexDirection: 'row',
         height: '80%'
@@ -480,8 +485,9 @@ export const PNStyles = StyleSheet.create({
         alignItems: 'center',
     },
     icon: {
+        margin:5,
         width: 20,
-        height: 20,
+        height: 15,
     },
 
 
