@@ -35,6 +35,7 @@ const Product = (props) => {
     const [isLoadingPage, setIsLoadingPage] = useState(false)
     const [dataSearch, setDataSearch] = useState(undefined)
     const [page, setPage] = useState(1)
+    const [seeMore, setSeeMore] = useState(true)
     const ongetBrands = async () => {
         const brands = await getBrands(idCate);
         setBrands(brands);
@@ -42,7 +43,10 @@ const Product = (props) => {
     }
     const ongetPosst = async () => {
         const posst = await getProductByidCate(idCate, page);
-
+        if (posst.length != 10) {
+            setSeeMore(false)
+            return;
+        }
         if (page == 1) {
             setPostNews(posst);
         } else {
@@ -51,7 +55,10 @@ const Product = (props) => {
         if (posst.length > 0) {
             setIsLoading(false);
         }
-        setPage(page + 1)
+        if (posst.length == 10) {
+            setPage(page + 1)
+        }
+
         // console.log("Sản Phẩm :83 >" + JSON.stringify(products));
     }
     useEffect(() => {
@@ -63,8 +70,9 @@ const Product = (props) => {
 
     const fetchData = () => {
         setIsLoadingPage(true)
+        ongetPosst();
         setTimeout(() => {
-            ongetPosst();
+
             setIsLoadingPage(false);
         }, 2000);
     }
@@ -95,12 +103,12 @@ const Product = (props) => {
     const truncate = (input, length) => input.length > length ? `${input.substring(0, length)}...` : input;
     const nextScreenBrandProduct = idBrand => {
         // console.log('next screen product detail with idPostNews = ', idBrand);
-        navigation.navigate('BrandProduct', {idBrand: idBrand,idCategory: idCategory});
-      };
+        navigation.navigate('BrandProduct', { idBrand: idBrand, idCategory: idCategory });
+    };
     // danh mục hãng
     const renderItemBrands = ({ item, index }) => {
         return (
-            <TouchableOpacity style={productStyles.contaiTitle}  onPress={() => nextScreenBrandProduct(item._id)}>
+            <TouchableOpacity style={productStyles.contaiTitle} onPress={() => nextScreenBrandProduct(item._id)}>
                 <Image style={productStyles.imgTitle} source={{ uri: `${item.files}` }}></Image>
                 <Text style={productStyles.txtTitle2}>{item.nameBrand}</Text>
             </TouchableOpacity>
@@ -135,7 +143,7 @@ const Product = (props) => {
                 <ActivityIndicator size="large" color="#3498db" />
             </View>
         ) : (
-            <TouchableOpacity onPress={fetchData} style={{ paddingVertical: 15, backgroundColor: "white", alignItems: 'center' }}>
+            <TouchableOpacity onPress={fetchData} style={{ paddingVertical: 15, backgroundColor: "white", alignItems: 'center', display: seeMore ? 'flex' : 'none' }}>
                 <Text style={{ color: "green", fontWeight: 500 }}>Xem thêm</Text>
             </TouchableOpacity>
         );
@@ -224,7 +232,7 @@ const Product = (props) => {
                         showsHorizontalScrollIndicator={false}
                     />
                 </View>
-               
+
                 <View>
                     {isLoading ? (
                         <ActivityIndicator

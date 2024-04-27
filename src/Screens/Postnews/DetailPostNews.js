@@ -66,12 +66,12 @@ const DetailPostnews = (props) => {
   const [title, setTitle] = useState('123');
   const [detail, setDetail] = useState('123');
   const [details, setDetails] = useState(['123']);
-  const [location, setLocation] = useState('');
+  const [location, setLocation] = useState('abc');
   const [price, setPrice] = useState('123');
   const [created_AT, setCreated_AT] = useState('');
   const [files, setFiles] = useState('');
   const [userid, setUserid] = useState('');
-  const [brandid, setBrandid] = useState('');
+  const [brandid, setBrandid] = useState('abc');
   const [brand, setBrand] = useState([]);
   const [selectedBrandId, setSelectedBrandId] = useState(null);
 
@@ -190,11 +190,11 @@ const DetailPostnews = (props) => {
     setModalVisible(false);
   };
   const onRemoveImage = index => {
-  if (image && image.length > 0) {
-    const updatedImages = image.filter((_, i) => i !== index);
-    setImage(updatedImages);
-  }
-};
+    if (image && image.length > 0) {
+      const updatedImages = image.filter((_, i) => i !== index);
+      setImage(updatedImages);
+    }
+  };
   const CloseModel = () => {
     if (image.length === 0) {
       setModalVisible(false);
@@ -239,6 +239,7 @@ const DetailPostnews = (props) => {
   // nút tiếp tục
   const handleaddImageTocloudiary = async () => {
     const ArrayImagePath = [];
+
     try {
       setIsLoading(true);
       const formData = new FormData();
@@ -281,6 +282,7 @@ const DetailPostnews = (props) => {
   }, []);
 
   const openLibrary = useCallback(async () => {
+    if (imagePath == null) { return }
     const options = {
       mediaType: 'photo',
       quality: 1,
@@ -300,7 +302,7 @@ const DetailPostnews = (props) => {
   const save = useCallback(async () => {
     if (
       !title ||
-      !location||
+      !location ||
       !detail ||
       !price ||
       !statusTT ||
@@ -335,20 +337,18 @@ const DetailPostnews = (props) => {
         Alert.alert('Thêm thất bại');
       } else {
         // Hiển thị loading trong 3 giây trước khi tắt
-        setTimeout(() => {
-          Alert.alert('Thêm Thành công');
-          setImagePath(null);
-          setImage([]);
-          setTitle('');
-          setDetail('');
-          setLocation('');
-          setPrice('');
-          setCreated_AT('');
-          setStatusTT('');
-          setBrand('');
-          setBrandid('');
-          setIsLoading(false); // Tắt loading
-        }, 3000);
+        Alert.alert('Thêm Thành công');
+        setImagePath(null);
+        setImage([]);
+        setTitle('');
+        setDetail('');
+        setLocation('');
+        setPrice('');
+        setCreated_AT('');
+        setStatusTT('');
+        setBrandid('');
+        setProperties('')
+        setIsLoading(false); // Tắt loading
       }
     } catch (error) {
       console.log('Error adding post:', error);
@@ -427,7 +427,7 @@ const DetailPostnews = (props) => {
         </View>
 
         <View style={PNStyles.contaiupload}>
-          {image.length === 0 ? (                                                                                                                                                                                                                                                                                                                     
+          {image.length === 0 ? (
             <TouchableOpacity
               style={PNStyles.tcouploadimg}
               onPress={() => setModalVisibleImage(true)}>
@@ -655,7 +655,7 @@ const DetailPostnews = (props) => {
                     style={PNStyles.viewImage}
                     onPress={openLibrary}
                     disabled={selectedImages.length >= 5}>
-                      {/* <Text  style={PNStyles.txtlengt}>+{image.length}</Text> */}
+                    {/* <Text  style={PNStyles.txtlengt}>+{image.length}</Text> */}
                     <Image
                       style={PNStyles.imgSelect}
                       source={{ uri: image[0] }}></Image>

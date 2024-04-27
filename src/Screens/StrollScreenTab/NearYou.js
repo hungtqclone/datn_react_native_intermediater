@@ -137,7 +137,7 @@ const NearYou = (props) => {
       const saved = await getPostSaved(userId);
       setSaved(saved);
 
-      console.log('ds tin đã lưu:', saved);
+      // console.log('ds tin đã lưu:', saved);
     } catch (error) {
       console.error('không lấy được ds tin đã lưu:', error);
     }
@@ -146,8 +146,9 @@ const NearYou = (props) => {
   //list và hiện list ảnh sản phẩm
   const renderItem = ({ item, index }) => {
     const isPostSaved = saved.some(post => post.postId._id === item._id);
+    const checkUser = userId == item.userid._id ? true : false;
     return (
-      <View key={index} style={styles.container}>
+      <View key={index} style={[styles.container, { display: checkUser ? "none" : 'flex' }]}>
         <View style={styles.header}>
           <Image
             style={styles.img}
@@ -155,7 +156,7 @@ const NearYou = (props) => {
           />
           <View>
             <View style={styles.nameshop}>
-              {/* <Text style={styles.textnameshop}>{item.userid == null ? "Người dùng không tồn tại" : item.userid.name}</Text> */}
+              <Text style={styles.textnameshop}>{item.userid == null ? "Người dùng không tồn tại" : item.userid.name}</Text>
               <Image
                 style={styles.iconbag}
                 source={require('../../assets/images/icons/icon_bag.png')}
@@ -190,7 +191,7 @@ const NearYou = (props) => {
               // console.log('Constructed Image URL:', `${urlServer}${item}`),
               <View key={index} style={styles.gridItem}>
                 <Image
-                  source={{ uri: `${item}` }}
+                  source={{ uri: item }}
                   style={styles.image}
                   resizeMode="cover"
                 />
@@ -219,7 +220,7 @@ const NearYou = (props) => {
             <Text style={styles.textInfoPro}>{item.detail}</Text>
             <TouchableOpacity style={styles.btncall} onPress={() => handleCallPress(item.userid.phone)}>
               <Text style={styles.textcall}>Liên hệ ngay: </Text>
-              {/* <Text style={styles.textcall}>{item.userid.phone}</Text> */}
+              <Text style={styles.textcall}>{item.userid.phone}</Text>
             </TouchableOpacity>
             {showCollapseButton && (
               <TouchableOpacity onPress={toggleExpand}>

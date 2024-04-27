@@ -31,6 +31,7 @@ const BrandProduct = (props) => {
     const [isLoadingPage, setIsLoadingPage] = useState(false)
     const [dataSearch, setDataSearch] = useState(undefined)
     const [page, setPage] = useState(1)
+    const [seeMore, setSeeMore] = useState(true)
     // const ongetBrands = async () => {
     //     const brands = await getBrands(idCate);
     //     setBrands(brands);
@@ -41,6 +42,13 @@ const BrandProduct = (props) => {
         console.log('next screen product with idBrand = ', idBrandST + "idCate =" + idCate);
         console.log('post data = ', post);
         
+        // console.log('next screen product with idBrand = ', idBrandST + "idCate =" + idCate);
+        // console.log('post data = ', post);
+
+        if (posst.length != 10) {
+            setSeeMore(false)
+            return;
+        }
         if (page == 1) {
             setPostNews(posst);
         } else {
@@ -49,11 +57,13 @@ const BrandProduct = (props) => {
         if (posst.length > 0) {
             setIsLoading(false);
         }
-        setPage(page + 1)
+        if (posst.length == 10) {
+            setPage(page + 1)
+        }
         // console.log("Sản Phẩm :83 >" + JSON.stringify(products));
     }
     useEffect(() => {
-      ongetPosst();
+        ongetPosst();
     }, []);
     // useEffect(() => {
     //     fetchData()
@@ -130,7 +140,7 @@ const BrandProduct = (props) => {
                 <ActivityIndicator size="large" color="#3498db" />
             </View>
         ) : (
-            <TouchableOpacity onPress={fetchData} style={{ paddingVertical: 15, backgroundColor: "white", alignItems: 'center' }}>
+            <TouchableOpacity onPress={fetchData} style={{ paddingVertical: 15, backgroundColor: "white", alignItems: 'center', display: seeMore ? 'flex' : 'none' }}>
                 <Text style={{ color: "green", fontWeight: 500 }}>Xem thêm</Text>
             </TouchableOpacity>
         );
@@ -219,7 +229,7 @@ const BrandProduct = (props) => {
                         showsHorizontalScrollIndicator={false}
                     />
                 </View> */}
-               
+
                 <View>
                     {isLoading ? (
                         <ActivityIndicator
