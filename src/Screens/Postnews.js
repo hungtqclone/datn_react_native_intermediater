@@ -1,12 +1,15 @@
 import { View, Pressable, Text, Image, StyleSheet, TextInput, TouchableOpacity, VirtualizedList, Button, FlatList, ScrollView } from 'react-native'
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect,useContext } from 'react'
 import { Product } from '../styleSheets/ProductCategory'
 import { getCategory, getDetailCategory } from './ScreenService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UserContext } from '../components/users/UserContext';
 import { BottomSheet } from '@rneui/base';
 import { urlAPI } from '../components/helpers/urlAPI';
 
 const Postnews = (props) => {
     const { navigation } = props;
+    const {user, setuser} = useContext(UserContext);
     const [categories, setCategories] = useState([]);
     const [idCategory, setIdCategory] = useState("658fb995b41f1dd5128fa9cf");
 
@@ -20,7 +23,13 @@ const Postnews = (props) => {
         setCategories(detailCategory)
         // console.log("Chi tiết danh muc :13 >" + JSON.stringify(detailCategory));
     }
+    const onLogOut = async () => {
+        await AsyncStorage.setItem('user', '');
+        setuser(null);
+      };
+      
     useEffect(() => {
+        onLogOut();
         if (idCategory == null) {
             ongetCategory();
         } else {
