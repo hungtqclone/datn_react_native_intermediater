@@ -56,18 +56,18 @@ const DetailPostnews = (props) => {
 
   // image
   const [image, setImage] = useState([]);
-  const [imagePath, setImagePath] = useState([0]);
+  const [imagePath, setImagePath] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [selectedImagesCount, setSelectedImagesCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState('');
 
   // postnews
-  const [title, setTitle] = useState('123');
-  const [detail, setDetail] = useState('123');
-  const [details, setDetails] = useState(['123']);
-  const [location, setLocation] = useState('abc');
-  const [price, setPrice] = useState('123');
+  const [title, setTitle] = useState('');
+  const [detail, setDetail] = useState('');
+  const [details, setDetails] = useState(['']);
+  const [location, setLocation] = useState('');
+  const [price, setPrice] = useState('');
   const [created_AT, setCreated_AT] = useState('');
   const [files, setFiles] = useState('');
   const [userid, setUserid] = useState('');
@@ -75,9 +75,9 @@ const DetailPostnews = (props) => {
   const [brand, setBrand] = useState([]);
   const [selectedBrandId, setSelectedBrandId] = useState(null);
 
-  const [properties, setProperties] = useState('123');
+  const [properties, setProperties] = useState('');
   // properties
-  const [statusTT, setStatusTT] = useState('123'); // tình trạng
+  const [statusTT, setStatusTT] = useState(''); // tình trạng
 
   // địa chỉ
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
@@ -221,7 +221,7 @@ const DetailPostnews = (props) => {
   const uploadImageToServer = async formData => {
     try {
       const response = await axios.post(
-        `${urlAPI}api/postnews/upload`,
+        `http://103.177.35.196:8080/api/postnews/upload`,
         formData,
         {
           headers: {
@@ -254,7 +254,6 @@ const DetailPostnews = (props) => {
       }
       const uniqueImageLinks = ArrayImagePath.map(images => images[0]);
       setImagePath(uniqueImageLinks);
-      console.log('ArrayIMAGe', uniqueImageLinks);
       setIsLoading(false);
     } catch (error) {
       console.log('Error uploading image to server:', error);
