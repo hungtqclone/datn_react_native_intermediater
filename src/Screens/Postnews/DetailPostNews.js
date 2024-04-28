@@ -297,8 +297,9 @@ const DetailPostnews = (props) => {
   const updateSelectedImages = count => {
     setSelectedImagesCount(count);
   };
-
+  
   const save = useCallback(async () => {
+    setIsLoading(true);
     if (
       !title ||
       !location ||
@@ -314,7 +315,6 @@ const DetailPostnews = (props) => {
     }
 
     const currentDate = new Date();
-    setIsLoading(true);
     try {
       const data = {
         title,
@@ -401,6 +401,7 @@ const DetailPostnews = (props) => {
         />
       </View>
       <ScrollView>
+        
         <Pressable
           style={PNStyles.presContai}
           onPress={() => setModalVisible(true)}>
@@ -574,12 +575,20 @@ const DetailPostnews = (props) => {
         </View>
 
         <View style={PNStyles.contaiBtn}>
-          {/* <Pressable style={PNStyles.btnXT}>
-            <Text style={PNStyles.txtXT}>XEM TRƯỚC</Text>
-          </Pressable> */}
+       
+          {isLoading ? (
+        <Modal isVisible={isLoading}>
+          <ActivityIndicator
+            style={{ marginTop: 20 }}
+            size="large"
+            color="#3498db"
+          />
+        </Modal>
+      ) : (
           <Pressable style={PNStyles.btnDT} onPress={save}>
             <Text style={PNStyles.txtDT}>ĐĂNG TIN</Text>
           </Pressable>
+      )};
         </View>
       </ScrollView>
       {modalVisible && <View style={PNStyles.overlay} />}
