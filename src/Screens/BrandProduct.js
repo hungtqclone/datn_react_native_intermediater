@@ -38,7 +38,10 @@ const BrandProduct = (props) => {
     //     // console.log("Sản Phẩm :83 >" + JSON.stringify(products));
     // }
     const ongetPosst = async () => {
-        const posst = await getProductByBrandid(idCate, idBrandST, page);
+        const posst = await getProductByBrandid(idCategory,idBrandST, page);
+        console.log('next screen product with idBrand = ', idBrandST + "idCate =" + idCate);
+        console.log('post data = ', post);
+        
         // console.log('next screen product with idBrand = ', idBrandST + "idCate =" + idCate);
         // console.log('post data = ', post);
 
@@ -77,7 +80,7 @@ const BrandProduct = (props) => {
     const renderFill = ({ item, index }) => {
         return (
             <Pressable style={productStyles.contaifillScroll}>
-                <Text style={productStyles.txtTQ}>{item.title} </Text>
+                <Text style={productStyles.txtTQ2}>{item.title} </Text>
                 <Image style={productStyles.icondown} source={require('../../image/down.png')} />
             </Pressable>
         );
@@ -188,10 +191,10 @@ const BrandProduct = (props) => {
                         </Pressable>
                     </View>
                     <View style={productStyles.contaifilter}>
-                        <Pressable style={productStyles.contaifill}>
+                        {/* <Pressable style={productStyles.contaifill}>
                             <Image style={productStyles.iconfilter} source={require('../../image/icon_filter.png')} />
                             <Text style={productStyles.txtTQ}>Lọc </Text>
-                        </Pressable>
+                        </Pressable> */}
                         <FlatList
                             data={data}
                             renderItem={renderFill}
@@ -202,8 +205,8 @@ const BrandProduct = (props) => {
                         />
                     </View>
                 </View>
-
-                <View style={productStyles.contaiAdresss}>
+{/* 
+                <View style={productStyles.contaiAdresss}> */}
                     {/* <Text style={productStyles.txtGY}>Gợi ý khu vực </Text>
                     <FlatList
                         contentContainerStyle={{
@@ -216,7 +219,7 @@ const BrandProduct = (props) => {
                         renderItem={renderAdress}
                         scrollEnabled={false}
                     /> */}
-                </View>
+                {/* </View> */}
                 {/* <View>
                     <FlatList
                         data={brand}
