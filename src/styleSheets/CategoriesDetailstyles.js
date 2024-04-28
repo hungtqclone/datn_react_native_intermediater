@@ -27,6 +27,7 @@ export const CGDStyles = StyleSheet.create({
     txpSearch: {
         backgroundColor: "white",
         width: '100%',
+        padding:15,
         borderRadius: 5,
         paddingLeft: 50,
         position: 'absolute'
@@ -322,5 +323,112 @@ export const CGDStyles = StyleSheet.create({
         color:'grey',
         marginHorizontal:5,
     },
-    
+
+    // model
+    overlay: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        zIndex: 1
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop:10,
+    },
+    Container: {
+        width: "100%", 
+        backgroundColor: '#FFBF17',
+        flexDirection:'row',
+        padding:12,
+        
+    },
+    modalView: {
+        width: '100%',
+        flex: 1,
+        backgroundColor: 'white',
+        borderRadius: 5,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+    },
+    buttonOpen: {
+        backgroundColor: '#F194FF',
+    },
+    buttonClose: {
+        backgroundColor: '#2196F3',
+    },
+    textStyle: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: 'center',
+    },
+    contaiappbar:{
+        justifyContent: 'flex-end',
+        alignItems:'flex-end'
+    },    
+    // search model
+    viewSearch2: {
+        marginLeft:10,
+        backgroundColor: 'red',
+        alignItems: 'center',
+        width: '85%',
+        flexDirection: 'row',
+
+    },
+    txpSearch2: {
+        backgroundColor:'red',
+        backgroundColor: "white",
+        width: '100%',
+        borderRadius: 5,
+        paddingLeft: 40,
+        position: 'absolute'
+    },
+    imgSearch2: {
+        position: 'absolute',
+        margin: 5,
+    },
+    // render
+    contaitong: {
+        width: '100%',
+       
+        alignItems: 'flex-start',
+        paddingHorizontal: 15,
+       
+        shadowColor: '#000',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 3,
+        elevation: 4,
+        alignContent: 'flex-start',
+    },
+    contaiCity: {
+        
+        
+    },
+    txtCity: {
+        padding:10,
+        fontFamily: 'Roboto',
+        color: 'orange',
+        fontSize: 18,
+        fontWeight: '400',
+    },
 });

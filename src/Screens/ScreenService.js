@@ -79,7 +79,17 @@ export const getProductByidCate = async (idCategory, page) => {
     return err;
   }
 };
-
+// get Sản phẩm theo categories 
+export const getProductByBrandid = async (idCategory,idBrand, page) => {
+  try {
+    const post = await AxiosInstance().get(`api/postnews/brand/${idCategory}/${idBrand}/${page}`);
+    // console.log("32 Service Products : " + JSON.stringify(detail.data));
+    return post.data;
+  } catch (err) {
+    console.log('Products error:', err);
+    return err;
+  }
+};
 // Add posst news
 export const addPostNews = async (data) => {
   try {
@@ -116,7 +126,16 @@ export const getProductById = async (id) => {
     throw error;
   }
 };
-
+export const searchByTitle = async (title) => {
+  try {
+    const res = await AxiosInstance().get(`/api/postnews/search/${title}`);
+    // console.log('getProductById response', res.data);
+    return res.data;
+  } catch (error) {
+    console.log("Search Title error", error);
+    throw error;
+  }
+};
 export const getPostNewsByUserId = async (id) => {
   try {
     const res = await AxiosInstance().get(`/api/postnews/user/${id}`);
@@ -150,3 +169,15 @@ export const savePost = async (userid, postId) => {
     return err;
   }
 }
+
+// search category
+export const searchByNameCategory = async (name) => {
+  try {
+    const res = await AxiosInstance().get(`/api/categories/search/${name}`);
+    console.log('search response', res.data);
+    return res.data;
+  } catch (error) {
+    console.log("Search Title error", error);
+    throw error;
+  }
+};

@@ -11,10 +11,11 @@ import {
   Linking,
   ActivityIndicator,
 } from 'react-native';
-import { getProduct, savePost } from '../ScreenService';
+import { getProduct, savePost, getPostSaved } from '../ScreenService';
 import { UserContext } from '../../components/users/UserContext';
 import { urlAPI } from '../../components/helpers/urlAPI';
 import { styleNumber, formatDate } from '../../styleSheets/styleJS';
+import FlashMessage, { showMessage } from 'react-native-flash-message';
 
 const Explore = (props) => {
   const MAX_HEIGHT = 100;
@@ -28,6 +29,10 @@ const Explore = (props) => {
   const [showCollapseButton, setShowCollapseButton] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState();
+  const [saved, setSaved] = useState([]);
+  const [isLoading2, setIsLoading2] = useState(false); // State để kiểm soát việc hiển thị biểu tượng loading
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false); // State để kiểm soát việc vô hiệu hóa nút "Lưu tin"
+
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
@@ -46,6 +51,7 @@ const Explore = (props) => {
       setIsLoading(true); // Set loading state to true before making the request
       const products = await getProduct();
       setProducts(products);
+      console.log('Products:', products);
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {
@@ -54,18 +60,29 @@ const Explore = (props) => {
   };
 
   const onSavePost = async (postId) => {
-
+    setIsLoading2(true); // Bắt đầu hiển thị biểu tượng loading
+    setIsButtonDisabled(true); // Vô hiệu hóa nút "Lưu tin"
     try {
-      console.log('User ID:', userId);
-      console.log('Post ID:', postId);
       const response = await savePost(userId, postId);
-      //console.log('Save post response:', response);
-      alert('Lưu bài viết thành công!');
+      ongetSaved();
+      console.log('Save post response:', response);
     } catch (error) {
       console.error('Error saving post:', error);
+    } finally {
+      setIsLoading2(false); // Kết thúc hiển thị biểu tượng loading
+      setIsButtonDisabled(false); // Kích hoạt lại nút "Lưu tin"
     }
   };
-
+  const ongetSaved = async () => {
+    try {
+      console.log('userId', userId);
+      const saved = await getPostSaved(userId);
+      setSaved(saved);
+      // console.log('ds tin đã lưu:', saved);
+    } catch (error) {
+      console.error('không lấy được ds tin đã lưu:', error);
+    }
+  };
 
 
   const handleCallPress = (phoneNumber) => {
@@ -81,128 +98,129 @@ const Explore = (props) => {
   };
   useEffect(() => {
     ongetProducts();
+    ongetSaved();
   }, []);
-  const renderItem = ({ item, index }) => (
-    <View key={item.id} style={styles.container}>
-      <View style={styles.header}>
-        <Image
-          style={styles.img}
-          source={require('../../assets/images/icons/man-person-icon.png')}
-        />
-        <View>
-          <View style={styles.nameshop}>
-            {/* <Text style={styles.textnameshop}>{item.userid.name}</Text> */}
-            <Image
-              style={styles.iconbag}
-              source={require('../../assets/images/icons/icon_bag.png')}
-            />
-          </View>
-          <View style={styles.timecont}>
-            <Text> {formatDate(item.created_AT)}</Text>
-            <View style={styles.circle} />
-            <Text>5km</Text>
-          </View>
-        </View>
-        {/* <TouchableOpacity
-          style={styles.btn}
-          onPress={() => console.log('theo dõi')}>
-          <Text style={styles.txtBtn}>Theo dõi</Text>
-        </TouchableOpacity> */}   
-      </View>
-      <View style={styles.bodycont}>
-        {/* Định vị hiện tại ở góc trên bên trái */}
-        <View style={styles.currentLocation} zIndex={2}>
+
+  const renderItem = ({ item, index }) => {
+    const isPostSaved = saved.some(post => post.postId && post.postId._id === item._id);
+    return (
+      <View key={index} style={styles.container}>
+        <View style={styles.header}>
           <Image
-            source={require('../../assets/images/icons/icon_address.png')}
-            style={styles.imgaddress}
+            style={styles.img}
+            source={require('../../assets/images/icons/man-person-icon.png')}
           />
-          <Text style={styles.locationText}>{item.location}</Text>
-        </View>
-        {/* Danh sách Gridview */}
-        <FlatList
-          scrollEnabled={false}
-          //  data={item.files}
-          data={item.files.slice(0, 4)} // Chỉ hiển thị 4 ảnh đầu tiên
-          renderItem={({ item, index }) => (
-            // console.log('Constructed Image URL:', `${urlServer}${item}`),
-            <View key={item.toString()} style={styles.gridItem}>
+          <View>
+            <View style={styles.nameshop}>
+              <Text style={styles.textnameshop}>{item.userid == null ? "Người dùng không tồn tại" : item.userid.name}</Text>
               <Image
-                source={{ uri: `${item}` }}
-                style={styles.image}
+                style={styles.iconbag}
+                source={require('../../assets/images/icons/icon_bag.png')}
               />
-              {/* {index === 3 && (
-                <TouchableOpacity
-                  style={styles.overlay}
-                  onPress={() => console.log('+2')}>
-                  <Text style={styles.overlayText}>
-                    {remainingItemCount > 0 ? `+${remainingItemCount}` : ''}
-                  </Text>
-                </TouchableOpacity>
-              )} */}
             </View>
-          )}
-          keyExtractor={index => index.toString()}
-          numColumns={2}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-        />
-        <TouchableOpacity style={styles.nameprice}
-          onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })}
-        >
-          <View style={styles.cont_nameprice}>
-            <Text style={styles.textnameprice}> {item.title} </Text>
-            <Text style={styles.textprice}>{styleNumber(item.price)} đ</Text>
+            <View style={styles.timecont}>
+              <Text> {item.created_AT}</Text>
+              <View style={styles.circle} />
+              <Text>5km</Text>
+            </View>
           </View>
-          <Image
-            style={styles.icon_arrow_right}
-            source={require('../../assets/images/icons/icon_arrow_right.png')}
+          {/* <TouchableOpacity
+            style={styles.btn}
+            onPress={() => console.log('theo dõi')}>
+            <Text style={styles.txtBtn}>Theo dõi</Text>
+          </TouchableOpacity> */}
+        </View>
+        <View style={styles.bodycont}>
+          {/* Định vị hiện tại ở góc trên bên trái */}
+          <View style={styles.currentLocation} zIndex={2}>
+            <Image
+              source={require('../../assets/images/icons/icon_address.png')}
+              style={styles.imgaddress}
+            />
+            <Text style={styles.locationText}>{item.location}</Text>
+          </View>
+          {/* Danh sách Gridview */}
+          <FlatList
+            scrollEnabled={false}
+            data={item.files.slice(0, 4)} // Chỉ hiển thị 4 ảnh đầu tiên
+            renderItem={({ item, index }) => (
+              // console.log('Constructed Image URL:', `${urlServer}${item}`),
+              <View key={index} style={styles.gridItem}>
+                <Image
+                  source={{ uri: `${item}` }}
+                  style={styles.image}
+                  resizeMode="cover"
+                />
+              </View>
+            )}
+            keyExtractor={index => index.toString()}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
           />
-        </TouchableOpacity>
-        <View style={styles.infoPro} onLayout={checkContentHeight}>
-          {/* <Text style={styles.textInfoPro}>{renderContent()}</Text> */}
-          <Text style={styles.textInfoPro}>{item.detail}</Text>
-          <TouchableOpacity style={styles.btncall} onPress={() => handleCallPress(item.userid.phone)}>
-            <Text style={styles.textcall}>Liên hệ ngay: </Text>
-            {/* <Text style={styles.textcall}>{item.userid.phone}</Text> */}
+          <TouchableOpacity style={styles.nameprice}
+            onPress={() => navigation.navigate('DetailProduct', { id_product: item._id })}
+
+          >
+            <View style={styles.cont_nameprice}>
+              <Text style={styles.textnameprice}> {item.title} </Text>
+              <Text style={styles.textprice}>{item.price} đ</Text>
+            </View>
+            <Image
+              style={styles.icon_arrow_right}
+              source={require('../../assets/images/icons/icon_arrow_right.png')}
+            />
           </TouchableOpacity>
-          {showCollapseButton && (
-            <TouchableOpacity onPress={toggleExpand}>
-              <Text style={styles.readMoreText}>
-                {isExpanded ? 'Thu gọn' : 'Thêm'}
-              </Text>
+          <View style={styles.infoPro} onLayout={checkContentHeight}>
+            {/* <Text style={styles.textInfoPro}>{renderContent()}</Text> */}
+            <Text style={styles.textInfoPro}>{item.detail}</Text>
+            <TouchableOpacity style={styles.btncall} onPress={() => handleCallPress(item.userid.phone)}>
+              <Text style={styles.textcall}>Liên hệ ngay: </Text>
+              <Text style={styles.textcall}>{item.userid.phone}</Text>
             </TouchableOpacity>
-          )}
+            {showCollapseButton && (
+              <TouchableOpacity onPress={toggleExpand}>
+                <Text style={styles.readMoreText}>
+                  {isExpanded ? 'Thu gọn' : 'Thêm'}
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        </View>
+        <View style={styles.btncontact}>
+          <TouchableOpacity style={styles.btnCall}>
+            <Image
+              style={styles.iconCall}
+              source={isPostSaved ? require('../../assets/images/icons/heart.png') : require('../../assets/images/icons/heart2.png')}
+            />
+            <TouchableOpacity onPress={() => onSavePost(item._id)} disabled={isButtonDisabled}>
+              {isLoading2 ? (
+                <ActivityIndicator size="small" color="#0000ff" />
+              ) : (
+                <Text style={styles.txtBtnCall}>{isPostSaved ? 'Đã lưu' : 'Lưu tin'}</Text>
+              )}
+            </TouchableOpacity>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.btnCall}>
+            <Image
+              style={styles.iconCall}
+              source={require('../../assets/images/icons/icon_chat.png')}
+            />
+            <Text style={styles.txtBtnCall}>Chat</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnCall}>
+            <Image
+              style={styles.iconCall}
+              source={require('../../assets/images/icons/iconShare.png')}
+            />
+            <Text style={styles.txtBtnCall}>Chia sẻ</Text>
+          </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.btncontact}>
-        <TouchableOpacity style={styles.btnCall}>
-          <Image
-            style={styles.iconCall}
-            source={require('../../assets/images/icons/heart2.png')}
-          />
-          <TouchableOpacity
-            onPress={() => onSavePost(item._id)}
-          >
-            <Text style={styles.txtBtnCall}>Lưu tin</Text>
-          </TouchableOpacity>
-        </TouchableOpacity>
-        {/* <TouchableOpacity style={styles.btnCall}>
-          <Image
-            style={styles.iconCall}
-            source={require('../../assets/images/icons/icon_chat.png')}
-          />
-          <Text style={styles.txtBtnCall}>Chat</Text>
-        </TouchableOpacity> */}
-        <TouchableOpacity style={styles.btnCall}>
-          <Image
-            style={styles.iconCall}
-            source={require('../../assets/images/icons/iconShare.png')}
-          />
-          <Text style={styles.txtBtnCall}>Chia sẻ</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
+    )
+  }
+  const filteredProducts = products.filter(item => item.userid._id !== userId);
   return (
     <View style={styles.body}>
       <ScrollView>
@@ -216,7 +234,7 @@ const Explore = (props) => {
           <>
             <FlatList
               scrollEnabled={false}
-              data={products}
+              data={filteredProducts}
               renderItem={renderItem}
               keyExtractor={item => item._id.toString()}
               showsVerticalScrollIndicator={false}

@@ -485,8 +485,9 @@ export const PNStyles = StyleSheet.create({
         alignItems: 'center',
     },
     icon: {
+        margin:5,
         width: 20,
-        height: 20,
+        height: 15,
     },
 
 

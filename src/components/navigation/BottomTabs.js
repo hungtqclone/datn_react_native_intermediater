@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import React, { useContext, useEffect } from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {View, Text, ScrollView, StyleSheet} from 'react-native';
+import React, {useContext, useEffect} from 'react';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import ProductNavigation from './ProductNavigation';
 import Home from '../../Screens/Home';
-import { Image } from '@rneui/base';
+import {Image} from '@rneui/base';
 import DanhMucSP from '../../Screens/DanhMucSP';
 import DetailProduct from '../../Screens/DetailProduct';
 import ManagementNews from '../../Screens/ManagementNews';
@@ -16,55 +17,58 @@ import ScrollStack from './ScrollStack';
 import ManagementStack from './ManagementStack';
 import Postnews from '../../Screens/Postnews';
 import Login from '../../Screens/Login';
-import { UserContext } from '../users/UserContext';
+import {UserContext} from '../users/UserContext';
 
 // import ViceCityScreen from '../../Screens/ViceCityScreen';
 // Stack
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { GetRouteNameManament, GetRouteNameProfile, GetRouteNameScroll, GetRouteNameHome } from './GetRouteNameMarket';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {
+  GetRouteNameManament,
+  GetRouteNameProfile,
+  GetRouteNameScroll,
+  GetRouteNameHome,
+} from './GetRouteNameMarket';
 
-
-const options = ({ route }) => ({
-  tabBarLabel: ({ focused, color }) => {
+const options = ({route}) => ({
+  tabBarLabel: ({focused, color}) => {
     if (route.name === 'ProductNavigation') {
       return focused ? (
-        <Text style={{ color: '#FFBA00' }}>Trang chủ</Text>
+        <Text style={{color: '#FFBA00'}}>Trang chủ</Text>
       ) : (
         <Text>Trang chủ</Text>
       );
     } else if (route.name === 'NewsManagement') {
       return focused ? (
-        <Text style={{ color: '#FFBA00' }}>Quản lý tin</Text>
+        <Text style={{color: '#FFBA00'}}>Quản lý tin</Text>
       ) : (
         <Text>Quản lý tin</Text>
       );
     } else if (route.name === 'PostNews') {
       return focused ? (
-        <Text style={{ color: '#FFBA00' }}>Đăng tin</Text>
+        <Text style={{color: '#FFBA00'}}>Đăng tin</Text>
       ) : (
         <Text>Đăng tin</Text>
       );
     } else if (route.name === 'StrollTheMarket') {
       return focused ? (
-        <Text style={{ color: '#FFBA00' }}>Dạo chợ</Text>
+        <Text style={{color: '#FFBA00'}}>Dạo chợ</Text>
       ) : (
         <Text>Dạo chợ</Text>
       );
     } else if (route.name === 'Account') {
       return focused ? (
-        <Text style={{ color: '#FFBA00' }}>Tài khoản</Text>
+        <Text style={{color: '#FFBA00'}}>Tài khoản</Text>
       ) : (
         <Text>Tài khoản</Text>
       );
     }
   },
-  tabBarIcon: ({ focused, color, size }) => {
+  tabBarIcon: ({focused, color, size}) => {
     if (route.name === 'ProductNavigation') {
       return focused ? (
         <Image
-          style={[stylesBottomTab.bottomTabIcon, { tintColor: '#FFBA00' }]}
+          style={[stylesBottomTab.bottomTabIcon, {tintColor: '#FFBA00'}]}
           source={require('../../../image/icon_homegrey.png')}
-
         />
       ) : (
         <Image
@@ -72,7 +76,8 @@ const options = ({ route }) => ({
           source={require('../../../image/icon_homegrey.png')}
         />
       );
-    } if (route.name === 'NewsManagement') {
+    }
+    if (route.name === 'NewsManagement') {
       return focused ? (
         <Image
           style={stylesBottomTab.bottomTabIcon}
@@ -84,10 +89,11 @@ const options = ({ route }) => ({
           source={require('../../../image/icon_notegrey.png')}
         />
       );
-    } if (route.name === 'PostNews') {
+    }
+    if (route.name === 'PostNews') {
       return focused ? (
         <Image
-          style={[stylesBottomTab.bottomTabIcon, { tintColor: '#FFBA00' }]}
+          style={[stylesBottomTab.bottomTabIcon, {tintColor: '#FFBA00'}]}
           source={require('../../../image/icon_editblack.png')}
         />
       ) : (
@@ -96,7 +102,8 @@ const options = ({ route }) => ({
           source={require('../../../image/icon_editblack.png')}
         />
       );
-    } if (route.name === 'StrollTheMarket') {
+    }
+    if (route.name === 'StrollTheMarket') {
       return focused ? (
         <Image
           style={stylesBottomTab.bottomTabIcon}
@@ -108,7 +115,8 @@ const options = ({ route }) => ({
           source={require('../../../image/icon_baggrey.png')}
         />
       );
-    } if (route.name === 'Account') {
+    }
+    if (route.name === 'Account') {
       return focused ? (
         <Image
           style={stylesBottomTab.bottomTabIcon}
@@ -121,44 +129,52 @@ const options = ({ route }) => ({
         />
       );
     }
-
-
   },
   headerShown: false,
   tabBarHideOnKeyboard: true,
 });
-const BottomTabs = (props) => {
-  const { user, setuser } = useContext(UserContext);
-  const { navigation, route } = props;
+const BottomTabs = props => {
+  const {user, setuser} = useContext(UserContext);
+  const {navigation, route} = props;
+
   console.log(user._id);
-  useEffect(() => {
-  }, [user]);
+  useEffect(() => {}, [user]);
   return (
-    <Tab.Navigator screenOptions={options} >
-      <Tab.Screen name="ProductNavigation" component={ProductNavigation}
-        options={({ route }) => ({
-          tabBarStyle: { display: GetRouteNameHome(route) },
+    <Tab.Navigator screenOptions={options}>
+      <Tab.Screen
+        name="ProductNavigation"
+        component={ProductNavigation}
+        options={({route}) => ({
+          tabBarStyle: {display: GetRouteNameHome(route)},
           headerShown: false,
         })}
       />
-      <Tab.Screen name="NewsManagement" component={ManagementStack}
-        options={({ route }) => ({
-          tabBarStyle: { display: GetRouteNameManament(route) },
+      <Tab.Screen
+        name="NewsManagement"
+        component={ManagementStack}
+        options={({route}) => ({
+          tabBarStyle: {display: GetRouteNameManament(route)},
           headerShown: false,
-        })} />
+        })}
+      />
       <Tab.Screen name="PostNews" component={Postnews} />
-
       {/* <Tab.Screen name="StrollTheMarket" component={StrollScreen} /> */}
-      <Tab.Screen name="StrollTheMarket" component={ScrollStack}
-        options={({ route }) => ({
-          tabBarStyle: { display: GetRouteNameScroll(route) },
+      <Tab.Screen
+        name="StrollTheMarket"
+        component={ScrollStack}
+        options={({route}) => ({
+          tabBarStyle: {display: GetRouteNameScroll(route)},
           headerShown: false,
-        })} />
-      <Tab.Screen name="Account" component={ProflieStack}
-        options={({ route }) => ({
-          tabBarStyle: { display: GetRouteNameProfile(route) },
+        })}
+      />
+      <Tab.Screen
+        name="Account"
+        component={ProflieStack}
+        options={({route}) => ({
+          tabBarStyle: {display: GetRouteNameProfile(route)},
           headerShown: false,
-        })} />
+        })}
+      />
       {/* <Tab.Screen name="Product" component={PurchaseOrdersScreen} /> */}
     </Tab.Navigator>
   );

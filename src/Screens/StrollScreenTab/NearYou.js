@@ -34,6 +34,9 @@ const NearYou = (props) => {
   const [products, setProducts] = useState([]);
   const [phoneNumber, setPhoneNumber] = useState();
   const [saved, setSaved] = useState([]);
+  const [isLoading2, setIsLoading2] = useState(false); // State để kiểm soát việc hiển thị biểu tượng loading
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false); // State để kiểm soát việc vô hiệu hóa nút "Lưu tin"
+
   //chỉ cho phép getLocation chạy 1 lần
   const [hasRunOnce, setHasRunOnce] = useState(false);
   useEffect(() => {
@@ -121,15 +124,17 @@ const NearYou = (props) => {
   };
 
   const onSavePost = async (postId) => {
-
+    setIsLoading2(true); // Bắt đầu hiển thị biểu tượng loading
+    setIsButtonDisabled(true); // Vô hiệu hóa nút "Lưu tin"
     try {
-      console.log('User ID:', userId);
-      console.log('Post ID:', postId);
       const response = await savePost(userId, postId);
-      // console.log('Save post response:', response);
-      alert('Lưu bài viết thành công!');
+      ongetSaved();
+      console.log('Save post response:', response);
     } catch (error) {
       console.error('Error saving post:', error);
+    } finally {
+      setIsLoading2(false); // Kết thúc hiển thị biểu tượng loading
+      setIsButtonDisabled(false); // Kích hoạt lại nút "Lưu tin"
     }
   };
 
@@ -139,7 +144,7 @@ const NearYou = (props) => {
       const saved = await getPostSaved(userId);
       setSaved(saved);
 
-      console.log('ds tin đã lưu:', saved);
+       console.log('ds tin đã lưu:', saved);
     } catch (error) {
       console.error('không lấy được ds tin đã lưu:', error);
     }
@@ -147,9 +152,10 @@ const NearYou = (props) => {
 
   //list và hiện list ảnh sản phẩm
   const renderItem = ({ item, index }) => {
-    const isPostSaved = saved.some(post => post.postId._id === item._id);
+    const isPostSaved = saved.some(post => post.postId && post.postId._id === item._id);
+    const checkUser = userId == item.userid._id ? true : false;
     return (
-      <View key={index} style={styles.container}>
+      <View key={index} style={[styles.container, { display: checkUser ? "none" : 'flex' }]}>
         <View style={styles.header}>
           <Image
             style={styles.img}
@@ -157,7 +163,7 @@ const NearYou = (props) => {
           />
           <View>
             <View style={styles.nameshop}>
-              {/* <Text style={styles.textnameshop}>{item.userid == null ? "Người dùng không tồn tại" : item.userid.name}</Text> */}
+              <Text style={styles.textnameshop}>{item.userid == null ? "Người dùng không tồn tại" : item.userid.name}</Text>
               <Image
                 style={styles.iconbag}
                 source={require('../../assets/images/icons/icon_bag.png')}
@@ -192,7 +198,7 @@ const NearYou = (props) => {
               // console.log('Constructed Image URL:', `${urlServer}${item}`),
               <View key={index} style={styles.gridItem}>
                 <Image
-                  source={{ uri: `${item}` }}
+                  source={{ uri: item }}
                   style={styles.image}
                   resizeMode="cover"
                 />
@@ -221,7 +227,7 @@ const NearYou = (props) => {
             <Text style={styles.textInfoPro}>{item.detail}</Text>
             <TouchableOpacity style={styles.btncall} onPress={() => handleCallPress(item.userid.phone)}>
               <Text style={styles.textcall}>Liên hệ ngay: </Text>
-              {/* <Text style={styles.textcall}>{item.userid.phone}</Text> */}
+              <Text style={styles.textcall}>{item.userid.phone}</Text>
             </TouchableOpacity>
             {showCollapseButton && (
               <TouchableOpacity onPress={toggleExpand}>
@@ -233,15 +239,17 @@ const NearYou = (props) => {
           </View>
         </View>
         <View style={styles.btncontact}>
-          <TouchableOpacity style={styles.btnCall}>
+        <TouchableOpacity style={styles.btnCall}>
             <Image
               style={styles.iconCall}
               source={isPostSaved ? require('../../assets/images/icons/heart.png') : require('../../assets/images/icons/heart2.png')}
             />
-            <TouchableOpacity
-              onPress={() => onSavePost(item._id)}
-            >
-              <Text style={styles.txtBtnCall}>Lưu tin</Text>
+            <TouchableOpacity onPress={() => onSavePost(item._id)} disabled={isButtonDisabled}>
+              {isLoading2 ? (
+                <ActivityIndicator size="small" color="#0000ff" />
+              ) : (
+                <Text style={styles.txtBtnCall}>{isPostSaved ? 'Đã lưu' : 'Lưu tin'}</Text>
+              )}
             </TouchableOpacity>
           </TouchableOpacity>
           {/* <TouchableOpacity style={styles.btnCall}>

@@ -14,10 +14,9 @@ import {
 import React, { useState, useEffect, useContext, Component } from 'react';
 import { useRoute, useFocusEffect } from '@react-navigation/native';
 import { getPostNewsByCategory, getProductById } from './ScreenService';
-import { getPostNewsByUserId, savePost } from './ScreenService';
+import { getPostNewsByUserId, savePost, getPostSaved } from './ScreenService';
 import Swiper from 'react-native-swiper';
 import { UserContext } from '../components/users/UserContext';
-import SweetAlert from 'react-native-sweet-alert';
 import { useNavigation } from '@react-navigation/native';
 import { urlAPI } from '../components/helpers/urlAPI';
 import { styleNumber, formatDate } from '../styleSheets/styleJS';
@@ -39,7 +38,13 @@ const DetailProduct = (props) => {
   const [isLoadingProByUser, setIsLoadingProByUser] = useState(true);
   const [isLoadingProByCategory, setIsLoadingProByCategory] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [saved, setSaved] = useState([]);
   const [title, setTitle] = useState('');
+  const [isSaved, setIsSaved] = useState(false);
+  const [isLoading2, setIsLoading2] = useState(false); // State để kiểm soát việc hiển thị biểu tượng loading
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false); // State để kiểm soát việc vô hiệu hóa nút "Lưu tin"
+
+
   const data = [
     { id: '1', question: 'Món hàng này còn không?' },
     { id: '2', question: 'Bạn có ship hàng không?' },
@@ -81,27 +86,47 @@ const DetailProduct = (props) => {
     }
   };
   const onSavePost = async (postId) => {
+    setIsLoading2(true); // Bắt đầu hiển thị biểu tượng loading
+    setIsButtonDisabled(true); // Vô hiệu hóa nút "Lưu tin"
     try {
-      // console.log('User ID:', userId);
-      // console.log('Post ID:', postId);
       const response = await savePost(userId, postId);
+      ongetSaved();
       console.log('Save post response:', response);
-      // Hiển thị thông báo sau khi lưu thành công
-      alert('Lưu bài viết thành công!');
     } catch (error) {
       console.error('Error saving post:', error);
+    } finally {
+      setIsLoading2(false); // Kết thúc hiển thị biểu tượng loading
+      setIsButtonDisabled(false); // Kích hoạt lại nút "Lưu tin"
     }
   };
+  const ongetSaved = async () => {
+    try {
+      console.log('userId', userId);
+      const saved = await getPostSaved(userId);
+      setSaved(saved);
 
+      console.log('ds tin đã lưu:', saved);
+    } catch (error) {
+      console.error('không lấy được ds tin đã lưu:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+         ongetSaved();
+        // // Kiểm tra xem sản phẩm có trong danh sách đã lưu không
+        // console.log('id_product:', id_product);
+        // const isProductSaved = saved.some(item => item.postId._id === id_product);
+        // setIsSaved(isProductSaved);
+        // console.log('isProductSaved:', isProductSaved);
         const productData = await getProductById(id_product);
         setProducts(productData);
+
         setPhoneNumber(productData.userid.phone);
         setIsLoading(false);
         setTitle(productData.title);
+
 
         if (productData && productData.userid) {
           const userPosts = await getPostNewsByUserId(productData.userid._id);
@@ -122,7 +147,7 @@ const DetailProduct = (props) => {
 
   }, []);
 
-
+  const isPostSaved = saved.some(post => post.postId && post.postId._id === id_product);
   return (
     <View style={styles.body}>
       <View style={styles.appbar}>
@@ -204,13 +229,33 @@ const DetailProduct = (props) => {
                 </View>
                 <TouchableOpacity style={styles.containerPrice}
                   onPress={() => onSavePost(products._id)}
+                  disabled={isButtonDisabled}
                 >
                   <Image
                     style={styles.iconLike}
-                    source={require('../assets/images/icons/heart2.png')}
+                    //source={require('../assets/images/icons/heart2.png')}
+                    source={isPostSaved ? require('../assets/images/icons/heart.png') : require('../assets/images/icons/heart2.png')}
+
                   />
-                  <Text style={styles.txtLuutin}>Lưu tin</Text>
+                    {isLoading2 ? (
+                      <ActivityIndicator size="small" color="#0000ff" />
+                    ) : (
+                      <Text style={styles.txtBtnCall}>{isPostSaved ? 'Đã lưu' : 'Lưu tin'}</Text>
+                    )}
                 </TouchableOpacity>
+                {/* <TouchableOpacity style={styles.btnCall}>
+                  <Image
+                    style={styles.iconCall}
+                    source={isPostSaved ? require('../assets/images/icons/heart.png') : require('../assets/images/icons/heart2.png')}
+                  />
+                  <TouchableOpacity onPress={() => onSavePost(item._id)} disabled={isButtonDisabled}>
+                    {isLoading2 ? (
+                      <ActivityIndicator size="small" color="#0000ff" />
+                    ) : (
+                      <Text style={styles.txtBtnCall}>{isPostSaved ? 'Đã lưu' : 'Lưu tin'}</Text>
+                    )}
+                  </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             </View>
             <View style={styles.infoNguoiban}>
@@ -650,6 +695,8 @@ const styles = StyleSheet.create({
 
   },
   containerPrice: {
+    width: 100,
+    height: 50,
     flexDirection: 'row',
     alignItems: 'center',
     borderColor: 'red',
