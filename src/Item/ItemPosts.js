@@ -8,6 +8,7 @@ import {
   ToastAndroid,
   StatusBar,
   ActivityIndicator,
+  StyleSheet
 } from 'react-native';
 import React, { useState, useContext } from 'react';
 import AxiosInstance from '../components/helpers/Axiosintance';
@@ -16,15 +17,38 @@ import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styleNumber, formatDate } from '../styleSheets/styleJS';
 import { urlAPI } from '../components/helpers/urlAPI';
+import { Dropdown } from 'react-native-element-dropdown';
+import { PNStyles } from '../styleSheets/DetailPostNewsStyles';
 
+const optionVip = [
+  {
+    id: 1,
+    name: 'Vip 1 ngày',
+    value: 1
+  }, {
+    id: 2,
+    name: 'Vip 3 ngày',
+    value: 3
+  }, {
+    id: 3,
+    name: 'Vip 1 tuần',
+    value: 7
+  },
+  {
+    id: 4,
+    name: 'Vip 1 tháng',
+    value: 30
+  }
+]
 
-const ItemPosts = props => {
-  const { data } = props;
+const ItemPosts = (props) => {
+  const { data, isPresently, navigation } = props;
   const { user, setuser } = useContext(UserContext);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [numberOfDays, setNumberOfDays] = useState(0);
   const [buy, setBuy] = useState(0);
+  const [isVip, setIsVip] = useState(data.isVip)
   const showToast = () => {
     if (numberOfDays === 0 || buy >= user.balance) {
       ToastAndroid.show('Mua vip thất bại', ToastAndroid.SHORT);
@@ -52,6 +76,7 @@ const ItemPosts = props => {
         const vipPosts = await AxiosInstance().post(
           `api/postnews/create_vip_posts/${postsId}/${numberOfDays}`,
         );
+        setIsVip(true)
         console.log('check vip posts: ', vipPosts);
         if (vipPosts.result) {
           const dataUser = await AxiosInstance().get(
@@ -72,7 +97,7 @@ const ItemPosts = props => {
   };
   // console.log("check data item: ", data)
   return (
-    <View>
+    <TouchableOpacity onPress={() => navigation.navigate('DetailProducts', { id_product: data._id })}>
       <View style={{ flex: 1 }}>
         {/* <Button title="Show modal" onPress={toggleModal} /> */}
 
@@ -113,7 +138,8 @@ const ItemPosts = props => {
               <Text style={{ fontWeight: 400, color: 'black', fontSize: 20, alignSelf: 'center', padding: 5 }}>
                 {data.title}
               </Text>
-              <TextInput
+
+              {/* <TextInput
                 style={{
                   width: '100%',
                   height: 50,
@@ -127,8 +153,35 @@ const ItemPosts = props => {
                 onChangeText={handleInputNumber}
                 placeholder="số ngày bạn muốn vip"
                 placeholderTextColor="#E1E1E1"
-              />
+              /> */}
+              <Dropdown
+                style={{
+                  width: '100%',
+                  // height: 50,
+                  borderBottomColor: 'gray',
+                  borderBottomWidth: 0.5,
+                  height: 50,
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: 5,
+                  borderColor: '#ebebeb',
+                  borderWidth: 1,
+                  borderRadius: 5,
+                }}
+                placeholderStyle={PNStyles.placeholderStyle}
+                selectedTextStyle={PNStyles.selectedTextStyle}
+                inputSearchStyle={PNStyles.inputSearchStyle}
+                iconStyle={PNStyles.iconStyle}
+                data={optionVip}
+                labelField="name"
+                valueField="id"
+                placeholder="Chọn vip"
 
+                // value={selectedBrandId} // Use selectedCity as the value
+                onChange={e => {
+                  handleInputNumber(e.value);
+                }}
+              />
 
               <Text
                 style={{
@@ -137,7 +190,7 @@ const ItemPosts = props => {
                   padding: 5,
                   display: numberOfDays == 0 ? 'flex' : 'none',
                 }}>
-                Cần điền số ngày mua
+                Chọn gói cước VIP
               </Text>
               <Text
                 style={{
@@ -217,7 +270,7 @@ const ItemPosts = props => {
                   backgroundColor: 'gray',
                   marginLeft: 4,
                   paddingHorizontal: 2,
-                  display: data.isVip ? 'flex' : 'none',
+                  display: isVip && isPresently ? 'flex' : 'none',
                 }}
                 numberOfLines={2}>
                 VIP
@@ -234,18 +287,18 @@ const ItemPosts = props => {
               }}>
               {styleNumber(data.price)} đ
             </Text>
-            <Text style={{ position: 'absolute', bottom: 15 }}>
+            <Text style={{ position: 'absolute', bottom: 15 }} numberOfLines={1}>
               {data.location}
             </Text>
           </View>
           <TouchableOpacity
-            style={{ position: 'absolute', bottom: 15, right: 5 }}
+            style={{ position: 'absolute', bottom: 15, right: 5, display: isPresently ? 'flex' : 'none' }}
             onPress={toggleModal}>
-            <Text style={{ color: 'blue', fontSize: 16, display: data.isVip ? 'none' : 'flex' }}>Mua vip</Text>
+            <Text style={{ color: 'blue', fontSize: 16, display: isVip ? 'none' : 'flex' }}>Mua vip</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

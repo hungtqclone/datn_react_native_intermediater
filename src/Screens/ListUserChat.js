@@ -16,8 +16,13 @@ const ListUserChat = (props) => {
     const avatarDefault = 'https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg';
     let latestMessages = [];
     const fetchData = async () => {
-        const response = await AxiosInstance().get('api/users');
-        setData(response.users.filter(u => u._id !== userId));
+        try {
+            const response = await AxiosInstance().get('api/users');
+            setData(response.users.filter(u => u._id !== userId));
+        } catch (error) {
+            console.log(error)
+            return
+        }
     }
     const fetchDataMessages = async () => {
         try {
@@ -51,8 +56,14 @@ const ListUserChat = (props) => {
     useEffect(() => {
         setNewMessage(false)
         socket.on('receive-message', async (message) => {
-            const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${userId}`)
-            setAllMessages(messagesData.messages)
+            try {
+                const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${userId}`)
+                setAllMessages(messagesData.messages)
+            } catch (error) {
+                console.log(error)
+                return
+            }
+
             // fetchDataMessages()
         });
         fetchData();
