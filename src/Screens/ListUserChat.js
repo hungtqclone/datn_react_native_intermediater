@@ -24,7 +24,7 @@ const ListUserChat = (props) => {
     }
     useFocusEffect(
         React.useCallback(() => {
-
+            fetchData()
             return () => {
             }
         }, [])
@@ -34,7 +34,7 @@ const ListUserChat = (props) => {
         socket.on('receive-message', async (message) => {
             fetchData()
         });
-        fetchData()
+
     }, []);
 
     const renderItem = ({ item }) => {
