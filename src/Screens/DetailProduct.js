@@ -58,7 +58,7 @@ const DetailProduct = (props) => {
     </View>
   );
 
-   
+
 
   const reLoadScreen = async (id) => {
     setIsLoading(true);
@@ -114,7 +114,7 @@ const DetailProduct = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-         ongetSaved();
+        ongetSaved();
         // // Kiểm tra xem sản phẩm có trong danh sách đã lưu không
         // console.log('id_product:', id_product);
         // const isProductSaved = saved.some(item => item.postId._id === id_product);
@@ -237,11 +237,11 @@ const DetailProduct = (props) => {
                     source={isPostSaved ? require('../assets/images/icons/heart.png') : require('../assets/images/icons/heart2.png')}
 
                   />
-                    {isLoading2 ? (
-                      <ActivityIndicator size="small" color="#0000ff" />
-                    ) : (
-                      <Text style={styles.txtBtnCall}>{isPostSaved ? 'Đã lưu' : 'Lưu tin'}</Text>
-                    )}
+                  {isLoading2 ? (
+                    <ActivityIndicator size="small" color="#0000ff" />
+                  ) : (
+                    <Text style={styles.txtBtnCall}>{isPostSaved ? 'Đã lưu' : 'Lưu tin'}</Text>
+                  )}
                 </TouchableOpacity>
                 {/* <TouchableOpacity style={styles.btnCall}>
                   <Image
@@ -295,7 +295,7 @@ const DetailProduct = (props) => {
                         </View>
                         <View style={styles.dotOnl}>
                           <View style={styles.dot} />
-                          <Text style={styles.txtOnl}>Đang hoạt động</Text>
+                          <Text style={styles.txtOnl}> {products.userid?.socketId == "off" ? "Không hoạt động" : "Đang hoạt động"}</Text>
                         </View>
                       </View>
                     </View>
