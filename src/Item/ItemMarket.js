@@ -6,7 +6,7 @@ import AxiosInstance from '../components/helpers/Axiosintance'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
-const ItemNearYou = ({ item, index }) => {
+const ItemMarket = ({ item, index }) => {
     const { user } = useContext(UserContext)
     const userId = user?._id
 
@@ -181,7 +181,7 @@ const ItemNearYou = ({ item, index }) => {
     )
 }
 
-export default ItemNearYou
+export default ItemMarket
 const styles = StyleSheet.create({
     //phần body tổng
     body: {

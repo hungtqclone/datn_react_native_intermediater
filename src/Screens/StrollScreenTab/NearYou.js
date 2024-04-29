@@ -19,7 +19,7 @@ import { getProduct, savePost, getPostSaved } from '../ScreenService';
 import { UserContext } from '../../components/users/UserContext';
 import { urlAPI } from '../../components/helpers/urlAPI';
 import { styleNumber, formatDate } from '../../styleSheets/styleJS';
-import ItemNearYou from '../../Item/ItemNearYou';
+import ItemMarket from '../../Item/ItemMarket';
 import AxiosInstance from '../../components/helpers/Axiosintance';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
@@ -381,7 +381,7 @@ const NearYou = (props) => {
             <FlatList
               scrollEnabled={false}
               data={products}
-              renderItem={({ item, index }) => <ItemNearYou item={item} index={index} />}
+              renderItem={({ item, index }) => <ItemMarket item={item} index={index} />}
               keyExtractor={item => item._id.toString()}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
