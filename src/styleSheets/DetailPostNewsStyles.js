@@ -158,6 +158,15 @@ export const PNStyles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 20,
     },
+    centeredView2: {
+
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: '50%',
+        marginBottom: '90%',
+        marginHorizontal:'5%'
+    },
     modalView: {
         width: '100%',
         flex: 1,
@@ -193,6 +202,15 @@ export const PNStyles = StyleSheet.create({
         textAlign: 'center',
     },
     overlay: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        zIndex: 1
+    },
+    overlay2: {
         position: 'absolute',
         top: 0,
         bottom: 0,

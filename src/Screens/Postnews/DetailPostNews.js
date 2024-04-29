@@ -21,10 +21,10 @@ import React, {
   useCallback,
   useContext,
 } from 'react';
-import { Dropdown } from 'react-native-element-dropdown';
-import { Picker } from '@react-native-picker/picker';
+import {Dropdown} from 'react-native-element-dropdown';
+import {Picker} from '@react-native-picker/picker';
 import axios from 'axios';
-import { BottomSheet } from '@rneui/base';
+import {BottomSheet} from '@rneui/base';
 import {
   getCategory,
   getDetailCategory,
@@ -32,25 +32,28 @@ import {
   getBrands,
   uploadImage,
 } from '../ScreenService';
-import { PNStyles } from '../../styleSheets/DetailPostNewsStyles';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { UserContext } from '../../components/users/UserContext';
+import {PNStyles} from '../../styleSheets/DetailPostNewsStyles';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {UserContext} from '../../components/users/UserContext';
 import ImagePicker from 'react-native-image-crop-picker';
-import { Icon } from 'react-native-paper';
+import {Icon} from 'react-native-paper';
 import Postnews from '../Postnews';
-import { urlAPI } from '../../components/helpers/urlAPI';
+import {urlAPI} from '../../components/helpers/urlAPI';
 
-const DetailPostnews = (props) => {
+const DetailPostnews = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleImage, setModalVisibleImage] = useState(false);
   const [modalVisibleImageTo, setModalVisibleImageTo] = useState(true);
   const [modalVisibleAddress, setModalVisibleAddress] = useState(false);
+  const [isModalVisible1, setisModalVisible1] = useState(false);
+  const [isModalVisibleFail, setisModalVisibleFail] = useState(false);
+
   const [categories, setCategories] = useState([]);
   const [idCategory, setIdCategory] = useState('');
-  const { navigation, route } = props;
-  const { user, setuser } = useContext(UserContext);
-  const { params } = route;
-  const { _id, name } = params;
+  const {navigation, route} = props;
+  const {user, setuser} = useContext(UserContext);
+  const {params} = route;
+  const {_id, name} = params;
   const [idPost, setIdPost] = useState(_id);
   const [namePost, setName] = useState(name);
 
@@ -163,7 +166,7 @@ const DetailPostnews = (props) => {
 
   useEffect(() => {
     fetchCities(), ongetBrands(), ongetBrands();
-    // console.log('slectcity', selectedCity);
+    console.log('model', isModalVisible1);
     // console.log('District', selectedDistrict);
     // console.log('Ward', selectedWard);
     // console.log('User', user._id);
@@ -181,7 +184,7 @@ const DetailPostnews = (props) => {
     selectedDistrict,
     selectedWard,
     selectedLocation,
-    selectedBrandId
+    selectedBrandId,
   ]);
 
   const handleTouchableOpacityPress = (newIdPost, newNamePost) => {
@@ -200,6 +203,7 @@ const DetailPostnews = (props) => {
       setModalVisible(false);
     }
   };
+
   const CloseModelImage = () => {
     navigation.goBack();
   };
@@ -281,7 +285,9 @@ const DetailPostnews = (props) => {
   }, []);
 
   const openLibrary = useCallback(async () => {
-    if (imagePath == null) { return }
+    if (imagePath == null) {
+      return;
+    }
     const options = {
       mediaType: 'photo',
       quality: 1,
@@ -297,9 +303,8 @@ const DetailPostnews = (props) => {
   const updateSelectedImages = count => {
     setSelectedImagesCount(count);
   };
-  
+
   const save = useCallback(async () => {
-    setIsLoading(true);
     if (
       !title ||
       !location ||
@@ -310,10 +315,10 @@ const DetailPostnews = (props) => {
       !properties ||
       !imagePath
     ) {
-      Alert.alert('Vui lòng điền đầy đủ thông tin.');
+      setisModalVisibleFail(true);
       return;
     }
-
+    setIsLoading(true);
     const currentDate = new Date();
     try {
       const data = {
@@ -334,9 +339,10 @@ const DetailPostnews = (props) => {
       // console.log(response.userid);
       if (response == false) {
         Alert.alert('Thêm thất bại');
+        setIsLoading(false); // Tắt loading
       } else {
         // Hiển thị loading trong 3 giây trước khi tắt
-        Alert.alert('Thêm Thành công');
+        setisModalVisible1(true);
         setImagePath(null);
         setImage([]);
         setTitle('');
@@ -346,13 +352,11 @@ const DetailPostnews = (props) => {
         setCreated_AT('');
         setStatusTT('');
         setBrandid('');
-        setProperties('')
-        setIsLoading(false); // Tắt loading
+        setProperties('');
       }
     } catch (error) {
       console.log('Error adding post:', error);
       Alert.alert('Có lỗi xảy ra khi thêm tin đăng.');
-      setIsLoading(false);
     }
 
     setIsLoading(false);
@@ -369,13 +373,13 @@ const DetailPostnews = (props) => {
     brandid,
   ]);
 
-  const renderItem = ({ item, index }) => {
+  const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity
         style={PNStyles.contaitong}
         onPress={() => handleTouchableOpacityPress(item._id, item.name)}>
         <View style={PNStyles.contaiimg}>
-          <Image style={PNStyles.img} source={{ uri: `${urlAPI}${item.icon}` }} />
+          <Image style={PNStyles.img} source={{uri: `${urlAPI}${item.icon}`}} />
         </View>
         <View style={PNStyles.contaiCity}>
           <Text style={PNStyles.txtCity}>{item.name}</Text>
@@ -401,7 +405,6 @@ const DetailPostnews = (props) => {
         />
       </View>
       <ScrollView>
-        
         <Pressable
           style={PNStyles.presContai}
           onPress={() => setModalVisible(true)}>
@@ -457,7 +460,7 @@ const DetailPostnews = (props) => {
                         source={require('../../../image/icon_cross.png')}
                       />
                     </Pressable>
-                    <Image style={PNStyles.imgTool} source={{ uri }}></Image>
+                    <Image style={PNStyles.imgTool} source={{uri}}></Image>
                   </View>
                 ))}
               </ScrollView>
@@ -500,7 +503,6 @@ const DetailPostnews = (props) => {
               labelField="nameBrand" // Change "label" to "name"
               valueField="_id" // Change "value" to "code"
               placeholder="Hãng"
-
               value={selectedBrandId} // Use selectedCity as the value
               onChange={selectedBrandId => {
                 setSelectedBrandId(selectedBrandId._id);
@@ -541,15 +543,14 @@ const DetailPostnews = (props) => {
             value={detail}
             onChangeText={setDetail}
             multiline={true}
-            underlineColorAndroid='transparent'
-
+            underlineColorAndroid="transparent"
             placeholder="Mô tả chi tiết"
             style={PNStyles.inputTTMT}
           />
           <TextInput
             value={properties}
             multiline={true}
-            underlineColorAndroid='transparent'
+            underlineColorAndroid="transparent"
             onChangeText={setProperties}
             placeholder="Thêm chi tiết"
             style={PNStyles.inputTTMT}
@@ -573,23 +574,24 @@ const DetailPostnews = (props) => {
               source={require('../../../image/down.png')}></Image>
           </Pressable>
         </View>
-
-        <View style={PNStyles.contaiBtn}>
-       
-          {isLoading ? (
-        <Modal isVisible={isLoading}>
-          <ActivityIndicator
-            style={{ marginTop: 20 }}
-            size="large"
-            color="#3498db"
-          />
-        </Modal>
-      ) : (
-          <Pressable style={PNStyles.btnDT} onPress={save}>
-            <Text style={PNStyles.txtDT}>ĐĂNG TIN</Text>
-          </Pressable>
-      )};
-        </View>
+        {isLoading ? (
+          <Modal isVisible={isLoading}>
+            <ActivityIndicator
+              style={{marginTop: '50%'}}
+              size="large"
+              color="#3498db"
+            />
+          </Modal>
+        ) : (
+          <View style={PNStyles.contaiBtn}>
+            {/* <Pressable style={PNStyles.btnXT}>
+            <Text style={PNStyles.txtXT}>XEM TRƯỚC</Text>
+          </Pressable> */}
+            <Pressable style={PNStyles.btnDT} onPress={save}>
+              <Text style={PNStyles.txtDT}>ĐĂNG TIN</Text>
+            </Pressable>
+          </View>
+        )}
       </ScrollView>
       {modalVisible && <View style={PNStyles.overlay} />}
       <Modal animationType="slide" transparent={true} visible={modalVisible}>
@@ -666,7 +668,7 @@ const DetailPostnews = (props) => {
                     {/* <Text  style={PNStyles.txtlengt}>+{image.length}</Text> */}
                     <Image
                       style={PNStyles.imgSelect}
-                      source={{ uri: image[0] }}></Image>
+                      source={{uri: image[0]}}></Image>
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
@@ -784,6 +786,137 @@ const DetailPostnews = (props) => {
                 style={PNStyles.bottomSheetCloseButton}>
                 <Text style={PNStyles.bottomSheetCloseButtonText}>Xong</Text>
               </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {isModalVisible1 && <View style={PNStyles.overlay2} />}
+      <Modal animationType="slide" transparent={true} visible={isModalVisible1}>
+        <View style={PNStyles.centeredView2}>
+          <View style={PNStyles.modalView}>
+            <View
+              style={{
+                backgroundColor: '#F4F4F4',
+                padding: 12,
+                borderRadius: 20,
+                flexDirection: 'column',
+              }}>
+              <Image
+                style={{
+                  width: 70,
+                  height: 70,
+                  alignItems: 'center',
+                  alignSelf: 'center',
+                }}
+                source={require('../../../image/check.png')}
+              />
+              <Text
+                style={{
+                  fontWeight: 500,
+                  color: 'black',
+                  fontSize: 16,
+                  padding: 5,
+                  alignSelf: 'center',
+                  marginTop: 10,
+                }}>
+                Thêm thành công
+              </Text>
+
+              <View
+                style={{
+                  flexDirection: 'row',
+                  width: '50%',
+                  alignSelf: 'center',
+                }}>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#FFBA00',
+                    padding: 5,
+                    borderRadius: 5,
+                    marginTop: 30,
+                    flex: 1,
+                    paddingVertical: 10,
+                  }}
+                  onPress={() => {
+                    setisModalVisible1(false);
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: 'white',
+                      textAlign: 'center',
+                      fontWeight: 700,
+                    }}>
+                    Đóng
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      {isModalVisibleFail && <View style={PNStyles.overlay2} />}
+      <Modal animationType="slide" transparent={true} visible={isModalVisibleFail}>
+        <View style={PNStyles.centeredView2}>
+          <View style={PNStyles.modalView}>
+            <View
+              style={{
+                backgroundColor: '#F4F4F4',
+                padding: 12,
+                borderRadius: 20,
+                flexDirection: 'column',
+              }}>
+              <Image
+                style={{
+                  width: 70,
+                  height: 70,
+                  alignItems: 'center',
+                  alignSelf: 'center',
+                }}
+                source={require('../../../image/fail.png')}
+              />
+              <Text
+                style={{
+                  fontWeight: 500,
+                  color: 'black',
+                  fontSize: 16,
+                  padding: 5,
+                  alignSelf: 'center',
+                  marginTop: 10,
+                }}>
+                Vui lòng điền đầy đủ thông tin !
+              </Text>
+
+              <View
+                style={{
+                  flexDirection: 'row',
+                  width: '50%',
+                  alignSelf: 'center',
+                }}>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#FFBA00',
+                    padding: 5,
+                    borderRadius: 5,
+                    marginTop: 30,
+                    flex: 1,
+                    paddingVertical: 10,
+                  }}
+                  onPress={() => {
+                    setisModalVisibleFail(false);
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: 'white',
+                      textAlign: 'center',
+                      fontWeight: 700,
+                    }}>
+                    Đóng
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
