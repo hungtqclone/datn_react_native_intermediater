@@ -13,21 +13,12 @@ export const MessageProvider = ({ children }) => {
     const [allMessages, setAllMessages] = useState([])
     const [newMessage, setNewMessage] = useState(false)
     const [userId, setUserId] = useState(null)
-    // useEffect(() => {
-    //     socket.on('newMessage', (message) => {
-    //         setMessages((prevMessages) => [...prevMessages, message]);
-    //     });
-
-    //     return () => {
-    //         socket.off('newMessage');
-    //     };
-    // }, []);
     const fetchDataMessages = async () => {
         try {
             const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${userId}`)
             await AsyncStorage.setItem(userId, JSON.stringify(messagesData.messages));
             for (let i = 0; i < messagesData.messages.length; i++) {
-                if (messagesData.messages[i].seen == false) {
+                if (messagesData.messages[i].seen == false && messagesData.messages[i].senderId != userId) {
                     setNewMessage(true)
                     return
                 }
@@ -41,7 +32,7 @@ export const MessageProvider = ({ children }) => {
         }
     }
     useEffect(() => {
-        if (userId != null) {
+        if (userId != null && userId != 1) {
             console.log("connect socket")
             socket.emit('set-socketId', userId);
             fetchDataMessages()
@@ -70,7 +61,7 @@ export const MessageProvider = ({ children }) => {
 
 
     return (
-        <MessageContext.Provider value={{ allMessages, socket, setUserId, newMessage, setNewMessage }}>
+        <MessageContext.Provider value={{ socket, setUserId, newMessage, setNewMessage }}>
             {children}
         </MessageContext.Provider>
     );

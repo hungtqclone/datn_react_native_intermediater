@@ -13,23 +13,23 @@ import {
   Pressable,
   ActivityIndicator,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {CGDStyles} from '../styleSheets/CategoriesDetailstyles';
+import React, { useState, useEffect } from 'react';
+import { CGDStyles } from '../styleSheets/CategoriesDetailstyles';
 import {
   getDetailCategory,
   getProduct,
   searchByNameCategory,
 } from './ScreenService';
 import PostnewsStack from '../components/navigation/PostnewsTabnavigation';
-import {TabView} from 'react-native-tab-view';
+import { TabView } from 'react-native-tab-view';
 import Foryou from './News/Foryou';
 import Shopstores from './DetailCategories/shopstores';
 import { styleNumber, formatDate } from '../styleSheets/styleJS';
 import { urlAPI } from '../components/helpers/urlAPI';
 import { useMessage } from '../components/messages/MessageContext';
 const data = [
-  {id: 1, image: require('../../image/bannertet.jpg')},
-  {id: 2, image: require('../../image/laptopbanner.jpg')},
+  { id: 1, image: require('../../image/bannertet.jpg') },
+  { id: 2, image: require('../../image/laptopbanner.jpg') },
 ];
 const datatile = [
   {
@@ -37,15 +37,15 @@ const datatile = [
     title: 'Thu mua điện thoại',
     image: require('../../image/icon_banngay.jpg'),
   },
-  {id: 2, title: 'Nạp đồng tốt', image: require('../../image/icon_dongxu.jpg')},
+  { id: 2, title: 'Nạp đồng tốt', image: require('../../image/icon_dongxu.jpg') },
   {
     id: 3,
     title: 'Chợ tốt ưu đãi',
     image: require('../../image/icon_uudai.jpg'),
   },
-  {id: 4, title: 'Thu mua ô tô', image: require('../../image/icon_car.jpg')},
-  {id: 5, title: 'Gói pro', image: require('../../image/icon_pro.jpg')},
-  {id: 6, title: 'Tin đã lưu', image: require('../../image/icon_hearth.jpg')},
+  { id: 4, title: 'Thu mua ô tô', image: require('../../image/icon_car.jpg') },
+  { id: 5, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
+  { id: 6, title: 'Tin đã lưu', image: require('../../image/icon_hearth.jpg') },
   {
     id: 7,
     title: 'Đăng tin cho tặng',
@@ -64,8 +64,8 @@ const CategoriesDetail = props => {
   const [categoriesDetail, setCategoriesDetail] = useState([]);
   const [idCategory, setIdCategory] = useState('658fb995b41f1dd5128fa9cf');
   const numColumns = Math.ceil(categoriesDetail.length / 2);
-  const {newMessage} = useMessage();
-  const {navigation, route} = props;
+  const { newMessage } = useMessage();
+  const { navigation, route } = props;
 
   const openModal = () => {
     setModalVisible(true);
@@ -89,21 +89,21 @@ const CategoriesDetail = props => {
     }
 
   };
-  
-  const renderSearch = ({item, index}) => {
+
+  const renderSearch = ({ item, index }) => {
     return (
-      <TouchableOpacity  onPress={() => nextScreenListProducts(item._id)} style={CGDStyles.contaitong} >
+      <TouchableOpacity onPress={() => nextScreenListProducts(item._id)} style={CGDStyles.contaitong} >
         <View style={CGDStyles.contaiCity}>
           <Text style={CGDStyles.txtCity}>{item.name}</Text>
         </View>
       </TouchableOpacity>
     );
   };
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
       <View style={CGDStyles.contaiBanner}>
         <Image
-          style={{width: widthCasual, height: '100%'}}
+          style={{ width: widthCasual, height: '100%' }}
           source={item.image}></Image>
       </View>
     );
@@ -115,7 +115,7 @@ const CategoriesDetail = props => {
   // Banner slider
 
   //Danh mục Dưới banner slider
-  const renderItemTitle = ({item, index}) => {
+  const renderItemTitle = ({ item, index }) => {
     return (
       <View style={CGDStyles.contaiTitle}>
         <Image style={CGDStyles.imgTitle} source={item.image}></Image>
@@ -125,18 +125,18 @@ const CategoriesDetail = props => {
   };
 
   const nextScreenListProducts = idCategory => {
-    navigation.navigate('product', {idCategory});
+    navigation.navigate('product', { idCategory });
     setModalVisible(false);
   };
 
   // CategoryDetail
   const renderItemCategoryDetail = value => {
-    const {item} = value;
+    const { item } = value;
     return (
       <TouchableOpacity
         style={CGDStyles.categoryBody}
         onPress={() => nextScreenListProducts(item._id)}>
-        <Image style={CGDStyles.imgcategoy} source={{uri: `${item.img}`}} />
+        <Image style={CGDStyles.imgcategoy} source={{ uri: `${item.img}` }} />
         <Text style={CGDStyles.txtCategoty} numberOfLines={2}>
           {item.name}
         </Text>
@@ -151,14 +151,14 @@ const CategoriesDetail = props => {
 
   const nextScreenProductDetail = idPostNews => {
     console.log('next screen product detail with idPostNews = ', idPostNews);
-    navigation.navigate('DetailProduct', {id_product: idPostNews});
+    navigation.navigate('DetailProduct', { id_product: idPostNews });
   };
-  const renderItemProduct = ({item}) => {
+  const renderItemProduct = ({ item }) => {
     return (
       <TouchableOpacity
         style={CGDStyles.productBody}
         onPress={() => nextScreenProductDetail(item._id)}>
-        <Image style={CGDStyles.imgproduct} source={{uri: `${item.files[0]}`}} />
+        <Image style={CGDStyles.imgproduct} source={{ uri: `${item.files[0]}` }} />
         <Text style={CGDStyles.txtnameproduct}>{item.title}</Text>
         <Text style={CGDStyles.txtdetail} numberOfLines={1}>
           {item.detail}
@@ -211,7 +211,7 @@ const CategoriesDetail = props => {
               backgroundColor: 'red',
               borderRadius: 50,
               display: newMessage ? 'flex' : 'none',
-            }}></View>
+            }} />
           <Image
             style={CGDStyles.icon}
             source={require('../assets/images/icons/icon_chat.png')}
@@ -249,10 +249,10 @@ const CategoriesDetail = props => {
             scrollEnabled={true}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{paddingVertical: 20}}>
+            contentContainerStyle={{ paddingVertical: 20 }}>
             {categoriesDetail.length == 0 ? (
               <ActivityIndicator
-                style={{marginTop: 10, marginLeft: 170}}
+                style={{ marginTop: 10, marginLeft: 170 }}
                 size="large"
                 color="#3498db"
               />

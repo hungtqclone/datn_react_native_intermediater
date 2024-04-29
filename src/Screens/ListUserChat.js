@@ -10,45 +10,21 @@ const ListUserChat = (props) => {
     const { navigation } = props;
     const { user } = useContext(UserContext);
     const { socket, setNewMessage } = useMessage()
-    const [allMessages, setAllMessages] = useState([])
     const userId = user._id;
     const [data, setData] = useState([]);
     const avatarDefault = 'https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg';
-    let latestMessages = [];
     const fetchData = async () => {
         try {
-            const response = await AxiosInstance().get('api/users');
-            setData(response.users.filter(u => u._id !== userId));
+            const response = await AxiosInstance().get(`api/message/message-communicate-user?userId=${userId}`);
+            setData(response.messages);
         } catch (error) {
             console.log(error)
             return
         }
     }
-    const fetchDataMessages = async () => {
-        try {
-            const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${userId}`)
-            setAllMessages(messagesData.messages)
-        } catch (error) {
-            console.log("last messages error: ", error)
-            return
-        }
-    }
-    if (allMessages.length != 0) {
-        allMessages.forEach(message => {
-            const index = latestMessages.findIndex(existingMessage =>
-                (existingMessage.senderId === message.senderId && existingMessage.receiverId === message.receiverId) ||
-                (existingMessage.senderId === message.receiverId && existingMessage.receiverId === message.senderId)
-            );
-            if (index === -1) {
-                latestMessages.push(message);
-            } else if (message.createAt > latestMessages[index].createAt) {
-                latestMessages[index] = message;
-            }
-        });
-    }
     useFocusEffect(
         React.useCallback(() => {
-            fetchDataMessages()
+
             return () => {
             }
         }, [])
@@ -56,50 +32,23 @@ const ListUserChat = (props) => {
     useEffect(() => {
         setNewMessage(false)
         socket.on('receive-message', async (message) => {
-            try {
-                const messagesData = await AxiosInstance().get(`/api/message/get-messages-receiver/${userId}`)
-                setAllMessages(messagesData.messages)
-            } catch (error) {
-                console.log(error)
-                return
-            }
-
-            // fetchDataMessages()
+            fetchData()
         });
-        fetchData();
+        fetchData()
     }, []);
-    const getRandomTime = () => {
-        const hours = Math.floor(Math.random() * 24);
-        const minutes = Math.floor(Math.random() * 60);
-        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-    };
 
     const renderItem = ({ item }) => {
-        let newMessage = ''
-        let shortenedLastMessage = '...'
-        let checkNewMessage = false
-        if (latestMessages.length != 0) {
-            newMessage = latestMessages.filter(message => message.senderId === item._id || message.receiverId === item._id)
-            if (newMessage[0]) {
-                shortenedLastMessage = newMessage[0].content && newMessage[0].content.length > 20
-                    ? newMessage[0].content.substring(0, 20) + '...'
-                    : newMessage[0].content;
+        let dataUser = item.senderId._id == userId ? item.receiverId : item.senderId;
+        let checkNewMessage = item?.senderId._id == dataUser?._id && item?.seen == false ? true : false
 
-                if (newMessage[0].senderId == item._id && newMessage[0].seen == false) {
-                    checkNewMessage = true
-                }
-            }
-        }
-
-        const lastMessageWithTime = `${shortenedLastMessage || '...'} · ${newMessage[0] ? moment_timezone.utc(newMessage[0].createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16) : ''}`;
-
+        let message = item?.content.length > 20 ? item?.content.slice(0, 19) + "..." : item?.content
         return (
-            <TouchableOpacity style={styles.itemContainer} onPress={() => navigation.navigate('chat', { data: item })}>
-                <Image source={{ uri: item.avatar || avatarDefault }} style={styles.avatar} />
+            <TouchableOpacity style={[styles.itemContainer, { borderColor: checkNewMessage ? "black" : "#e0e0e0" }]} onPress={() => navigation.navigate('chat', { data: dataUser })}>
+                <Image source={{ uri: dataUser?.avatar || avatarDefault }} style={styles.avatar} />
                 <View style={styles.textContainer}>
-                    <Text style={styles.name}>{item.name}</Text>
+                    <Text style={styles.name}>{dataUser?.name}</Text>
                     <Text style={[styles.lastMessage, { color: checkNewMessage ? 'black' : 'gray' }]} numberOfLines={1} ellipsizeMode='tail'>
-                        {lastMessageWithTime.trim()}
+                        {message}    {moment_timezone.utc(item.createAt).tz('Asia/Ho_Chi_Minh').format().slice(11, 16)}
                     </Text>
                 </View>
             </TouchableOpacity>
@@ -114,12 +63,16 @@ const ListUserChat = (props) => {
                 </TouchableOpacity>
                 <Text style={styles.appbarTitle}>Danh sách tin nhắn</Text>
             </View>
-            <FlatList
-                data={data}
-                renderItem={renderItem}
-                keyExtractor={item => item._id.toString()}
+            {data.length == 0 ?
+                <Text style={{ textAlign: 'center', fontSize: 20, marginTop: 10 }}>Bạn chưa nhắn tin với ai</Text>
+                :
+                <FlatList
+                    data={data}
+                    renderItem={renderItem}
+                    keyExtractor={item => item._id.toString()}
 
-            />
+                />}
+
         </View>
     );
 }
@@ -144,7 +97,6 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         marginHorizontal: 10,
         borderWidth: 1,
-        borderColor: "black"
     },
     avatar: {
         width: 50,
