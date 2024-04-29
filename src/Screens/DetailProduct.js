@@ -19,6 +19,8 @@ import Swiper from 'react-native-swiper';
 import { UserContext } from '../components/users/UserContext';
 import { useNavigation } from '@react-navigation/native';
 import { urlAPI } from '../components/helpers/urlAPI';
+import { styleNumber, formatDate } from '../styleSheets/styleJS';
+
 const DetailProduct = (props) => {
   //lấy thông tin user
   const { user } = useContext(UserContext);
@@ -55,6 +57,8 @@ const DetailProduct = (props) => {
       <Text>{item.question}</Text>
     </View>
   );
+
+   
 
   const reLoadScreen = async (id) => {
     setIsLoading(true);
@@ -488,8 +492,8 @@ const DetailProduct = (props) => {
                     <Text style={styles.tagpro}>Thanh toán đảm bảo</Text>
                     <View style={styles.horizontalTextContainer}>
                       <Text style={styles.horizontalname} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
-                      <Text style={styles.horizontalrice} numberOfLines={1} ellipsizeMode="tail">{item.price} đ </Text>
-                      <Text style={styles.horizontaltime}>{item.created_AT}</Text>
+                      <Text style={styles.horizontalrice} numberOfLines={1} ellipsizeMode="tail">{styleNumber(item.price)} đ </Text>
+                      <Text style={styles.horizontaltime}>{formatDate(item.created_AT)}</Text>
                     </View>
                   </TouchableOpacity>
                 )}
@@ -522,8 +526,8 @@ const DetailProduct = (props) => {
                     <Text style={styles.tagpro}>Thanh toán đảm bảo</Text>
                     <View style={styles.horizontalTextContainer}>
                       <Text style={styles.horizontalname} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
-                      <Text style={styles.horizontalrice} numberOfLines={1} ellipsizeMode="tail">{item.price} đ </Text>
-                      <Text style={styles.horizontaltime}>{item.created_AT}</Text>
+                      <Text style={styles.horizontalrice} numberOfLines={1} ellipsizeMode="tail">{styleNumber(item.price)}đ </Text>
+                      <Text style={styles.horizontaltime}>{formatDate(item.created_AT)}</Text>
                     </View>
                   </TouchableOpacity>
                 )}

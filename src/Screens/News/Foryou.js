@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { foryouStyles } from '../../styleSheets/ForyouStyles'
 import { getProduct } from '../ScreenService'
 import { useNavigation } from '@react-navigation/native';
-import { styleNumber } from '../../styleSheets/styleJS';
+import { styleNumber, formatDate } from '../../styleSheets/styleJS';
 import { urlAPI } from '../../components/helpers/urlAPI';
 
 const Foryou = (props) => {

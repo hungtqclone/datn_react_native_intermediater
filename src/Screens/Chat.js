@@ -158,13 +158,13 @@ const Chat = ({ navigation, route }) => {
                     removeClippedSubviews={true}
                 />
             ) : (
-                <Text style={{ textAlign: 'center', fontSize: 18, marginTop: 20 }}>New message</Text>
+                <Text style={{ textAlign: 'center', fontSize: 18, marginTop: 20 }}>Tin nhắn mới với {data.name}</Text>
             )}
             <View style={{ position: "absolute", width: "100%", bottom: 10, flexDirection: "row", alignItems: "center", padding: 10 }}>
                 <View style={{ flexDirection: "row", flex: 1, borderRadius: 10, backgroundColor: "white", alignItems: "center", marginRight: 10 }}>
                     <TextInput
                         style={{ flex: 1, fontSize: 16, paddingHorizontal: 10 }}
-                        placeholder='Type a message'
+                        placeholder={`Tin nhắn tới ${data.name}`}
                         value={inputMessage}
                         onChangeText={setInputMessage}
                     />

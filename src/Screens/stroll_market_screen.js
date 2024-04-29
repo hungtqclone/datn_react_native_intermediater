@@ -25,9 +25,9 @@ const StrollScreen = (props) => {
             <View style={styles.appbar}>
                 <Text style={styles.appbarTitle}>Dạo chợ</Text>
                 <View style={styles.appbarIcon}>
-                    <TouchableOpacity>
+                    {/* <TouchableOpacity>
                         <Image style={styles.appbarIconimg} source={require('../assets/images/icons/icon_search.png')} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <TouchableOpacity>
                         <Image style={styles.appbarIconimg} source={require('../assets/images/icons/icon_notification.png')} />
                     </TouchableOpacity>

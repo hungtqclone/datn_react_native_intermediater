@@ -18,6 +18,8 @@ import Modal from 'react-native-modal';
 import { getProduct, savePost, getPostSaved } from '../ScreenService';
 import { UserContext } from '../../components/users/UserContext';
 import { urlAPI } from '../../components/helpers/urlAPI';
+import { styleNumber, formatDate } from '../../styleSheets/styleJS';
+
 const MAX_ADDRESS_LENGTH = 30;
 const MAX_HEIGHT = 100;
 const NearYou = (props) => {
@@ -168,7 +170,7 @@ const NearYou = (props) => {
               />
             </View>
             <View style={styles.timecont}>
-              <Text> {item.created_AT}</Text>
+              <Text> {formatDate(item.created_AT)}</Text>
               <View style={styles.circle} />
               <Text>5km</Text>
             </View>
@@ -213,7 +215,7 @@ const NearYou = (props) => {
           >
             <View style={styles.cont_nameprice}>
               <Text style={styles.textnameprice}> {item.title} </Text>
-              <Text style={styles.textprice}>{item.price} đ</Text>
+              <Text style={styles.textprice}>{styleNumber(item.price)} đ</Text>
             </View>
             <Image
               style={styles.icon_arrow_right}
@@ -250,13 +252,13 @@ const NearYou = (props) => {
               )}
             </TouchableOpacity>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnCall}>
+          {/* <TouchableOpacity style={styles.btnCall}>
             <Image
               style={styles.iconCall}
               source={require('../../assets/images/icons/icon_chat.png')}
             />
             <Text style={styles.txtBtnCall}>Chat</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity style={styles.btnCall}>
             <Image
               style={styles.iconCall}
@@ -584,10 +586,10 @@ const styles = StyleSheet.create({
   // phần nút gọi điện và chat
   btncontact: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent:'space-between',
     marginBottom: 20,
-    borderTopColor: '#ccc',
-    borderTopWidth: 1,
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 1,
   },
   btnCall: {
     flexDirection: 'row',

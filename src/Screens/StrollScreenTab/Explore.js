@@ -14,6 +14,7 @@ import {
 import { getProduct, savePost, getPostSaved } from '../ScreenService';
 import { UserContext } from '../../components/users/UserContext';
 import { urlAPI } from '../../components/helpers/urlAPI';
+import { styleNumber, formatDate } from '../../styleSheets/styleJS';
 import FlashMessage, { showMessage } from 'react-native-flash-message';
 
 const Explore = (props) => {
@@ -469,10 +470,10 @@ const styles = StyleSheet.create({
   // phần nút gọi điện và chat
   btncontact: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent:'space-between',
     marginBottom: 20,
-    borderTopColor: '#ccc',
-    borderTopWidth: 1,
+    borderColor: '#ccc',
+    borderBottomWidth:1,
   },
   btnCall: {
     flexDirection: 'row',

@@ -14,7 +14,7 @@ import AxiosInstance from '../components/helpers/Axiosintance';
 import { UserContext } from '../components/users/UserContext';
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { styleNumber } from '../styleSheets/styleJS';
+import { styleNumber, formatDate } from '../styleSheets/styleJS';
 import { urlAPI } from '../components/helpers/urlAPI';
 
 
