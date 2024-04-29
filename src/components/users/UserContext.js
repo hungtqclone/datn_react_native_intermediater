@@ -55,8 +55,14 @@ export const UserProvider = (props) => {
         }
         return false;
     }
+    const checkLogIn = async () => {
+        if (user == 1) {
+            await AsyncStorage.setItem('user', '');
+            setuser(null);
+        }
+    }
     return (
-        <UserContext.Provider value={{ user, setuser, onLogin }}>
+        <UserContext.Provider value={{ user, setuser, onLogin, checkLogIn }}>
 
             {children}
         </UserContext.Provider>

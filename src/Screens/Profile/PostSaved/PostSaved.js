@@ -15,6 +15,7 @@ import { getPostSaved } from '../../ScreenService';
 import { UserContext } from '../../../components/users/UserContext';
 import { savePost } from '../../ScreenService';
 import { urlAPI } from '../../../components/helpers/urlAPI';
+import { formatDate } from '../../../styleSheets/styleJS';
 const PostSaved = (props) => {
   const [products, setProducts] = useState([]);
   const [saved, setSaved] = useState([]);
@@ -35,7 +36,7 @@ const PostSaved = (props) => {
   //     setIsLoading(false); // Set loading state to false after the request is complete
   //   }
   // };
-   
+
   const ongetSaved = async () => {
     try {
       console.log('userId', userId);
@@ -101,7 +102,7 @@ const PostSaved = (props) => {
       onPress={() => navigation.navigate('DetailProduct', { id_product: item.postId._id })}
     >
       <Image
-        source={{ uri: `${urlAPI}${item.postId.files[0]}` }}
+        source={{ uri: `${item.postId.files[0]}` }}
         style={styles.horizontalImage}
       />
 

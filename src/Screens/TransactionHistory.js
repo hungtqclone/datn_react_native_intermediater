@@ -11,7 +11,7 @@ const TransactionHistory = (props) => {
 
     const fetchData = async () => {
         try {
-            const response = await AxiosInstance().get(`/api/transaction/get_by_id/${user._id}`)
+            const response = await AxiosInstance().get(`/api/transaction/get_by_userId/${user._id}`)
             if (response.result) {
                 setData(response.data)
             }

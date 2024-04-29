@@ -9,7 +9,7 @@ import { urlAPI } from '../components/helpers/urlAPI';
 
 const Postnews = (props) => {
     const { navigation } = props;
-    const { user, setuser } = useContext(UserContext);
+    const { checkLogIn } = useContext(UserContext);
     const [categories, setCategories] = useState([]);
     const [idCategory, setIdCategory] = useState("658fb995b41f1dd5128fa9cf");
 
@@ -23,16 +23,10 @@ const Postnews = (props) => {
         setCategories(detailCategory)
         // console.log("Chi tiết danh muc :13 >" + JSON.stringify(detailCategory));
     }
-    const onLogOut = async () => {
-        await AsyncStorage.setItem('user', '');
-        setuser(null);
-    };
+
 
     useEffect(() => {
-        if (user == 1) {
-            onLogOut();
-        }
-
+        checkLogIn()
         if (idCategory == null) {
             ongetCategory();
         } else {
