@@ -50,12 +50,9 @@ const PostsHidden = (props) => {
 
                 <FlatList
                     data={posts}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate('DetailProducts', { id_product: posts._id })}
-                        >
-                            <ItemPosts data={item} />
-                        </TouchableOpacity>)}
+                    renderItem={({ item }) =>
+                        <ItemPosts data={item} isPresently={false} navigation={navigation} />
+                    }
                     horizontal={false}
                     keyExtractor={item => item._id}
                     showsHorizontalScrollIndicator={false}

@@ -48,11 +48,7 @@ const PostsPresently = (props) => {
                 <FlatList
                     data={posts}
                     renderItem={({ item }) =>
-                    (<TouchableOpacity
-                        onPress={() => navigation.navigate('DetailProducts', { id_product: item._id })}
-                    >
-                        <ItemPosts data={item} navigation={navigation} />
-                    </TouchableOpacity>)
+                        <ItemPosts data={item} isPresently={true} navigation={navigation} />
                     }
                     horizontal={false}
                     keyExtractor={item => item._id}

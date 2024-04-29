@@ -16,6 +16,7 @@ import { homeStyles } from '../styleSheets/HomeStyles';
 import { getCategory, getProduct } from './ScreenService';
 import CategoriesDetail from './CategoriesDetail';
 import { urlAPI } from '../components/helpers/urlAPI';
+import { styleNumber, formatDate } from '../styleSheets/styleJS';
 
 const datatile = [
   {
@@ -136,14 +137,14 @@ const Home = props => {
         <Text style={homeStyles.txtdetail} numberOfLines={1}>
           {item.detail}
         </Text>
-        <Text style={homeStyles.txtprice}>{item.price} đ</Text>
+        <Text style={homeStyles.txtprice}>{styleNumber(item.price)}đ</Text>
 
         <View style={homeStyles.contaiicontimeaddress}>
           <Image
             style={homeStyles.imgiconprofile}
             source={require('../../image/Phone.png')}
           />
-          <Text style={homeStyles.txtTime}> - {item.created_AT} - </Text>
+          <Text style={homeStyles.txtTime}> - {formatDate(item.created_AT)} - </Text>
           <Text style={homeStyles.txtAdress}>{item.location}</Text>
         </View>
       </TouchableOpacity>

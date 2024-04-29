@@ -18,6 +18,12 @@ import Modal from 'react-native-modal';
 import { getProduct, savePost, getPostSaved } from '../ScreenService';
 import { UserContext } from '../../components/users/UserContext';
 import { urlAPI } from '../../components/helpers/urlAPI';
+import { styleNumber, formatDate } from '../../styleSheets/styleJS';
+import ItemNearYou from '../../Item/ItemNearYou';
+import AxiosInstance from '../../components/helpers/Axiosintance';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
+
 const MAX_ADDRESS_LENGTH = 30;
 const MAX_HEIGHT = 100;
 const NearYou = (props) => {
@@ -38,14 +44,22 @@ const NearYou = (props) => {
   //chỉ cho phép getLocation chạy 1 lần
   const [hasRunOnce, setHasRunOnce] = useState(false);
   useEffect(() => {
+    setIsLoading(true);
     if (!hasRunOnce) {
       setAddress('Nhấn vào để cập nhật địa chỉ.');
       getLocation();
       setHasRunOnce(true);
     }
-    ongetProducts();
-    ongetSaved();
+
   }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      ongetSaved()
+      ongetProducts();
+      return () => {
+      }
+    }, [])
+  )
   //lấy địa chỉ
   const getLocation = () => {
     Geolocation.getCurrentPosition(
@@ -106,7 +120,7 @@ const NearYou = (props) => {
   };
   const ongetProducts = async () => {
     try {
-      setIsLoading(true); // Set loading state to true before making the request
+      // Set loading state to true before making the request
       const products = await getProduct();
       setProducts(products);
     } catch (error) {
@@ -122,29 +136,32 @@ const NearYou = (props) => {
   };
 
   const onSavePost = async (postId) => {
-    setIsLoading2(true); // Bắt đầu hiển thị biểu tượng loading
-    setIsButtonDisabled(true); // Vô hiệu hóa nút "Lưu tin"
+
     try {
+      setIsLoading2(true); // Bắt đầu hiển thị biểu tượng loading
+      setIsButtonDisabled(true); // Vô hiệu hóa nút "Lưu tin"
       const response = await savePost(userId, postId);
       ongetSaved();
       console.log('Save post response:', response);
     } catch (error) {
       console.error('Error saving post:', error);
-    } finally {
-      setIsLoading2(false); // Kết thúc hiển thị biểu tượng loading
-      setIsButtonDisabled(false); // Kích hoạt lại nút "Lưu tin"
     }
+
   };
 
   const ongetSaved = async () => {
     try {
       console.log('userId', userId);
       const saved = await getPostSaved(userId);
+      await AsyncStorage.setItem('saved', JSON.stringify(saved));
       setSaved(saved);
-
-       console.log('ds tin đã lưu:', saved);
+      setIsLoading2(false); // Kết thúc hiển thị biểu tượng loading
+      setIsButtonDisabled(false);// Kích hoạt lại nút "Lưu tin"
+      // console.log('ds tin đã lưu:', saved);
+      return true
     } catch (error) {
       console.error('không lấy được ds tin đã lưu:', error);
+      return false
     }
   };
 
@@ -152,6 +169,23 @@ const NearYou = (props) => {
   const renderItem = ({ item, index }) => {
     const isPostSaved = saved.some(post => post.postId && post.postId._id === item._id);
     const checkUser = userId == item.userid._id ? true : false;
+    let loading = false
+    let buttonDisabled = false
+    const onSaved = async () => {
+      try {
+        loading = true
+        buttonDisabled = true
+        forceUpdate({})
+        // const result = await AxiosInstance().post(`/api/saved/save-or-notSave?userId=${userId}&postId=${item._id}`)
+        // ongetSaved()
+        // loading = false;
+        // buttonDisabled = false
+        console.log("check result item: ", result)
+      } catch (error) {
+        console.log("error renderItem NearYou.js: ", error)
+        return false
+      }
+    }
     return (
       <View key={index} style={[styles.container, { display: checkUser ? "none" : 'flex' }]}>
         <View style={styles.header}>
@@ -168,7 +202,7 @@ const NearYou = (props) => {
               />
             </View>
             <View style={styles.timecont}>
-              <Text> {item.created_AT}</Text>
+              <Text> {formatDate(item.created_AT)}</Text>
               <View style={styles.circle} />
               <Text>5km</Text>
             </View>
@@ -213,7 +247,7 @@ const NearYou = (props) => {
           >
             <View style={styles.cont_nameprice}>
               <Text style={styles.textnameprice}> {item.title} </Text>
-              <Text style={styles.textprice}>{item.price} đ</Text>
+              <Text style={styles.textprice}>{styleNumber(item.price)} đ</Text>
             </View>
             <Image
               style={styles.icon_arrow_right}
@@ -237,26 +271,26 @@ const NearYou = (props) => {
           </View>
         </View>
         <View style={styles.btncontact}>
-        <TouchableOpacity style={styles.btnCall}>
+          <TouchableOpacity style={styles.btnCall}>
             <Image
               style={styles.iconCall}
               source={isPostSaved ? require('../../assets/images/icons/heart.png') : require('../../assets/images/icons/heart2.png')}
             />
-            <TouchableOpacity onPress={() => onSavePost(item._id)} disabled={isButtonDisabled}>
-              {isLoading2 ? (
+            <TouchableOpacity onPress={() => onSaved()} disabled={buttonDisabled}>
+              {loading ? (
                 <ActivityIndicator size="small" color="#0000ff" />
               ) : (
                 <Text style={styles.txtBtnCall}>{isPostSaved ? 'Đã lưu' : 'Lưu tin'}</Text>
               )}
             </TouchableOpacity>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnCall}>
+          {/* <TouchableOpacity style={styles.btnCall}>
             <Image
               style={styles.iconCall}
               source={require('../../assets/images/icons/icon_chat.png')}
             />
             <Text style={styles.txtBtnCall}>Chat</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity style={styles.btnCall}>
             <Image
               style={styles.iconCall}
@@ -347,7 +381,7 @@ const NearYou = (props) => {
             <FlatList
               scrollEnabled={false}
               data={products}
-              renderItem={renderItem}
+              renderItem={({ item, index }) => <ItemNearYou item={item} index={index} />}
               keyExtractor={item => item._id.toString()}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
@@ -584,10 +618,10 @@ const styles = StyleSheet.create({
   // phần nút gọi điện và chat
   btncontact: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     marginBottom: 20,
-    borderTopColor: '#ccc',
-    borderTopWidth: 1,
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 1,
   },
   btnCall: {
     flexDirection: 'row',

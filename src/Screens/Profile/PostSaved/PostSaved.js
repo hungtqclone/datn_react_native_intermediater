@@ -15,6 +15,7 @@ import { getPostSaved } from '../../ScreenService';
 import { UserContext } from '../../../components/users/UserContext';
 import { savePost } from '../../ScreenService';
 import { urlAPI } from '../../../components/helpers/urlAPI';
+import { formatDate } from '../../../styleSheets/styleJS';
 const PostSaved = (props) => {
   const [products, setProducts] = useState([]);
   const [saved, setSaved] = useState([]);
@@ -35,6 +36,7 @@ const PostSaved = (props) => {
   //     setIsLoading(false); // Set loading state to false after the request is complete
   //   }
   // };
+
   const ongetSaved = async () => {
     try {
       console.log('userId', userId);
@@ -80,7 +82,7 @@ const PostSaved = (props) => {
           />
         </TouchableOpacity>
         <Text style={styles.horizontalname}>{item.title}</Text>
-        <Text style={styles.horizontalrice}>{item.price} đ</Text>
+        <Text style={styles.horizontalrice}>{styleNumber(item.price)} đ</Text>
         <View style={styles.contend}>
           <Image
             style={styles.iconbag}
@@ -90,7 +92,7 @@ const PostSaved = (props) => {
             style={styles.icondot}
             source={require('../../../assets/images/icons/icon_dot.png')}
           />
-          <Text style={styles.horizontaltime}>{item.created_AT}</Text>
+          <Text style={styles.horizontaltime}>{formatDate(item.created_AT)}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -100,7 +102,7 @@ const PostSaved = (props) => {
       onPress={() => navigation.navigate('DetailProduct', { id_product: item.postId._id })}
     >
       <Image
-        source={{ uri: `${urlAPI}${item.postId.files[0]}` }}
+        source={{ uri: `${item.postId.files[0]}` }}
         style={styles.horizontalImage}
       />
 
@@ -124,7 +126,7 @@ const PostSaved = (props) => {
             style={styles.icondot}
             source={require('../../../assets/images/icons/icon_dot.png')}
           />
-          <Text style={styles.horizontaltime}>{item.postId.created_AT}</Text>
+          <Text style={styles.horizontaltime}>{formatDate(item.postId.created_AT)}</Text>
         </View>
       </View>
     </TouchableOpacity>

@@ -37,6 +37,7 @@ export const MessageProvider = ({ children }) => {
             // console.log(messagesData.messages.length)
         } catch (error) {
             console.log(error)
+            return
         }
     }
     useEffect(() => {

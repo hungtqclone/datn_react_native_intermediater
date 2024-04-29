@@ -19,6 +19,8 @@ import Swiper from 'react-native-swiper';
 import { UserContext } from '../components/users/UserContext';
 import { useNavigation } from '@react-navigation/native';
 import { urlAPI } from '../components/helpers/urlAPI';
+import { styleNumber, formatDate } from '../styleSheets/styleJS';
+
 const DetailProduct = (props) => {
   //lấy thông tin user
   const { user } = useContext(UserContext);
@@ -56,6 +58,8 @@ const DetailProduct = (props) => {
     </View>
   );
 
+
+
   const reLoadScreen = async (id) => {
     setIsLoading(true);
     const productData = await getProductById(id);
@@ -82,17 +86,16 @@ const DetailProduct = (props) => {
     }
   };
   const onSavePost = async (postId) => {
-    setIsLoading2(true); // Bắt đầu hiển thị biểu tượng loading
-    setIsButtonDisabled(true); // Vô hiệu hóa nút "Lưu tin"
+
     try {
+      setIsLoading2(true); // Bắt đầu hiển thị biểu tượng loading
+      setIsButtonDisabled(true); // Vô hiệu hóa nút "Lưu tin"
       const response = await savePost(userId, postId);
-      ongetSaved();
-      console.log('Save post response:', response);
+      setIsSaved(response.saved)
+      setIsLoading2(false);
+      setIsButtonDisabled(false);
     } catch (error) {
       console.error('Error saving post:', error);
-    } finally {
-      setIsLoading2(false); // Kết thúc hiển thị biểu tượng loading
-      setIsButtonDisabled(false); // Kích hoạt lại nút "Lưu tin"
     }
   };
   const ongetSaved = async () => {
@@ -100,8 +103,7 @@ const DetailProduct = (props) => {
       console.log('userId', userId);
       const saved = await getPostSaved(userId);
       setSaved(saved);
-
-      console.log('ds tin đã lưu:', saved);
+      setIsSaved(saved.some(post => post.postId && post.postId._id === id_product))
     } catch (error) {
       console.error('không lấy được ds tin đã lưu:', error);
     }
@@ -110,7 +112,7 @@ const DetailProduct = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-         ongetSaved();
+        ongetSaved();
         // // Kiểm tra xem sản phẩm có trong danh sách đã lưu không
         // console.log('id_product:', id_product);
         // const isProductSaved = saved.some(item => item.postId._id === id_product);
@@ -144,6 +146,7 @@ const DetailProduct = (props) => {
   }, []);
 
   const isPostSaved = saved.some(post => post.postId && post.postId._id === id_product);
+  const checkActive = products.userid?.socketId == "off" ? true : false;
   return (
     <View style={styles.body}>
       <View style={styles.appbar}>
@@ -223,21 +226,21 @@ const DetailProduct = (props) => {
                   <Text style={styles.textprice}>{products.price + ' đ'} </Text>
                   <Text style={styles.timeIn}>  {products.created_AT}</Text>
                 </View>
-                <TouchableOpacity style={styles.containerPrice}
+                <TouchableOpacity style={[styles.containerPrice, { display: products.userid?._id == userId ? 'none' : 'flex' }]}
                   onPress={() => onSavePost(products._id)}
                   disabled={isButtonDisabled}
                 >
                   <Image
                     style={styles.iconLike}
                     //source={require('../assets/images/icons/heart2.png')}
-                    source={isPostSaved ? require('../assets/images/icons/heart.png') : require('../assets/images/icons/heart2.png')}
+                    source={isSaved ? require('../assets/images/icons/heart.png') : require('../assets/images/icons/heart2.png')}
 
                   />
-                    {isLoading2 ? (
-                      <ActivityIndicator size="small" color="#0000ff" />
-                    ) : (
-                      <Text style={styles.txtBtnCall}>{isPostSaved ? 'Đã lưu' : 'Lưu tin'}</Text>
-                    )}
+                  {isLoading2 ? (
+                    <ActivityIndicator size="small" color="#0000ff" />
+                  ) : (
+                    <Text style={styles.txtBtnCall}>{isSaved ? 'Đã lưu' : 'Lưu tin'}</Text>
+                  )}
                 </TouchableOpacity>
                 {/* <TouchableOpacity style={styles.btnCall}>
                   <Image
@@ -290,8 +293,8 @@ const DetailProduct = (props) => {
                           {/* <Text style={styles.reviewText}>{`(${totalReviews})`}</Text> */}
                         </View>
                         <View style={styles.dotOnl}>
-                          <View style={styles.dot} />
-                          <Text style={styles.txtOnl}>Đang hoạt động</Text>
+                          <View style={[styles.dot, { backgroundColor: checkActive ? "gray" : "green" }]} />
+                          <Text style={styles.txtOnl}> {checkActive ? "Không hoạt động" : "Đang hoạt động"}</Text>
                         </View>
                       </View>
                     </View>
@@ -488,8 +491,8 @@ const DetailProduct = (props) => {
                     <Text style={styles.tagpro}>Thanh toán đảm bảo</Text>
                     <View style={styles.horizontalTextContainer}>
                       <Text style={styles.horizontalname} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
-                      <Text style={styles.horizontalrice} numberOfLines={1} ellipsizeMode="tail">{item.price} đ </Text>
-                      <Text style={styles.horizontaltime}>{item.created_AT}</Text>
+                      <Text style={styles.horizontalrice} numberOfLines={1} ellipsizeMode="tail">{styleNumber(item.price)} đ </Text>
+                      <Text style={styles.horizontaltime}>{formatDate(item.created_AT)}</Text>
                     </View>
                   </TouchableOpacity>
                 )}
@@ -522,8 +525,8 @@ const DetailProduct = (props) => {
                     <Text style={styles.tagpro}>Thanh toán đảm bảo</Text>
                     <View style={styles.horizontalTextContainer}>
                       <Text style={styles.horizontalname} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
-                      <Text style={styles.horizontalrice} numberOfLines={1} ellipsizeMode="tail">{item.price} đ </Text>
-                      <Text style={styles.horizontaltime}>{item.created_AT}</Text>
+                      <Text style={styles.horizontalrice} numberOfLines={1} ellipsizeMode="tail">{styleNumber(item.price)}đ </Text>
+                      <Text style={styles.horizontaltime}>{formatDate(item.created_AT)}</Text>
                     </View>
                   </TouchableOpacity>
                 )}
@@ -781,7 +784,6 @@ const styles = StyleSheet.create({
   dot: {
     width: 10,
     height: 10,
-    backgroundColor: 'green',
     borderRadius: 50,
     marginHorizontal: 5,
   },

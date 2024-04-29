@@ -80,7 +80,7 @@ export const getProductByidCate = async (idCategory, page) => {
   }
 };
 // get Sản phẩm theo categories 
-export const getProductByBrandid = async (idCategory,idBrand, page) => {
+export const getProductByBrandid = async (idCategory, idBrand, page) => {
   try {
     const post = await AxiosInstance().get(`api/postnews/brand/${idCategory}/${idBrand}/${page}`);
     // console.log("32 Service Products : " + JSON.stringify(detail.data));
@@ -163,7 +163,7 @@ export const savePost = async (userid, postId) => {
   try {
     const response = await AxiosInstance().post(`/api/saved/save-or-notSave?userId=${userid}&postId=${postId}`);
     console.log("85 save Post news resspone: " + JSON.stringify(response.data));
-    return response.data;
+    return response;
   } catch (err) {
     console.log('Save error:', err);
     return err;

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 
 import { getProduct } from '../ScreenService';
 import { VehicleStyle } from '../../styleSheets/VehiclesStyles';
+import { styleNumber, formatDate } from '../../styleSheets/styleJS';
 
 const datatile = [
     { id: 1, title: 'Ô tô', image: require('../../../image/icon_carV.jpg') },
@@ -59,7 +60,7 @@ const Vehicles = (props) => {
 
                 <View style={VehicleStyle.contaiiPriceV}>
                 <Text style={VehicleStyle.txtnamePriceV} >Giá xe mới</Text>
-                    <Text style={VehicleStyle.txtpriceV} >{item.price} đ</Text>
+                    <Text style={VehicleStyle.txtpriceV} >{styleNumber(item.price)}đ</Text>
                 </View>
 
             </TouchableOpacity>
@@ -71,11 +72,11 @@ const Vehicles = (props) => {
                 <Image style={VehicleStyle.imgproduct} source={{ uri: `${item.files}` }} />
                 <Text style={VehicleStyle.txtnameproduct} >{item.title}</Text>
                 <Text style={VehicleStyle.txtdetail} numberOfLines={1}>{item.detail}</Text>
-                <Text style={VehicleStyle.txtprice} >{item.price} đ</Text>
+                <Text style={VehicleStyle.txtprice} >{styleNumber(item.price)}đ</Text>
 
                 <View style={VehicleStyle.contaiicontimeaddress}>
                     <Image style={VehicleStyle.imgiconprofile} source={require('../../../image/Phone.png')} />
-                    <Text style={VehicleStyle.txtTime} > - {item.created_AT} - </Text>
+                    <Text style={VehicleStyle.txtTime} > - {formatDate(item.created_AT)} - </Text>
                     <Text style={VehicleStyle.txtAdress} >{item.location}</Text>
                 </View>
             </TouchableOpacity>
