@@ -92,7 +92,7 @@ export const productStyles = StyleSheet.create({
         alignItems: 'center',
         padding: 5,
         marginHorizontal: 5,
-        borderColor:'orange',
+        borderColor:'grey',
     },
     iconfilter: {
         width: 20,

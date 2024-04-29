@@ -195,14 +195,14 @@ const BrandProduct = (props) => {
                             <Image style={productStyles.iconfilter} source={require('../../image/icon_filter.png')} />
                             <Text style={productStyles.txtTQ}>Lọc </Text>
                         </Pressable> */}
-                        <FlatList
+                        {/* <FlatList
                             data={data}
                             renderItem={renderFill}
                             horizontal={true}
                             pagingEnabled={true}
                             keyExtractor={item => item.id}
                             showsHorizontalScrollIndicator={false}
-                        />
+                        /> */}
                     </View>
                 </View>
 {/* 
