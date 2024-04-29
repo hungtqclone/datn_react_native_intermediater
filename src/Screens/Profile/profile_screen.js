@@ -365,35 +365,35 @@ const Profile_screen = props => {
               />
               <Text style={styles.txtMagOrderItem}>Đóng góp ý kiến</Text>
             </TouchableOpacity> */}
-           <TouchableOpacity
-  style={[
-    styles.contMagOrderItemLeft,
-    { display: user == 1 ? 'none' : 'inline-block' },
-  ]}
-  onPress={() => {
-    Alert.alert(
-      'Thông báo',
-      'Bạn có chắc chắn muốn đăng xuất?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'OK',
-          onPress: () => onLogOut(),
-        },
-      ],
-      { cancelable: false }
-    );
-  }}
->
-  <Image
-    source={require('../../assets/images/icons/icon_logout.png')}
-    style={styles.iconMagOrder1}
-  />
-  <Text style={styles.txtMagOrderItem}>Đăng xuất</Text>
-</TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.contMagOrderItemLeft,
+                { display: user == 1 ? 'none' : 'inline-block' },
+              ]}
+              onPress={() => {
+                Alert.alert(
+                  'Thông báo',
+                  'Bạn có chắc chắn muốn đăng xuất?',
+                  [
+                    {
+                      text: 'Cancel',
+                      style: 'cancel',
+                    },
+                    {
+                      text: 'OK',
+                      onPress: () => onLogOut(),
+                    },
+                  ],
+                  { cancelable: false }
+                );
+              }}
+            >
+              <Image
+                source={require('../../assets/images/icons/icon_logout.png')}
+                style={styles.iconMagOrder1}
+              />
+              <Text style={styles.txtMagOrderItem}>Đăng xuất</Text>
+            </TouchableOpacity>
 
           </View>
         </View>
@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginLeft: 10,
-    color:'black'
+    color: 'black'
   },
   appbarRight: {
     flexDirection: 'row',
@@ -529,7 +529,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     backgroundColor: '#fff',
-    bottom:16
+    bottom: 16
   },
   pointGood: {
     padding: 10,

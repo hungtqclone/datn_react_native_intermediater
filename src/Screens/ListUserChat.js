@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState, useContext } from 'react';
 import AxiosInstance from '../components/helpers/Axiosintance';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,11 +12,13 @@ const ListUserChat = (props) => {
     const { socket, setNewMessage } = useMessage()
     const userId = user._id;
     const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true)
     const avatarDefault = 'https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg';
     const fetchData = async () => {
         try {
             const response = await AxiosInstance().get(`api/message/message-communicate-user?userId=${userId}`);
             setData(response.messages);
+            setIsLoading(false)
         } catch (error) {
             console.log(error)
             return
@@ -63,7 +65,22 @@ const ListUserChat = (props) => {
                 </TouchableOpacity>
                 <Text style={styles.appbarTitle}>Danh sách tin nhắn</Text>
             </View>
-            {data.length == 0 ?
+            {isLoading ? <ActivityIndicator
+                style={{ marginTop: 20 }}
+                size="large"
+                color="#3498db"
+            /> : (
+                data.length == 0 ?
+                    <Text style={{ textAlign: 'center', fontSize: 20, marginTop: 10 }}>Bạn chưa nhắn tin với ai</Text>
+                    :
+                    <FlatList
+                        data={data}
+                        renderItem={renderItem}
+                        keyExtractor={item => item._id.toString()}
+
+                    />
+            )}
+            {/* {data.length == 0 ?
                 <Text style={{ textAlign: 'center', fontSize: 20, marginTop: 10 }}>Bạn chưa nhắn tin với ai</Text>
                 :
                 <FlatList
@@ -71,7 +88,7 @@ const ListUserChat = (props) => {
                     renderItem={renderItem}
                     keyExtractor={item => item._id.toString()}
 
-                />}
+                />} */}
 
         </View>
     );
