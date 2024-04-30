@@ -226,8 +226,6 @@ const DetailProduct = (props) => {
                         source={{ uri: `${file}` }}
                       />
                     </TouchableOpacity>
-
-
                   </View>
                 ))}
               </Swiper>

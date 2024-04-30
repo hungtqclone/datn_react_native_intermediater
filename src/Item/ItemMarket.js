@@ -149,18 +149,16 @@ const ItemMarket = ({ item, index, navigation }) => {
                 </View>
             </View>
             <View style={styles.btncontact}>
-                <TouchableOpacity style={styles.btnCall}>
+                <TouchableOpacity style={styles.btnCall} onPress={() => onSaved()} disabled={isButtonDisabled}>
                     <Image
                         style={styles.iconCall}
                         source={saved ? require('../assets/images/icons/heart.png') : require('../assets/images/icons/heart2.png')}
                     />
-                    <TouchableOpacity onPress={() => onSaved()} disabled={isButtonDisabled}>
-                        {isLoading ? (
-                            <ActivityIndicator size="small" color="#0000ff" />
-                        ) : (
-                            <Text style={styles.txtBtnCall}>{saved ? 'Đã lưu' : 'Lưu tin'}</Text>
-                        )}
-                    </TouchableOpacity>
+                    {isLoading ? (
+                        <ActivityIndicator size="small" color="#0000ff" />
+                    ) : (
+                        <Text style={styles.txtBtnCall}>{saved ? 'Đã lưu' : 'Lưu tin'}</Text>
+                    )}
                 </TouchableOpacity>
                 {/* <TouchableOpacity style={styles.btnCall}>
             <Image

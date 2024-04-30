@@ -188,12 +188,12 @@ const Explore = (props) => {
           </View>
         </View>
         <View style={styles.btncontact}>
-          <TouchableOpacity style={styles.btnCall}>
+          <TouchableOpacity style={styles.btnCall}  onPress={() => onSavePost(item._id)} disabled={isButtonDisabled}>
             <Image
               style={styles.iconCall}
               source={isPostSaved ? require('../../assets/images/icons/heart.png') : require('../../assets/images/icons/heart2.png')}
             />
-            <TouchableOpacity onPress={() => onSavePost(item._id)} disabled={isButtonDisabled}>
+            <TouchableOpacity>
               {isLoading2 ? (
                 <ActivityIndicator size="small" color="#0000ff" />
               ) : (
