@@ -82,7 +82,7 @@ const Realestate = (props) => {
         <View style={RLSTtyles.body}>
             <View style={RLSTtyles.containerse}>
                 <View style={RLSTtyles.viewSearch}>
-                    <TextInput style={RLSTtyles.txpSearch} placeholder='Tìm kiếm trên chợ tốt' />
+                    <TextInput style={RLSTtyles.txpSearch} placeholder='Tìm kiếm' />
                     <Image style={RLSTtyles.imgSearch} source={require('../../../image/search.png')} />
                 </View>
                 <Image style={RLSTtyles.icon} source={require('../../../image/notificaiton.png')} />

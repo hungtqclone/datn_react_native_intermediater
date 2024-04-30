@@ -7,7 +7,7 @@ const AppSearch2 = () => {
         <View style={[DanhMucSPStyles.Search3]}>
             <Image style={DanhMucSPStyles.Left1} source={require('../../image/Left.png')}></Image>
             <View style={[DanhMucSPStyles.Search4]}>
-                <Text style={[DanhMucSPStyles.Text2]}>Tìm Kiếm Trên Chợ Tốt</Text>
+                <Text style={[DanhMucSPStyles.Text2]}>Tìm Kiếm</Text>
                 <Image style={DanhMucSPStyles.Search5} source={require('../../image/search.png')}></Image>
                 <Image style={DanhMucSPStyles.Left2} source={require('../../image/Left2.png')}></Image>
             </View>

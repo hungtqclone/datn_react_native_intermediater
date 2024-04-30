@@ -68,7 +68,7 @@ export const MGNStyles = StyleSheet.create({
         height: 50,
     },
     txtProfile: {
-
+        marginLeft:20,
         fontWeight: 'bold',
         fontSize: 16,
         color: 'black',

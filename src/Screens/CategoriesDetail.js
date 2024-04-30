@@ -37,15 +37,15 @@ const datatile = [
     title: 'Thu mua điện thoại',
     image: require('../../image/icon_banngay.jpg'),
   },
-  { id: 2, title: 'Nạp đồng tốt', image: require('../../image/icon_dongxu.jpg') },
-  {
-    id: 3,
-    title: 'Chợ tốt ưu đãi',
-    image: require('../../image/icon_uudai.jpg'),
-  },
-  { id: 4, title: 'Thu mua ô tô', image: require('../../image/icon_car.jpg') },
-  { id: 5, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
-  { id: 6, title: 'Tin đã lưu', image: require('../../image/icon_hearth.jpg') },
+  // {id: 2, title: 'Nạp đồng tốt', image: require('../../image/icon_dongxu.jpg')},
+  // {
+  //   id: 3,
+  //   title: 'Chợ tốt ưu đãi',
+  //   image: require('../../image/icon_uudai.jpg'),
+  // },
+  {id: 4, title: 'Thu mua ô tô', image: require('../../image/icon_car.jpg')},
+  {id: 5, title: 'Gói pro', image: require('../../image/icon_pro.jpg')},
+  {id: 6, title: 'Tin đã lưu', image: require('../../image/icon_hearth.jpg')},
   {
     id: 7,
     title: 'Đăng tin cho tặng',
@@ -191,7 +191,7 @@ const CategoriesDetail = props => {
         <TouchableOpacity
           style={CGDStyles.viewSearch}
           onPress={() => openModal()}>
-          <Text style={CGDStyles.txpSearch}>Tìm kiếm trên chợ tốt</Text>
+          <Text style={CGDStyles.txpSearch}>Tìm kiếm</Text>
           <Image
             style={CGDStyles.imgSearch}
             source={require('../../image/search.png')}
@@ -303,7 +303,7 @@ const CategoriesDetail = props => {
               </View>
               <View style={CGDStyles.viewSearch2} onPress={() => openModal()}>
                 <TextInput
-                  placeholder="Tìm kiếm trên chợ tốt"
+                  placeholder="Tìm kiếm"
                   style={CGDStyles.txpSearch2}
                   onChangeText={handleInputSearch}></TextInput>
                 <Image

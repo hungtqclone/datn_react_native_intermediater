@@ -96,7 +96,7 @@ const Vehicles = (props) => {
         <View style={VehicleStyle.body}>
             <View style={VehicleStyle.containerse}>
                 <View style={VehicleStyle.viewSearch}>
-                    <TextInput style={VehicleStyle.txpSearch} placeholder='Tìm kiếm trên chợ tốt' />
+                    <TextInput style={VehicleStyle.txpSearch} placeholder='Tìm kiếm' />
                     <Image style={VehicleStyle.imgSearch} source={require('../../../image/search.png')} />
                 </View>
                 <Image style={VehicleStyle.icon} source={require('../../../image/notificaiton.png')} />

@@ -108,7 +108,7 @@ const Profile_screen = props => {
         <Modal isVisible={isModalVisible} animationType="slide">
           <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, shadowOpacity: 0.25, shadowRadius: 5, shadowColor: '#000', elevation: 10 }}>
             <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginBottom: 20 }}>
-              Nạp đồng tốt
+              Nạp tiền
             </Text>
             <TextInput
               keyboardType="number-pad"
@@ -196,7 +196,7 @@ const Profile_screen = props => {
                 <Text style={styles.nameNguoiban}>{dataUser.name} </Text>
                 <TouchableOpacity onPress={toggleModal}>
                   <Text style={{ color: 'blue', marginTop: 3 }}>
-                    Nạp đồng tốt
+                    Nạp tiền
                   </Text>
                 </TouchableOpacity>
                 {/* <View style={styles.reviewContainer}>
@@ -236,8 +236,8 @@ const Profile_screen = props => {
             </View>
           )}
 
-          <View style={styles.contPoint}>
-            <TouchableOpacity style={styles.pointGood}>
+          <View style={{marginBottom:20}}>
+            {/* <TouchableOpacity style={styles.pointGood}>
               <Text style={styles.txtPoint}>Điểm Tốt</Text>
               <View style={styles.contIcon}>
                 <Text style={styles.txtPointCount}>0</Text>
@@ -246,9 +246,9 @@ const Profile_screen = props => {
                   style={styles.iconPointGood}
                 />
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity style={styles.cuGood}>
-              <Text style={styles.txtPoint}>Đồng Tốt</Text>
+              <Text style={styles.txtPoint}>Tiền</Text>
               <View style={styles.contIcon}>
                 <Text style={styles.txtPointCount}>
                   {styleNumber(dataUser.balance)}

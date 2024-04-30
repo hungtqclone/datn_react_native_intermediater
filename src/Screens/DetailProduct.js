@@ -223,8 +223,8 @@ const DetailProduct = (props) => {
               </View>
               <View style={styles.price}>
                 <View>
-                  <Text style={styles.textprice}>{products.price + ' đ'} </Text>
-                  <Text style={styles.timeIn}>  {products.created_AT}</Text>
+                  <Text style={styles.textprice}>{styleNumber(products.price) + ' đ'} </Text>
+                  <Text style={styles.timeIn}>  {formatDate(products.created_AT)}</Text>
                 </View>
                 <TouchableOpacity style={[styles.containerPrice, { display: products.userid?._id == userId ? 'none' : 'flex' }]}
                   onPress={() => onSavePost(products._id)}
@@ -525,7 +525,7 @@ const DetailProduct = (props) => {
                     <Text style={styles.tagpro}>Thanh toán đảm bảo</Text>
                     <View style={styles.horizontalTextContainer}>
                       <Text style={styles.horizontalname} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
-                      <Text style={styles.horizontalrice} numberOfLines={1} ellipsizeMode="tail">{styleNumber(item.price)}đ </Text>
+                      <Text style={styles.horizontalrice} numberOfLines={1} ellipsizeMode="tail">{styleNumber(item.price)} đ</Text>
                       <Text style={styles.horizontaltime}>{formatDate(item.created_AT)}</Text>
                     </View>
                   </TouchableOpacity>

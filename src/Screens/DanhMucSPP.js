@@ -87,7 +87,7 @@ const DanhMucSPP = () => {
         />
         <TextInput
           style={DanhMucSPStyless.textInputSearch}
-          placeholder="Tìm kiếm trên chợ tốt"
+          placeholder="Tìm kiếm"
         />
         <Image
           style={DanhMucSPStyless.imgSearch}

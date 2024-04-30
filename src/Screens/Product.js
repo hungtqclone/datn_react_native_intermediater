@@ -170,7 +170,7 @@ const Product = (props) => {
 
             <View style={productStyles.containerse}>
                 <View style={productStyles.viewSearch}>
-                    <TextInput onChangeText={handleInputSearch} style={productStyles.txpSearch} placeholder='Tìm kiếm trên chợ tốt' />
+                    <TextInput onChangeText={handleInputSearch} style={productStyles.txpSearch} placeholder='Tìm kiếm' />
                     <Image style={productStyles.imgSearch} source={require('../../image/search.png')} />
                 </View>
                 <Image style={productStyles.icon} source={require('../assets/images/icons/icon_notification.png')} />

@@ -164,7 +164,7 @@ const Home = props => {
         <View style={homeStyles.viewSearch}>
           <TextInput
             style={homeStyles.txpSearch}
-            placeholder="Tìm kiếm trên chợ tốt"
+            placeholder="Tìm kiếm"
           />
           <Image
             style={homeStyles.imgSearch}

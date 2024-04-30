@@ -66,7 +66,7 @@ const Jobber = (props) => {
         <View style={JobStyles.body}>
             <View style={JobStyles.containerse}>
                 <View style={JobStyles.viewSearch}>
-                    <TextInput style={JobStyles.txpSearch} placeholder='Tìm kiếm trên chợ tốt' />
+                    <TextInput style={JobStyles.txpSearch} placeholder='Tìm kiếm' />
                     <Image style={JobStyles.imgSearch} source={require('../../../image/search.png')} />
                 </View>
                 <Image style={JobStyles.icon} source={require('../../../image/notificaiton.png')} />

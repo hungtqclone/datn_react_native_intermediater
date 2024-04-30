@@ -119,7 +119,7 @@ const Explore = (props) => {
               />
             </View>
             <View style={styles.timecont}>
-              <Text> {item.created_AT}</Text>
+              <Text> {formatDate(item.created_AT)}</Text>
               <View style={styles.circle} />
               <Text>5km</Text>
             </View>
@@ -164,7 +164,7 @@ const Explore = (props) => {
           >
             <View style={styles.cont_nameprice}>
               <Text style={styles.textnameprice}> {item.title} </Text>
-              <Text style={styles.textprice}>{item.price} đ</Text>
+              <Text style={styles.textprice}>{styleNumber(item.price)} đ</Text>
             </View>
             <Image
               style={styles.icon_arrow_right}
@@ -202,13 +202,13 @@ const Explore = (props) => {
             </TouchableOpacity>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.btnCall}>
+          {/* <TouchableOpacity style={styles.btnCall}>
             <Image
               style={styles.iconCall}
               source={require('../../assets/images/icons/icon_chat.png')}
             />
             <Text style={styles.txtBtnCall}>Chat</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity style={styles.btnCall}>
             <Image
               style={styles.iconCall}
