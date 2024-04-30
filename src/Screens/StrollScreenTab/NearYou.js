@@ -381,7 +381,7 @@ const NearYou = (props) => {
             <FlatList
               scrollEnabled={false}
               data={products}
-              renderItem={({ item, index }) => <ItemMarket item={item} index={index} />}
+              renderItem={({ item, index }) => <ItemMarket item={item} index={index} navigation={navigation} />}
               keyExtractor={item => item._id.toString()}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}

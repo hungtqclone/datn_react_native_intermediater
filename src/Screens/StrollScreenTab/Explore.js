@@ -16,7 +16,7 @@ import { UserContext } from '../../components/users/UserContext';
 import { urlAPI } from '../../components/helpers/urlAPI';
 import { styleNumber, formatDate } from '../../styleSheets/styleJS';
 import FlashMessage, { showMessage } from 'react-native-flash-message';
-
+import ItemMarket from '../../Item/ItemMarket';
 const Explore = (props) => {
   const MAX_HEIGHT = 100;
   //lấy thông tin user
@@ -235,7 +235,8 @@ const Explore = (props) => {
             <FlatList
               scrollEnabled={false}
               data={filteredProducts}
-              renderItem={renderItem}
+              // renderItem={renderItem}
+              renderItem={({ item, index }) => <ItemMarket item={item} index={index} navigation={navigation} />}
               keyExtractor={item => item._id.toString()}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}

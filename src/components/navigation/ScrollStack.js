@@ -10,6 +10,7 @@ import DetailProduct from '../../Screens/DetailProduct';
 import DetailPostNavigation from './DetailPostNavigation';
 import Explore from '../../Screens/StrollScreenTab/Explore';
 import Chat from '../../Screens/Chat';
+import ItemMarket from '../../Item/ItemMarket';
 // Stack
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -31,6 +32,7 @@ const ScrollStack = () => {
       <Stack.Screen name="NearYou" component={NearYou} />
       <Stack.Screen name="Explore" component={Explore} />
       <Stack.Screen name="Chat" component={Chat} />
+      <Stack.Screen name="ItemMarket" component={ItemMarket} />
 
     </Stack.Navigator>
   );

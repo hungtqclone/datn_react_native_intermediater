@@ -6,7 +6,7 @@ import AxiosInstance from '../components/helpers/Axiosintance'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
-const ItemMarket = ({ item, index }) => {
+const ItemMarket = ({ item, index, navigation }) => {
     const { user } = useContext(UserContext)
     const userId = user?._id
 
