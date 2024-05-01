@@ -10,7 +10,7 @@ const ItemMarket = (props) => {
     const { item, index, navigation, dataSaved } = props
     const { user } = useContext(UserContext)
     const userId = user?._id
-
+    //mmm
     const [showCollapseButton, setShowCollapseButton] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
     const [isExpanded, setIsExpanded] = useState(false);
