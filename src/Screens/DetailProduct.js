@@ -208,7 +208,7 @@ const DetailProduct = (props) => {
             <View style={styles.containerslide}>
               <Swiper style={styles.wrapper}
                 showsButtons={false}
-                autoplay={true}
+                autoplay={false}
                 autoplayTimeout={2}
               //autoplay={!isImageModalVisible} // Chỉ tự động chạy khi không có ảnh đang được xem
 

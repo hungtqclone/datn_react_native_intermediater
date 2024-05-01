@@ -60,7 +60,7 @@ const Explore = (props) => {
       setIsLoading(true); // Set loading state to true before making the request
       const products = await getProduct();
       setProducts(products);
-      // console.log('Products:', products);
+      console.log('Products:', products);
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {
@@ -86,11 +86,10 @@ const Explore = (props) => {
     try {
       console.log('userId', userId);
       const saved = await getPostSaved(userId);
-      await AsyncStorage.setItem('saved', JSON.stringify(saved));
       setSaved(saved);
       // console.log('ds tin đã lưu:', saved);
     } catch (error) {
-      console.log('không lấy được ds tin đã lưu:', error);
+      console.error('không lấy được ds tin đã lưu:', error);
     }
   };
 

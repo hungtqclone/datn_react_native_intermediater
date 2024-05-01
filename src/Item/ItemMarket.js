@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, ActivityIndicator, StyleSheet, FlatList } from 'react-native'
+import { View, Text, Image, TouchableOpacity, ActivityIndicator, StyleSheet, FlatList, Linking, } from 'react-native'
 import React, { useState, useContext, useEffect } from 'react'
 import { UserContext } from '../components/users/UserContext'
 import { formatDate, styleNumber } from '../styleSheets/styleJS'
@@ -10,7 +10,7 @@ const ItemMarket = (props) => {
     const { item, index, navigation, dataSaved } = props
     const { user } = useContext(UserContext)
     const userId = user?._id
-    //mmm
+
     const [showCollapseButton, setShowCollapseButton] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
     const [isExpanded, setIsExpanded] = useState(false);
@@ -21,8 +21,7 @@ const ItemMarket = (props) => {
     const fetchData = async () => {
         const saveStorage = await AsyncStorage.getItem('saved');
         const saved = JSON.parse(saveStorage)
-        setSaved(dataSaved?.some(post => post.postId && post.postId._id === item._id))
-
+        setSaved(saved.some(post => post.postId && post.postId._id === item._id))
 
     }
     useEffect(() => {
@@ -66,6 +65,16 @@ const ItemMarket = (props) => {
             return false
         }
     }
+    // gọi điện
+
+    const handleCallPress = (phoneNumber) => {
+        // Kiểm tra nếu thiết bị hỗ trợ mở cuộc gọi
+        if (Linking.canOpenURL(`tel:${phoneNumber}`)) {
+            Linking.openURL(`tel:${phoneNumber}`);
+        } else {
+            console.log('Không thể thực hiện cuộc gọi trên thiết bị này.');
+        }
+    };
     return (
         <View key={index} style={[styles.container, { display: checkUser ? "none" : 'flex' }]}>
             <View style={styles.header}>
