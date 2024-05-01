@@ -38,6 +38,7 @@ const NearYou = (props) => {
   const [products, setProducts] = useState([]);
   const [phoneNumber, setPhoneNumber] = useState();
   const [saved, setSaved] = useState([]);
+  const [dataSaved, setDataSaved] = useState([])
   const [isLoading2, setIsLoading2] = useState(false); // State để kiểm soát việc hiển thị biểu tượng loading
   const [isButtonDisabled, setIsButtonDisabled] = useState(false); // State để kiểm soát việc vô hiệu hóa nút "Lưu tin"
 
@@ -154,13 +155,10 @@ const NearYou = (props) => {
       console.log('userId', userId);
       const saved = await getPostSaved(userId);
       await AsyncStorage.setItem('saved', JSON.stringify(saved));
-      setSaved(saved);
-      setIsLoading2(false); // Kết thúc hiển thị biểu tượng loading
-      setIsButtonDisabled(false);// Kích hoạt lại nút "Lưu tin"
-      // console.log('ds tin đã lưu:', saved);
+      setDataSaved(saved);
       return true
     } catch (error) {
-      console.error('không lấy được ds tin đã lưu:', error);
+      console.log('không lấy được ds tin đã lưu:', error);
       return false
     }
   };
@@ -381,7 +379,7 @@ const NearYou = (props) => {
             <FlatList
               scrollEnabled={false}
               data={products}
-              renderItem={({ item, index }) => <ItemMarket item={item} index={index} navigation={navigation} />}
+              renderItem={({ item, index }) => <ItemMarket item={item} index={index} navigation={navigation} dataSaved={dataSaved} />}
               keyExtractor={item => item._id.toString()}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}

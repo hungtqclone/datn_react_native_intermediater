@@ -6,7 +6,8 @@ import AxiosInstance from '../components/helpers/Axiosintance'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
-const ItemMarket = ({ item, index, navigation }) => {
+const ItemMarket = (props) => {
+    const { item, index, navigation, dataSaved } = props
     const { user } = useContext(UserContext)
     const userId = user?._id
 
@@ -20,12 +21,13 @@ const ItemMarket = ({ item, index, navigation }) => {
     const fetchData = async () => {
         const saveStorage = await AsyncStorage.getItem('saved');
         const saved = JSON.parse(saveStorage)
-        setSaved(saved.some(post => post.postId && post.postId._id === item._id))
+        setSaved(dataSaved?.some(post => post.postId && post.postId._id === item._id))
+
 
     }
     useEffect(() => {
         fetchData()
-    }, []);
+    }, [dataSaved]);
 
 
     // const isPostSaved = saved.some(post => post.postId && post.postId._id === item._id);
