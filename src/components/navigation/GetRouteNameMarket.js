@@ -23,7 +23,7 @@ export const GetRouteNameProfile = route => {
     } else if (routeName?.includes('AccountSettingsScreen')) {
         return 'none';
     }
-    else if (routeName?.includes('HelpScreen')) {
+    else if (routeName?.includes('TransactionHistory')) {
         return 'none';
     } else if (routeName?.includes('CommentsScreen')) {
         return 'none';
