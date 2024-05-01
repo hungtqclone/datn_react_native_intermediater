@@ -17,7 +17,7 @@ const ItemMarket = (props) => {
     const [isButtonDisabled, setIsButtonDisabled] = useState(false)
     const [saved, setSaved] = useState(false)
     const [isPostSaved, setIsPostSaved] = useState(false)
-
+    const { checkLogIn } = useContext(UserContext);
     const fetchData = async () => {
         const saveStorage = await AsyncStorage.getItem('saved');
         const saved = JSON.parse(saveStorage)
@@ -49,6 +49,7 @@ const ItemMarket = (props) => {
 
     const onSaved = async () => {
         try {
+            checkLogIn()
             setIsLoading(true)
             setIsButtonDisabled(true)
             const result = await AxiosInstance().post(`/api/saved/save-or-notSave?userId=${userId}&postId=${item._id}`)
