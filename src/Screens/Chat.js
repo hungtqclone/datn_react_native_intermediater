@@ -15,7 +15,7 @@ const Chat = ({ navigation, route }) => {
     const { socket } = useMessage()
     const flatListRef = useRef();
     const userId = user._id
-    const [inputMessage, setInputMessage] = useState(undefined);
+    const [inputMessage, setInputMessage] = useState('');
     const [isSending, setIsSending] = useState(false);
     const [allMessages, setAllMessages] = useState([])
     const [numberSeen, setnumberSeen] = useState()
@@ -179,6 +179,7 @@ const Chat = ({ navigation, route }) => {
                     )}
                 </View>
             </View>
+            
         </View>
     );
 }
