@@ -51,7 +51,7 @@ const Explore = (props) => {
       setIsLoading(true); // Set loading state to true before making the request
       const products = await getProduct();
       setProducts(products);
-      console.log('Products:', products);
+      //console.log('Products:', products);
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {
@@ -75,14 +75,20 @@ const Explore = (props) => {
   };
   const ongetSaved = async () => {
     try {
-      console.log('userId', userId);
-      const saved = await getPostSaved(userId);
-      setSaved(saved);
-      // console.log('ds tin đã lưu:', saved);
+        // Kiểm tra xem userId có tồn tại không
+        if (!userId) {
+            console.log('userId không tồn tại');
+            return;
+        }
+
+        console.log('userId', userId);
+        const saved = await getPostSaved(userId);
+        setSaved(saved);
+        // console.log('ds tin đã lưu:', saved);
     } catch (error) {
-      console.error('không lấy được ds tin đã lưu:', error);
+        console.error('không lấy được ds tin đã lưu:', error);
     }
-  };
+};
 
 
   const handleCallPress = (phoneNumber) => {

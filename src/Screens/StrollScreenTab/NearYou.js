@@ -142,7 +142,7 @@ const NearYou = (props) => {
       setIsButtonDisabled(true); // Vô hiệu hóa nút "Lưu tin"
       const response = await savePost(userId, postId);
       ongetSaved();
-      console.log('Save post response:', response);
+    //  console.log('Save post response:', response);
     } catch (error) {
       console.error('Error saving post:', error);
     }
@@ -152,6 +152,11 @@ const NearYou = (props) => {
   const ongetSaved = async () => {
     try {
       console.log('userId', userId);
+       // Kiểm tra xem userId có tồn tại không
+       if (!userId) {
+        console.log('userId không tồn tại');
+        return;
+    }
       const saved = await getPostSaved(userId);
       await AsyncStorage.setItem('saved', JSON.stringify(saved));
       setSaved(saved);
