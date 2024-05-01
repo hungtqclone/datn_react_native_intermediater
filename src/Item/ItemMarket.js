@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const ItemMarket = ({ item, index, navigation }) => {
     const { user } = useContext(UserContext)
-    const userId = user?._id //dd
+    const userId = user?._id
 
     const [showCollapseButton, setShowCollapseButton] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
@@ -16,7 +16,7 @@ const ItemMarket = ({ item, index, navigation }) => {
     const [isButtonDisabled, setIsButtonDisabled] = useState(false)
     const [saved, setSaved] = useState(false)
     const [isPostSaved, setIsPostSaved] = useState(false)
-
+    const { checkLogIn } = useContext(UserContext);
     const fetchData = async () => {
         const saveStorage = await AsyncStorage.getItem('saved');
         const saved = JSON.parse(saveStorage)
@@ -53,6 +53,7 @@ const ItemMarket = ({ item, index, navigation }) => {
 
     const onSaved = async () => {
         try {
+            checkLogIn()
             setIsLoading(true)
             setIsButtonDisabled(true)
             const result = await AxiosInstance().post(`/api/saved/save-or-notSave?userId=${userId}&postId=${item._id}`)
@@ -69,16 +70,16 @@ const ItemMarket = ({ item, index, navigation }) => {
             return false
         }
     }
-     // gọi điện
+    // gọi điện
 
-  const handleCallPress = (phoneNumber) => {
-    // Kiểm tra nếu thiết bị hỗ trợ mở cuộc gọi
-    if (Linking.canOpenURL(`tel:${phoneNumber}`)) {
-      Linking.openURL(`tel:${phoneNumber}`);
-    } else {
-      console.log('Không thể thực hiện cuộc gọi trên thiết bị này.');
-    }
-  };
+    const handleCallPress = (phoneNumber) => {
+        // Kiểm tra nếu thiết bị hỗ trợ mở cuộc gọi
+        if (Linking.canOpenURL(`tel:${phoneNumber}`)) {
+            Linking.openURL(`tel:${phoneNumber}`);
+        } else {
+            console.log('Không thể thực hiện cuộc gọi trên thiết bị này.');
+        }
+    };
     return (
         <View key={index} style={[styles.container, { display: checkUser ? "none" : 'flex' }]}>
             <View style={styles.header}>

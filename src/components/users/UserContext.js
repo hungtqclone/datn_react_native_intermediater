@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, createContext, useEffect } from 'react'
-import { PushNotificationAndroid } from 'react-native';
+import { Alert, PushNotificationAndroid } from 'react-native';
 import { login } from './UserService';
 import AxiosInstance from '../helpers/Axiosintance';
 import { handleUserId } from '../helpers/socketIO';
@@ -58,6 +58,7 @@ export const UserProvider = (props) => {
     const checkLogIn = async () => {
         if (user == 1) {
             await AsyncStorage.setItem('user', '');
+            Alert.alert('Thông báo', 'Vui lòng đăng nhập');
             setuser(null);
         }
     }
