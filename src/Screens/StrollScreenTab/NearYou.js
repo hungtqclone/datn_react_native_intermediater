@@ -271,12 +271,12 @@ const NearYou = (props) => {
           </View>
         </View>
         <View style={styles.btncontact}>
-          <TouchableOpacity style={styles.btnCall}>
+          <TouchableOpacity style={styles.btnCall} onPress={() => onSaved()} disabled={buttonDisabled}>
             <Image
               style={styles.iconCall}
               source={isPostSaved ? require('../../assets/images/icons/heart.png') : require('../../assets/images/icons/heart2.png')}
             />
-            <TouchableOpacity onPress={() => onSaved()} disabled={buttonDisabled}>
+            <TouchableOpacity >
               {loading ? (
                 <ActivityIndicator size="small" color="#0000ff" />
               ) : (
@@ -381,7 +381,7 @@ const NearYou = (props) => {
             <FlatList
               scrollEnabled={false}
               data={products}
-              renderItem={({ item, index }) => <ItemMarket item={item} index={index} />}
+              renderItem={({ item, index }) => <ItemMarket item={item} index={index} navigation={navigation} />}
               keyExtractor={item => item._id.toString()}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
