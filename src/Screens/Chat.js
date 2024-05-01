@@ -168,13 +168,15 @@ const Chat = ({ navigation, route }) => {
                         value={inputMessage}
                         onChangeText={setInputMessage}
                     />
-                    <TouchableOpacity onPress={sendMessage} style={{ padding: 10 }}>
-                        {isSending ? (
-                            <ActivityIndicator size="small" color="#0000ff" />
-                        ) : (
-                            <Image source={require('../assets/images/send-message.png')} style={{ width: 25, height: 25 }} />
-                        )}
-                    </TouchableOpacity>
+                    {inputMessage.trim().length > 0 && (
+                        <TouchableOpacity onPress={sendMessage} style={{ padding: 10 }}>
+                            {isSending ? (
+                                <ActivityIndicator size="small" color="#0000ff" />
+                            ) : (
+                                <Image source={require('../assets/images/send-message.png')} style={{ width: 25, height: 25 }} />
+                            )}
+                        </TouchableOpacity>
+                    )}
                 </View>
             </View>
         </View>
