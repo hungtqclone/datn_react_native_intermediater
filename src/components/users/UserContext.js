@@ -57,9 +57,10 @@ export const UserProvider = (props) => {
     }
     const checkLogIn = async () => {
         if (user == 1) {
+            Alert.alert('Thông báo', 'Vui lòng đăng nhập để sử dụng chức năng này');
             await AsyncStorage.setItem('user', '');
-            Alert.alert('Thông báo', 'Vui lòng đăng nhập');
             setuser(null);
+            return ;
         }
     }
     return (
