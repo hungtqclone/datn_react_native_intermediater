@@ -47,9 +47,8 @@ const BrandProduct = (props) => {
 
         if (posst.length != 10) {
             setSeeMore(false)
-            return;
         }
-        if (page == 1) {
+        if (page == 1) {    
             setPostNews(posst);
         } else {
             setPostNews([...post, ...posst])
