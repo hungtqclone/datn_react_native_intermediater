@@ -15,6 +15,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AxiosInstance from '../../components/helpers/Axiosintance';
 import { UserContext } from '../../components/users/UserContext';
+import { useMessage } from '../../components/messages/MessageContext';
 import { useFocusEffect } from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import { styleNumber, formatDate } from '../../styleSheets/styleJS';
@@ -22,6 +23,7 @@ import { Alert } from 'react-native';
 
 const Profile_screen = props => {
   const { navigation } = props;
+  const { socket, handleDisconnect } = useMessage()
   const { user, setuser } = useContext(UserContext);
   const [isModalVisible, setModalVisible] = useState(false);
   const [dataUser, setDataUser] = useState(user);
@@ -48,6 +50,8 @@ const Profile_screen = props => {
   const onLogOut = async () => {
     await AsyncStorage.setItem('user', '');
     setuser(null);
+    // socket.disconnect();
+    handleDisconnect()
   };
 
   const fetchDataUser = async () => {
@@ -236,7 +240,7 @@ const Profile_screen = props => {
             </View>
           )}
 
-          <View style={{marginBottom:20}}>
+          <View style={{ marginBottom: 20 }}>
             {/* <TouchableOpacity style={styles.pointGood}>
               <Text style={styles.txtPoint}>Điểm Tốt</Text>
               <View style={styles.contIcon}>

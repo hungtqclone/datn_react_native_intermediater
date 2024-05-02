@@ -6,7 +6,9 @@ import React, { useContext, useEffect } from 'react'
 import ProductNavigation from './ProductNavigation';
 import BottomTabs from './BottomTabs';
 import UserNavigation from './UserNavigation';
+import { useMessage } from '../messages/MessageContext';
 const AppNavigation = () => {
+    const { socket } = useMessage()
     const { user } = useContext(UserContext);
     return (
         <NavigationContainer>
