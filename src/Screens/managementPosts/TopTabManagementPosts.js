@@ -1,8 +1,9 @@
 import { View, Text } from 'react-native'
-import React from 'react'
+import React,{useEffect,useContext} from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import PostsHidden from './PostsHidden'
 import PostsPresently from './PostsPresently'
+import { UserContext } from '../../components/users/UserContext'
 const Tab = createMaterialTopTabNavigator()
 
 const options = ({ route }) => ({
@@ -25,7 +26,13 @@ const options = ({ route }) => ({
     tabBarHideOnKeyboard: true,
 });
 
+
+
 const TopTabManagementPosts = () => {
+    const {checkLogIn} = useContext(UserContext)
+    useEffect(() => {
+        checkLogIn()
+    }, []);
     return (
 
         <Tab.Navigator screenOptions={options}>

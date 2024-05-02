@@ -23,7 +23,7 @@ import { styleNumber, formatDate } from '../styleSheets/styleJS';
 import ImageModal from 'react-native-image-modal';
 const DetailProduct = (props) => {
   //lấy thông tin user
-  const { user } = useContext(UserContext);
+  const { user,checkLogIn } = useContext(UserContext);
   const userId = user._id;
   //navigation
   const { rating, totalReviews, navigation } = props;
@@ -88,6 +88,7 @@ const DetailProduct = (props) => {
   const onSavePost = async (postId) => {
 
     try {
+      checkLogIn()
       setIsLoading2(true); // Bắt đầu hiển thị biểu tượng loading
       setIsButtonDisabled(true); // Vô hiệu hóa nút "Lưu tin"
       const response = await savePost(userId, postId);
@@ -103,16 +104,19 @@ const DetailProduct = (props) => {
       console.log('userId', userId);
       const saved = await getPostSaved(userId);
       setSaved(saved);
-      setIsSaved(saved.some(post => post.postId && post.postId._id === id_product))
+        setIsSaved(saved.some(post => post.postId && post.postId._id === id_product))
     } catch (error) {
-      console.error('không lấy được ds tin đã lưu:', error);
+      console.log('không lấy được ds tin đã lưu:', error);
     }
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        ongetSaved();
+        if(userId){
+          ongetSaved();
+
+        }
         // // Kiểm tra xem sản phẩm có trong danh sách đã lưu không
         // console.log('id_product:', id_product);
         // const isProductSaved = saved.some(item => item.postId._id === id_product);
@@ -144,7 +148,6 @@ const DetailProduct = (props) => {
 
   }, []);
 
-  const isPostSaved = saved.some(post => post.postId && post.postId._id === id_product);
   const checkActive = products.userid?.socketId == "off" ? true : false;
   return (
     <View style={styles.body}>

@@ -8,7 +8,7 @@ import moment_timezone from 'moment-timezone';
 import { useFocusEffect } from '@react-navigation/native'
 const ListUserChat = (props) => {
     const { navigation } = props;
-    const { user } = useContext(UserContext);
+    const { user, checkLogIn } = useContext(UserContext);
     const { socket, setNewMessage } = useMessage()
     const userId = user._id;
     const [data, setData] = useState([]);
@@ -32,6 +32,7 @@ const ListUserChat = (props) => {
         }, [])
     )
     useEffect(() => {
+        checkLogIn();
         setNewMessage(false)
         socket.on('receive-message', async (message) => {
             fetchData()

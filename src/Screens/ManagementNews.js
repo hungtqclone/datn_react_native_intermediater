@@ -31,7 +31,6 @@ const FirstRoute = () => {
     const userId = user._id
 
     const fetchData = async () => {
-
         const resultPosts = await AxiosInstance().get(`/api/postnews/user/${userId}`)
         console.log("check dataPosts: ", resultPosts)
         setDataPosts(resultPosts)
@@ -42,7 +41,8 @@ const FirstRoute = () => {
     }
 
     useEffect(() => {
-        checkLogIn()
+        
+        
         fetchData();
     }, []);
 
