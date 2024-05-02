@@ -120,7 +120,6 @@ const DetailProduct = (props) => {
         // console.log('isProductSaved:', isProductSaved);
         const productData = await getProductById(id_product);
         setProducts(productData);
-
         setPhoneNumber(productData.userid.phone);
         setIsLoading(false);
         setTitle(productData.title);
@@ -343,12 +342,18 @@ const DetailProduct = (props) => {
                 <Text style={styles.titleDecs}>Mô tả</Text>
               </View>
               <View style={styles.contentDecs}>
-                <Text>   {products.detail}
+                <Text>
+                  {"Hãng: " + products.brandid?.nameBrand}
+                </Text>
+                <Text>
+                  {products.detail}
+                </Text>
+                <Text>
                   {products.properties}
                 </Text>
               </View>
             </View>
-            <View style={styles.infoProduct}>
+            {/* <View style={styles.infoProduct}>
               <View style={styles.contTitleInfo}>
                 <Text>Thông tin sản phẩm</Text>
               </View>
@@ -410,7 +415,7 @@ const DetailProduct = (props) => {
                   </View>
                 </View>
               </View>
-            </View>
+            </View> */}
             {/* <View>
               <Text style={styles.ask}>Hỏi người bán qua chat</Text>
               <FlatList
