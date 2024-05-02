@@ -27,7 +27,7 @@ const FirstRoute = () => {
     const [dataPosts, setDataPosts] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
-    const { user } = useContext(UserContext)
+    const { user, checkLogIn } = useContext(UserContext)
     const userId = user._id
 
     const fetchData = async () => {
@@ -42,6 +42,7 @@ const FirstRoute = () => {
     }
 
     useEffect(() => {
+        checkLogIn()
         fetchData();
     }, []);
 
@@ -135,7 +136,7 @@ const ManagementNews = (props) => {
                             source={
                                 user && user.avatar
                                     ? { uri: user.avatar }
-                                    : { uri: avatarDefault}
+                                    : { uri: avatarDefault }
                             }
                             style={MGNStyles.imgProfile}
                         />
