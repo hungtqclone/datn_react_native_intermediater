@@ -38,16 +38,15 @@ const BrandProduct = (props) => {
     //     // console.log("Sản Phẩm :83 >" + JSON.stringify(products));
     // }
     const ongetPosst = async () => {
-        const posst = await getProductByBrandid(idCategory,idBrandST, page);
+        const posst = await getProductByBrandid(idCategory, idBrandST, page);
         console.log('next screen product with idBrand = ', idBrandST + "idCate =" + idCate);
         console.log('post data = ', post);
-        
+
         // console.log('next screen product with idBrand = ', idBrandST + "idCate =" + idCate);
         // console.log('post data = ', post);
 
         if (posst.length != 10) {
             setSeeMore(false)
-            return;
         }
         if (page == 1) {
             setPostNews(posst);
@@ -205,9 +204,9 @@ const BrandProduct = (props) => {
                         /> */}
                     </View>
                 </View>
-{/* 
+                {/* 
                 <View style={productStyles.contaiAdresss}> */}
-                    {/* <Text style={productStyles.txtGY}>Gợi ý khu vực </Text>
+                {/* <Text style={productStyles.txtGY}>Gợi ý khu vực </Text>
                     <FlatList
                         contentContainerStyle={{
                             alignSelf: 'flex-start',
