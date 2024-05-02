@@ -262,7 +262,7 @@ const ItemPosts = (props) => {
               height: '100%',
             }}>
             <View style={{ flexDirection: 'row' }}>
-              <Text style={{ color: 'black', fontSize: 16 }} numberOfLines={2}>
+              <Text style={{ color: 'black', fontSize: 16 }} numberOfLines={1}>
                 {data.title}
               </Text>
               <Text
@@ -290,7 +290,7 @@ const ItemPosts = (props) => {
               {styleNumber(data.price)} đ
             </Text>
             <Text style={{ position: 'absolute', bottom: 15 }} numberOfLines={1}>
-              {data.location}
+              {data.location.slice(0,25)}{data.location.length > 25 ? "..." :""}
             </Text>
           </View>
           <TouchableOpacity
