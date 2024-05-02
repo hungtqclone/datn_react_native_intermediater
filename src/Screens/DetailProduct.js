@@ -20,7 +20,7 @@ import { UserContext } from '../components/users/UserContext';
 import { useNavigation } from '@react-navigation/native';
 import { urlAPI } from '../components/helpers/urlAPI';
 import { styleNumber, formatDate } from '../styleSheets/styleJS';
-
+import ImageModal from 'react-native-image-modal';
 const DetailProduct = (props) => {
   //lấy thông tin user
   const { user } = useContext(UserContext);
@@ -206,13 +206,26 @@ const DetailProduct = (props) => {
               />
             </View> */}
             <View style={styles.containerslide}>
-              <Swiper style={styles.wrapper} showsButtons={false} autoplay={true} autoplayTimeout={2}>
+              <Swiper style={styles.wrapper}
+                showsButtons={false}
+                autoplay={false}
+                autoplayTimeout={2}
+              //autoplay={!isImageModalVisible} // Chỉ tự động chạy khi không có ảnh đang được xem
+
+              >
                 {products.files.map((file, index) => (
                   <View style={styles.slide} key={index}>
-                    <Image
-                      source={{ uri: `${file}` }}
-                      style={styles.image}
-                    />
+                    <TouchableOpacity>
+                      <ImageModal
+                        resizeMode="contain"
+                        imageBackgroundColor="#000000"
+                        style={{
+                          width: 400,
+                          height: 500,
+                        }}
+                        source={{ uri: `${file}` }}
+                      />
+                    </TouchableOpacity>
                   </View>
                 ))}
               </Swiper>

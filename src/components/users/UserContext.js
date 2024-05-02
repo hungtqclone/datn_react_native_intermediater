@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, createContext, useEffect } from 'react'
-import { PushNotificationAndroid } from 'react-native';
+import { Alert, PushNotificationAndroid } from 'react-native';
 import { login } from './UserService';
 import AxiosInstance from '../helpers/Axiosintance';
 import { handleUserId } from '../helpers/socketIO';
@@ -11,7 +11,7 @@ export const UserContext = createContext();
 
 export const UserProvider = (props) => {
     const { children } = props;
-    const { setUserId } = useMessage();
+    const { setUserId, handleConnect } = useMessage();
     const [user, setuser] = useState(null);
     const dataUser = async () => {
         const receiverUser = await AsyncStorage.getItem('user');
@@ -48,6 +48,7 @@ export const UserProvider = (props) => {
                 await AsyncStorage.setItem('user', JSON.stringify(result.user));
                 setUserId(result.user._id)
                 setuser(result.user);
+                handleConnect()
                 return true;
             }
         } catch (error) {
@@ -57,8 +58,10 @@ export const UserProvider = (props) => {
     }
     const checkLogIn = async () => {
         if (user == 1) {
+            Alert.alert('Thông báo', 'Vui lòng đăng nhập để sử dụng chức năng này');
             await AsyncStorage.setItem('user', '');
             setuser(null);
+            return;
         }
     }
     return (

@@ -16,7 +16,9 @@ import { UserContext } from '../../components/users/UserContext';
 import { urlAPI } from '../../components/helpers/urlAPI';
 import { styleNumber, formatDate } from '../../styleSheets/styleJS';
 import FlashMessage, { showMessage } from 'react-native-flash-message';
-
+import ItemMarket from '../../Item/ItemMarket';
+import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const Explore = (props) => {
   const MAX_HEIGHT = 100;
   //lấy thông tin user
@@ -32,7 +34,14 @@ const Explore = (props) => {
   const [saved, setSaved] = useState([]);
   const [isLoading2, setIsLoading2] = useState(false); // State để kiểm soát việc hiển thị biểu tượng loading
   const [isButtonDisabled, setIsButtonDisabled] = useState(false); // State để kiểm soát việc vô hiệu hóa nút "Lưu tin"
-
+  useFocusEffect(
+    React.useCallback(() => {
+      ongetSaved()
+      ongetProducts();
+      return () => {
+      }
+    }, [])
+  )
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
@@ -188,12 +197,12 @@ const Explore = (props) => {
           </View>
         </View>
         <View style={styles.btncontact}>
-          <TouchableOpacity style={styles.btnCall}>
+          <TouchableOpacity style={styles.btnCall} onPress={() => onSavePost(item._id)} disabled={isButtonDisabled}>
             <Image
               style={styles.iconCall}
               source={isPostSaved ? require('../../assets/images/icons/heart.png') : require('../../assets/images/icons/heart2.png')}
             />
-            <TouchableOpacity onPress={() => onSavePost(item._id)} disabled={isButtonDisabled}>
+            <TouchableOpacity>
               {isLoading2 ? (
                 <ActivityIndicator size="small" color="#0000ff" />
               ) : (
@@ -235,7 +244,8 @@ const Explore = (props) => {
             <FlatList
               scrollEnabled={false}
               data={filteredProducts}
-              renderItem={renderItem}
+              // renderItem={renderItem}
+              renderItem={({ item, index }) => <ItemMarket item={item} index={index} navigation={navigation} dataSaved={saved} />}
               keyExtractor={item => item._id.toString()}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
@@ -470,10 +480,10 @@ const styles = StyleSheet.create({
   // phần nút gọi điện và chat
   btncontact: {
     flexDirection: 'row',
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
     marginBottom: 20,
     borderColor: '#ccc',
-    borderBottomWidth:1,
+    borderBottomWidth: 1,
   },
   btnCall: {
     flexDirection: 'row',

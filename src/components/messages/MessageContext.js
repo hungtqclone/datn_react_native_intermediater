@@ -33,7 +33,21 @@ export const MessageProvider = ({ children }) => {
     }
     useEffect(() => {
         if (userId != null && userId != 1) {
-            console.log("connect socket")
+            handleConnect()
+
+
+        }
+    }, [userId]);
+    // useEffect(() => {
+    //     if (newMessage != null) {
+    //         setAllMessages([...allMessages, newMessage])
+    //         console.log(allMessages.length)
+    //     }
+    // }, [newMessage]);
+
+    const handleConnect = () => {
+        if (socket) {
+            socket.connect();
             socket.emit('set-socketId', userId);
             fetchDataMessages()
             socket.on('receive-message', (message) => {
@@ -48,20 +62,31 @@ export const MessageProvider = ({ children }) => {
                 fetchDataMessages()
 
             });
-
-
+            console.log("connection socket")
         }
-    }, [userId]);
-    // useEffect(() => {
-    //     if (newMessage != null) {
-    //         setAllMessages([...allMessages, newMessage])
-    //         console.log(allMessages.length)
-    //     }
-    // }, [newMessage]);
+    };
+
+    const handleDisconnect = () => {
+        if (socket) {
+            socket.off('receive-message', (message) => {
+                // setAllMessages(prevMessages => [...prevMessages, message]);
+                fetchDataMessages()
+            });
+            socket.off('sender-message', (message) => {
+                // setAllMessages(prevMessages => [...prevMessages, message]);
+                fetchDataMessages()
+            });
+            socket.off('seen-message', () => {
+                fetchDataMessages()
+
+            });
+            socket.disconnect(); // Ngắt kết nối socket
+        }
+    };
 
 
     return (
-        <MessageContext.Provider value={{ socket, setUserId, newMessage, setNewMessage }}>
+        <MessageContext.Provider value={{ socket, setUserId, newMessage, setNewMessage, handleDisconnect, handleConnect }}>
             {children}
         </MessageContext.Provider>
     );

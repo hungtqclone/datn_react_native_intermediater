@@ -43,9 +43,9 @@ const datatile = [
   //   title: 'Chợ tốt ưu đãi',
   //   image: require('../../image/icon_uudai.jpg'),
   // },
-  {id: 4, title: 'Thu mua ô tô', image: require('../../image/icon_car.jpg')},
-  {id: 5, title: 'Gói pro', image: require('../../image/icon_pro.jpg')},
-  {id: 6, title: 'Tin đã lưu', image: require('../../image/icon_hearth.jpg')},
+  { id: 4, title: 'Thu mua ô tô', image: require('../../image/icon_car.jpg') },
+  { id: 5, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
+  { id: 6, title: 'Tin đã lưu', image: require('../../image/icon_hearth.jpg') },
   {
     id: 7,
     title: 'Đăng tin cho tặng',
@@ -202,20 +202,24 @@ const CategoriesDetail = props => {
           source={require('../assets/images/icons/icon_notification.png')}
         />
         <TouchableOpacity onPress={() => navigation.navigate('ChatNavigation')}>
-          <View
-            style={{
-              width: 10,
-              height: 10,
+          <View style={{ position: 'relative', }}>
+            <Image
+              style={CGDStyles.icon}
+              source={require('../assets/images/icons/icon_chat.png')}
+            />
+            <Image style={{
+              width: 15,
+              height: 15,
               position: 'absolute',
-              right: 7,
-              backgroundColor: 'red',
+              right: 4,
+              top: -4,
+              // backgroundColor: 'red',
               borderRadius: 50,
               display: newMessage ? 'flex' : 'none',
-            }} />
-          <Image
-            style={CGDStyles.icon}
-            source={require('../assets/images/icons/icon_chat.png')}
-          />
+            }} source={require('../assets/images/icons/record-button.png')} />
+
+          </View>
+
         </TouchableOpacity>
       </View>
       <ScrollView

@@ -38,6 +38,7 @@ const NearYou = (props) => {
   const [products, setProducts] = useState([]);
   const [phoneNumber, setPhoneNumber] = useState();
   const [saved, setSaved] = useState([]);
+  const [dataSaved, setDataSaved] = useState([])
   const [isLoading2, setIsLoading2] = useState(false); // State để kiểm soát việc hiển thị biểu tượng loading
   const [isButtonDisabled, setIsButtonDisabled] = useState(false); // State để kiểm soát việc vô hiệu hóa nút "Lưu tin"
 
@@ -142,7 +143,7 @@ const NearYou = (props) => {
       setIsButtonDisabled(true); // Vô hiệu hóa nút "Lưu tin"
       const response = await savePost(userId, postId);
       ongetSaved();
-      console.log('Save post response:', response);
+    //  console.log('Save post response:', response);
     } catch (error) {
       console.error('Error saving post:', error);
     }
@@ -152,15 +153,17 @@ const NearYou = (props) => {
   const ongetSaved = async () => {
     try {
       console.log('userId', userId);
+       // Kiểm tra xem userId có tồn tại không
+       if (!userId) {
+        console.log('userId không tồn tại');
+        return;
+    }
       const saved = await getPostSaved(userId);
       await AsyncStorage.setItem('saved', JSON.stringify(saved));
-      setSaved(saved);
-      setIsLoading2(false); // Kết thúc hiển thị biểu tượng loading
-      setIsButtonDisabled(false);// Kích hoạt lại nút "Lưu tin"
-      // console.log('ds tin đã lưu:', saved);
+      setDataSaved(saved);
       return true
     } catch (error) {
-      console.error('không lấy được ds tin đã lưu:', error);
+      console.log('không lấy được ds tin đã lưu:', error);
       return false
     }
   };
@@ -271,12 +274,12 @@ const NearYou = (props) => {
           </View>
         </View>
         <View style={styles.btncontact}>
-          <TouchableOpacity style={styles.btnCall}>
+          <TouchableOpacity style={styles.btnCall} onPress={() => onSaved()} disabled={buttonDisabled}>
             <Image
               style={styles.iconCall}
               source={isPostSaved ? require('../../assets/images/icons/heart.png') : require('../../assets/images/icons/heart2.png')}
             />
-            <TouchableOpacity onPress={() => onSaved()} disabled={buttonDisabled}>
+            <TouchableOpacity >
               {loading ? (
                 <ActivityIndicator size="small" color="#0000ff" />
               ) : (
@@ -381,7 +384,7 @@ const NearYou = (props) => {
             <FlatList
               scrollEnabled={false}
               data={products}
-              renderItem={({ item, index }) => <ItemMarket item={item} index={index} />}
+              renderItem={({ item, index }) => <ItemMarket item={item} index={index} navigation={navigation} dataSaved={dataSaved} />}
               keyExtractor={item => item._id.toString()}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}

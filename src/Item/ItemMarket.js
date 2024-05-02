@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, ActivityIndicator, StyleSheet, FlatList } from 'react-native'
+import { View, Text, Image, TouchableOpacity, ActivityIndicator, StyleSheet, FlatList, Linking, } from 'react-native'
 import React, { useState, useContext, useEffect } from 'react'
 import { UserContext } from '../components/users/UserContext'
 import { formatDate, styleNumber } from '../styleSheets/styleJS'
@@ -6,7 +6,8 @@ import AxiosInstance from '../components/helpers/Axiosintance'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
-const ItemMarket = ({ item, index }) => {
+const ItemMarket = (props) => {
+    const { item, index, navigation, dataSaved } = props
     const { user } = useContext(UserContext)
     const userId = user?._id
 
@@ -16,7 +17,7 @@ const ItemMarket = ({ item, index }) => {
     const [isButtonDisabled, setIsButtonDisabled] = useState(false)
     const [saved, setSaved] = useState(false)
     const [isPostSaved, setIsPostSaved] = useState(false)
-
+    const { checkLogIn } = useContext(UserContext);
     const fetchData = async () => {
         const saveStorage = await AsyncStorage.getItem('saved');
         const saved = JSON.parse(saveStorage)
@@ -25,7 +26,7 @@ const ItemMarket = ({ item, index }) => {
     }
     useEffect(() => {
         fetchData()
-    }, []);
+    }, [dataSaved]);
 
 
     // const isPostSaved = saved.some(post => post.postId && post.postId._id === item._id);
@@ -48,6 +49,7 @@ const ItemMarket = ({ item, index }) => {
 
     const onSaved = async () => {
         try {
+            checkLogIn()
             setIsLoading(true)
             setIsButtonDisabled(true)
             const result = await AxiosInstance().post(`/api/saved/save-or-notSave?userId=${userId}&postId=${item._id}`)
@@ -64,6 +66,16 @@ const ItemMarket = ({ item, index }) => {
             return false
         }
     }
+    // gọi điện
+
+    const handleCallPress = (phoneNumber) => {
+        // Kiểm tra nếu thiết bị hỗ trợ mở cuộc gọi
+        if (Linking.canOpenURL(`tel:${phoneNumber}`)) {
+            Linking.openURL(`tel:${phoneNumber}`);
+        } else {
+            console.log('Không thể thực hiện cuộc gọi trên thiết bị này.');
+        }
+    };
     return (
         <View key={index} style={[styles.container, { display: checkUser ? "none" : 'flex' }]}>
             <View style={styles.header}>
@@ -149,18 +161,16 @@ const ItemMarket = ({ item, index }) => {
                 </View>
             </View>
             <View style={styles.btncontact}>
-                <TouchableOpacity style={styles.btnCall}>
+                <TouchableOpacity style={styles.btnCall} onPress={() => onSaved()} disabled={isButtonDisabled}>
                     <Image
                         style={styles.iconCall}
                         source={saved ? require('../assets/images/icons/heart.png') : require('../assets/images/icons/heart2.png')}
                     />
-                    <TouchableOpacity onPress={() => onSaved()} disabled={isButtonDisabled}>
-                        {isLoading ? (
-                            <ActivityIndicator size="small" color="#0000ff" />
-                        ) : (
-                            <Text style={styles.txtBtnCall}>{saved ? 'Đã lưu' : 'Lưu tin'}</Text>
-                        )}
-                    </TouchableOpacity>
+                    {isLoading ? (
+                        <ActivityIndicator size="small" color="#0000ff" />
+                    ) : (
+                        <Text style={styles.txtBtnCall}>{saved ? 'Đã lưu' : 'Lưu tin'}</Text>
+                    )}
                 </TouchableOpacity>
                 {/* <TouchableOpacity style={styles.btnCall}>
             <Image
