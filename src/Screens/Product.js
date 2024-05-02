@@ -45,7 +45,6 @@ const Product = (props) => {
         const posst = await getProductByidCate(idCate, page);
         if (posst.length != 10) {
             setSeeMore(false)
-            return;
         }
         if (page == 1) {
             setPostNews(posst);
