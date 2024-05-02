@@ -50,8 +50,9 @@ const ItemPosts = (props) => {
   const [buy, setBuy] = useState(0);
   const [isVip, setIsVip] = useState(data.isVip)
   const showToast = () => {
-    if (numberOfDays === 0 || buy >= user.balance) {
+    if (numberOfDays == 0 || buy >= user.balance) {
       ToastAndroid.show('Mua vip thất bại', ToastAndroid.SHORT);
+      return
     }
     ToastAndroid.show('Mua vip thành công', ToastAndroid.SHORT);
   };
@@ -69,9 +70,8 @@ const ItemPosts = (props) => {
       if (buy > user.balance) return;
       setIsLoading(true);
       const buyVipUser = await AxiosInstance().post(
-        `api/user/vip/${userId}/${numberOfDays * 3000}`,
+        `api/user/vip/${userId}/${buy}`,
       );
-      console.log('check buy vip user: ', buyVipUser);
       if (buyVipUser.result) {
         const vipPosts = await AxiosInstance().post(
           `api/postnews/create_vip_posts/${postsId}/${numberOfDays}`,
@@ -79,10 +79,12 @@ const ItemPosts = (props) => {
         setIsVip(true)
         console.log('check vip posts: ', vipPosts);
         if (vipPosts.result) {
+          const createTransaction = await AxiosInstance().post(
+            `/api/transaction/buy_vip_posts?amount=${buy}&userId=${userId}&postsId=${postsId}`,
+          );
           const dataUser = await AxiosInstance().get(
             `/api/get-user-byId/${userId}`,
           );
-          console.log('check data user: ', dataUser);
 
           await AsyncStorage.setItem('user', JSON.stringify(dataUser.user));
           setuser(dataUser.user);
