@@ -164,7 +164,7 @@ export const PNStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: '50%',
-        marginBottom: '90%',
+        marginBottom: '95%',
         marginHorizontal:'5%'
     },
     modalView: {

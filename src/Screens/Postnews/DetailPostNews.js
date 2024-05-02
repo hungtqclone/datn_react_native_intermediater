@@ -96,6 +96,7 @@ const DetailPostnews = props => {
   const handleAddInput = () => {
     setDetails([...details, '']);
   };
+ 
   //hiện thông báo nếu chưa chọn địa chỉ
   const showAddressNotification = () => {
     if (!selectedCity || !selectedDistrict || !selectedWard) {
@@ -544,7 +545,7 @@ const DetailPostnews = props => {
             onChangeText={setDetail}
             multiline={true}
             underlineColorAndroid="transparent"
-            placeholder="Mô tả chi tiết"
+            placeholder="Mô tả"
             style={PNStyles.inputTTMT}
           />
           <TextInput
@@ -552,7 +553,7 @@ const DetailPostnews = props => {
             multiline={true}
             underlineColorAndroid="transparent"
             onChangeText={setProperties}
-            placeholder="Thêm chi tiết"
+            placeholder="Thêm mô tả chi tiết"
             style={PNStyles.inputTTMT}
           />
         </View>
