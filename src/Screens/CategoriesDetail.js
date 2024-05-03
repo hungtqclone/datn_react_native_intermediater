@@ -43,7 +43,7 @@ const datatile = [
   //   title: 'Chợ tốt ưu đãi',
   //   image: require('../../image/icon_uudai.jpg'),
   // },
-  { id: 4, title: 'Thu mua ô tô', image: require('../../image/icon_car.jpg') },
+
   { id: 5, title: 'Gói pro', image: require('../../image/icon_pro.jpg') },
   { id: 6, title: 'Tin đã lưu', image: require('../../image/icon_hearth.jpg') },
   {
