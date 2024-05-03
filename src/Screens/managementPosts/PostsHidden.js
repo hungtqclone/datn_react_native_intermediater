@@ -25,7 +25,7 @@ const PostsHidden = (props) => {
         try {
             const postsHidden = await AxiosInstance().get(`/api/postnews/user/${userId}`)
             if (postsHidden.result) {
-                setPosts(postsHidden.data.postsHidden)
+                setPosts(postsHidden.data.postsHidden.reverse())
                 setIsLoading(false)
             }
         } catch (error) {

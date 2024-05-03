@@ -20,7 +20,28 @@ import { useFocusEffect } from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import { styleNumber, formatDate } from '../../styleSheets/styleJS';
 import { Alert } from 'react-native';
-
+import { Dropdown } from 'react-native-element-dropdown';
+import { PNStyles } from '../../styleSheets/DetailPostNewsStyles';
+const optionPayment = [
+  {
+    id: 1,
+    name: 'Nạp 20.000 đồng',
+    value: 20000
+  }, {
+    id: 2,
+    name: 'Nạp 50.000 đồng',
+    value: 50000
+  }, {
+    id: 3,
+    name: 'Nạp 100.000 đồng',
+    value: 100000
+  },
+  {
+    id: 4,
+    name: 'Nạp 200.000 đồng',
+    value: 200000
+  }
+]
 const Profile_screen = props => {
   const { navigation } = props;
   const { socket, handleDisconnect } = useMessage()
@@ -114,12 +135,40 @@ const Profile_screen = props => {
             <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginBottom: 20 }}>
               Nạp tiền
             </Text>
-            <TextInput
+            <Dropdown
+              style={{
+                width: '100%',
+                // height: 50,
+                borderBottomColor: 'gray',
+                borderBottomWidth: 0.5,
+                height: 50,
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: 5,
+                borderColor: '#ebebeb',
+                borderWidth: 1,
+                borderRadius: 5,
+              }}
+              placeholderStyle={PNStyles.placeholderStyle}
+              selectedTextStyle={PNStyles.selectedTextStyle}
+              inputSearchStyle={PNStyles.inputSearchStyle}
+              iconStyle={PNStyles.iconStyle}
+              data={optionPayment}
+              labelField="name"
+              valueField="id"
+              placeholder="Chọn số tiền cần nạp"
+
+              // value={selectedBrandId} // Use selectedCity as the value
+              onChange={e => {
+                handleInputNumber(e.value);
+              }}
+            />
+            {/* <TextInput
               keyboardType="number-pad"
               placeholder="Nhập số tiền bạn muốn nạp"
               onChangeText={handleInputNumber}
               style={{ borderColor: 'silver', borderWidth: 1, borderRadius: 5, padding: 10, fontSize: 16 }}
-            />
+            /> */}
             <Text
               style={{ color: 'red', marginTop: 10, display: amount < 20000 ? 'flex' : 'none' }}>
               Số tiền nạp không được dưới 20.000 VND.

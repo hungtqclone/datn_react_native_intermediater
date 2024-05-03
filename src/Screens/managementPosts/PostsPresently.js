@@ -22,7 +22,7 @@ const PostsPresently = (props) => {
         try {
             const postsPresently = await AxiosInstance().get(`/api/postnews/user/${userId}`)
             if (postsPresently.result) {
-                setPosts(postsPresently.data.postsPresently)
+                setPosts(postsPresently.data.postsPresently.reverse())
                 setIsLoading(false)
             }
         } catch (error) {
